@@ -1,0 +1,102 @@
+Changes to LGEO library:
+
+since 20080912:
+lg_6058:		fixed orientation/position
+lg_0981:		fixed orientation/position
+lg_0982:		fixed orientation/position
+lg_0983:		fixed orientation/position
+lg_32062:		fixed name of clear version
+lg_44728:		fixed surplus }
+lg_3058:		fixed reference to non-existing part
+lg_3679:		fixed wrong check if to use stud logo
+lg_44301:		added
+lg_0809:		moved to lg_x549p01
+lg_x549p01:		added
+lg_0090:		moved to lg_3712
+lg_0091:		moved to lg_3326
+lg_3326:		added
+lg_3712:		added
+lg_0034a:		moved to lg_3109
+lg_0034a:		moved to lg_3110
+lg_0034a:		moved to lg_3112
+lg_0034a:		moved to lg_3111
+lg_3109:		added
+lg_3110:		added
+lg_3111:		added
+lg_3112:		added
+lg_7049:		changed references
+
+since 20081025:
+lg_44302:		added
+lg_60471:		added
+lg_60478:		added
+lg_44568:		added
+lg_44567:		added
+lg_0090c01:		moved to lg_3712c01
+lg_9244c01:		moved to lg_3712c01
+lg_3712c01:		added
+lg_30383:		added
+lg_44300:		added
+lg_44822:		added
+lg_76385:		added
+lg_0989:		added
+lg_6157:		fixed missing ;
+lg_6083:		fixed illegal character 0xffffffe2
+lg_30541:		added
+lg_30140:		fixed orientation
+lg_44570:		added
+lg_0648:		fixed name of clear version
+lg_7049:		changed references
+lg_3111:		fixed missing {
+lg_3112:		fixed missing {
+lg_3049:		fixed references
+lg_3137c02:		fixed names
+lg_3184:		fixed missing ;
+lg_2582:		fixed missing ;
+lg_44572:		added
+lg_30407:		added
+
+since 20081113:
+lg_30552:		added
+lg_30553:		added
+lg_30554:		added
+lg_41532:		added
+lg_3645:		added
+lg_49059:		added
+lg_55013:		added
+lg_3647:		removed unreferenced declaration
+lg_3649:		fixed angle declaration
+lg_4266:		fixed orientation
+lg_4858:		fixed < instead of >
+lg_defs:		added flag to display LGEO or LEGO stud logo
+lg_elements:	fixed 2352 reference
+lg_elements:	fixed 969 reference
+lg_3833:		fixed missing ;
+lg_32062:		fixed name of clear version
+lg_4262:		fixed missing ;
+lg_3649:		fixed center
+lg_60477:		added
+lg_62113:		added
+lg_0210:		added
+lg_x589:		added
+lg_bb62:		added
+lg_73435:		fixed orientation
+lg_0975:		reverted to old version (other orientation)
+lg_0976:		reverted to old version (other orientation)
+lg_0977:		reverted to old version (other orientation)
+lg_2342:		fixed missing ;
+lg_3739:		fixed orientation
+lg_40344:		added
+lg_40345:		added
+lg_32531:		added
+lg_32324:		added
+lg_43123:		added
+lg_0973p1a:		fixed name of clear version
+lg_0973p1b:		fixed name of clear version
+lg_0973p1c:		fixed name of clear version
+lg_0973p1j:		fixed name of clear version
+lg_elements:	fixed 973p1c reference
+lg_elements:	fixed 2493 reference
+lg_elements:	fixed 4478p01 reference
+ar_2446:		added
+
