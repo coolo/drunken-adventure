@@ -18,24 +18,14 @@
 
 include <block-remix.scad>
 
-knob_diameter=5;		//knobs on top of blocks
-knob_height=1.6;
-knob_spacing=8.0;
-wall_thickness=1.45;
-roof_thickness=1.05;
-block_height=9.5;
-pin_diameter=3;		//pin for bottom blocks with width or length of 1
-post_diameter=6.5;
-reinforcing_width=1.5;
-axle_spline_width=2.0;
-axle_diameter=5;
-cylinder_precision=0.5;
+sphere_diameter=10.1;
 
 block(2,2,1,axle_hole=true, hollow_knob=false,reinforcement=false);
-translate([14.5,post_diameter+1.5,block_height/2-0.3])
+ 
+translate([knob_spacing*2,knob_spacing,block_height/2-0.3])
   rotate(a=[0,90,0])
     axle(0.6);
 
-translate([21.5, post_diameter+1.5, block_height/2-0.3])
-  sphere(r=5.05, $fn=100);
+translate([knob_spacing*3,knob_spacing, block_height/2-0.3])
+  sphere(r=sphere_diameter/2, $fn=100);
 
