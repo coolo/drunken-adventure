@@ -27,5 +27,5 @@ translate([knob_spacing*2,knob_spacing,block_height/2-0.3])
     axle(0.6);
 
 translate([knob_spacing*3,knob_spacing, block_height/2-0.3])
-  sphere(r=sphere_diameter/2, $fn=100);
+  sphere(r=sphere_diameter/2, $fn=30);
 
