@@ -20,15 +20,15 @@
 //      block(1,2,5,reinforcement=false,hollow_knob=true);
 
 
-knob_diameter=4.9;		//knobs on top of blocks
-knob_height=1.6;
-knob_spacing=8.0;
+knob_diameter=5;		//knobs on top of blocks
+knob_height=1.7;
+knob_spacing=7.8;
 wall_thickness=1.45;
 roof_thickness=1.05;
 block_height=9.5;
 pin_diameter=3;		//pin for bottom blocks with width or length of 1
-post_diameter=6.4;
-reinforcing_width=1.5;
+post_diameter=6.5;
+reinforcing_width=0.7;
 axle_spline_width=2.0;
 axle_diameter=5;
 cylinder_precision=0.5;
@@ -74,14 +74,18 @@ module block(width,length,height,axle_hole,reinforcement) {
 					for (ycount=[0:width-1])
 						for (xcount=[0:length-1]) {
 							translate([xcount*knob_spacing,ycount*knob_spacing,0])
+								union() {
+							//translate(v=[0,-0.3,knob_height+wall_thickness+0.+0.2]) rotate(a=[0,0,90]) 8bit_char("C", 0.4, 0.4);
 								difference() {
 									cylinder(r=knob_diameter/2,h=block_height*height+knob_height,$fs=cylinder_precision);
 									if (hollow_knob==true)
 										translate([0,0,-roof_thickness])
 											cylinder(r=pin_diameter/2,h=block_height*height+knob_height+2*roof_thickness,$fs=cylinder_precision);
 								}
+					      }
 					}
 			}
+if (true) {
 			// hollow bottom:
 			translate([wall_thickness,wall_thickness,-roof_thickness]) cube([overall_length-wall_thickness*2,overall_width-wall_thickness*2,block_height*height]);
 			// flat_top -> groove around bottom
@@ -105,7 +109,9 @@ module block(width,length,height,axle_hole,reinforcement) {
 					for (xcount=[1:length-1])
 						translate([xcount*knob_spacing,ycount*knob_spacing,roof_thickness])
 							cylinder(r=knob_diameter/2, h=height*block_height+roof_thickness/4,$fs=cylinder_precision);
+}
 		}
+if (true) {
 
 		if (reinforcement==true && width>1 && length>1)
 			difference() {
@@ -131,13 +137,14 @@ module block(width,length,height,axle_hole,reinforcement) {
 				translate([overall_length/2,ycount*knob_spacing,0]) cylinder(r=pin_diameter/2,h=block_height*height,$fs=cylinder_precision);
 	}
 }
+}
 
 module post(height, axle_hole=false) {
         axle_hole_height = height*block_height-roof_thickness/2-knob_height;
 	difference() {
 		cylinder(r=post_diameter/2, h=height*block_height-roof_thickness/2,$fs=cylinder_precision);
 		translate([0,0,-roof_thickness/2])
-			cylinder(r=knob_diameter/2, h=height*block_height+roof_thickness/4,$fs=cylinder_precision);
+			cylinder(r=knob_diameter/2+0.05, h=height*block_height+roof_thickness/4,$fs=cylinder_precision);
 	}
 	if (axle_hole == true) {
 	   difference() {
