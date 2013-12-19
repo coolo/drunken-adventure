@@ -22,12 +22,12 @@
 
 knob_diameter=5;		//knobs on top of blocks
 knob_height=1.7;
-knob_spacing=7.8;
+knob_spacing=8;
 wall_thickness=1.45;
 roof_thickness=1.05;
 block_height=9.5;
 pin_diameter=3;		//pin for bottom blocks with width or length of 1
-post_diameter=6.5;
+post_diameter=6.65;
 reinforcing_width=0.7;
 axle_spline_width=2.0;
 axle_diameter=5;
