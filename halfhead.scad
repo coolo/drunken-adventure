@@ -20,8 +20,9 @@
 include <block-remix.scad>
 
 sphere_diameter=10.2;
+knob_height=0;
 
-block(2,2,1,axle_hole=true, hollow_knob=false,reinforcement=true);
+block(2,2,1,axle_hole=false, hollow_knob=false,reinforcement=true);
 
 translate([knob_spacing*2-wall_thickness,knob_spacing,block_height/2])
   rotate(a=[0,90,0])
@@ -34,9 +35,17 @@ translate([knob_spacing*3,knob_spacing, block_height/2])
 
 translate([-4.5,knob_spacing,block_height/2])
   rotate(a=[0,90,0])
-    axle(0.60);
+    axle(0.6);
 
 translate([-1*knob_spacing,knob_spacing, block_height/2])
  scale([1,10.09/9.9,1])
+  sphere(r=sphere_diameter/2, $fa=5, $fs=0.1);
+
+translate([knob_spacing,knob_spacing,block_height-wall_thickness/2])
+  rotate(a=[0,0,90])
+    axle(1.0);
+
+translate([knob_spacing,knob_spacing,block_height+9])
+scale([1,10.09/9.9,1])
   sphere(r=sphere_diameter/2, $fa=5, $fs=0.1);
 
