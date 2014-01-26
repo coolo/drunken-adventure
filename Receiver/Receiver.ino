@@ -75,6 +75,9 @@ int line = 0;
 boolean powered = false;
 boolean mute = false;
 
+boolean ledson = false;
+boolean lighton = false;
+
 const long LEDsOn = 0x56D3E4F1L;
 const long CornerLight = 0x842EBDB1L;
 const long TVoff = 0xF50;
@@ -83,8 +86,10 @@ const long ReceiverPower = 0x540c;
 const long ReceiverMute = 0x140c;
 const long ReceiverVolumeUp = 0x240c;
 
-void doSomething(int value)
+void doSomething(long value)
 {
+  boolean touchedReceiver = false;
+  
   line = (line + 1) % 4;
   lcd.setCursor((line % 2) * 8, line / 2);
   sprintf(buffer, "%lx", value);
@@ -92,25 +97,47 @@ void doSomething(int value)
   
   if (value == ReceiverPower) { // power
     powered = !powered;
+    touchedReceiver = true;
   }
   
   if (value == ReceiverMute) {
     mute = !mute;
+    touchedReceiver = true;
   }
 
   if (value ==  ReceiverVolumeUp && mute) {
     mute = false;
+    touchedReceiver = true;
   }
   
-  Serial.println(powered);
-  Serial.println(mute);
+  if (value == LEDsOn) {
+     ledson = !ledson;
+   
+     if (ledson) {
+       // give relay a go
+     }  
+  }
   
-  if (powered && !mute) {
-    digitalWrite(13, HIGH);
-    mySwitch.switchOn('b', 3, 2);
-  } else {
-    mySwitch.switchOff('b', 3, 2);
-    digitalWrite(13, LOW);
+  if (value == CornerLight) {
+     digitalWrite(13, HIGH);
+     delay(50);
+     digitalWrite(13, LOW);
+     lighton = !lighton;
+   
+     if (lighton)
+       mySwitch.switchOn('b', 3, 3);
+     else
+       mySwitch.switchOff('b', 3, 3);
+  }
+ 
+  if (touchedReceiver) {      
+    if (powered && !mute) {
+      digitalWrite(13, HIGH);
+      mySwitch.switchOn('b', 3, 2);
+    } else {
+      mySwitch.switchOff('b', 3, 2);
+      digitalWrite(13, LOW);
+    }
   }
 }
 
