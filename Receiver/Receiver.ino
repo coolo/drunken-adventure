@@ -75,6 +75,14 @@ int line = 0;
 boolean powered = false;
 boolean mute = false;
 
+const long LEDsOn = 0x56D3E4F1L;
+const long CornerLight = 0x842EBDB1L;
+const long TVoff = 0xF50;
+const long TVon = 0x750;
+const long ReceiverPower = 0x540c;
+const long ReceiverMute = 0x140c;
+const long ReceiverVolumeUp = 0x240c;
+
 void doSomething(int value)
 {
   line = (line + 1) % 4;
@@ -82,18 +90,15 @@ void doSomething(int value)
   sprintf(buffer, "%lx", value);
   lcd.print(buffer);
   
-  if (value > 0x5c110000) 
-    value -= 0x5c110000;
-    
-  if (value == 0x540c) { // power
+  if (value == ReceiverPower) { // power
     powered = !powered;
   }
   
-  if (value == 0x140c) {
+  if (value == ReceiverMute) {
     mute = !mute;
   }
-  
-  if (value == 0x240c && mute) {
+
+  if (value ==  ReceiverVolumeUp && mute) {
     mute = false;
   }
   
