@@ -88,12 +88,13 @@ const long ReceiverVolumeUp = 0x240c;
 
 void doSomething(long value)
 {
-  boolean touchedReceiver = false;
+   boolean touchedReceiver = false;
   
   line = (line + 1) % 4;
   lcd.setCursor((line % 2) * 8, line / 2);
   sprintf(buffer, "%lx", value);
   lcd.print(buffer);
+  Serial.println(buffer);
   
   if (value == ReceiverPower) { // power
     powered = !powered;
@@ -112,16 +113,14 @@ void doSomething(long value)
   
   if (value == LEDsOn) {
      ledson = !ledson;
-   
-     if (ledson) {
-       // give relay a go
-     }  
-  }
-  
-  if (value == CornerLight) {
      digitalWrite(13, HIGH);
      delay(50);
      digitalWrite(13, LOW);
+     // give relay a go
+     digitalWrite(7, ledson ? HIGH : LOW);
+  }
+  
+  if (value == CornerLight) {
      lighton = !lighton;
    
      if (lighton)
@@ -129,7 +128,8 @@ void doSomething(long value)
      else
        mySwitch.switchOff('b', 3, 3);
   }
- 
+
+  Serial.println(touchedReceiver); 
   if (touchedReceiver) {      
     if (powered && !mute) {
       digitalWrite(13, HIGH);
@@ -145,7 +145,6 @@ void loop() {
   if (irrecv.decode(&results)) {
      // set the cursor to column 0, line 1
     // (note: line 1 is the second row, since counting begins with 0):
-    Serial.println(results.value, HEX);
     if (results.value != -1)
       doSomething(results.value);
 
