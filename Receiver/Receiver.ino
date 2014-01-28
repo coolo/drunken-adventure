@@ -1,43 +1,8 @@
 /*
-  LiquidCrystal Library - Hello World
- 
- Demonstrates the use a 16x2 LCD display.  The LiquidCrystal
- library works with all LCD displays that are compatible with the 
- Hitachi HD44780 driver. There are many of them out there, and you
- can usually tell them by the 16-pin interface.
- 
- This sketch prints "Hello World!" to the LCD
- and shows the time.
- 
-  The circuit:
- * LCD RS pin to digital pin 12
- * LCD Enable pin to digital pin 11
- * LCD D4 pin to digital pin 5
- * LCD D5 pin to digital pin 4
- * LCD D6 pin to digital pin 3
- * LCD D7 pin to digital pin 2
- * LCD R/W pin to ground
- * 10K resistor:
- * ends to +5V and ground
- * wiper to LCD VO pin (pin 3)
- 
- Library originally added 18 Apr 2008
- by David A. Mellis
- library modified 5 Jul 2009
- by Limor Fried (http://www.ladyada.net)
- example added 9 Jul 2009
- by Tom Igoe
- modified 22 Nov 2010
- by Tom Igoe
- 
- This example code is in the public domain.
-
- http://www.arduino.cc/en/Tutorial/LiquidCrystal
- */
-
-// include the library code:
-#include <LiquidCrystal.h>
-
+  Copyright 2014 Stephan Kulow
+  
+  Public Domain 
+*/
 #include <IRremote.h>
 
 #include <RCSwitch.h>
@@ -50,27 +15,20 @@ IRrecv irrecv(RECV_PIN);
 
 decode_results results;
 
-// initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
-
 void setup() {
-  // set up the LCD's number of columns and rows: 
-  lcd.begin(16, 2);
-  // Print a message to the LCD.
-  lcd.print("hello");
-  
   Serial.begin(9600);
   irrecv.enableIRIn(); // Start the receiver
   
   pinMode(13, OUTPUT);
+  pinMode(7, OUTPUT);
   
   // Transmitter is connected to Arduino Pin #8
   mySwitch.enableTransmit(8);
 
+  digitalWrite(7, LOW);
 }
 
 char buffer[10];
-int line = 0;
 
 boolean powered = false;
 boolean mute = false;
@@ -88,12 +46,9 @@ const long ReceiverVolumeUp = 0x240c;
 
 void doSomething(long value)
 {
-   boolean touchedReceiver = false;
+  boolean touchedReceiver = false;
   
-  line = (line + 1) % 4;
-  lcd.setCursor((line % 2) * 8, line / 2);
   sprintf(buffer, "%lx", value);
-  lcd.print(buffer);
   Serial.println(buffer);
   
   if (value == ReceiverPower) { // power
@@ -113,9 +68,6 @@ void doSomething(long value)
   
   if (value == LEDsOn) {
      ledson = !ledson;
-     digitalWrite(13, HIGH);
-     delay(50);
-     digitalWrite(13, LOW);
      // give relay a go
      digitalWrite(7, ledson ? HIGH : LOW);
   }
@@ -129,14 +81,11 @@ void doSomething(long value)
        mySwitch.switchOff('b', 3, 3);
   }
 
-  Serial.println(touchedReceiver); 
-  if (touchedReceiver) {      
+  if (touchedReceiver) {
     if (powered && !mute) {
-      digitalWrite(13, HIGH);
       mySwitch.switchOn('b', 3, 2);
     } else {
       mySwitch.switchOff('b', 3, 2);
-      digitalWrite(13, LOW);
     }
   }
 }
