@@ -10,6 +10,7 @@
 RCSwitch mySwitch = RCSwitch();
 
 int RECV_PIN = 11;
+int LED_PIN = 13;
 
 IRrecv irrecv(RECV_PIN);
 
@@ -17,15 +18,18 @@ decode_results results;
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("setup");
   irrecv.enableIRIn(); // Start the receiver
   
-  pinMode(13, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
   pinMode(7, OUTPUT);
   
   // Transmitter is connected to Arduino Pin #8
   mySwitch.enableTransmit(8);
 
-  digitalWrite(7, LOW);
+  digitalWrite(LED_PIN, HIGH);
+  delay(100);
+  digitalWrite(LED_PIN, LOW);
 }
 
 char buffer[10];
@@ -48,7 +52,7 @@ void doSomething(long value)
 {
   boolean touchedReceiver = false;
   
-  sprintf(buffer, "%lx", value);
+  sprintf(buffer, "IR %lx", value);
   Serial.println(buffer);
   
   if (value == ReceiverPower) { // power
@@ -92,12 +96,14 @@ void doSomething(long value)
 
 void loop() {
   if (irrecv.decode(&results)) {
+    digitalWrite(LED_PIN, HIGH);
      // set the cursor to column 0, line 1
     // (note: line 1 is the second row, since counting begins with 0):
     if (results.value != -1)
       doSomething(results.value);
 
     irrecv.resume(); // Receive the next value
+    digitalWrite(LED_PIN, LOW);
   }
 }
 
