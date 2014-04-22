@@ -71,20 +71,22 @@ void doSomething(long value)
     touchedReceiver = true;
   }
 
-  if (value == TVon)
+  if (value == TVon) {
     tvison = true;
+    if (!ledson && (lightLevel < itsdark))
+      ledson = true;
+  }
 
-  if (value == TVoff)
+  if (value == TVoff) {
     tvison = false;
+    ledson = false;
+  }
    
   if (value ==  ReceiverVolumeUp && mute) {
     mute = false;
     touchedReceiver = true;
   }
-  
-  if (!ledson && lightLevel < itsdark && TVon)
-    ledson = true;
-  
+    
   if (value == LEDsOn) {
     ledson = !ledson;
   }
@@ -128,7 +130,6 @@ void handleLedSwitch()
 
   // give relay a go
   digitalWrite(7, ledson ? HIGH : LOW);
-  digitalWrite(13, ledson ? HIGH : LOW);
 }
 
 void loop() {
