@@ -145,6 +145,84 @@
 				</section>
 
 				<section>
+					<h2>The Solution: Rings</h2>
+					<h4>Rings are subsets</h4>
+					<p>
+ 			  		  <a class="image">
+					     <img src="rings.gif"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Ring 0: Bootstrap</h2>
+					<h4>The root of all evil (96 packages)</h4>
+					<p>
+ 			  		  <a class="image">
+					     <img src="dr-evil-laughing.gif" width="70%"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Ring 1: MinimalX</h2>
+					<h4>A Test DVD with X (+941 packages)</h4>
+					<p>
+ 			  		  <a class="image">
+					     <img src="ring1-rebuildtime.png"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Ring 2+: MainDesktops and DVD</h2>
+					<ul>
+ 			  		  <li>Not yet used, only experimental</li>
+					  <li>+875 packages to build GNOME and KDE Live CDs</li>
+					  <li>+1151 packages to build openSUSE DVD</li>
+					  <li class="fragment">This leaves >4000 packages as 'contrib'</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>"The" Ring</h2>
+					<p>We don't need that many packages to test</p>
+					<p>
+ 			  		  <a class="image">
+					     <img src="ringoffire.jpg"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Filling staging projects</h2>
+					<p>Queues for review and QA</p>
+					<p>
+ 			  		  <a class="image">
+					     <img src="staging_projects.png"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+				  <h2>New reviewer: Factory-staging</h2>
+				  <pre>
+				      <code data-trim>
+coolo@gertrude#~>osc staging list
+Request(231045): pcsc-lite -> openSUSE:Factory:Rings:1-MinimalX
+Request(231105): dos2unix -> openSUSE:Factory:Rings:1-MinimalX
+Request(231107): screen -> openSUSE:Factory:Rings:0-Bootstrap
+Request(231108): openssl -> openSUSE:Factory:Rings:1-MinimalX
+Request(231112): yast2-country -> openSUSE:Factory:Rings:1-MinimalX
+Request(231141): aaa_base -> openSUSE:Factory:Rings:0-Bootstrap
+Request(231143): ntp -> openSUSE:Factory:Rings:1-MinimalX
+Request(231145): sqlite3 -> openSUSE:Factory:Rings:1-MinimalX
+Request(231148): sg3_utils -> openSUSE:Factory:Rings:1-MinimalX
+Request(231149): lvm2 -> openSUSE:Factory:Rings:1-MinimalX
+				  </code></pre>
+				</section>
+				
+				<section>
 					<h2>No regressions in 2014</h2>
 					<p>
  			  		  <a class="image">
@@ -153,24 +231,6 @@
 					</p>
 				</section>
 
-				<section>
-					<h2>Rings</h2>
-					<p>
- 			  		  <a class="image">
-					     <img src="rings.gif"/>
-					  </a>
-					</p>
-				</section>
-
-
-				<section>
-					<h2>"The" Ring</h2>
-					<p>
- 			  		  <a class="image fragment">
-					     <img src="ringoffire.jpg"/>
-					  </a>
-					</p>
-				</section>
 
 				<section>
 					<h2>How openQA works</h2>
