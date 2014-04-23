@@ -207,7 +207,6 @@
 				<section>
 				  <h2>New reviewer: Factory-staging</h2>
 				  <pre>
-				      <code data-trim>
 coolo@gertrude#~>osc staging list
 Request(231045): pcsc-lite -> openSUSE:Factory:Rings:1-MinimalX
 Request(231105): dos2unix -> openSUSE:Factory:Rings:1-MinimalX
@@ -219,7 +218,7 @@ Request(231143): ntp -> openSUSE:Factory:Rings:1-MinimalX
 Request(231145): sqlite3 -> openSUSE:Factory:Rings:1-MinimalX
 Request(231148): sg3_utils -> openSUSE:Factory:Rings:1-MinimalX
 Request(231149): lvm2 -> openSUSE:Factory:Rings:1-MinimalX
-				  </code></pre>
+				  </pre>
 				</section>
 					
 				<section>
@@ -232,12 +231,58 @@ Request(231149): lvm2 -> openSUSE:Factory:Rings:1-MinimalX
 				</section>
 				
 				<section>
-					<h2>No regressions in 2014</h2>
-					<p>
- 			  		  <a class="image">
-					     <img src="true.gif"/>
-					  </a>
-					</p>
+				  <h2>Ring Packages need more</h2>
+				  <ul>
+				    <li>Ignoring everything not in Ring
+				    0+1</li>
+				    <li><em>All</em> packages in a staging prj
+				    have to build</li>
+				    <li>The DVD has to build</li>
+				    <li>openQA needs to pass with 100%
+				    success</li>
+				    <li>No superseding requests</li>
+				    <ul>
+				</section>
+
+				<section>
+				  <h2>Our <em>dashboard</em></h2>
+				  <pre>
+coolo@gertrude#~>osc staging check
+Checking staging project: openSUSE:Factory:Staging:F
+ -- Project still neeeds attention
+<div style='color: #ff6' >xf86-input-wacom: missing reviews: opensuse-review-team</div>
+
+Checking staging project: openSUSE:Factory:Staging:G
+<div style='color: #0c0'> ++ Acceptable staging project</div>
+
+Checking staging project: openSUSE:Factory:Staging:H
+ -- Project still neeeds attention
+Following packages are broken:
+    yast2-inetd (standard/i586): failed
+    yast2-nfs-client (standard/i586): failed
+    yast2-nfs-server (standard/x86_64): failed
+<div style='color: #f30'>Openqa's overall status is fail</div>
+				  </pre>
+				</section>
+
+				<section>
+				  <h2>Success!!</h2>
+				  <pre>
+coolo@gertrude#~>osc staging accept G
+Accepting staging review for python-numpy
+Accepting staging review for tk
+Accepting staging review for nfs-utils
+Accepting staging review for fcoe-utils
+Accepting staging review for rpmlint
+				</pre></section>
+
+				<section>
+				  <h2>No regressions in 2014</h2>
+				  <p>
+ 			  	    <a class="image">
+				      <img src="true.gif"/>
+				    </a>
+				  </p>
 				</section>
 
 
