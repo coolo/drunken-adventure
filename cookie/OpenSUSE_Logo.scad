@@ -59,8 +59,8 @@ module poly_rand(h)
 
 poly_rand(0.8);
 poly_body(9);
-poly_eye(5);
-translate([5,1.3,5])
+poly_eye(4);
+translate([5,1.5,4])
   scale([0.8,0.8,1])
     poly_eye(2);
 poly_mouth(5);
