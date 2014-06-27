@@ -54,18 +54,18 @@
      transform="translate(0,-2.5390623e-6)">
     <path
        sodipodi:type="arc"
-       style="opacity:1;fill:#82e7f6;fill-opacity:1;stroke:#000000;stroke-width:0.29601711000000003;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#82e7f6;fill-opacity:1;stroke:#000000;stroke-width:0.29601711;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="path2985"
        sodipodi:cx="458.10419"
        sodipodi:cy="478.09045"
        sodipodi:rx="128.79445"
        sodipodi:ry="105.56094"
        d="m 586.89864,478.09045 a 128.79445,105.56094 0 1 1 -257.5889,0 128.79445,105.56094 0 1 1 257.5889,0 z"
-       transform="matrix(-0.81863177,-0.41172888,0.50234867,-0.9988091,294.2861,810.53936)" />
+       transform="matrix(-0.81863177,-0.41172888,0.50234867,-0.9988091,430.21082,958.02228)" />
     <g
-       transform="matrix(0.58889084,0,0,-0.58889084,99.181145,409.54107)"
+       transform="matrix(0.58889084,0,0,-0.58889084,235.10587,557.02399)"
        id="g4569"
-       style="fill:#ffcf75;fill-rule:nonzero;fill-opacity:1">
+       style="fill:#ffcf75;fill-opacity:1;fill-rule:nonzero">
       <path
          d="m 160.13,603.66 h 0.09 -0.09"
          id="path4595"
@@ -229,19 +229,20 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:27.00454521px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125.99999905%;letter-spacing:0.10608929px;word-spacing:0px;text-anchor:middle;fill:#50559d;fill-opacity:1;stroke:none;font-family:Droid Serif;-inkscape-font-specification:Droid Serif"
-       x="159.0451"
-       y="166.71227"
+       style="font-size:25.39626884px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:128.99999619%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1e367b;fill-opacity:1;stroke:none;font-family:DejaVu Serif;-inkscape-font-specification:DejaVu Serif Bold"
+       x="298.33432"
+       y="307.0101"
        id="text3794"
-       sodipodi:linespacing="126%"><tspan
+       sodipodi:linespacing="129%"
+       transform="scale(0.99268312,1.0073708)"><tspan
          sodipodi:role="line"
          id="tspan3796"
-         x="159.09814"
-         y="166.71227"
+         x="298.33432"
+         y="307.0101"
          rotate="0 0 0 0 0 0 0">Organisation</tspan><tspan
          sodipodi:role="line"
-         x="159.09816"
-         y="200.73799"
+         x="298.33432"
+         y="339.7713"
          id="tspan3802">Sommerfest</tspan></text>
     <text
        xml:space="preserve"
