@@ -71,7 +71,7 @@ height = 5;
 pupil_height = 0.8;
 press_height = 1;
 
-scale([scale_factor, scale_factor, scale_factor]) {
+scale([scale_factor, scale_factor*1.05, scale_factor]) {
   poly_body(height);
 
 
