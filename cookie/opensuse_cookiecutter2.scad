@@ -67,11 +67,11 @@ module poly_innertail(h)
 }
 
 scale_factory = 1.4;
-height = 5;
-pupil_height = 0.8;
-press_height = 1;
+height = 8;
+pupil_height = 0.9;
+press_height = 1.5;
 
-scale([scale_factor, scale_factor*1.05, scale_factor]) {
+scale([1.4, 1.45, 1]) {
   poly_body(height);
 
 
