@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>A Ring of Fire</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>A Ring of Fire (Live on Stage)</h2>
+					<h4>Or: A better Factory using Staging Projects</h4>
+					<p>
+						<small>Stephan "Coolo" Kulow</small><br/>
+						<small><a href="mailto:coolo@suse.de">coolo@suse.de</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>The problem?</h2>
+					<p>
+ 			  		  <a class="image">
+					     <img src="zooey-deschanel-what-is-your-problem.gif"/>
+					  </a>
+					</p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
+				</section>
+
+				<section>
+					<h2>Factory is growing <span class="fragment fade-in" data-fragment-index="1">- a lot!</span></h2>
+					<p class="fragment" data-fragment-index="1">
+ 			  		  <a class="image">
+					     <img src="packages.png" width="80%"/>
+					  </a>					  
+					</p>
+				</section>
+
+				<section>
+					<h2>Submissions are not well tested</h2>
+					<p>
+ 			  		  <a class="image">
+					     <img src="submissions.gif"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>But we have a lot of them</span></h2>
+					<p>
+ 			  		  <a class="image">
+					     <img src="requests.png" width="80%"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Mechanisms introduced</h2>
+					<ul>
+						<li>Factory-auto reviewing the sources</li>
+						<li class="fragment">Legal-auto to check for changed licenses</li>
+						<li class="fragment">Repo-checker checking build status</li>
+						<li class="fragment">Repo-checker reviewing dependency errors</li>
+						<li class="fragment">Reviewers looking for packaging bugs</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>In the end, we rely on the packager</h2>
+					<p>
+ 			  		  <a class="image fragment">
+					     <img src="reviewers.gif"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Hard to predict the mixture</h2>
+					<p>
+ 			  		  <a class="image">
+					     <img src="factory-submissions.gif"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>I accept, wait and see</h2>
+					<ul>
+					  <li>Sometimes it fails to build itself</li>
+					  <li class="fragment" data-fragment-index="1">Sometimes other packages fail to build</li>
+					  <li class="fragment" data-fragment-index="2">Sometimes it's impossible to install</li>
+					  <li class="fragment" data-fragment-index="3">And sometimes it's just like that:</li>
+					</ul>
+					<p class="fragment" data-fragment-index="3">
+ 			  		  <a class="image">
+					     <img src="after-testing.gif"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Debugging afterwards is hard</h2>
+					<p>
+ 			  		  <a class="image">
+					     <img src="debugging.jpg"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>The Solution: Rings</h2>
+					<h4>Rings are subsets</h4>
+					<p>
+ 			  		  <a class="image">
+					     <img src="rings.gif"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Ring 0: Bootstrap</h2>
+					<h4>The root of all evil (96 packages)</h4>
+					<p>
+ 			  		  <a class="image">
+					     <img src="dr-evil-laughing.gif" width="70%"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Ring 1: MinimalX</h2>
+					<h4>A Test DVD with X (+941 packages)</h4>
+					<p>
+ 			  		  <a class="image">
+					     <img src="ring1-rebuildtime.png"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Ring 2+: MainDesktops and DVD</h2>
+					<ul>
+ 			  		  <li>Not yet used, only experimental</li>
+					  <li>+875 packages to build GNOME and KDE Live CDs</li>
+					  <li>+1151 packages to build openSUSE DVD</li>
+					  <li class="fragment">This leaves >4000 packages as 'contrib'</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2><em>The</em> Ring</h2>
+					<p>We don't need that many packages to test</p>
+					<p>
+ 			  		  <a class="image">
+					     <img src="ringoffire.jpg" width="80%"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Filling staging projects</h2>
+					<p>Queues for review and QA</p>
+					<p>
+ 			  		  <a class="image">
+					     <img src="staging_projects.png"/>
+					  </a>
+					</p>
+				</section>
+
+				<section>
+				  <h2>New reviewer: Factory-staging</h2>
+				  <pre>
+coolo@gertrude#~>osc staging list
+Request(231045): pcsc-lite -> openSUSE:Factory:Rings:1-MinimalX
+Request(231105): dos2unix -> openSUSE:Factory:Rings:1-MinimalX
+Request(231107): screen -> openSUSE:Factory:Rings:0-Bootstrap
+Request(231108): openssl -> openSUSE:Factory:Rings:1-MinimalX
+Request(231112): yast2-country -> openSUSE:Factory:Rings:1-MinimalX
+Request(231141): aaa_base -> openSUSE:Factory:Rings:0-Bootstrap
+Request(231143): ntp -> openSUSE:Factory:Rings:1-MinimalX
+Request(231145): sqlite3 -> openSUSE:Factory:Rings:1-MinimalX
+Request(231148): sg3_utils -> openSUSE:Factory:Rings:1-MinimalX
+Request(231149): lvm2 -> openSUSE:Factory:Rings:1-MinimalX
+				  </pre>
+				</section>
+					
+				<section>
+				  <h2>openqa.opensuse.org tests the DVDs</h2>
+				  <p>
+ 			  	    <a class="image">
+				      <img src="openqa-stagings.png"/>
+				    </a>
+				  </p>
+				</section>
+				
+				<section>
+				  <h2>Ring Packages need more</h2>
+				  <ul>
+				    <li>Ignoring everything not in Ring
+				    0+1</li>
+				    <li><em>All</em> packages in a staging prj
+				    have to build</li>
+				    <li>The DVD has to build</li>
+				    <li>openQA needs to pass with 100%
+				    success</li>
+				    <li>No superseding requests</li>
+				    <ul>
+				</section>
+
+				<section>
+				  <h2>Our <em>dashboard</em></h2>
+				  <pre>
+coolo@gertrude#~>osc staging check
+Checking staging project: openSUSE:Factory:Staging:F
+ -- Project still neeeds attention
+<div style='color: #ff6' >xf86-input-wacom: missing reviews: opensuse-review-team</div>
+
+Checking staging project: openSUSE:Factory:Staging:G
+<div style='color: #0c0'> ++ Acceptable staging project</div>
+
+Checking staging project: openSUSE:Factory:Staging:H
+ -- Project still neeeds attention
+Following packages are broken:
+    yast2-inetd (standard/i586): failed
+    yast2-nfs-client (standard/i586): failed
+    yast2-nfs-server (standard/x86_64): failed
+<div style='color: #f30'>Openqa's overall status is fail</div>
+				  </pre>
+				</section>
+
+				<section>
+				  <h2>Success!!</h2>
+				  <pre>
+coolo@gertrude#~>osc staging accept G
+Accepting staging review for python-numpy
+Accepting staging review for tk
+Accepting staging review for nfs-utils
+Accepting staging review for fcoe-utils
+Accepting staging review for rpmlint
+				</pre></section>
+
+				<section>
+				  <h2>New role of the Factory maintainer</h2>
+				  <p>
+ 			  	    <a class="image">
+				      <img src="how-openqa-works.gif"/>
+				    </a>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>No regressions in 2014</h2>
+				  <p>
+ 			  	    <a class="image">
+				      <img src="true.gif"/>
+				    </a>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Are we done?</h2>
+				  <p>
+ 			  	    <a class="image fragment">
+				      <img src="thats-funny.gif"/>
+				    </a>
+				  </p>
+				</section>
+				
+				<section>
+				  <h2>Rolling Factory means Tested
+				  Factory</h2>
+				  <p>
+ 			  	    <a class="image">
+				      <img src="openqa-factory.png"/>
+				    </a>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Various things can go wrong</h2>
+				  <ul>
+				    <li>KDE and GNOME aren't tested at
+				    all</li>
+				    <li>FTP Installations not tested</li>
+				    <li>Applications are not tested in
+				    general</li>
+				    <li>The mixture can still go wrong</li>
+ 			  	  </ul>
+				</section>
+
+				<section>
+				  <h2>We need more hands on openQA</h2>
+				  <ul>
+				    <li>Tests need to be written</li>
+				    <li class="fragment"  data-fragment-index="1">Bugs need to be filed</li>
+				    <li class="fragment"  data-fragment-index="2">Failed tests need to be evaluated</li>
+ 			  	  </ul>
+				  <p class="fragment"  data-fragment-index="2">
+				    <a class="image">
+				      <img src="cooper.gif" width="60%"/>
+				    </a>
+				  </p>
+				</section>
+				
+				<section>
+				  <h2>Our plans</h2>
+				  <ul>
+				    <li>Replace Factory with Factory-Tested</li>
+				    <li>Publish only what works</li>
+				    <li>Add a dashboard for everyone to see
+				    where we are</li>
+ 			  	  </ul>
+                                  <p class="fragment">
+				    <a class="image">
+				      <img src="dashboard.jpg"/>
+				    </a>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Summary</h2>
+				  <ul>
+				    <li>Rings are a good way to highlight
+				    importance of a package</li>
+				    <li>Factory-Tested is near, we can make it</li>
+				    <li>But we need everyone to live the
+				    process</li>
+ 			  	  </ul>
+				  <p class="fragment">
+				    <a class="image">
+				      <img src="mover.png" width="40%"/>
+				    </a>
+				  </p>
+				  
+				</section>
+
+				<section>
+					<h1>Questions?</h1>
+				  <p>
+ 			  	    <a class="image">
+				      <img src="questions.gif"/>
+				    </a>
+				  </p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
