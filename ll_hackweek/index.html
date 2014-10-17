@@ -55,7 +55,7 @@
 				<section>
 					<h2>Copyrights are mostly not mine</h2>
 					<p>
-					  A lot of images are from that internet-thingy. I assume it's all free.
+					  A lot of images are from that internet thingy.<br/>0 I assume it's all free.
 					</p>
 				</section>
 
@@ -332,7 +332,112 @@ translate([knob_spacing*3,knob_spacing, block_height/2])
 				    </a>
 				  </p>
 				</section>
-				
+
+
+				<section>
+				  <h2>3D model galleries are great</h2>
+				  <ul>
+				    <li>All kind of toys</li>
+				    <li>Household innovations</li>
+				    <li>Fashion</li>
+				    <li>Gadgets</li>
+				    <li>Artwork</li>
+				    <li>Puzzles</li>
+				    <li>Cookie Cutters! Cutting Cookies!</li>
+				  </ul>
+				</section>
+
+				<section>
+				  <p>
+				    <a class="image">
+				      <img src="3dprint1.jpg" width="100%"/>
+				    </a>
+				  </p>
+				</section>
+				      
+				<section>
+				  <h2>Of course Felix had a different idea</h2>
+				  <p>
+				    <a class="image">
+				      <img src="Lego2.jpg" width="50%"/>
+				    </a>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>3d printers are cheaper than Iphones</h2>
+				  <p>
+				    <a class="image">
+				      <img src="3dprint2.jpg" width="50%"/>
+				    </a>
+				  </p>
+				</section>
+			
+				<section>
+				  <h2>Open Hardware is cooler though</h2>
+				  <p>
+				    <a class="image">
+				      <img src="reprap-parts.jpg" width="90%"/>
+				    </a>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Arduino?</h2>
+				  <p>
+				    <a class="image">
+				      <img src="reprap-parts2.jpg" width="90%"/>
+				    </a>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Basics first - Soldering</h2>
+				  <p>
+				    My Plan: some more intelligence to my living room.
+				    <ul>
+				      <li>If I turn on TV, turn on additional LEDs if its dark</li>
+				      <li>Turn on the LEDs on if it gets dark and the TV is on</li>
+				      <li>Turn the subwoofer on if the receiver is on</li>
+				      <li>Turn the subwoofer off if I mute</li>
+				      <li>Have an extra key on my remote to turn on the room light</li>
+				    </ul>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Software is easy - just C++</h2>
+				  <pre><code data-trim class="cpp">
+IRrecv irrecv(RECV_PIN);
+
+if (irrecv.decode(&results)) {
+  digitalWrite(LED_PIN, HIGH);
+
+  long lightLevel = map(analogRead(PHOTO_PIN), 0, 1023, 0, 100);
+
+  if (results.value == ReceiverPower)
+    mySwitch.switchOn('b', 3, 3);
+
+  if (results.value == LEDsOn)
+    ledson = !ledson;
+
+  digitalWrite(7, ledson ? HIGH : LOW);
+
+  digitalWrite(LED_PIN, LOW);
+}
+				  </code></pre>
+				</section>
+
+
+				<section>
+				  <h2>Arduino is just some pins</h2>
+				  <p>
+				    <a class="image">
+				      <img src="Arduino1.jpg" width="70%"/>
+				    </a>
+				  </p>
+				</section>
+			
 				
 			</div>
 
