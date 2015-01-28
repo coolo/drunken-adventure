@@ -121,7 +121,7 @@
 				</section>
 
 				<section>
-					<h2>The Solution: Rings</h2>
+					<h2>Limiting the Impact</h2>
 					<ol start="0">
 					  <li>Bootstrap packages (96)</li>
 					  <li>Minimal X installation (994)</li>
@@ -131,146 +131,61 @@
 				</section>
 
 				<section>
-					<h2>Staging Projects</h2>
-					<p>
- 			  		  <a class="image">
-					     <img src="stagingdashboard.png" width="90%"/>
-					  </a>
-					</p>
+				  <h2>Staging Projects</h2>
+				  <p>
+ 			  	    <a class="image">
+				      <img src="stagingdashboard.png" width="90%"/>
+				    </a>
+				  </p>
 				</section>
 
 				<section>
 				  <h2>openqa.opensuse.org tests the DVDs</h2>
 				  <p>
  			  	    <a class="image">
-				      <img src="openqa-stagings.gif"/>
+				      <img src="openqa-stagings.gif" width="80%"/>
 				    </a>
 				  </p>
 				</section>
 				
 				<section>
-				  <h2>Ring Packages need more</h2>
+				  <h2>Requirements for Ring Packages</h2>
 				  <ul>
-				    <li>Ignoring everything not in Ring
-				    0+1</li>
-				    <li><em>All</em> packages in a staging prj
-				    have to build</li>
-				    <li>The DVD has to build</li>
-				    <li>openQA needs to pass with 100%
-				    success</li>
-				    <li>No superseding requests</li>
+				    <li>Ignoring everything not in Rings</li>
+				    <li><em>All</em> other ring packages have to build</li>
+				    <li>openQA needs to pass with 100% success
+				      <ul>
+					<li>Minimal X</li>
+					<li>Encrypted LVM</li>
+					<li>RAID 1</li>
+					<li>GNOME</li>
+					<li>KDE</li>
+					<li>UEFI</li>
+					<li>Update</li>
+				      </ul>
+				    </li>
+				    
 				    <ul>
 				</section>
 
 				<section>
-				  <h2>Our <em>dashboard</em></h2>
-				  <pre>
-coolo@gertrude#~>osc staging check
-Checking staging project: openSUSE:Factory:Staging:F
- -- Project still neeeds attention
-<div style='color: #ff6' >xf86-input-wacom: missing reviews: opensuse-review-team</div>
-
-Checking staging project: openSUSE:Factory:Staging:G
-<div style='color: #0c0'> ++ Acceptable staging project</div>
-
-Checking staging project: openSUSE:Factory:Staging:H
- -- Project still neeeds attention
-Following packages are broken:
-    yast2-inetd (standard/i586): failed
-    yast2-nfs-client (standard/i586): failed
-    yast2-nfs-server (standard/x86_64): failed
-<div style='color: #f30'>Openqa's overall status is fail</div>
-				  </pre>
-				</section>
-
-				<section>
-				  <h2>Success!!</h2>
-				  <pre>
-coolo@gertrude#~>osc staging accept G
-Accepting staging review for python-numpy
-Accepting staging review for tk
-Accepting staging review for nfs-utils
-Accepting staging review for fcoe-utils
-Accepting staging review for rpmlint
-				</pre></section>
-
-				<section>
-				  <h2>New role of the Factory maintainer</h2>
+				  <h2>Tumbleweed</h2>
 				  <p>
  			  	    <a class="image">
-				      <img src="how-openqa-works.gif"/>
+				      <img src="Factory_workflow_2014.png" width="90%"/>
 				    </a>
 				  </p>
 				</section>
 
 				<section>
-				  <h2>No regressions in 2014</h2>
+				  <h2>Tumbleweed Dashboard</h2>
 				  <p>
  			  	    <a class="image">
-				      <img src="true.gif"/>
+				      <img src="dashboard.png" width="70%"/>
 				    </a>
 				  </p>
 				</section>
 
-				<section>
-				  <h2>Are we done?</h2>
-				  <p>
- 			  	    <a class="image fragment">
-				      <img src="thats-funny.gif"/>
-				    </a>
-				  </p>
-				</section>
-				
-				<section>
-				  <h2>Rolling Factory means Tested
-				  Factory</h2>
-				  <p>
- 			  	    <a class="image">
-				      <img src="openqa-factory.png"/>
-				    </a>
-				  </p>
-				</section>
-
-				<section>
-				  <h2>Various things can go wrong</h2>
-				  <ul>
-				    <li>KDE and GNOME aren't tested at
-				    all</li>
-				    <li>FTP Installations not tested</li>
-				    <li>Applications are not tested in
-				    general</li>
-				    <li>The mixture can still go wrong</li>
- 			  	  </ul>
-				</section>
-
-				<section>
-				  <h2>We need more hands on openQA</h2>
-				  <ul>
-				    <li>Tests need to be written</li>
-				    <li class="fragment"  data-fragment-index="1">Bugs need to be filed</li>
-				    <li class="fragment"  data-fragment-index="2">Failed tests need to be evaluated</li>
- 			  	  </ul>
-				  <p class="fragment"  data-fragment-index="2">
-				    <a class="image">
-				      <img src="cooper.gif" width="60%"/>
-				    </a>
-				  </p>
-				</section>
-				
-				<section>
-				  <h2>Our plans</h2>
-				  <ul>
-				    <li>Replace Factory with Factory-Tested</li>
-				    <li>Publish only what works</li>
-				    <li>Add a dashboard for everyone to see
-				    where we are</li>
- 			  	  </ul>
-                                  <p class="fragment">
-				    <a class="image">
-				      <img src="dashboard.jpg"/>
-				    </a>
-				  </p>
-				</section>
 
 				<section>
 				  <h2>Summary</h2>
@@ -281,16 +196,11 @@ Accepting staging review for rpmlint
 				    <li>But we need everyone to live the
 				    process</li>
  			  	  </ul>
-				  <p class="fragment">
-				    <a class="image">
-				      <img src="mover.png" width="40%"/>
-				    </a>
-				  </p>
 				  
 				</section>
 
 				<section>
-					<h1>Questions?</h1>
+				  <h1>Questions?</h1>
 				  <p>
  			  	    <a class="image">
 				      <img src="questions.gif"/>
