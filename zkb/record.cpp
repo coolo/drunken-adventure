@@ -18,7 +18,7 @@
 using namespace cv;
 using namespace std;
 
-const int HUMAN_LOOK_ALIKE = 780;
+const int HUMAN_LOOK_ALIKE = 770;
 
 int do_loop = 1;
 int do_adb = 1;
