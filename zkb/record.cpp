@@ -34,6 +34,7 @@ double scale = 1;
 int min_y = 77;
 int cut_y = 0;
 
+bool prefer_left = true;
 
 struct Button {
   char letter;
@@ -56,6 +57,22 @@ struct Button {
     letter = _letter;
   }
 };
+
+struct Move {
+  int x, y;
+  int dx, dy;
+  int weight;
+
+  Move(int _weight, int _x, int _y, int _dx = 0, int _dy = 0) {
+    weight = _weight;
+    x = _x;
+    y = _y;
+    dx = _dx;
+    dy = _dy;
+  }
+};
+
+list<Move> moves;
 
 void sig_handler(int signum)
 {
@@ -139,12 +156,12 @@ void init_buttons() {
   buttons.push_back(Button('G', "data/G.png"));
   buttons.push_back(Button('H', "data/H.png"));
   buttons.push_back(Button('P', "data/P.png"));
-  buttons.push_back(Button('+', "data/AllP.png"));
-  buttons.push_back(Button('+', "data/AllA.png"));
-  buttons.push_back(Button('+', "data/All4.png"));
-  buttons.push_back(Button('+', "data/AllL.png"));
-  buttons.push_back(Button('+', "data/AllG.png"));
-  buttons.push_back(Button('+', "data/AllH.png"));
+  buttons.push_back(Button('*', "data/AllP.png"));
+  buttons.push_back(Button('*', "data/AllA.png"));
+  buttons.push_back(Button('*', "data/All4.png"));
+  buttons.push_back(Button('*', "data/AllL.png"));
+  buttons.push_back(Button('*', "data/AllG.png"));
+  buttons.push_back(Button('*', "data/AllH.png"));
   buttons.push_back(Button('_', "data/Glasses.png"));
   buttons.push_back(Button('+', "data/Filler.png"));
   buttons.push_back(Button('+', "data/Face.png"));
@@ -165,6 +182,7 @@ void init_buttons() {
   extras.push_back(Button('m', "data/start.png"));
   extras.push_back(Button('n', "data/face3.png"));
   extras.push_back(Button('p', "data/face4.png"));
+  extras.push_back(Button('o', "data/close.png"));
   extras.push_back(Button('z', "data/back.png"));
 }
 
@@ -289,10 +307,24 @@ void output_drag(int y1, int x1, int y2, int x2)
   }
 }
 
+Zookeeper calculate_new_zoo(const Zookeeper &r, int y, int x, int dy, int dx) {
+  Zookeeper newz = r;
+  char old = newz(y, x);
+  newz(y, x) = newz(y + dy, x + dx);
+  newz(y + dy, x + dx) = old;
+  return newz;
+}
+
 bool check_drag(const Zookeeper &r, int y, int x, int dy, int dx, string comment, int my, int mx) {
   if (compare(r, y, x, dy, dx)) {
-    //printf("move %c(%d:%d) %s\n", r(y, x), y+dy, x+dx, comment.c_str());
-    output_drag( y+dy, x+dx, y+dy+my, x+dx+mx );
+    int weight = 20;
+    if (prefer_left && x < 4)
+      weight += 10;
+    if (!prefer_left && x >= 4)
+      weight += 10;
+    //
+    calculate_new_zoo(r, y+dy, x+dx, my, mx);
+    moves.push_back(Move(weight, x+dx, y+dy, mx, my));
     return true;
   }
   return false;
@@ -321,53 +353,76 @@ void saveScreen(const string &prefix)
   imwrite(buffer, frame);
 }
 
+bool compare_moves(const Move &first, const Move &second) {
+  if (first.weight < second.weight)
+    return false;
+  if (first.weight > second.weight)
+    return true;
+  if (first.y > second.y)
+    return true;
+  return false;
+}
+
 void checkMoves(const Zookeeper &r)
 {
+  moves.empty();
+  prefer_left = !prefer_left;
+  
   for (int y = 7; y >= 0; y--) {
     for (int x = 0; x < 8; x++) {
       if (r(y, x) == ' ')
 	continue;
 
       if (r(y, x) == '+') { // all good things
-	monkey_press(x * 24 + 12, y * 24 + min_y + cut_y + 12);
-	return;
+	moves.push_back(Move(100, x, y));
+	continue;
       }
+      if (r(y, x) == '*') { // all medium things
+	moves.push_back(Move(5, x, y));
+	continue;
+      }
+      if (r(y, x) == '_') { // last resort
+	moves.push_back(Move(0, x, y));
+	continue;
+      }
+
       if (compare(r, y, x, 0, 1)) {
-	if (check_drag(r, y, x, -1, -1, "down 1", +1, 0)) return;
-	if (check_drag(r, y, x,  1, -1, "up 1", -1, 0)) return;
-	if (check_drag(r, y, x, -1, +2, "down 1", +1, 0)) return;
-	if (check_drag(r, y, x, +1, +2, "up 1", -1, 0)) return;
-	if (check_drag(r, y, x,  0, +3, "left 2",  0, -1)) return;
-	if (check_drag(r, y, x, 0, -2, "right 2", 0, 1)) return;
+	check_drag(r, y, x, -1, -1, "down 1", +1, 0);
+	check_drag(r, y, x,  1, -1, "up 1", -1, 0);
+	check_drag(r, y, x, -1, +2, "down 1", +1, 0);
+	check_drag(r, y, x, +1, +2, "up 1", -1, 0);
+	check_drag(r, y, x,  0, +3, "left 2",  0, -1);
+	check_drag(r, y, x, 0, -2, "right 2", 0, 1);
       }
       if (compare(r, y, x, 1, 0)) {
-	if (check_drag(r, y, x, +2, -1, "right 1", 0, +1)) return;
-	if (check_drag(r, y, x, +2, +1, "left 1",  0, -1)) return;
-	if (check_drag(r, y, x, -1, -1, "right 3", 0, +1)) return;
-	if (check_drag(r, y, x, -1, +1, "left 3",  0, -1)) return;
-	if (check_drag(r, y, x, -2, 0, "down 3", +1, 0)) return;
-	if (check_drag(r, y, x, 3, 0, "up 3", -1, 0)) return;
+	check_drag(r, y, x, +2, -1, "right 1", 0, +1);
+	check_drag(r, y, x, +2, +1, "left 1",  0, -1);
+	check_drag(r, y, x, -1, -1, "right 3", 0, +1);
+	check_drag(r, y, x, -1, +1, "left 3",  0, -1);
+	check_drag(r, y, x, -2, 0, "down 3", +1, 0);
+	check_drag(r, y, x, 3, 0, "up 3", -1, 0);
       }
       if (compare(r, y, x, 0, 2)) {
-	if (check_drag(r, y, x, -1, 1, "down 4", +1, 0)) return;
-	if (check_drag(r, y, x, 1, 1, "up 4", -1, 0)) return;
+	check_drag(r, y, x, -1, 1, "down 4", +1, 0);
+	check_drag(r, y, x, 1, 1, "up 4", -1, 0);
       }
       if (compare(r, y, x, 2, 0)) {
-	if (check_drag(r, y, x, 1, -1, "right 4", 0, 1)) return;
-	if (check_drag(r, y, x, 1, 1, "left 4", 0, -1)) return;
+	check_drag(r, y, x, 1, -1, "right 4", 0, 1);
+	check_drag(r, y, x, 1, 1, "left 4", 0, -1);
       }
     }
   }
-  // last resort: glasses
-  for (int y = 7; y >= 0; y--) {
-    for (int x = 0; x < 8; x++) {
-      if (r(y, x) == '_') { // all good things
-	monkey_press(x * 24 + 12, y * 24 + min_y + cut_y + 12);
-	return;
+  moves.sort(compare_moves);
+  for (list<Move>::const_iterator it = moves.begin(); it != moves.end(); ++it) {
+    if (it == moves.begin()) {
+      if (it->dx || it->dy) {
+	output_drag( it->y, it->x, it->y+it->dy, it->x+it->dx);
+      } else {
+	monkey_press(it->x * 24 + 12, it->y * 24 + min_y + cut_y + 12);
       }
     }
+    printf("move %c(%d:%d) %d\n", r(it->y, it->x), it->y+it->dy, it->x+it->dx, it->weight);
   }
-
 }
 
 Zookeeper catcher(Mat &frame)
@@ -571,7 +626,7 @@ int main(int argc, char**argv)
 	Zookeeper res = catcher(frame);
 	int count = countZoo(res);
 	if (count) {
-#if 0
+#if 1
 	  if (count != 64) {
 	    char buffer[40];
 	    sprintf(buffer, "missing-%d", count);
