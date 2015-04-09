@@ -315,15 +315,46 @@ Zookeeper calculate_new_zoo(const Zookeeper &r, int y, int x, int dy, int dx) {
   return newz;
 }
 
+int count_same(Zookeeper &r) {
+  int score = 0;
+  
+  for (int y = 0; y < 8; y++) {
+    for (int x = 0; x < 8; x++) {
+      int factor = 0;
+      if (r(y, x) != ' ' && !compare(r, y, x, 0, -1) && compare(r, y, x, 0, 1) && compare(r, y, x, 0, 2)) {
+	factor = 1;
+	while (compare(r, y, x, 0, 2 + factor))
+	  factor++;
+      }
+      if (r(y, x) != ' ' && !compare(r, y, x, -1, 0) && compare(r, y, x, 1, 0) && compare(r, y, x, 2, 0)) {
+	factor = 1;
+	while (compare(r, y, x, 2 + factor, 0))
+	  factor++;
+      }
+      if (factor) {
+	int pscore = (2 + factor) * factor;
+	if (r(y, x) == 'E' || r(y, x) == 'H') {
+	  pscore += 2;
+	}
+	score += pscore;
+      }
+    }
+  }
+
+  return score;
+}
+
 bool check_drag(const Zookeeper &r, int y, int x, int dy, int dx, string comment, int my, int mx) {
   if (compare(r, y, x, dy, dx)) {
     int weight = 20;
     if (prefer_left && x < 4)
-      weight += 10;
+      weight += 5;
     if (!prefer_left && x >= 4)
-      weight += 10;
+      weight += 5;
     //
-    calculate_new_zoo(r, y+dy, x+dx, my, mx);
+    Zookeeper newz = calculate_new_zoo(r, y+dy, x+dx, my, mx);
+    int score = count_same(newz);
+    weight += score;
     moves.push_back(Move(weight, x+dx, y+dy, mx, my));
     return true;
   }
@@ -358,6 +389,7 @@ bool compare_moves(const Move &first, const Move &second) {
     return false;
   if (first.weight > second.weight)
     return true;
+  // prefer moves at the bottom
   if (first.y > second.y)
     return true;
   return false;
