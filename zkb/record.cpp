@@ -346,10 +346,8 @@ int count_same(Zookeeper &r) {
 
 bool check_drag(const Zookeeper &r, int y, int x, int dy, int dx, string comment, int my, int mx) {
   if (compare(r, y, x, dy, dx)) {
-    int weight = 20;
     Zookeeper newz = calculate_new_zoo(r, y+dy, x+dx, my, mx);
-    int score = count_same(newz);
-    weight += score;
+    int weight = count_same(newz);
     moves.push_back(Move(weight, x+dx, y+dy, mx, my));
     return true;
   }
@@ -413,7 +411,7 @@ void checkMoves(const Zookeeper &r)
 	continue;
       }
       if (r(y, x) == '_') { // last resort
-	moves.push_back(Move(0, x, y));
+	moves.push_back(Move(-1, x, y));
 	continue;
       }
 
@@ -649,8 +647,10 @@ int main(int argc, char**argv)
       status = WEXITSTATUS(status);
       printf("catcher_pid finished: %d %d\n", status, diff);
       catcher_pid = 0;
-      if (status == 12)
+      if (status == 12) {
+        sleep(100);
 	reexec();
+      }
     }
     
     if (!catcher_pid && diff > HUMAN_LOOK_ALIKE) {
@@ -680,7 +680,6 @@ int main(int argc, char**argv)
 	      // power off
 	      system("adb shell input keyevent 26");
 	      kill(adb_pid, SIGTERM);
-	      sleep(100);
 	      exit(12);
 	    } else {
 	      sleep(1);
