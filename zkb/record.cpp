@@ -134,9 +134,11 @@ Point2i image_search(const Mat &scene, const Button &button) {
 
   Mat test(scene, Rect(minloc.x, minloc.y, object.cols, object.rows));
   double mse = enhancedMSE(object, Mat(scene, Rect(minloc.x, minloc.y, object.cols, object.rows)));
-  char fname[300];
-  sprintf(fname, "%c-result.png", button.letter);
-  imwrite(fname, test);
+  if (!do_adb) {
+    char fname[300];
+    sprintf(fname, "%c-result.png", button.letter);
+    imwrite(fname, test);
+  }
   if (mse < 1000)
     return minloc;
   return Point(0,0);
@@ -181,8 +183,9 @@ void init_buttons() {
   extras.push_back(Button('l', "data/face2.png"));
   extras.push_back(Button('m', "data/start.png"));
   extras.push_back(Button('n', "data/face3.png"));
-  extras.push_back(Button('p', "data/face4.png"));
-  extras.push_back(Button('o', "data/close.png"));
+  extras.push_back(Button('o', "data/face4.png"));
+  extras.push_back(Button('p', "data/close.png"));
+  extras.push_back(Button('q', "data/searchingplayer.png")); // referenced as q
   extras.push_back(Button('z', "data/back.png"));
 }
 
@@ -647,10 +650,10 @@ int main(int argc, char**argv)
       status = WEXITSTATUS(status);
       printf("catcher_pid finished: %d %d\n", status, diff);
       catcher_pid = 0;
-      if (status == 12) {
+      if (status == 12) 
         sleep(100);
+      if (status == 12 || status == 13)
 	reexec();
-      }
     }
     
     if (!catcher_pid && diff > HUMAN_LOOK_ALIKE) {
@@ -659,7 +662,7 @@ int main(int argc, char**argv)
 	Zookeeper res = catcher(frame);
 	int count = countZoo(res);
 	if (count) {
-#if 1
+#if 0
 	  if (count != 64) {
 	    char buffer[40];
 	    sprintf(buffer, "missing-%d", count);
@@ -673,6 +676,9 @@ int main(int argc, char**argv)
 	  if (button.x) {
 	    if (button.letter == 'a') {
 	      system("adb shell input touchscreen swipe 450 1000 450 300 500");
+	    } else if (button.letter == 'q') {
+	      // restart the timers
+              exit(13);
 	    } else {
 	      monkey_press(button.x + button.cols / 2, button.y + button.rows / 2);
 	    }
