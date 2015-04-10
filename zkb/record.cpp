@@ -18,7 +18,7 @@
 using namespace cv;
 using namespace std;
 
-const int HUMAN_LOOK_ALIKE = 730;
+const int HUMAN_LOOK_ALIKE = 750;
 
 int do_loop = 1;
 int do_adb = 1;
@@ -334,7 +334,7 @@ int count_same(Zookeeper &r) {
       if (factor) {
 	int pscore = (2 + factor) * factor;
 	if (r(y, x) == 'E' || r(y, x) == 'H') {
-	  pscore += 2;
+	  pscore *= 2;
 	}
 	score += pscore;
       }
@@ -347,11 +347,6 @@ int count_same(Zookeeper &r) {
 bool check_drag(const Zookeeper &r, int y, int x, int dy, int dx, string comment, int my, int mx) {
   if (compare(r, y, x, dy, dx)) {
     int weight = 20;
-    if (prefer_left && x < 4)
-      weight += 5;
-    if (!prefer_left && x >= 4)
-      weight += 5;
-    //
     Zookeeper newz = calculate_new_zoo(r, y+dy, x+dx, my, mx);
     int score = count_same(newz);
     weight += score;
@@ -391,6 +386,10 @@ bool compare_moves(const Move &first, const Move &second) {
     return true;
   // prefer moves at the bottom
   if (first.y > second.y)
+    return true;
+  if (prefer_left && first.x > second.x)
+    return true;
+  if (!prefer_left && first.x < second.x)
     return true;
   return false;
 }
@@ -634,10 +633,12 @@ int main(int argc, char**argv)
   //namedWindow("edges", WINDOW_AUTOSIZE);
   while (do_loop) {
     if (screenrecord) {
+      alarm(1); // make sure we don't block here
       if (!cap.read(frame)) {
 	// we need to kill and leave - reopening video crashes opencv ;(
 	reexec();
       }
+      alarm(0);
     } else {
       frame = screencap();
     }
