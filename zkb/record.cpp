@@ -186,6 +186,7 @@ void init_buttons() {
   extras.push_back(Button('o', "data/face4.png"));
   extras.push_back(Button('p', "data/close.png"));
   extras.push_back(Button('q', "data/searchingplayer.png")); // referenced as q
+  extras.push_back(Button('r', "data/counting.png")); // referenced as r
   extras.push_back(Button('z', "data/back.png"));
 }
 
@@ -226,7 +227,6 @@ int connect_monkey()
   pid_t monkey = -1;
   while (fgets(buffer, sizeof(buffer) - 1, ps)) {
     if (strstr(buffer, "com.android.commands.monkey")) {
-      printf("PS: %s", buffer);
       char *p = buffer + 7; // ignore command
       while (*p && !(*p >= '0' && *p <= '9')) p++;
       monkey = atoi(p);
@@ -268,7 +268,6 @@ int connect_monkey()
     exit(1);
   }
   
-  puts("Connected monkey\n");
   return sock;
 }
 
@@ -385,9 +384,11 @@ bool compare_moves(const Move &first, const Move &second) {
     return false;
   if (first.weight > second.weight)
     return true;
-  // prefer moves at the bottom
-  if (first.y > second.y)
+  // prefer moves at the top
+  if (first.y < second.y)
     return true;
+  if (first.y > second.y)
+    return false;
   if (prefer_left && first.x > second.x)
     return true;
   if (!prefer_left && first.x < second.x)
@@ -395,10 +396,27 @@ bool compare_moves(const Move &first, const Move &second) {
   return false;
 }
 
-void checkMoves(const Zookeeper &r)
+Zookeeper blackoutZoo(const Zookeeper &_r)
+{
+  Zookeeper r = _r;
+  for (int y = 7; y >= 0; y--) {
+    for (int x = 0; x < 8; x++) {
+      if (r(y, x) != ' ')
+	continue;
+      for (int i = y; i >= 0; i--) {
+	r(i, x) = ' ';
+      }
+    }
+  }
+  return r;
+}
+
+void checkMoves(const Zookeeper &_r)
 {
   moves.empty();
   prefer_left = !prefer_left;
+
+  Zookeeper r = blackoutZoo(_r);
   
   for (int y = 7; y >= 0; y--) {
     for (int x = 0; x < 8; x++) {
@@ -413,8 +431,9 @@ void checkMoves(const Zookeeper &r)
 	moves.push_back(Move(5, x, y));
 	continue;
       }
-      if (r(y, x) == '_') { // last resort
-	moves.push_back(Move(-1, x, y));
+      if (r(y, x) == '_') { 
+	if (countZoo(r) == 64) // really really last resort
+	  moves.push_back(Move(-1, x, y));
 	continue;
       }
 
@@ -445,7 +464,11 @@ void checkMoves(const Zookeeper &r)
     }
   }
   moves.sort(compare_moves);
-  for (list<Move>::const_iterator it = moves.begin(); it != moves.end(); ++it) {
+  list<Move>::const_iterator it = moves.begin();
+  if (it == moves.end()) {
+    printf("no moves\n");
+  }
+  for (; it != moves.end(); ++it) {
     if (it == moves.begin()) {
       if (it->dx || it->dy) {
 	output_drag( it->y, it->x, it->y+it->dy, it->x+it->dx);
@@ -453,12 +476,16 @@ void checkMoves(const Zookeeper &r)
 	monkey_press(it->x * 24 + 12, it->y * 24 + min_y + cut_y + 12);
       }
     }
-    printf("move %c(%d:%d) %d\n", r(it->y, it->x), it->y+it->dy, it->x+it->dx, it->weight);
+    printf("move %c(%d+%d:%d+%d) %d\n", r(it->y, it->x), it->y, it->dy, it->x, it->dx, it->weight);
   }
+  printf("\n");
 }
+
+Mat original;
 
 Zookeeper catcher(Mat &frame)
 {
+  original = frame;
   Mat resized;
   scale = 192. / frame.cols;
   resize(frame, resized, Size(0, 0), scale, scale);
@@ -648,7 +675,7 @@ int main(int argc, char**argv)
     int diff = (tv.tv_sec - oldtv.tv_sec) * 1000 + (tv.tv_usec - oldtv.tv_usec) / 1000;
     if (catcher_pid && waitpid(catcher_pid, &status, WNOHANG) == catcher_pid) {
       status = WEXITSTATUS(status);
-      printf("catcher_pid finished: %d %d\n", status, diff);
+      //printf("catcher_pid finished: %d %d\n", status, diff);
       catcher_pid = 0;
       if (status == 12) 
         sleep(100);
@@ -659,6 +686,7 @@ int main(int argc, char**argv)
     if (!catcher_pid && diff > HUMAN_LOOK_ALIKE) {
       catcher_pid = fork();
       if (!catcher_pid) {
+	//saveScreen("movie");
 	Zookeeper res = catcher(frame);
 	int count = countZoo(res);
 	if (count) {
@@ -669,9 +697,10 @@ int main(int argc, char**argv)
 	    saveScreen(buffer);
 	  }
 #endif
-	  //printZoo(count, res);
+	  printZoo(res);
 	  checkMoves(res);
 	} else {
+	  //saveScreen("extras");
 	  Button button = find_extra(frame);
 	  if (button.x) {
 	    if (button.letter == 'a') {
@@ -679,6 +708,12 @@ int main(int argc, char**argv)
 	    } else if (button.letter == 'q') {
 	      // restart the timers
               exit(13);
+	    } else if (button.letter == 'r') {
+	      // score
+	      frame = original;
+	      saveScreen("score");
+	      sleep(4);
+	      exit(13);
 	    } else {
 	      monkey_press(button.x + button.cols / 2, button.y + button.rows / 2);
 	    }
