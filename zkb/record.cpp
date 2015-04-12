@@ -18,7 +18,9 @@
 using namespace cv;
 using namespace std;
 
-const int HUMAN_LOOK_ALIKE = 780;
+const int HUMAN_LOOK_ALIKE = 810;
+
+int sleep_time = HUMAN_LOOK_ALIKE;
 
 int do_loop = 1;
 int do_adb = 1;
@@ -76,10 +78,13 @@ list<Move> moves;
 
 void sig_handler(int signum)
 {
-  printf("Received signal %d\n", signum);
   do_loop = 0;
 }
 
+void sigusr1_handler(int signum)
+{
+  sleep_time = 0;
+}
 
 /* the purpose of this function is to calculate the error between two images
   (scene area and object) ignoring slight colour changes */
@@ -473,6 +478,8 @@ void checkMoves(const Zookeeper &_r)
       if (it->dx || it->dy) {
 	output_drag( it->y, it->x, it->y+it->dy, it->x+it->dx);
       } else {
+        /*if (it->weight < 0)
+           saveScreen("pressed"); */
 	monkey_press(it->x * 24 + 12, it->y * 24 + min_y + cut_y + 12);
       }
     }
@@ -637,6 +644,7 @@ int main(int argc, char**argv)
   monkey_socket = connect_monkey();
   
   signal(SIGINT, sig_handler);
+  signal(SIGUSR1, sigusr1_handler);
 
 #if 1
   Scalar m = mean(screencap());
@@ -683,7 +691,7 @@ int main(int argc, char**argv)
 	reexec();
     }
     
-    if (!catcher_pid && diff > HUMAN_LOOK_ALIKE) {
+    if (!catcher_pid && diff > sleep_time) {
       catcher_pid = fork();
       if (!catcher_pid) {
 	//saveScreen("movie");
