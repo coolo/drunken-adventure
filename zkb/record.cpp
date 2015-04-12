@@ -36,8 +36,6 @@ double scale = 1;
 int min_y = 77;
 int cut_y = 0;
 
-bool prefer_left = true;
-
 struct Button {
   char letter;
   Mat object;
@@ -73,8 +71,6 @@ struct Move {
     dy = _dy;
   }
 };
-
-list<Move> moves;
 
 void sig_handler(int signum)
 {
@@ -141,7 +137,7 @@ Point2i image_search(const Mat &scene, const Button &button) {
   double mse = enhancedMSE(object, Mat(scene, Rect(minloc.x, minloc.y, object.cols, object.rows)));
   if (!do_adb) {
     char fname[300];
-    sprintf(fname, "%c-result.png", button.letter);
+    sprintf(fname, "result-%c.png", button.letter);
     imwrite(fname, test);
   }
   if (mse < 1000)
@@ -189,6 +185,7 @@ void init_buttons() {
   extras.push_back(Button('m', "data/start.png"));
   extras.push_back(Button('n', "data/face3.png"));
   extras.push_back(Button('o', "data/face4.png"));
+  extras.push_back(Button('s', "data/face5.png"));
   extras.push_back(Button('p', "data/close.png"));
   extras.push_back(Button('q', "data/searchingplayer.png")); // referenced as q
   extras.push_back(Button('r', "data/counting.png")); // referenced as r
@@ -322,21 +319,59 @@ Zookeeper calculate_new_zoo(const Zookeeper &r, int y, int x, int dy, int dx) {
   return newz;
 }
 
+
+Zookeeper blackoutZoo(const Zookeeper &_r)
+{
+  Zookeeper r = _r;
+  for (int y = 7; y >= 0; y--) {
+    for (int x = 0; x < 8; x++) {
+      if (r(y, x) != ' ')
+	continue;
+      for (int i = y; i >= 0; i--) {
+	r(i, x) = ' ';
+      }
+    }
+  }
+  return r;
+}
+
+list<Move> checkMoves(const Zookeeper &_r, bool recurse);
+
+bool compare_points (const Move &first, const Move &second) {
+  if (first.x != second.x)
+    return false;
+  return (first.y == second.y);
+}
+
+void printMoves(const Zookeeper &r, list<Move> &moves);
+
 int count_same(Zookeeper &r) {
   int score = 0;
+
+  vector<Point> toerase;
   
   for (int y = 0; y < 8; y++) {
     for (int x = 0; x < 8; x++) {
       int factor = 0;
       if (r(y, x) != ' ' && !compare(r, y, x, 0, -1) && compare(r, y, x, 0, 1) && compare(r, y, x, 0, 2)) {
 	factor = 1;
-	while (compare(r, y, x, 0, 2 + factor))
+	toerase.push_back(Point(x, y));
+	toerase.push_back(Point(x+1, y));
+	toerase.push_back(Point(x+2, y));
+	while (compare(r, y, x, 0, 2 + factor)) {
+	  toerase.push_back(Point(x+2+factor, y));
 	  factor++;
+	}
       }
       if (r(y, x) != ' ' && !compare(r, y, x, -1, 0) && compare(r, y, x, 1, 0) && compare(r, y, x, 2, 0)) {
 	factor = 1;
-	while (compare(r, y, x, 2 + factor, 0))
+	toerase.push_back(Point(x, y));
+	toerase.push_back(Point(x, y+1));
+	toerase.push_back(Point(x, y+2));
+	while (compare(r, y, x, 2 + factor, 0)) {
+	  toerase.push_back(Point(x, y+2+factor));
 	  factor++;
+	}
       }
       if (factor) {
 	int pscore = (2 + factor) * factor;
@@ -348,13 +383,24 @@ int count_same(Zookeeper &r) {
     }
   }
 
+  vector<Point>::const_iterator it = toerase.begin();
+  for (; it != toerase.end(); ++it)
+    r(it->y, it->x) = ' ';
+  
+  list<Move> moves = checkMoves(r, false);
+  unique(moves.begin(), moves.end(), compare_points);
+  score += 10 * moves.size();
+  
   return score;
 }
 
-bool check_drag(const Zookeeper &r, int y, int x, int dy, int dx, string comment, int my, int mx) {
-  if (compare(r, y, x, dy, dx)) {
+bool check_drag(const Zookeeper &r, list<Move> &moves, bool recurse, int y, int x, int dy, int dx, string comment, int my, int mx) {
+  if (compare(r, y, x, dy, dx) && r(y+dy+my, x+dx+mx) != ' ') {
     Zookeeper newz = calculate_new_zoo(r, y+dy, x+dx, my, mx);
-    int weight = count_same(newz);
+    int weight = 0;
+    if (recurse) {
+      weight = count_same(newz);
+    }
     moves.push_back(Move(weight, x+dx, y+dy, mx, my));
     return true;
   }
@@ -382,6 +428,7 @@ void saveScreen(const string &prefix)
   char buffer[300];
   sprintf(buffer, "%s-%ld.%ld.png", prefix.c_str(), tv.tv_sec, tv.tv_usec);
   imwrite(buffer, frame);
+  printf("saved %s\n", buffer);
 }
 
 bool compare_moves(const Move &first, const Move &second) {
@@ -394,32 +441,12 @@ bool compare_moves(const Move &first, const Move &second) {
     return true;
   if (first.y > second.y)
     return false;
-  if (prefer_left && first.x > second.x)
-    return true;
-  if (!prefer_left && first.x < second.x)
-    return true;
   return false;
 }
 
-Zookeeper blackoutZoo(const Zookeeper &_r)
+list<Move> checkMoves(const Zookeeper &_r, bool recurse)
 {
-  Zookeeper r = _r;
-  for (int y = 7; y >= 0; y--) {
-    for (int x = 0; x < 8; x++) {
-      if (r(y, x) != ' ')
-	continue;
-      for (int i = y; i >= 0; i--) {
-	r(i, x) = ' ';
-      }
-    }
-  }
-  return r;
-}
-
-void checkMoves(const Zookeeper &_r)
-{
-  moves.empty();
-  prefer_left = !prefer_left;
+  list<Move> moves;
 
   Zookeeper r = blackoutZoo(_r);
   
@@ -443,49 +470,75 @@ void checkMoves(const Zookeeper &_r)
       }
 
       if (compare(r, y, x, 0, 1)) {
-	check_drag(r, y, x, -1, -1, "down 1", +1, 0);
-	check_drag(r, y, x,  1, -1, "up 1", -1, 0);
-	check_drag(r, y, x, -1, +2, "down 1", +1, 0);
-	check_drag(r, y, x, +1, +2, "up 1", -1, 0);
-	check_drag(r, y, x,  0, +3, "left 2",  0, -1);
-	check_drag(r, y, x, 0, -2, "right 2", 0, 1);
+	check_drag(r, moves, recurse, y, x, -1, -1, "down 1", +1, 0);
+	check_drag(r, moves, recurse, y, x,  1, -1, "up 1", -1, 0);
+	check_drag(r, moves, recurse, y, x, -1, +2, "down 1", +1, 0);
+	check_drag(r, moves, recurse, y, x, +1, +2, "up 1", -1, 0);
+	check_drag(r, moves, recurse, y, x,  0, +3, "left 2",  0, -1);
+	check_drag(r, moves, recurse, y, x, 0, -2, "right 2", 0, 1);
       }
       if (compare(r, y, x, 1, 0)) {
-	check_drag(r, y, x, +2, -1, "right 1", 0, +1);
-	check_drag(r, y, x, +2, +1, "left 1",  0, -1);
-	check_drag(r, y, x, -1, -1, "right 3", 0, +1);
-	check_drag(r, y, x, -1, +1, "left 3",  0, -1);
-	check_drag(r, y, x, -2, 0, "down 3", +1, 0);
-	check_drag(r, y, x, 3, 0, "up 3", -1, 0);
+	check_drag(r, moves, recurse, y, x, +2, -1, "right 1", 0, +1);
+	check_drag(r, moves, recurse, y, x, +2, +1, "left 1",  0, -1);
+	check_drag(r, moves, recurse, y, x, -1, -1, "right 3", 0, +1);
+	check_drag(r, moves, recurse, y, x, -1, +1, "left 3",  0, -1);
+	check_drag(r, moves, recurse, y, x, -2, 0, "down 3", +1, 0);
+	check_drag(r, moves, recurse, y, x, 3, 0, "up 3", -1, 0);
       }
       if (compare(r, y, x, 0, 2)) {
-	check_drag(r, y, x, -1, 1, "down 4", +1, 0);
-	check_drag(r, y, x, 1, 1, "up 4", -1, 0);
+	check_drag(r, moves, recurse, y, x, -1, 1, "down 4", +1, 0);
+	check_drag(r, moves, recurse, y, x, 1, 1, "up 4", -1, 0);
       }
       if (compare(r, y, x, 2, 0)) {
-	check_drag(r, y, x, 1, -1, "right 4", 0, 1);
-	check_drag(r, y, x, 1, 1, "left 4", 0, -1);
+	check_drag(r, moves, recurse, y, x, 1, -1, "right 4", 0, 1);
+	check_drag(r, moves, recurse, y, x, 1, 1, "left 4", 0, -1);
       }
     }
   }
+  return moves;
+}
+
+void printMoves(const Zookeeper &r, list<Move> &moves)
+{
   moves.sort(compare_moves);
   list<Move>::const_iterator it = moves.begin();
   if (it == moves.end()) {
     printf("no moves\n");
   }
   for (; it != moves.end(); ++it) {
-    if (it == moves.begin()) {
-      if (it->dx || it->dy) {
-	output_drag( it->y, it->x, it->y+it->dy, it->x+it->dx);
-      } else {
-        /*if (it->weight < 0)
-           saveScreen("pressed"); */
-	monkey_press(it->x * 24 + 12, it->y * 24 + min_y + cut_y + 12);
-      }
-    }
-    printf("move %c(%d+%d:%d+%d) %d\n", r(it->y, it->x), it->y, it->dy, it->x, it->dx, it->weight);
+    string down;
+    if (it->dy < 0)
+      down = '-';
+    if (it->dy > 0)
+      down = '+';
+    string left;
+    if (it->dx < 0)
+      left = '-';
+    if (it->dx > 0)
+      left = '+';
+    printf("move %c(%d%s:%d%s) %d\n", r(it->y, it->x), it->y+1, down.c_str(), it->x+1, left.c_str(), it->weight);
   }
   printf("\n");
+
+}
+
+void output_best_move(const Zookeeper &r, list<Move> &moves)
+{
+  printMoves(r, moves);
+
+  list<Move>::const_iterator it = moves.begin();
+  if (it == moves.end())
+    return;
+  
+  if (do_adb) {
+    if (it->dx || it->dy) {
+      output_drag( it->y, it->x, it->y+it->dy, it->x+it->dx);
+    } else {
+      /*if (it->weight < 0)
+	saveScreen("pressed"); */
+      monkey_press(it->x * 24 + 12, it->y * 24 + min_y + cut_y + 12);
+    }
+  }
 }
 
 Mat original;
@@ -632,7 +685,8 @@ int main(int argc, char**argv)
     int count = countZoo(res);
     if (count) {
       printZoo(res);
-      checkMoves(res);
+      list<Move> moves = checkMoves(res, true);
+      output_best_move(res, moves);
       exit(0);
     } else {
       Button button = find_extra(frame);
@@ -669,7 +723,7 @@ int main(int argc, char**argv)
   //namedWindow("edges", WINDOW_AUTOSIZE);
   while (do_loop) {
     if (screenrecord) {
-      alarm(1); // make sure we don't block here
+      alarm(10); // make sure we don't block here
       if (!cap.read(frame)) {
 	// we need to kill and leave - reopening video crashes opencv ;(
 	reexec();
@@ -706,7 +760,9 @@ int main(int argc, char**argv)
 	  }
 #endif
 	  printZoo(res);
-	  checkMoves(res);
+	  //saveScreen("move");
+	  list<Move> moves = checkMoves(res, true);
+	  output_best_move(res, moves);
 	} else {
 	  //saveScreen("extras");
 	  Button button = find_extra(frame);
