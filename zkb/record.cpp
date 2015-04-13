@@ -189,6 +189,7 @@ void init_buttons() {
   extras.push_back(Button('p', "data/close.png"));
   extras.push_back(Button('q', "data/searchingplayer.png")); // referenced as q
   extras.push_back(Button('r', "data/counting.png")); // referenced as r
+  extras.push_back(Button('t', "data/ok3.png"));
   extras.push_back(Button('z', "data/back.png"));
 }
 
