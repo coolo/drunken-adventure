@@ -82,6 +82,14 @@ void sigusr1_handler(int signum)
   sleep_time = 0;
 }
 
+void sigalarm_handler(int signum)
+{
+  printf("alarm clock rang\n");
+  system("adb reboot");
+  sleep(50);
+  exit(1);
+}
+
 /* the purpose of this function is to calculate the error between two images
   (scene area and object) ignoring slight colour changes */
 double enhancedMSE(const Mat& I1, const Mat& I2) {
@@ -336,6 +344,23 @@ Zookeeper blackoutZoo(const Zookeeper &_r)
   return r;
 }
 
+bool gravitate(Zookeeper &r)
+{
+  bool moved = false;
+  for (int x = 0; x < 8; x++) {
+    for (int y = 6; y >= 0; y--) {
+      if (r(y, x) != ' '&& r(y + 1, x) == ' ')
+	{
+	  r(y + 1, x)  = r(y, x);
+	  r(y, x) = ' ';
+	  y = 7;
+	  moved = true;
+	}
+    }
+  }
+  return moved;
+}
+
 list<Move> checkMoves(const Zookeeper &_r, bool recurse);
 
 bool compare_points (const Move &first, const Move &second) {
@@ -546,6 +571,7 @@ Mat original;
 
 Zookeeper catcher(Mat &frame)
 {
+//  saveScreen("catcher");
   original = frame;
   Mat resized;
   scale = 192. / frame.cols;
@@ -557,6 +583,7 @@ Zookeeper catcher(Mat &frame)
   cvtColor(frame, frame, CV_BGR2GRAY );
   frame.convertTo(frame, CV_8UC1);
 
+  //  saveScreen("frame");
   Zookeeper res;
 
   int part_y = 24;
@@ -672,6 +699,35 @@ Button find_extra(const Mat & frame)
       return *it;
     }
   }
+
+  if (image_search(frame, Button('a', "data/catch-all-quest.png")).x) {
+    if (image_search(frame, Button('a', "data/eight.png")).x) {
+      cout << "found eight too\n";
+    }
+    buttons.push_back(Button('R', "data/R.png"));
+    min_y = 76;
+    Mat special = original;
+    Zookeeper res = catcher(special);
+    printZoo(res);
+    list<Move> moves = checkMoves(res, true);
+    printMoves(res, moves);
+    list<Move>::const_iterator it = moves.begin();
+    for (; it != moves.end(); ++it) {
+        Zookeeper newz = calculate_new_zoo(res, it->y, it->x, it->dy, it->dx);
+	while (countZoo(newz)) {
+	  count_same(newz);
+	  if (!gravitate(newz))
+	    break;
+	  //printZoo(newz);
+	}
+	if (!countZoo(newz)) {
+	  printf("WON %dx%d -> %dx%d\n", it->y, it->x, it->dy, it->dx);
+	  output_drag( it->y, it->x, it->y+it->dy, it->x+it->dx);
+	  break;
+	}
+    }
+  }
+  
   return Button();
 }
 
@@ -700,11 +756,12 @@ int main(int argc, char**argv)
   
   signal(SIGINT, sig_handler);
   signal(SIGUSR1, sigusr1_handler);
+  signal(SIGALRM, sigalarm_handler);
 
 #if 1
   Scalar m = mean(screencap());
   if (m[0] + m[1] < 10) { // looks black
-    //printf("power!\n");
+    printf("power!\n");
     //system("adb shell input keyevent 26");
     sleep(1);
   }
@@ -724,7 +781,7 @@ int main(int argc, char**argv)
   //namedWindow("edges", WINDOW_AUTOSIZE);
   while (do_loop) {
     if (screenrecord) {
-      alarm(10); // make sure we don't block here
+      alarm(5); // make sure we don't block here
       if (!cap.read(frame)) {
 	// we need to kill and leave - reopening video crashes opencv ;(
 	reexec();
