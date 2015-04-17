@@ -86,7 +86,7 @@ void sigalarm_handler(int signum)
 {
   printf("alarm clock rang\n");
   system("adb reboot");
-  sleep(50);
+  sleep(300);
   exit(1);
 }
 
@@ -781,7 +781,7 @@ int main(int argc, char**argv)
   //namedWindow("edges", WINDOW_AUTOSIZE);
   while (do_loop) {
     if (screenrecord) {
-      alarm(5); // make sure we don't block here
+      alarm(20); // make sure we don't block here
       if (!cap.read(frame)) {
 	// we need to kill and leave - reopening video crashes opencv ;(
 	reexec();
