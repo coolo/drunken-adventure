@@ -18,7 +18,7 @@
 using namespace cv;
 using namespace std;
 
-const int HUMAN_LOOK_ALIKE = 780;
+const int HUMAN_LOOK_ALIKE = 770;
 
 int sleep_time = HUMAN_LOOK_ALIKE;
 
@@ -51,6 +51,10 @@ struct Button {
   
   Button(char _letter, const char *filename) {
     object = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
+    if (!object.cols) {
+	    fprintf(stderr, "can't find %s\n", filename);
+	    exit(1);
+    }
     cols = object.cols;
     rows = object.rows;
     object.convertTo(eightbit, CV_8UC1);
@@ -85,8 +89,14 @@ void sigusr1_handler(int signum)
 void sigalarm_handler(int signum)
 {
   printf("alarm clock rang\n");
-  system("adb reboot");
-  sleep(300);
+  Scalar m = mean(frame);
+  if (m[0] + m[1] < 10) { // looks black
+      printf("black alarm\n");
+  } else {
+    printf("stalled alarm\n");
+    system("adb reboot");
+    sleep(300);
+  }
   exit(1);
 }
 
@@ -123,7 +133,7 @@ double enhancedMSE(const Mat& I1, const Mat& I2) {
 }
 
 /* we find the object in the scene and return the x,y and the error of the match */
-Point2i image_search(const Mat &scene, const Button &button) {
+Point2i image_search(const Mat &scene, const Button &button, double mselimit = 1000) {
 
   const Mat object = button.eightbit;
   
@@ -148,7 +158,8 @@ Point2i image_search(const Mat &scene, const Button &button) {
     sprintf(fname, "result-%c.png", button.letter);
     imwrite(fname, test);
   }
-  if (mse < 1000)
+  //printf("MSE %lf\n", mse);
+  if (mse < mselimit) 
     return minloc;
   return Point(0,0);
 }
@@ -179,26 +190,30 @@ void init_buttons() {
   buttons.push_back(Button('+', "data/Heart.png"));
 
   extras.push_back(Button('a', "data/charging.png")); // referenced as a
-  extras.push_back(Button('b', "data/newmatch.png"));
-  extras.push_back(Button('c', "data/cancel.png")); // referenced as c
+  extras.push_back(Button('b', "data/newmatch.png")); // referenced as b
   extras.push_back(Button('d', "data/noway.png"));
-  extras.push_back(Button('e', "data/vs.png"));
+  extras.push_back(Button('e', "data/myzoo.png")); // referenced as e
   extras.push_back(Button('f', "data/icon.png"));
   extras.push_back(Button('g', "data/ok.png"));
   extras.push_back(Button('h', "data/ok2.png"));
   extras.push_back(Button('i', "data/shopclose.png"));
   extras.push_back(Button('j', "data/tomyzoo.png"));
-  extras.push_back(Button('k', "data/face1.png"));
-  extras.push_back(Button('l', "data/face2.png"));
+  extras.push_back(Button('k', "data/zoo.png"));
+  extras.push_back(Button('l', "data/battlehistory.png"));
   extras.push_back(Button('m', "data/start.png"));
-  extras.push_back(Button('n', "data/face3.png"));
-  extras.push_back(Button('o', "data/face4.png"));
-  extras.push_back(Button('s', "data/face5.png"));
+  extras.push_back(Button('n', "data/nobattles.png"));
+  extras.push_back(Button('o', "data/callinhelp2.png"));
   extras.push_back(Button('p', "data/close.png"));
   extras.push_back(Button('q', "data/searchingplayer.png")); // referenced as q
   extras.push_back(Button('r', "data/counting.png")); // referenced as r
   extras.push_back(Button('t', "data/ok3.png"));
-  extras.push_back(Button('z', "data/back.png"));
+  extras.push_back(Button('v', "data/skip.png"));
+  //extras.push_back(Button('x', "data/crashok.png"));
+  extras.push_back(Button('z', "data/clear.png"));
+  extras.push_back(Button('c', "data/cancel.png")); // referenced as c
+
+ // extras.push_back(Button('w', "data/exitfight.png"));
+//  extras.push_back(Button('z', "data/back.png"));
 }
 
 void printZoo(const Zookeeper &r)
@@ -402,7 +417,7 @@ int count_same(Zookeeper &r) {
       if (factor) {
 	int pscore = (2 + factor) * factor;
 	if (r(y, x) == 'E' || r(y, x) == 'H') {
-	  pscore *= 2;
+	  pscore *= 5;
 	}
 	score += pscore;
       }
@@ -415,7 +430,7 @@ int count_same(Zookeeper &r) {
   
   list<Move> moves = checkMoves(r, false);
   unique(moves.begin(), moves.end(), compare_points);
-  score += 10 * moves.size();
+  score += 8 * moves.size();
   
   return score;
 }
@@ -438,6 +453,7 @@ void monkey_press(int x, int y)
   char buffer[300];
   x /= scale;
   y /= scale;
+  if (y == 1080 && x == 324) abort();
   printf("touch %d %d\n", x, y);
   sprintf(buffer, "touch down %d %d\n", x, y);
   send_monkey_cmd(buffer);
@@ -571,7 +587,7 @@ Mat original;
 
 Zookeeper catcher(Mat &frame)
 {
-//  saveScreen("catcher");
+  //saveScreen("catcher");
   original = frame;
   Mat resized;
   scale = 192. / frame.cols;
@@ -583,7 +599,7 @@ Zookeeper catcher(Mat &frame)
   cvtColor(frame, frame, CV_BGR2GRAY );
   frame.convertTo(frame, CV_8UC1);
 
-  //  saveScreen("frame");
+  //saveScreen("frame");
   Zookeeper res;
 
   int part_y = 24;
@@ -731,6 +747,64 @@ Button find_extra(const Mat & frame)
   return Button();
 }
 
+bool check_button(const char *filename) {
+  Button t('a', filename);
+  printf("image_search %s\n", filename);
+  Point2i button = image_search(frame, t, 2000);
+  if (button.x) {
+    printf("check_button -> press %s\n", filename);
+    monkey_press(button.x + t.cols / 2, button.y + t.rows / 2);
+    sleep(1);
+    return true;
+  }
+  return false;
+}
+
+void act_in_zoo() {
+    bool foundone = false;
+    for (int i = 1; i <= 21; ++i) {
+      char fname[30];
+      sprintf(fname, "data/face%d.png", i);
+      Button t('a', fname);
+      Point2i button = image_search(frame, t, 4000);
+      if (!button.x) {
+	Mat m;
+	flip(t.eightbit, m, 1);
+	t.eightbit = m;
+	button = image_search(frame, t, 4000);
+      }
+      if (button.y > 220) {
+	monkey_press(button.x + t.cols / 2, button.y + t.rows / 2);
+	sleep(1);
+	exit(0);
+      }
+    }
+    if (check_button("data/invading.png")) {
+      return;
+    }
+    if (check_button("data/vsbattle.png")) {
+      foundone = true;
+      return;
+    }
+    Button t('a', "data/robot.png");
+    Point2i button = image_search(frame, t);
+    if (button.x) {
+      check_button("data/back.png");
+      exit(14);
+    }
+    if (!foundone) 
+      saveScreen("nofacezoo");
+}
+
+void act_in_battle() {
+     printf("act in battle\n");
+     if (!check_button("data/callhelp.png"))
+        check_button("data/startbattle.png");
+     if (!check_button("data/startbattle2.png")) 
+       check_button("data/exitfight.png");
+     exit(12);
+}
+
 int main(int argc, char**argv)
 {
   init_buttons();
@@ -781,7 +855,7 @@ int main(int argc, char**argv)
   //namedWindow("edges", WINDOW_AUTOSIZE);
   while (do_loop) {
     if (screenrecord) {
-      alarm(20); // make sure we don't block here
+      alarm(5); // make sure we don't block here
       if (!cap.read(frame)) {
 	// we need to kill and leave - reopening video crashes opencv ;(
 	reexec();
@@ -801,6 +875,15 @@ int main(int argc, char**argv)
         sleep(100);
       if (status == 12 || status == 13)
 	reexec();
+      if (status == 14) {
+	std::vector<Button>::iterator it = extras.begin();
+	for (; it != extras.end(); ++it) 
+	   if (it->letter == 'e') {
+	      extras.erase(it);
+	      break;
+	   }
+           extras.push_back(Button('v', "data/vs.png"));
+      }
     }
     
     if (!catcher_pid && diff > sleep_time) {
@@ -830,6 +913,20 @@ int main(int argc, char**argv)
 	    } else if (button.letter == 'q') {
 	      // restart the timers
               exit(13);
+	    } else if (button.letter == 'k') {
+	      act_in_zoo();
+	    } else if (button.letter == 'b') {
+              // if we see newbattle, we actually press back
+	      Button t('a', "data/exitfight.png");
+              Point2i button = image_search(frame, t);
+	      if (button.x) 
+	        monkey_press(button.x + t.cols / 2, button.y + t.rows / 2);
+	    } else if (button.letter == 'l') {
+              act_in_battle();
+	    } else if (button.letter == 'n') {
+	      if (!check_button("data/startbattle2.png"))
+                 check_button("data/exitfight.png");
+	      sleep(1);
 	    } else if (button.letter == 'r') {
 	      // score
 	      frame = original;
@@ -837,7 +934,9 @@ int main(int argc, char**argv)
 	      sleep(4);
 	      exit(13);
 	    } else {
+	      printf("pressing button %c\n", button.letter);
 	      monkey_press(button.x + button.cols / 2, button.y + button.rows / 2);
+	      sleep(1);
 	    }
 	    if (button.letter == 'c') {
 	      // power off
@@ -848,7 +947,12 @@ int main(int argc, char**argv)
 	      sleep(1);
 	    }
 	  } else {
-	    //saveScreen("nobutton");
+	    Scalar m = mean(frame);
+            if (m[0] + m[1] < 10) { // looks black
+		printf("black\n");
+		exit(13);
+     	    }
+	   // saveScreen("nobutton");
 	  }
 	}
 	exit(0);
