@@ -191,7 +191,6 @@ void init_buttons() {
 
   extras.push_back(Button('a', "data/charging.png")); // referenced as a
   extras.push_back(Button('b', "data/newmatch.png")); // referenced as b
-  extras.push_back(Button('d', "data/noway.png"));
   extras.push_back(Button('e', "data/myzoo.png")); // referenced as e
   extras.push_back(Button('f', "data/icon.png"));
   extras.push_back(Button('g', "data/ok.png"));
