@@ -12,11 +12,11 @@ my $items = { animals =>
 		  'osaka style queen' => [ 27, 14988, 32282 ],
 		  'elephant (wings)' => [ 12, 3980, 2020 ], # lvl1
 		  'boss monkey' => [ 21, 36673, 14330 ],
-		  'archmage giraffe' => [ 29, 33328, 14248 ], # lvl9
+		  'archmage giraffe' => [ 29, 34651, 14791 ], # lvl12
 		  'mint chocolate panda' => [ 28, 28029, 43309 ],
 		  'new shoot monkey' => [ 25, 30988, 26912 ],
 		  'rose quartz elephant' => [ 26, 30547, 29648 ],
-		  'silver sun wukong monkey' => [ 15, 22960, 11898 ], # lvl 18
+		  'silver sun wukong monkey' => [ 15, 27185, 14646 ], # lvl 31
 		  'elephant' => [ 4, 6444, 5522 ], # lvl29
 	      },
 	      backgrounds =>
@@ -70,9 +70,9 @@ for my $i (0..5) {
 my $ga = new AI::Genetic(
     -fitness    => \&fitnessFunc,
     -type       => 'listvector',
-    -population => 2000,
+    -population => 1000,
     -crossover  => 0.9,
-    -mutation   => 0.05,
+    -mutation   => 0.2,
     -terminate  => \&terminateFunc,
   );
 
@@ -83,9 +83,12 @@ for (1..5) {
     push(@initvars, [ '', keys %{$items->{decorations}} ]);
 }
 
+our $maximum = 0;
+our $gener = 0;
+
 $ga->init(\@initvars);
 
-$ga->evolve('rouletteTwoPoint', 100);
+$ga->evolve('tournamentTwoPoint', 1000);
 print "Best score = ", $ga->getFittest->score, ".\n";
 print Dumper($ga->getFittest->genes());
 exit(0);
@@ -140,9 +143,14 @@ sub fitnessFunc {
 sub terminateFunc {
     my $ga = shift;
 
-    print $ga->getFittest->score, " '", join("', '", $ga->getFittest->genes), "\n";
+    if ($ga->getFittest->score > $maximum) {
+       print $ga->getFittest->score, " '", join("', '", $ga->getFittest->genes), "\n";
+       $maximum = $ga->getFittest->score ;
+       $gener = $ga->generation;
+       return 0;
+    }
     # terminate if reached some threshold.
-    #return 1 if $ga->getFittest->score > 1985636;
+    return 1 if $ga->generation - $gener > 100;
     return 0;
 }
 
