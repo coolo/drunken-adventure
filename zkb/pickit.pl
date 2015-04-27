@@ -16,7 +16,7 @@ my $items = { animals =>
 		  'mint chocolate panda' => [ 28, 28029, 43309 ],
 		  'new shoot monkey' => [ 25, 30988, 26912 ],
 		  'rose quartz elephant' => [ 26, 30547, 29648 ],
-		  'silver sun wukong monkey' => [ 15, 21182, 10740 ], # lvl 12
+		  'silver sun wukong monkey' => [ 15, 22960, 11898 ], # lvl 18
 		  'elephant' => [ 4, 6444, 5522 ], # lvl29
 	      },
 	      backgrounds =>
