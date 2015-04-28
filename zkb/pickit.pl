@@ -12,11 +12,11 @@ my $items = { animals =>
 		  'osaka style queen' => [ 27, 14988, 32282 ],
 		  'elephant (wings)' => [ 12, 3980, 2020 ], # lvl1
 		  'boss monkey' => [ 21, 36673, 14330 ],
-		  'archmage giraffe' => [ 29, 34651, 14791 ], # lvl12
+		  'archmage giraffe' => [ 29, 38179, 16239 ], # lvl20
 		  'mint chocolate panda' => [ 28, 28029, 43309 ],
 		  'new shoot monkey' => [ 25, 30988, 26912 ],
 		  'rose quartz elephant' => [ 26, 30547, 29648 ],
-		  'silver sun wukong monkey' => [ 15, 27185, 14646 ], # lvl 31
+		  'silver sun wukong monkey' => [ 15, 27531, 14871 ], # lvl 32
 		  'elephant' => [ 4, 6444, 5522 ], # lvl29
 	      },
 	      backgrounds =>
@@ -42,12 +42,13 @@ my $items = { animals =>
 		  'bell of destiny' => [ 24, 22800, 7200 ], # lvl 1
 		  'dragon figurine' => [ 25, 53449, 6226 ],
 		  'darts machine' => [24, 42465, 11497 ],
-		  'gem pinapple' => [28, 31474, 12607], # lvl 8
+		  'gem pinapple' => [28, 32626, 12887], # lvl 12
 		  'zoo florar ballon' => [27, 11650, 19850],
+                  'producer boss' => [28, 32000, 9000], # lvl 1
 	      }
 	  };
 
-my @costs = ( 90, 84, 74, 69, 61 );
+my @costs = ( 91, 84, 74, 69, 62 );
 
 # 577265 + 239479 = 985637
 
@@ -90,7 +91,28 @@ $ga->init(\@initvars);
 
 $ga->evolve('tournamentTwoPoint', 1000);
 print "Best score = ", $ga->getFittest->score, ".\n";
-print Dumper($ga->getFittest->genes());
+#print Dumper($ga->getFittest->genes());
+
+my @genes = @{$ga->getFittest->genes};
+my $cool = 0;
+my $cute = 0;
+for my $r (1..5) {
+   my $animal = shift @genes;
+
+   print "A: $animal\n";
+   $animal = $items->{animals}->{$animal} || [0, 0, 0];
+   my $background = shift @genes;
+   print "B: $background\n";
+   $background = $items->{backgrounds}->{$background} || [0, 0, 0];
+   my $decoration = shift @genes;
+   print "D: $decoration\n";
+   $decoration = $items->{decorations}->{$decoration} || [0, 0, 0];
+   $cool += ($animal->[1] + $background->[1] + $decoration->[1]);
+   $cute += ($animal->[2] + $background->[2] + $decoration->[2]);
+   print "\n";
+}
+print "Cool: $cool, Cute: $cute\n";
+
 exit(0);
 
 use Data::Dumper;
