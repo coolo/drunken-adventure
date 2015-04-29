@@ -12,18 +12,19 @@ my $items = { animals =>
 		  'osaka style queen' => [ 27, 14988, 32282 ],
 		  'elephant (wings)' => [ 12, 3980, 2020 ], # lvl1
 		  'boss monkey' => [ 21, 36673, 14330 ],
-		  'archmage giraffe' => [ 29, 38179, 16239 ], # lvl20
+		  'archmage giraffe' => [ 29, 43471, 18411 ], # lvl32
 		  'mint chocolate panda' => [ 28, 28029, 43309 ],
 		  'new shoot monkey' => [ 25, 30988, 26912 ],
 		  'rose quartz elephant' => [ 26, 30547, 29648 ],
 		  'silver sun wukong monkey' => [ 15, 27531, 14871 ], # lvl 32
 		  'elephant' => [ 4, 6444, 5522 ], # lvl29
+		  'cheer team panda' => [ 31, 37457, 28031 ], # lvl12
 	      },
 	      backgrounds =>
 	      {
-		  'sunny wastelands' => [ 1, 620, 1280 ], # lvl 1
-		  'dusk in the sea' => [ 2, 1220, 680 ], # lvl 1
-		  'night on the prarie' => [ 1, 1090, 810], # lvl 1
+		  'sunny wastelands' => [ 1, 1090, 810 ], # lvl 1
+		  'dusk in the sea' => [ 1, 620, 1280 ], # lvl 1
+		  'night on the prarie' => [ 2, 1220, 680 ], # lvl 1
 		  'rainbow & house' => [ 7, 1780, 3020], # lvl 1
 		  'hot air ballon carnival' => [ 24, 35877, 22495 ],
 		  'zoo cherry blossom illumination' => [ 24, 31769, 20233 ],
@@ -42,43 +43,31 @@ my $items = { animals =>
 		  'bell of destiny' => [ 24, 22800, 7200 ], # lvl 1
 		  'dragon figurine' => [ 25, 53449, 6226 ],
 		  'darts machine' => [24, 42465, 11497 ],
-		  'gem pinapple' => [28, 32626, 12887], # lvl 12
+		  'gem pinapple' => [28, 35355, 13551 ], # lvl 20
 		  'zoo florar ballon' => [27, 11650, 19850],
                   'producer boss' => [28, 32000, 9000], # lvl 1
 	      }
 	  };
 
-my @costs = ( 91, 84, 74, 69, 62 );
+my @costs = ( 91, 85, 75, 70, 62, 50 );
 
 # 577265 + 239479 = 985637
 
 use AI::Genetic;
 
-my $maxtotal = 0;
-
-my $zoo = { cute => 0, cool => 0, animals => {}, decorations => {}, backgrounds => {} };
-
-for my $tag (qw/animals backgrounds decorations/) {
-    for my $key (keys %{$items->{$tag}}) {
-	$zoo->{$tag}->{$key} = 0;
-    }
-}
-
-for my $i (0..5) {
-    $zoo->{costs}->{$i+1} = $costs[$i];
-}
-
 my $ga = new AI::Genetic(
     -fitness    => \&fitnessFunc,
     -type       => 'listvector',
-    -population => 1000,
-    -crossover  => 0.9,
+    -population => 2000,
+    -crossover  => 0.8,
     -mutation   => 0.2,
     -terminate  => \&terminateFunc,
   );
 
+my $slots = 6;
+
 my @initvars;
-for (1..5) {
+for (1..$slots) {
     push(@initvars, [ '', keys %{$items->{animals}} ]);
     push(@initvars, [ '', keys %{$items->{backgrounds}} ]);
     push(@initvars, [ '', keys %{$items->{decorations}} ]);
@@ -89,22 +78,29 @@ our $gener = 0;
 
 $ga->init(\@initvars);
 
+my $round;
+
 $ga->evolve('tournamentTwoPoint', 1000);
 print "Best score = ", $ga->getFittest->score, ".\n";
 #print Dumper($ga->getFittest->genes());
 
 my @genes = @{$ga->getFittest->genes};
+my %good;
+
 my $cool = 0;
 my $cute = 0;
-for my $r (1..5) {
+for my $r (1..$slots) {
    my $animal = shift @genes;
+   push(@{$good{a}}, $animal);
 
    print "A: $animal\n";
    $animal = $items->{animals}->{$animal} || [0, 0, 0];
    my $background = shift @genes;
+   push(@{$good{b}}, $background);
    print "B: $background\n";
    $background = $items->{backgrounds}->{$background} || [0, 0, 0];
    my $decoration = shift @genes;
+   push(@{$good{d}}, $decoration);
    print "D: $decoration\n";
    $decoration = $items->{decorations}->{$decoration} || [0, 0, 0];
    $cool += ($animal->[1] + $background->[1] + $decoration->[1]);
@@ -112,6 +108,26 @@ for my $r (1..5) {
    print "\n";
 }
 print "Cool: $cool, Cute: $cute\n";
+
+$ga = new AI::Genetic(
+		      -population => 1000,
+		      -fitness    => \&fitnessFunc,
+		      -type       => 'listvector',
+		      -terminate  => \&terminateFunc,
+		     );
+
+@initvars = ();
+for (1..$slots) {
+    push(@initvars, $good{a} );
+    push(@initvars, $good{b} );
+    push(@initvars, $good{d} );
+}
+
+#$ga->init(\@initvars);
+
+#$round = 2;
+
+#$ga->evolve('tournamentTwoPoint', 1000);
 
 exit(0);
 
@@ -121,10 +137,10 @@ sub fitnessFunc {
 
     my $fitness = 0;
 
-    #print "FI " . Dumper(\@genes), "\n";
+    #print "FI " . Dumper(\@genes), "\n" if $round;
     my %used;
 
-    for my $r (1..5) {
+    for my $r (1..$slots) {
 	my $animal = shift @genes;
 
 	if ($animal) {
@@ -158,7 +174,9 @@ sub fitnessFunc {
 	$fitness += ($animal->[2] + $background->[2] + $decoration->[2]) / 2;
     }
 
-    #print "FI res $fitness\n";
+    print "FI res $fitness $maximum\n" if $round;
+    return 0 if ($round && $fitness < $maximum);
+
     return $fitness;
 }
 
@@ -172,7 +190,7 @@ sub terminateFunc {
        return 0;
     }
     # terminate if reached some threshold.
-    return 1 if $ga->generation - $gener > 100;
+    return 1 if $ga->generation - $gener > 150;
     return 0;
 }
 

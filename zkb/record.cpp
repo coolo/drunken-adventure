@@ -83,7 +83,7 @@ void sig_handler(int signum)
 
 void sigusr1_handler(int signum)
 {
-  sleep_time = 0;
+  sleep_time = 300;
 }
 
 void sigalarm_handler(int signum)
