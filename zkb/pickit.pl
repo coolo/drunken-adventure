@@ -9,16 +9,16 @@ my $items = { animals =>
 		  'sumo elephant' => [ 27, 42581, 17782 ],
 		  'cowboy giraffe' => [ 26, 40507, 18658 ],
 		  'black bear rabbit' => [ 26, 28898, 31466 ],
-		  'osaka style queen' => [ 27, 14988, 32282 ],
+		  'osaka style queen' => [ 27, 14988, 32282 ], # lvl29
 		  'elephant (wings)' => [ 12, 3980, 2020 ], # lvl1
 		  'boss monkey' => [ 21, 36673, 14330 ],
-		  'archmage giraffe' => [ 29, 43471, 18411 ], # lvl32
+		  'archmage giraffe' => [ 29, 43912, 18592 ], # lvl33
 		  'mint chocolate panda' => [ 28, 28029, 43309 ],
 		  'new shoot monkey' => [ 25, 30988, 26912 ],
 		  'rose quartz elephant' => [ 26, 30547, 29648 ],
 		  'silver sun wukong monkey' => [ 15, 27531, 14871 ], # lvl 32
 		  'elephant' => [ 4, 6444, 5522 ], # lvl29
-		  'cheer team panda' => [ 31, 37457, 28031 ], # lvl12
+		  'cheer team panda' => [ 31, 53720, 39176 ], # lvl48
 	      },
 	      backgrounds =>
 	      {
@@ -46,10 +46,11 @@ my $items = { animals =>
 		  'gem pinapple' => [28, 35355, 13551 ], # lvl 20
 		  'zoo florar ballon' => [27, 11650, 19850],
                   'producer boss' => [28, 32000, 9000], # lvl 1
+                  'classic zoo lunch' => [ 24, 6800, 23200], #lvl1
 	      }
 	  };
 
-my @costs = ( 91, 85, 75, 70, 62, 50 );
+my @costs = ( 92, 86, 76, 71, 63, 51 );
 
 # 577265 + 239479 = 985637
 
@@ -58,7 +59,7 @@ use AI::Genetic;
 my $ga = new AI::Genetic(
     -fitness    => \&fitnessFunc,
     -type       => 'listvector',
-    -population => 2000,
+    -population => 3000,
     -crossover  => 0.8,
     -mutation   => 0.2,
     -terminate  => \&terminateFunc,
@@ -80,7 +81,7 @@ $ga->init(\@initvars);
 
 my $round;
 
-$ga->evolve('tournamentTwoPoint', 1000);
+$ga->evolve('tournamentTwoPoint', 2000);
 print "Best score = ", $ga->getFittest->score, ".\n";
 #print Dumper($ga->getFittest->genes());
 
