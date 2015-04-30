@@ -18,7 +18,7 @@
 using namespace cv;
 using namespace std;
 
-const int HUMAN_LOOK_ALIKE = 770;
+const int HUMAN_LOOK_ALIKE = 730;
 
 int sleep_time = HUMAN_LOOK_ALIKE;
 
