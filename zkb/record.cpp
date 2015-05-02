@@ -67,6 +67,8 @@ struct Move {
   int dx, dy;
   int weight;
 
+  Move() {}
+  
   Move(int _weight, int _x, int _y, int _dx = 0, int _dy = 0) {
     weight = _weight;
     x = _x;
@@ -215,6 +217,9 @@ void init_buttons() {
 //  extras.push_back(Button('z', "data/back.png"));
 }
 
+Button megachain('a', "data/megachain.png");
+Button catchall('a', "data/catch-all-quest.png");
+  
 void printZoo(const Zookeeper &r)
 {
   for (int y = 0; y < 8; y++) {
@@ -385,7 +390,7 @@ bool compare_points (const Move &first, const Move &second) {
 
 void printMoves(const Zookeeper &r, list<Move> &moves);
 
-int count_same(Zookeeper &r) {
+int count_same(Zookeeper &r, bool moves_scale = 8) {
   int score = 0;
 
   vector<Point> toerase;
@@ -429,7 +434,7 @@ int count_same(Zookeeper &r) {
   
   list<Move> moves = checkMoves(r, false);
   unique(moves.begin(), moves.end(), compare_points);
-  score += 8 * moves.size();
+  score += moves_scale * moves.size();
   
   return score;
 }
@@ -715,7 +720,39 @@ Button find_extra(const Mat & frame)
     }
   }
 
-  if (image_search(frame, Button('a', "data/catch-all-quest.png")).x) {
+  if (image_search(frame, megachain).x) {
+    min_y = 76;
+    
+    Mat special = original;
+    Zookeeper res = catcher(special);
+    printZoo(res);
+    list<Move> moves = checkMoves(res, true);
+    printMoves(res, moves);
+    list<Move>::const_iterator it = moves.begin();
+
+    Move best(0, 0, 0, 0, 0);
+    int chain_best = 0;
+    
+    for (; it != moves.end(); ++it) {
+      int chain = 1;
+      Zookeeper newz = calculate_new_zoo(res, it->y, it->x, it->dy, it->dx);
+      while (count_same(newz, 0)) {
+	chain++;
+	gravitate(newz);
+      }
+    
+      if (chain_best < chain) {
+	chain_best = chain;
+	best = *it;
+      }
+    }
+  
+    printf("WON %c(%dx%d) -> %dx%d\n", res(best.y, best.x), best.y, best.x, best.dy, best.dx);
+    output_drag( best.y, best.x, best.y+best.dy, best.x+best.dx);
+    sleep(3);
+  }
+  
+  if (false && image_search(frame, catchall).x) {
     if (image_search(frame, Button('a', "data/eight.png")).x) {
       cout << "found eight too\n";
     }
@@ -891,6 +928,7 @@ int main(int argc, char**argv)
 	//saveScreen("movie");
 	Zookeeper res = catcher(frame);
 	int count = countZoo(res);
+	
 	if (count) {
 #if 0
 	  if (count != 64) {
