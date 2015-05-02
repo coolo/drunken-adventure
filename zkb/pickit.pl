@@ -5,52 +5,55 @@ use warnings;
 
 my $items = { animals =>
 	      {
-		  'spring leaf rabbit' => [28, 10000, 30800 ], # lvl 1
-		  'sumo elephant' => [ 27, 42581, 17782 ],
-		  'cowboy giraffe' => [ 26, 40507, 18658 ],
-		  'black bear rabbit' => [ 26, 28898, 31466 ],
-		  'osaka style queen' => [ 27, 14988, 32282 ], # lvl29
-		  'elephant (wings)' => [ 12, 3980, 2020 ], # lvl1
-		  'boss monkey' => [ 21, 36673, 14330 ],
-		  'archmage giraffe' => [ 29, 43912, 18592 ], # lvl33
-		  'mint chocolate panda' => [ 28, 28029, 43309 ],
-		  'new shoot monkey' => [ 25, 30988, 26912 ],
-		  'rose quartz elephant' => [ 26, 30547, 29648 ],
-		  'silver sun wukong monkey' => [ 15, 27531, 14871 ], # lvl 32
-		  'elephant' => [ 4, 6444, 5522 ], # lvl29
-		  'cheer team panda' => [ 31, 53720, 39176 ], # lvl48
+	       'spring leaf rabbit' => [28, 10000, 30800 ], # lvl 1
+	       'sumo elephant' => [ 27, 42581, 17782 ],
+	       'cowboy giraffe' => [ 26, 40507, 18658 ],
+	       'black bear rabbit' => [ 26, 28898, 31466 ],
+	       'osaka style queen' => [ 27, 14988, 32282 ], # lvl29
+	       'elephant (wings)' => [ 12, 3980, 2020 ], # lvl1
+	       'boss monkey' => [ 21, 36673, 14330 ],
+	       'archmage giraffe' => [ 29, 49645, 20945 ], # lvl46
+	       'mint chocolate panda' => [ 28, 28029, 43309 ],
+	       'new shoot monkey' => [ 25, 30988, 26912 ],
+	       'rose quartz elephant' => [ 26, 30547, 29648 ],
+	       'silver sun wukong monkey' => [ 15, 27531, 14871 ], # lvl 32
+	       'elephant' => [ 4, 6444, 5522 ], # lvl29
+	       'cheer team panda purple' => [ 31, 57879, 42027 ],
+	       'cheer team panda red' => [ 31, 34200, 25800 ], # lvl1
 	      },
 	      backgrounds =>
 	      {
-		  'sunny wastelands' => [ 1, 1090, 810 ], # lvl 1
-		  'dusk in the sea' => [ 1, 620, 1280 ], # lvl 1
-		  'night on the prarie' => [ 2, 1220, 680 ], # lvl 1
-		  'rainbow & house' => [ 7, 1780, 3020], # lvl 1
-		  'hot air ballon carnival' => [ 24, 35877, 22495 ],
-		  'zoo cherry blossom illumination' => [ 24, 31769, 20233 ],
-		  'wild west town' => [ 25, 22200, 7800 ], # lvl 1
-		  'ultimate zoo wrestling' => [ 31, 68308, 22532 ],
-		  'mysterious magical library' => [ 31, 65766, 30282 ],
-		  'nightlife station' => [ 27, 32510, 8290 ] # lvl 1
+	       'sunny wastelands' => [ 1, 1090, 810 ], # lvl 1
+	       'dusk in the sea' => [ 1, 620, 1280 ], # lvl 1
+	       'night on the prarie' => [ 2, 1220, 680 ], # lvl 1
+	       'rainbow & house' => [ 7, 1780, 3020], # lvl 1
+	       'hot air ballon carnival' => [ 24, 35877, 22495 ],
+	       'zoo cherry blossom illumination' => [ 24, 31769, 20233 ],
+	       'wild west town' => [ 25, 22200, 7800 ], # lvl 1
+	       'ultimate zoo wrestling' => [ 31, 68308, 22532 ],
+	       'mysterious magical library' => [ 31, 65766, 30282 ],
+	       'thunderstorm painting' => [ 24, 24800, 5200 ], # lvl 1
+	       'nightlife station' => [ 27, 32510, 8290 ] # lvl 1
 	      },
 	      decorations =>
 	      {
-		  'boss gold statue' => [ 14, 6180, 1820 ],
-		  'gold shachihoko' => [ 27, 44347, 15022 ],
-		  'golden rice bales' => [ 27, 30545, 28072] ,
-		  'cherry blossom score attack king cup' => [ 28, 25175, 46205 ],
-		  'first day of school boss' => [ 27, 14856, 22664 ], # lvl 9
-		  'bell of destiny' => [ 24, 22800, 7200 ], # lvl 1
-		  'dragon figurine' => [ 25, 53449, 6226 ],
-		  'darts machine' => [24, 42465, 11497 ],
-		  'gem pinapple' => [28, 35355, 13551 ], # lvl 20
-		  'zoo florar ballon' => [27, 11650, 19850],
-                  'producer boss' => [28, 32000, 9000], # lvl 1
-                  'classic zoo lunch' => [ 24, 6800, 23200], #lvl1
+	       'boss gold statue' => [ 14, 6180, 1820 ],
+	       'gold shachihoko' => [ 27, 44347, 15022 ],
+	       'golden rice bales' => [ 27, 30545, 28072] ,
+	       'cherry blossom score attack king cup' => [ 28, 25175, 46205 ],
+	       'first day of school boss' => [ 27, 14856, 22664 ], # lvl 9
+	       'bell of destiny' => [ 24, 22800, 7200 ], # lvl 1
+	       'dragon figurine' => [ 25, 53449, 6226 ],
+	       'darts machine' => [24, 42465, 11497 ],
+	       'gem pinapple' => [28, 35355, 13551 ], # lvl 20
+	       'zoo florar ballon' => [27, 11650, 19850],
+	       'producer boss' => [28, 32000, 9000], # lvl 1
+	       'classic zoo lunch' => [ 24, 6800, 23200], #lvl 1,
+	       'lucky golden owl' => [ 28, 23800, 17280 ]
 	      }
 	  };
 
-my @costs = ( 92, 86, 76, 71, 63, 51 );
+my @costs = ( 94, 88, 78, 73, 65, 53 );
 
 # 577265 + 239479 = 985637
 
