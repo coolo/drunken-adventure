@@ -798,7 +798,7 @@ bool check_button(const char *filename) {
 
 void act_in_zoo() {
     bool foundone = false;
-    for (int i = 1; i <= 21; ++i) {
+    for (int i = 1; i <= 23; ++i) {
       char fname[30];
       sprintf(fname, "data/face%d.png", i);
       Button t('a', fname);
@@ -815,7 +815,7 @@ void act_in_zoo() {
 	exit(0);
       }
     }
-    if (check_button("data/invading.png")) {
+    if (false && check_button("data/invading.png")) {
       return;
     }
     if (check_button("data/vsbattle.png")) {
