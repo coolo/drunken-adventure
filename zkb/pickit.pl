@@ -8,6 +8,7 @@ my $items = { animals =>
 	       'cheer team panda red' => [ 31, 57879, 42027 ],
 	       'cheer team panda purple' => [ 31, 57879, 42027 ],
 	       'archmage giraffe' => [ 29, 51409, 21669 ],
+	       'brazilian soccer monkey' => [ 28, 37332, 12632 ], # lvl 13
 	       'mint chocolate panda' => [ 28, 28029, 43309 ],
 	       'spring leaf rabbit' => [28, 10000, 30800 ], # lvl 1
 	       'osaka style queen' => [ 27, 14988, 32282 ], # lvl 29
@@ -28,7 +29,7 @@ my $items = { animals =>
 	       'mysterious magical library' => [ 31, 65766, 30282 ],
 	       'zoo stardom stage' => [31, 7000, 45500], # lvl 1
 	       'dandelion field' => [ 31, 9700, 21800 ], # lvl 1
-	       'nightlife station' => [ 27, 36572, 9300 ], # lvl 16
+	       'nightlife station' => [ 27, 49421, 12503 ], # lvl 44
 	       'wild west town' => [ 25, 22200, 7800 ], # lvl 1
 	       'hot air ballon carnival' => [ 24, 35877, 22495 ],
 	       'zoo cherry blossom illumination' => [ 24, 31769, 20233 ],
@@ -41,7 +42,7 @@ my $items = { animals =>
 	      decorations =>
 	      {
 	       'gemston globe' => [ 30, 30800, 15700 ], # lvl 1
-	       'ultra gold combat mech' => [ 28, 58148, 17269 ], # lvl 49
+	       'ultra gold combat mech' => [ 28, 58835, 17477 ], 
 	       'lucky golden owl' => [ 28, 23800, 17280 ], # lvl 1
 	       'cherry blossom score attack king cup' => [ 28, 25175, 46205 ],
 	       'golden week king cup' => [ 28, 9200, 31800 ], # lvl 1
@@ -63,7 +64,7 @@ my $items = { animals =>
 	      }
 	  };
 
-my @costs = ( 98, 92, 82, 77, 69, 57 );
+my @costs = ( 99, 92, 82, 77, 70, 57 );
 
 # 819127 + 392206 = 1424793.5
 
