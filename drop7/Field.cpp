@@ -119,7 +119,7 @@ bool Field::check_col(int start_y, int x, char c, char *marked) {
 
 void Field::markturn(int y, int x, char *marked) {
   if (at(y, x) == 'B' || at(y, x) == 'A')
-    marked[y * 7 + x] = 1;
+    marked[y * 7 + x]++;
 }
 
 bool Field::gravitate() {
@@ -168,14 +168,82 @@ bool Field::blink() {
 	  markturn(y, x + 1, turn);
 	}
     for (int y = 0; y < 7; y++) 
-      for (int x = 0; x < 7; x++)
-	if (turn[y * 7 + x]) {
-	  if (at(y, x) == 'B')
-	    set(y, x, 'A');
-	  else
-	    set(y, x, '0');
+      for (int x = 0; x < 7; x++) {
+	if (turn[y * 7 + x] && at(y, x) == 'B') {
+	  set(y, x, 'A');
+	  turn[y * 7 + x]--;
 	}
+        // turn B twice if marked as such
+	if (turn[y * 7 + x] && at(y, x) == 'A') {
+	  set(y, x, '0');
+	}
+      }
     gravitate();
   }
   return foundone;
+}
+
+double Field::rating() const {
+  double count = 0;
+  for (int y = 0; y < 7; y++) 
+    for (int x = 0; x < 7; x++) {
+      switch (at(y, x))
+	{
+	case ' ':
+	  break;
+	case 'B':
+	  count += 20;
+	  break;
+	case 'A':
+	  count += 14;
+	  break;
+	default:
+	  count += 9 - (at(y, x) - '0');
+	}
+    }
+  return count;
+}
+
+inline char map(int i) {
+  if (i == 8)
+    return 'B';
+  if (i == 7)
+    return 'A';
+  return '1' + i;
+}
+
+double Field::recursive_rating(int depth) const {
+  double r = 0;
+
+  if (!depth) {
+    //cerr << to_string();
+    return rating();
+  }
+  depth--;
+  
+  for (int y = 0; y < 7; y++) 
+    for (int x = 0; x < 7; x++)
+      if (at(y, x) == '0') {
+	Field f = *this;
+	for (int c = 1; c < 8; c++) {
+	  //cerr << "replacing 0 with " << c << endl;
+	  f.set(y, x, c + '0');
+	  r += f.recursive_rating(depth);
+	}
+	return r / 7;
+      }
+
+  int count = 0;
+  for (int x1 = 0; x1 < 7; x1++) {
+    if (at(0, x1) != ' ')
+      continue;
+    count++;
+    double t = 0;
+    for (int c = 0; c < 9; c++) {
+      //cerr << depth << " drop " << map(c) << " " << x1 + 1 << endl;
+      t += drop(map(c), x1 + 1).recursive_rating(depth);
+    }
+    r += t / 9;
+  }
+  return r / count;
 }

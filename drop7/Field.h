@@ -15,6 +15,9 @@ public:
 
   // remove right ones
   bool blink();
+
+  double rating() const;
+  double recursive_rating(int depth) const;
   
 private:
   bool gravitate();

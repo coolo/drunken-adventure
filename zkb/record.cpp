@@ -815,7 +815,7 @@ void act_in_zoo() {
 	exit(0);
       }
     }
-    if (false && check_button("data/invading.png")) {
+    if (true && check_button("data/invading.png")) {
       return;
     }
     if (check_button("data/vsbattle.png")) {

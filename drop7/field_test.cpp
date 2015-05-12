@@ -77,7 +77,28 @@ TEST_F(FieldTest, Drops) {
 	    "       \n"
 	    "       \n"
 	    "   3  7\n");
+
+  init =
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "  4B 5 \n"
+    "121165A\n";
   
+  f = Field::from_string(init);
+  f = f.drop('1', 1);
+
+  ASSERT_EQ(f.to_string(),
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "  4B 5 \n"
+	    "121165A\n");
+
 }
 
 TEST_F(FieldTest, Changes) {
@@ -126,6 +147,26 @@ TEST_F(FieldTest, Scores) {
 	    "       \n"
 	    "   71 7\n"
 	    "35 7606\n");
+
+  ASSERT_EQ(39, f.drop('7', 7).rating());
+  ASSERT_EQ(46, f.drop('7', 3).rating());
+  ASSERT_EQ(50, f.drop('7', 4).rating());
+
+  init =
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "      6\n"
+    "35 76A3\n";
+  
+  f = Field::from_string(init);
+
+  ASSERT_EQ(47, f.drop('B', 7).rating());
+  ASSERT_EQ(50, f.drop('B', 3).rating());
+  ASSERT_EQ(58, f.drop('B', 4).rating());
+
 }
 
 int main(int argc, char **argv) {
