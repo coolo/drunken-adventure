@@ -69,8 +69,6 @@ Field Field::drop(char c, int col) const {
 
 bool Field::check_row(int y, int start_x, char c, char *marked) {
 
-  //cerr << "check_row " << y << " " << start_x << " " << (char)(c + '0') << endl;
-
   if (this->at(y, start_x - 1) != ' ')
     return false;
   if (this->at(y, c + start_x) != ' ')
@@ -80,18 +78,41 @@ bool Field::check_row(int y, int start_x, char c, char *marked) {
     if (this->at(y, i + start_x) == ' ')
       return false;
   }
-  
+
+  bool foundone = false;
   for (int x = start_x; x < start_x + c ; ++x) {
     if (this->at(y, x) == c + '0') {
-      cerr << this->to_string();
-      cerr << "found one " << y << " " << x <<  " " << (char)(c + '0') << endl;
       marked[y * 7 + x] = 1;
+      foundone = true;
     }
   }
     
-  return true;
+  return foundone;
 }
-	       
+
+bool Field::check_col(int start_y, int x, char c, char *marked) {
+
+  if (this->at(start_y - 1, x) != ' ')
+    return false;
+  if (this->at(c + start_y, x) != ' ')
+    return false;
+  
+  for (int i = 0; i < c; ++i) {
+    if (this->at(i + start_y, x) == ' ')
+      return false;
+  }
+
+  bool foundone = false;
+  for (int y = start_y; y < start_y + c ; ++y) {
+    if (this->at(y, x) == c + '0') {
+      marked[y * 7 + x] = 1;
+      foundone = true;
+    }
+  }
+    
+  return foundone;
+}
+
 bool Field::blink() {
   bool foundone = false;
 
@@ -103,5 +124,10 @@ bool Field::blink() {
       for (int x = 0; x < 7 - (c - 1); x++)
 	foundone = check_row(y, x, c, marked) || foundone;
   
+  for (int x = 0; x < 7; x++) 
+    for (char c = 1; c <= 7; c++)
+      for (int y = 0; y < 7 - (c - 1); y++)
+	foundone = check_col(y, x, c, marked) || foundone;
+    
   return foundone;
 }

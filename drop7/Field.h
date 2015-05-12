@@ -17,5 +17,6 @@ public:
   
 private:
   bool check_row(int y, int start_x, char c, char *marked);
+  bool check_col(int start_y, int x, char c, char *marked);
   char data[49];
 };
