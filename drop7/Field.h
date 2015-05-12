@@ -4,6 +4,7 @@ class Field {
 
 public:
   Field();
+  Field(const Field &f);
   static Field from_string(const char *str);
   std::string to_string() const;
   char at(int y, int x) const;
@@ -16,6 +17,7 @@ public:
   bool blink();
   
 private:
+  bool gravitate();
   bool check_row(int y, int start_x, char c, char *marked);
   bool check_col(int start_y, int x, char c, char *marked);
   void markturn(int y, int x, char *marked);

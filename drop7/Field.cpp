@@ -9,6 +9,10 @@ Field::Field() {
   memset(data, ' ', 49);
 }
 
+Field::Field(const Field &f) {
+  memcpy(data, f.data, 49);
+}
+
 Field Field::from_string(const char *text)
 {
   assert(strlen(text) == 7 * 8);
@@ -36,7 +40,7 @@ void Field::set(int y, int x, char c)
   assert(y >= 0 && y < 7);
   assert(x >= 0 && x < 7);
 
-  assert(c == ' ' || (c >= '1' && c <= '7') || c == 'A' || c == 'B');
+  assert(c == ' ' || (c >= '0' && c <= '7') || c == 'A' || c == 'B');
   data[y*7+x] = c;
 }
 
@@ -118,6 +122,22 @@ void Field::markturn(int y, int x, char *marked) {
     marked[y * 7 + x] = 1;
 }
 
+bool Field::gravitate() {
+  bool moved = false;
+  for (int x = 0; x < 7; ++x) {
+    for (int y = 5; y >= 0; y--) {
+      if (at(y, x) != ' '&& at(y + 1, x) == ' ')
+	{
+	  set(y + 1, x, at(y, x));
+	  set(y, x, ' ');
+	  y = 6;
+	  moved = true;
+	}
+    }
+  }
+  return moved;
+}
+
 bool Field::blink() {
   bool foundone = false;
 
@@ -155,6 +175,7 @@ bool Field::blink() {
 	  else
 	    set(y, x, '0');
 	}
+    gravitate();
   }
   return foundone;
 }

@@ -53,7 +53,7 @@ struct Button {
     object = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
     if (!object.cols) {
 	    fprintf(stderr, "can't find %s\n", filename);
-	    exit(1);
+	    exit(13);
     }
     cols = object.cols;
     rows = object.rows;

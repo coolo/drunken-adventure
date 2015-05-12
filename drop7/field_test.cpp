@@ -94,7 +94,7 @@ TEST_F(FieldTest, Changes) {
   Field f = Field::from_string(init);
   f = f.drop('1', 7);
 
-  // 2 and 1 disappear
+  // 1 disappears and turns
   ASSERT_EQ(f.to_string(),
 	    "       \n"
 	    "       \n"
@@ -103,6 +103,29 @@ TEST_F(FieldTest, Changes) {
 	    "       \n"
 	    "       \n"
 	    "2  3 4A\n");
+}
+
+TEST_F(FieldTest, Scores) {
+
+  const char *init =
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "   71 6\n"
+    "35 76A3\n";
+  
+  Field f = Field::from_string(init);
+  Field f2 = f.drop('7', 7);
+  ASSERT_EQ(f2.to_string(),
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "   71 7\n"
+	    "35 7606\n");
 }
 
 int main(int argc, char **argv) {
