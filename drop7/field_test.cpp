@@ -55,6 +55,8 @@ TEST_F(FieldTest, Drops) {
   
   Field f = Field::from_string(init);
   f = f.drop('1', 2);
+
+  // 2 and 1 disappear
   ASSERT_EQ(f.to_string(),
 	    "       \n"
 	    "       \n"
@@ -62,9 +64,47 @@ TEST_F(FieldTest, Drops) {
 	    "       \n"
 	    "       \n"
 	    "       \n"
-	    "21 3 47\n");
-}
+	    "   3 47\n");
+
+  f = f.drop('4', 5);
+
+  // both 4s disappear
+  ASSERT_EQ(f.to_string(),
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "   3  7\n");
   
+}
+
+TEST_F(FieldTest, Changes) {
+
+  const char *init =
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "       \n"
+    "2  3 4B\n";
+  
+  Field f = Field::from_string(init);
+  f = f.drop('1', 7);
+
+  // 2 and 1 disappear
+  ASSERT_EQ(f.to_string(),
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "2  3 4A\n");
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

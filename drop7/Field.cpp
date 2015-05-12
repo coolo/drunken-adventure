@@ -36,7 +36,7 @@ void Field::set(int y, int x, char c)
   assert(y >= 0 && y < 7);
   assert(x >= 0 && x < 7);
 
-  assert(c == ' ' || (c >= '1' && c <= '7'));
+  assert(c == ' ' || (c >= '1' && c <= '7') || c == 'A' || c == 'B');
   data[y*7+x] = c;
 }
 
@@ -58,7 +58,7 @@ Field Field::drop(char c, int col) const {
   Field ret = *this;
   int y = 0;
   
-  while (ret.at(y, col - 1) == ' ' && y < 6)
+  while (ret.at(y + 1, col - 1) == ' ' && y < 6)
     y++;
   ret.set(y, col - 1, c);
 
@@ -113,6 +113,11 @@ bool Field::check_col(int start_y, int x, char c, char *marked) {
   return foundone;
 }
 
+void Field::markturn(int y, int x, char *marked) {
+  if (at(y, x) == 'B' || at(y, x) == 'A')
+    marked[y * 7 + x] = 1;
+}
+
 bool Field::blink() {
   bool foundone = false;
 
@@ -128,6 +133,28 @@ bool Field::blink() {
     for (char c = 1; c <= 7; c++)
       for (int y = 0; y < 7 - (c - 1); y++)
 	foundone = check_col(y, x, c, marked) || foundone;
-    
+
+  char turn[49];
+  memset(turn, 0, 49);
+
+  if (foundone) {
+    for (int y = 0; y < 7; y++) 
+      for (int x = 0; x < 7; x++)
+	if (marked[y * 7 + x]) {
+	  set(y, x, ' ');
+	  markturn(y - 1, x, turn);
+	  markturn(y + 1, x, turn);
+	  markturn(y, x - 1, turn);
+	  markturn(y, x + 1, turn);
+	}
+    for (int y = 0; y < 7; y++) 
+      for (int x = 0; x < 7; x++)
+	if (turn[y * 7 + x]) {
+	  if (at(y, x) == 'B')
+	    set(y, x, 'A');
+	  else
+	    set(y, x, '0');
+	}
+  }
   return foundone;
 }
