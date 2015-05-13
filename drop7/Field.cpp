@@ -2,15 +2,21 @@
 #include <cstring>
 #include <cassert>
 #include <iostream>
+#include <cstdio>
+#include <map>
+#include <cstdlib>
 
 using namespace std;
 
+static map<string, double> hashes;
+
 Field::Field() {
-  memset(data, ' ', 49);
+  memset(data, ' ', sizeof(data));
+  data[49] = 0;
 }
 
 Field::Field(const Field &f) {
-  memcpy(data, f.data, 49);
+  memcpy(data, f.data, sizeof(data));
 }
 
 Field Field::from_string(const char *text)
@@ -204,7 +210,7 @@ double Field::rating() const {
   return count;
 }
 
-inline char map(int i) {
+inline char maptochar(int i) {
   if (i == 8)
     return 'B';
   if (i == 7)
@@ -216,12 +222,18 @@ double Field::recursive_rating(int depth) const {
   double r = 0;
 
   if (!depth) {
-    //cerr << to_string();
     return rating();
   }
   depth--;
+
+  char buffer[65];
+  sprintf(buffer, "%d-%s", depth, data);
+
+  map<string,double>::const_iterator it = hashes.find(buffer);
+  if (it != hashes.end())
+    return it->second;
   
-  for (int y = 0; y < 7; y++) 
+  for (int y = 0; y < 7; y++)
     for (int x = 0; x < 7; x++)
       if (at(y, x) == '0') {
 	Field f = *this;
@@ -241,9 +253,24 @@ double Field::recursive_rating(int depth) const {
     double t = 0;
     for (int c = 0; c < 9; c++) {
       //cerr << depth << " drop " << map(c) << " " << x1 + 1 << endl;
-      t += drop(map(c), x1 + 1).recursive_rating(depth);
+      t += drop(maptochar(c), x1 + 1).recursive_rating(depth);
     }
     r += t / 9;
   }
-  return r / count;
+  r = r / count;
+
+  hashes[buffer] = r;
+  //cerr << buffer << " " << hashes.size() << endl;
+
+  return r;
+}
+
+void Field::finalize_random() {
+  
+  for (int y = 0; y < 7; y++)
+    for (int x = 0; x < 7; x++)
+      if (at(y, x) == '0') {
+	char number = int(rand() % 7) + '1';
+	set(y, x, number);
+      }
 }
