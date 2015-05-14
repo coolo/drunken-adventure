@@ -13,10 +13,14 @@ static map<string, double> hashes;
 Field::Field() {
   memset(data, ' ', sizeof(data));
   data[49] = 0;
+  m_score = 0;
+  m_step = 0;
 }
 
 Field::Field(const Field &f) {
   memcpy(data, f.data, sizeof(data));
+  m_score = f.m_score;
+  m_step = f.m_step;
 }
 
 Field Field::from_string(const char *text)
@@ -64,14 +68,15 @@ string Field::to_string() const
 
 Field Field::drop(char c, int col) const {
   assert(this->at(0, col - 1) == ' '); // not yet lost
-  
+
   Field ret = *this;
   int y = 0;
-  
+    
   while (ret.at(y + 1, col - 1) == ' ' && y < 6)
     y++;
   ret.set(y, col - 1, c);
-
+  ret.m_step = 0;
+  
   ret.blink();
   
   return ret;
@@ -132,7 +137,7 @@ bool Field::gravitate() {
   bool moved = false;
   for (int x = 0; x < 7; ++x) {
     for (int y = 5; y >= 0; y--) {
-      if (at(y, x) != ' '&& at(y + 1, x) == ' ')
+      if (at(y, x) != ' ' && at(y + 1, x) == ' ')
 	{
 	  set(y + 1, x, at(y, x));
 	  set(y, x, ' ');
@@ -142,6 +147,14 @@ bool Field::gravitate() {
     }
   }
   return moved;
+}
+
+inline int calculate_score(int step) {
+  if (step == 0) {
+    return 7;
+  }
+  assert(step != 17);
+  return 0;
 }
 
 bool Field::blink() {
@@ -168,6 +181,7 @@ bool Field::blink() {
       for (int x = 0; x < 7; x++)
 	if (marked[y * 7 + x]) {
 	  set(y, x, ' ');
+	  m_score += calculate_score(m_step);
 	  markturn(y - 1, x, turn);
 	  markturn(y + 1, x, turn);
 	  markturn(y, x - 1, turn);
@@ -185,6 +199,7 @@ bool Field::blink() {
 	}
       }
     gravitate();
+    m_step++;
   }
   return foundone;
 }
@@ -266,11 +281,22 @@ double Field::recursive_rating(int depth) const {
 }
 
 void Field::finalize_random() {
-  
   for (int y = 0; y < 7; y++)
     for (int x = 0; x < 7; x++)
       if (at(y, x) == '0') {
 	char number = int(rand() % 7) + '1';
 	set(y, x, number);
       }
+}
+
+bool Field::add_B_row() {
+  for (int x = 0; x < 7; x++) {
+    if (at(0, x) != ' ')
+      return false; // lost
+    for (int y = 0; y < 6; y++)
+      set(y, x, at(y + 1, x));
+    set(6, x, 'B');
+  }
+  cerr << to_string();
+  return true;
 }

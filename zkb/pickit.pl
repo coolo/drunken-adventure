@@ -5,10 +5,10 @@ use warnings;
 
 my $items = { animals =>
 	      {
-	       'cheer team panda red' => [ 31, 57879, 42027 ],
+	       'gold cheer team panda' => [ 32, 76496, 44806 ], #lvl 57
 	       'cheer team panda purple' => [ 31, 57879, 42027 ],
 	       'archmage giraffe' => [ 29, 51409, 21669 ],
-	       'brazilian soccer monkey' => [ 28, 37332, 12632 ], # lvl 13
+	       'brazilian soccer monkey' => [ 28, 53006, 18106 ], # lvl 47
 	       'mint chocolate panda' => [ 28, 28029, 43309 ],
 	       'spring leaf rabbit' => [28, 10000, 30800 ], # lvl 1
 	       'osaka style queen' => [ 27, 14988, 32282 ], # lvl 29
@@ -17,6 +17,7 @@ my $items = { animals =>
 	       'black bear rabbit' => [ 26, 28898, 31466 ],
 	       'cowboy giraffe' => [ 26, 40507, 18658 ],
 	       'rose quartz elephant' => [ 26, 30547, 29648 ],
+	       'leopard-print hippo' => [ 26, 11320, 19180], # lvl 1
 	       'new shoot monkey' => [ 25, 30988, 26912 ],
 	       'neon turle crocodile' => [ 25, 25428, 9904 ], # lvl 9
 	       'silver sun wukong monkey' => [ 15, 32302, 17974 ],
@@ -27,13 +28,14 @@ my $items = { animals =>
 	      {
 	       'ultimate zoo wrestling' => [ 31, 68308, 22532 ],
 	       'mysterious magical library' => [ 31, 65766, 30282 ],
-	       'zoo stardom stage' => [31, 7000, 45500], # lvl 1
+	       'zoo stardom stage' => [31, 9880, 56500], # lvl 19
 	       'dandelion field' => [ 31, 9700, 21800 ], # lvl 1
-	       'nightlife station' => [ 27, 49421, 12503 ], # lvl 44
+	       'nightlife station' => [ 27, 53067, 13412 ],
 	       'wild west town' => [ 25, 22200, 7800 ], # lvl 1
+	       'collectors room' => [ 25, 15300, 16200 ], # lvl 1
 	       'hot air ballon carnival' => [ 24, 35877, 22495 ],
 	       'zoo cherry blossom illumination' => [ 24, 31769, 20233 ],
-	       'thunderstorm painting' => [ 24, 41517, 9658 ], # lvl 47
+	       'thunderstorm painting' => [ 24, 41959, 9776 ], # lvl 49
 	       'rainbow & house' => [ 7, 1780, 3020], # lvl 1
 	       'night on the prarie' => [ 2, 1220, 680 ], # lvl 1
 	       'sunny wastelands' => [ 1, 1090, 810 ], # lvl 1
@@ -42,12 +44,13 @@ my $items = { animals =>
 	      decorations =>
 	      {
 	       'gemston globe' => [ 30, 30800, 15700 ], # lvl 1
-	       'ultra gold combat mech' => [ 28, 58835, 17477 ], 
+	       'ultra gold combat mech' => [ 28, 58835, 17477 ],
 	       'lucky golden owl' => [ 28, 23800, 17280 ], # lvl 1
 	       'cherry blossom score attack king cup' => [ 28, 25175, 46205 ],
 	       'golden week king cup' => [ 28, 9200, 31800 ], # lvl 1
 	       'gem pinapple' => [28, 50651, 17276 ],
 	       'producer boss' => [28, 32000, 9000], # lvl 1
+	       'golden carriage' => [ 28, 27800, 27900 ], # lvl 1
 	       'gold shachihoko' => [ 27, 44347, 15022 ],
 	       'golden rice bales' => [ 27, 30545, 28072] ,
 	       'sleeping beauty bed' => [ 27, 11300, 21200 ], # lvl 1
@@ -55,16 +58,13 @@ my $items = { animals =>
 	       'zoo florar ballon' => [27, 11650, 19850], # lvl1
 	       'dragon figurine' => [ 25, 53449, 6226 ],
 	       'golden gourd' => [ 24, 20800, 8200], # lvl 1
-	       'bell of destiny' => [ 24, 22800, 7200 ], # lvl 1
 	       'darts machine' => [24, 42465, 11497 ],
-	       'classic zoo lunch' => [ 24, 6800, 23200], #lvl 1,
 	       'supersonic jet' => [ 24, 20100, 10400], # lvl 1
-	       'dragon stone' => [ 23, 24200, 5300 ], # lvl 1
 	       'boss gold statue' => [ 14, 6180, 1820 ], # lvl 1
 	      }
 	  };
 
-my @costs = ( 99, 92, 82, 77, 70, 57 );
+my @costs = ( 99, 93, 83, 78, 71, 58 );
 
 # 819127 + 392206 = 1424793.5
 
@@ -185,8 +185,8 @@ sub fitnessFunc {
 	if ($animal->[0] + $background->[0] + $decoration->[0] > $costs[$r-1]) {
 	    return 0;
 	}
-	$fitness += ($animal->[1] + $background->[1] + $decoration->[1]) * 1.5;
-	$fitness += ($animal->[2] + $background->[2] + $decoration->[2]) / 2;
+	$fitness += ($animal->[1] + $background->[1] + $decoration->[1]) * 1;
+	$fitness += ($animal->[2] + $background->[2] + $decoration->[2]) / 1;
     }
 
     print "FI res $fitness $maximum\n" if $round;

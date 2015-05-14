@@ -16,9 +16,13 @@ public:
   // remove right ones
   bool blink();
 
+  // next level
+  bool add_B_row();
   void finalize_random();
   double rating() const;
   double recursive_rating(int depth) const;
+
+  int score() const { return m_score; }
   
 private:
   bool gravitate();
@@ -26,4 +30,6 @@ private:
   bool check_col(int start_y, int x, char c, char *marked);
   void markturn(int y, int x, char *marked);
   char data[50];
+  int m_score;
+  int m_step;
 };
