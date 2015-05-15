@@ -213,13 +213,14 @@ double Field::rating() const {
 	case ' ':
 	  break;
 	case 'B':
-	  count += 20;
+	  count += (28 - y) * (28 - y);
 	  break;
 	case 'A':
-	  count += 14;
+	  count += (16 - y) * (16 - y);
 	  break;
 	default:
-	  count += 9 - (at(y, x) - '0');
+	  int r = 14 - y - (at(y, x) - '0');
+	  count += r * r;
 	}
     }
   return count;

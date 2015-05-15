@@ -2,7 +2,6 @@
 #include <cassert>
 #include <iostream>
 #include <gtest/gtest.h>
-
 using namespace std;
 
 // The fixture for testing class Foo.
@@ -98,6 +97,18 @@ TEST_F(FieldTest, Drops) {
 	    "       \n"
 	    "  4B 5 \n"
 	    "121165A\n");
+  
+  f = Field::from_string(init);
+  f = f.drop('1', 4);
+
+  ASSERT_EQ(f.to_string(),
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "  4A 5 \n"
+	    " 21165A\n");
 
 }
 
@@ -148,9 +159,10 @@ TEST_F(FieldTest, Scores) {
 	    "   71 7\n"
 	    "35 7606\n");
 
-  ASSERT_EQ(39, f.drop('7', 7).rating());
-  ASSERT_EQ(46, f.drop('7', 3).rating());
-  ASSERT_EQ(50, f.drop('7', 4).rating());
+  ASSERT_GT(f.drop('7', 7).rating(),
+	    f.drop('7', 3).rating());
+  ASSERT_LT(f.drop('7', 3).rating(),
+	    f.drop('7', 4).rating());
 
   init =
     "       \n"
@@ -163,12 +175,47 @@ TEST_F(FieldTest, Scores) {
   
   f = Field::from_string(init);
 
-  ASSERT_EQ(47, f.drop('B', 7).rating());
-  ASSERT_EQ(50, f.drop('B', 3).rating());
-  ASSERT_EQ(58, f.drop('B', 4).rating());
+  int r7 = f.drop('B', 7).rating();
+  int r3 = f.drop('B', 3).rating();
+  ASSERT_GT(r7, r3);
+  ASSERT_LT(r3, f.drop('B', 4).rating());
 
 }
 
+TEST_F(FieldTest, Scores2) {
+    const char *init =
+      "       \n"
+      "       \n"
+      "       \n"
+      "       \n"
+      "7566 7B\n"
+      "AA65 5A\n"
+      "AABB6BA\n";
+
+    Field f = Field::from_string(init);
+
+    // the rating of the disappearing drop is better
+    ASSERT_LT(f.drop('7', 5).rating(),
+	      f.drop('7', 7).rating());
+
+    // but looking deeper, the 7 doesn't do harm
+    ASSERT_LT(int(f.drop('7', 5).recursive_rating(3)),
+	      int(f.drop('7', 7).recursive_rating(3)));
+    
+    init =
+      "       \n"
+      "       \n"
+      "       \n"
+      "7  B 7 \n"
+      "1A 66A5\n"
+      "A661BBB\n"
+      "B5ABB2A\n";
+    
+    f = Field::from_string(init);
+    f.drop('1', 4);
+}
+    
+      
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
