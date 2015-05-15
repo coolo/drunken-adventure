@@ -798,7 +798,7 @@ bool check_button(const char *filename) {
 
 void act_in_zoo() {
     bool foundone = false;
-    for (int i = 1; i <= 23; ++i) {
+    for (int i = 1; i <= 24; ++i) {
       char fname[30];
       sprintf(fname, "data/face%d.png", i);
       Button t('a', fname);
