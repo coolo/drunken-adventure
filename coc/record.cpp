@@ -94,11 +94,7 @@ void sigalarm_handler(int signum)
   Scalar m = mean(frame);
   if (m[0] + m[1] < 10) { // looks black
       printf("black alarm\n");
-  } else {
-    printf("stalled alarm\n");
-    system("adb reboot");
-    sleep(300);
-  }
+  } 
   exit(1);
 }
 
@@ -173,15 +169,6 @@ typedef Matx<char, 8, 8> Zookeeper;
 vector<Button> extras;
 
 void init_buttons() {
-}
-
-bool compare(const Zookeeper &r, int y1, int x1, int dy, int dx) {
-  int x2 = x1 + dx;
-  int y2 = y1 + dy;
-  if (y2 >= 8 || x2 >= 8 || y2 < 0 || x2 < 0)
-    return false;
-
-  return r(y1, x1) == r(y2, x2);
 }
 
 int connect_monkey()
@@ -323,19 +310,6 @@ void saveScreen(const string &prefix)
   printf("saved %s\n", buffer);
 }
 
-bool compare_moves(const Move &first, const Move &second) {
-  if (first.weight < second.weight)
-    return false;
-  if (first.weight > second.weight)
-    return true;
-  // prefer moves at the top
-  if (first.y < second.y)
-    return true;
-  if (first.y > second.y)
-    return false;
-  return false;
-}
-
 int countAt(Mat &frame, int y)
 {
   int count = 0;
@@ -346,7 +320,7 @@ int countAt(Mat &frame, int y)
     int best_dig_x = 0;
     for (int i = 0; i < 10; i++) {
       char buffer[30];
-      sprintf(buffer, "%d.png", i);
+      sprintf(buffer, "data/%d.png", i);
       Mat p = imread(buffer, CV_LOAD_IMAGE_GRAYSCALE);
       Mat eins(frame, Rect(x, y, p.cols, p.rows));
       sprintf(buffer, "out-%d-%d.png", x, i);
@@ -381,15 +355,16 @@ Mat original;
 
 Zookeeper catcher(Mat &frame)
 {
-  //saveScreen("catcher");
+  saveScreen("catcher");
   original = frame;
   Mat resized;
   scale = 1; // 384. / frame.cols;
-  transpose(frame,resized);
+  transpose(frame, resized);
   resize(frame, resized, Size(0, 0), scale, scale);
-  transpose(resized, frame);
-  flip(frame, frame, 0);
-
+  //transpose(resized, frame);
+  //flip(frame, frame, 0);
+  //frame = resized;
+  
   cut_y = (resized.rows - 0) / 2;
   //resized = Mat(resized, Rect(0, cut_y, 384, 320));
  // frame = resized;
@@ -400,14 +375,25 @@ Zookeeper catcher(Mat &frame)
   Zookeeper res;
 
   int delta = 0;
-  int first = countAt(frame, 90);
+    
+  int first = countAt(frame, 90 + delta);
+    
   if (!first) {
     first = countAt(frame, 91);
     delta++;
   }
-  cout << "1 " << first << endl;
-  cout << "2 " << countAt(frame, 128 + delta) << endl;
-  cout << "3 " << countAt(frame, 167 + delta) << endl;
+  int second = countAt(frame, 128 + delta);
+  int third = countAt(frame, 167 + delta);
+
+  cout << "found: " << first << " " << second << " " << third << endl;
+  
+  if (first > 0 && (first < 200000 || second < 200000)) {
+    Button t('a', "data/weiter.png");
+    Point2i button = image_search(frame, t);
+    cout << "close " << button.x << endl;
+    if (button.x)
+      monkey_press(button.x + t.cols / 2, button.y + t.rows / 2);
+  }
   
   return res;
 }
@@ -516,7 +502,7 @@ int main(int argc, char**argv)
   if (argc > 1) {
     do_adb = 0;
     frame = imread(argv[1]);
-    Zookeeper res = catcher(frame);
+    catcher(frame);
     return 0;
   }
 
@@ -546,7 +532,6 @@ int main(int argc, char**argv)
   struct timeval tv, oldtv;
   gettimeofday(&oldtv, 0);
 
-  //namedWindow("edges", WINDOW_AUTOSIZE);
   while (do_loop) {
     if (screenrecord) {
       alarm(5); // make sure we don't block here
@@ -563,7 +548,7 @@ int main(int argc, char**argv)
     int diff = (tv.tv_sec - oldtv.tv_sec) * 1000 + (tv.tv_usec - oldtv.tv_usec) / 1000;
     if (catcher_pid && waitpid(catcher_pid, &status, WNOHANG) == catcher_pid) {
       status = WEXITSTATUS(status);
-      //printf("catcher_pid finished: %d %d\n", status, diff);
+      printf("catcher_pid finished: %d %d\n", status, diff);
       catcher_pid = 0;
       if (status == 12) 
         sleep(100);
@@ -584,7 +569,7 @@ int main(int argc, char**argv)
       catcher_pid = fork();
       if (!catcher_pid) {
 	//saveScreen("movie");
-	 //Zookeeper res = catcher(frame);
+	catcher(frame);
 	if (false) {
 	  //saveScreen("extras");
 	  Button button = find_extra(frame);
