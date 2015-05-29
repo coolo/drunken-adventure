@@ -26,7 +26,8 @@ int do_loop = 1;
 int do_adb = 1;
 
 int monkey_socket = -1;
-bool screenrecord = true;
+bool rotated = false;
+bool ingame = false;
 
 Mat frame;
 
@@ -78,11 +79,6 @@ struct Move {
   }
 };
 
-void sig_handler(int signum)
-{
-  do_loop = 0;
-}
-
 void sigusr1_handler(int signum)
 {
   sleep_time = 300;
@@ -100,7 +96,7 @@ void sigalarm_handler(int signum)
 
 /* the purpose of this function is to calculate the error between two images
   (scene area and object) ignoring slight colour changes */
-double enhancedMSE(const Mat& I1, const Mat& I2) {
+double enhancedMSE(const Mat& I1, const Mat& I2, int limit = -1) {
   assert(I1.channels() == 1);
   assert(I2.channels() == 1);
   assert(I1.rows == I2.rows);
@@ -117,10 +113,10 @@ double enhancedMSE(const Mat& I1, const Mat& I2) {
       for (int i = 0; i < I1.cols; i++)
         {
 	  uchar t1 = I1_data[i];
-	  if (t1 < 200)
+	  if (limit > 0 && t1 < limit)
 	    t1 = 0;
 	  uchar t2 = I2_data[i];
-	  if (t2 < 200)
+	  if (limit > 0 && t2 < limit)
 	    t2 = 0;
 	  double diff = abs(t1 - t2);
 	  sse += diff * diff;
@@ -132,7 +128,7 @@ double enhancedMSE(const Mat& I1, const Mat& I2) {
 }
 
 /* we find the object in the scene and return the x,y and the error of the match */
-Point2i image_search(const Mat &scene, const Button &button, double mselimit = 1000) {
+Point2i image_search(const Mat &scene, const Button &button, double mselimit = 5000) {
 
   const Mat object = button.eightbit;
   
@@ -243,12 +239,6 @@ void send_monkey_cmd(const string &message) {
 
 void output_drag(int y1, int x1, int y2, int x2)
 {
-  y1 = (y1 * 24 + min_y + cut_y + 12) / scale;
-  y2 = (y2 * 24 + min_y + cut_y + 12) / scale;
-  
-  x1 = (x1 * 24 + 1 + 12) / scale;
-  x2 = (x2 * 24 + 1 + 12) / scale;
-  
   char buffer[300];
   sprintf(buffer, "swipe %d %d %d %d", x1, y1, x2, y2);
   printf("%s\n", buffer);
@@ -290,8 +280,12 @@ void monkey_press(int x, int y)
   char buffer[300];
   x /= scale;
   y /= scale;
-  if (y == 1080 && x == 324) abort();
-  printf("touch %d %d\n", x, y);
+  if (rotated && !ingame) {
+	  int z = frame.rows - y;
+	  y = x;
+	  x = z;
+  }
+  printf("touch %d %d %d - %dx%d\n", rotated, x, y, frame.cols, frame.rows);
   sprintf(buffer, "touch down %d %d\n", x, y);
   send_monkey_cmd(buffer);
   usleep(10000);
@@ -325,7 +319,7 @@ int countAt(Mat &frame, int y)
       Mat eins(frame, Rect(x, y, p.cols, p.rows));
       sprintf(buffer, "out-%d-%d.png", x, i);
       //imwrite(buffer, eins);
-      int mse = enhancedMSE(eins, p);
+      int mse = enhancedMSE(eins, p, 200);
       //cout << i << " " << mse << endl;
       if (best_mse > mse) {
 	best_mse = mse;
@@ -355,23 +349,31 @@ Mat original;
 
 Zookeeper catcher(Mat &frame)
 {
-  saveScreen("catcher");
+  //saveScreen("catcher");
   original = frame;
   Mat resized;
   scale = 1; // 384. / frame.cols;
-  transpose(frame, resized);
-  resize(frame, resized, Size(0, 0), scale, scale);
-  //transpose(resized, frame);
-  //flip(frame, frame, 0);
-  //frame = resized;
+  if (scale != 1)
+    resize(frame, resized, Size(0, 0), scale, scale);
+  else
+    resized = frame;
   
-  cut_y = (resized.rows - 0) / 2;
+  if (resized.rows > resized.cols) {
+    transpose(resized, frame);
+    flip(frame, frame, 0);
+    rotated = true;
+  } else {
+    transpose(frame, resized);
+    frame = resized;
+  }
+      
+  cut_y = (frame.rows - 0) / 2;
   //resized = Mat(resized, Rect(0, cut_y, 384, 320));
  // frame = resized;
   cvtColor(frame, frame, CV_BGR2GRAY );
   frame.convertTo(frame, CV_8UC1);
 
-  //saveScreen("frame");
+  saveScreen("frame");
   Zookeeper res;
 
   int delta = 0;
@@ -399,24 +401,6 @@ Zookeeper catcher(Mat &frame)
 }
 
 pid_t adb_pid = 0;
-
-void setupCap(VideoCapture &cap) {
-  unlink("record_mp4.fifo");
-  mkfifo("record_mp4.fifo", 0600);
-  if (adb_pid)
-    kill(adb_pid, SIGTERM);
-  adb_pid = fork();
-  if (!adb_pid) {
-    int record_fd = open("record_mp4.fifo", O_WRONLY);
-    dup2(record_fd, STDOUT_FILENO);
-    execlp("adb", "adb", "shell", "screenrecord", "--output-format=h264", "-", (char*)0);
-    fprintf(stderr, "couldn't exec adb\n");
-    exit(1);
-  }
-  cap.open("record_mp4.fifo");
-  if(!cap.isOpened())  // check if we succeeded
-    exit(1);
-}
 
 pid_t catcher_pid = 0;
 
@@ -495,6 +479,48 @@ bool check_button(const char *filename) {
   return false;
 }
 
+int on_screen(const char *filename) {
+   Button t('a', filename);
+   Point2i button = image_search(frame, t, 1000);
+   printf("on_screen %s: %dx%d\n", filename, button.x, button.y);
+   return button.x;
+}
+
+bool check_reload() {
+    Button t('a', "data/reload.png");
+    Point2i button = image_search(frame, t, 1000);
+    if (button.x) {
+      printf("sleep 10 minutes\n");
+      sleep(600); // 10 minutes
+      monkey_press(button.x + t.cols / 2, button.y + t.rows / 2);
+      return true;
+    }
+    return false;
+}
+
+bool fetchFrame() {
+	  frame = screencap();
+	      if (!frame.cols)
+		            return false;
+
+	          Mat resized = frame;
+		      if (resized.rows > resized.cols) {
+			            transpose(resized, frame);
+				          flip(frame, frame, 0);
+					        rotated = true;
+						    } else {
+							          transpose(frame, resized);
+								        frame = resized;
+									    }
+
+		          cvtColor(frame, frame, CV_BGR2GRAY );
+			      frame.convertTo(frame, CV_8UC1);
+
+			          saveScreen("frame");
+				  return true;
+
+}
+
 int main(int argc, char**argv)
 {
   init_buttons();
@@ -508,11 +534,12 @@ int main(int argc, char**argv)
 
   monkey_socket = connect_monkey();
   
-  signal(SIGINT, sig_handler);
   signal(SIGUSR1, sigusr1_handler);
   signal(SIGALRM, sigalarm_handler);
 
-#if 1
+  
+  
+#if 0
   Scalar m = mean(screencap());
   if (m[0] + m[1] < 10) { // looks black
     printf("power!\n");
@@ -521,34 +548,78 @@ int main(int argc, char**argv)
   }
 #endif
   
-  VideoCapture cap;
-  
-  //sleep(2);
-  if (screenrecord)
-    setupCap(cap);
-
   int status;
   
   struct timeval tv, oldtv;
   gettimeofday(&oldtv, 0);
 
-  while (do_loop) {
-    if (screenrecord) {
-      alarm(5); // make sure we don't block here
-      if (!cap.read(frame)) {
-	// we need to kill and leave - reopening video crashes opencv ;(
-	reexec();
-      }
-      alarm(0);
-    } else {
-      frame = screencap();
+  /*
+  output_drag(100, 100, 550, 550);
+  sleep(1);
+  output_drag(100, 100, 550, 550);
+  sleep(1);
+  */
+
+  int moved = 0;
+  int direction = -1;
+  
+  fetchFrame();
+
+  if (on_screen("data/lockscreen.png")) {
+  }
+
+  while (check_button("data/icon.png")) {
+	  sleep(1);
+	  fetchFrame();
+  }
+  ingame = true;
+  check_button("data/okay.png");
+
+  while (true) {
+    sleep(1);
+
+    if (!fetchFrame())
+	    continue;
+
+    check_reload();
+
+    if (on_screen("data/attack.png")) {
+
+    Button t('a', "data/rathaus4.png");
+    Point2i rathaus = image_search(frame, t, 1000);
+    cout << "rathaus " << rathaus.x << "x" << rathaus.y << endl;
+
+    if (check_button("data/g.png"))
+      continue;
+    if (check_button("data/e.png"))
+      continue;
+    if (rathaus.x && (rathaus.x < 490 || rathaus.x > 510) ) {
+         if (rathaus.y < 360 || rathaus.y > 400) {
+		 output_drag(rathaus.y, rathaus.x, 380, rathaus.x);
+	 } else if (rathaus.x > 750) {
+		 output_drag(rathaus.y, rathaus.x, rathaus.y, 700);
+	 } else {
+		 output_drag(rathaus.y, rathaus.x, rathaus.y, 500);
+	 }
+	 continue;
     }
-    
+    const int delta = 100;
+    output_drag(380, 380, 380 + delta * direction, 380 + delta * direction);
+    moved += delta;
+    if (moved > 700) {
+      direction *= -1;
+      moved = 0;
+    }
+    }
+  }
+  
+  while (do_loop) {
+        
     gettimeofday(&tv, 0);
     int diff = (tv.tv_sec - oldtv.tv_sec) * 1000 + (tv.tv_usec - oldtv.tv_usec) / 1000;
     if (catcher_pid && waitpid(catcher_pid, &status, WNOHANG) == catcher_pid) {
       status = WEXITSTATUS(status);
-      printf("catcher_pid finished: %d %d\n", status, diff);
+      //printf("catcher_pid finished: %d %d\n", status, diff);
       catcher_pid = 0;
       if (status == 12) 
         sleep(100);

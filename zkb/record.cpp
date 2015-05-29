@@ -202,7 +202,7 @@ void init_buttons() {
   extras.push_back(Button('k', "data/zoo.png"));
   extras.push_back(Button('l', "data/battlehistory.png"));
   extras.push_back(Button('m', "data/start.png"));
-  extras.push_back(Button('n', "data/nobattles.png"));
+  //extras.push_back(Button('n', "data/nobattles.png"));
   extras.push_back(Button('o', "data/callinhelp2.png"));
   extras.push_back(Button('p', "data/close.png"));
   extras.push_back(Button('q', "data/searchingplayer.png")); // referenced as q

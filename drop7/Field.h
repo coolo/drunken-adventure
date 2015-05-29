@@ -23,6 +23,10 @@ public:
   double recursive_rating(int depth) const;
 
   int score() const { return m_score; }
+  int elements() const;
+  void set_random(int elements = 11);
+  
+  void ann_input(float *arr) const;
   
 private:
   bool gravitate();
@@ -32,4 +36,6 @@ private:
   char data[50];
   int m_score;
   int m_step;
+  int m_level;
+  int m_dots;
 };

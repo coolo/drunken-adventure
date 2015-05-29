@@ -15,12 +15,16 @@ Field::Field() {
   data[49] = 0;
   m_score = 0;
   m_step = 0;
+  m_level = 1;
+  m_dots = 30;
 }
 
 Field::Field(const Field &f) {
   memcpy(data, f.data, sizeof(data));
   m_score = f.m_score;
   m_step = f.m_step;
+  m_level = f.m_level;
+  m_dots = f.m_dots;
 }
 
 Field Field::from_string(const char *text)
@@ -76,9 +80,8 @@ Field Field::drop(char c, int col) const {
     y++;
   ret.set(y, col - 1, c);
   ret.m_step = 0;
-  
-  ret.blink();
-  
+  ret.m_dots = m_dots - 1;
+
   return ret;
 }
 
@@ -149,12 +152,15 @@ bool Field::gravitate() {
   return moved;
 }
 
-inline int calculate_score(int step) {
-  if (step == 0) {
-    return 7;
-  }
-  assert(step != 17);
-  return 0;
+inline int calculate_score(unsigned int step) {
+  const int scores[] = { 7, 39, 109, 224, 391, 617, 907, 1267, 1701,
+			 2213, 2809, 3491, 4265, 5133, 6099, 7168, 8341,
+			 9622, 11014, 12521, 14146, 15891, 17758,
+			 19752, 21875, 24128, 26515, 29039, 31702,
+			 34506};
+  if (step >= sizeof(scores) / sizeof(int))
+    return 0;
+  return scores[step];
 }
 
 bool Field::blink() {
@@ -181,7 +187,12 @@ bool Field::blink() {
       for (int x = 0; x < 7; x++)
 	if (marked[y * 7 + x]) {
 	  set(y, x, ' ');
-	  m_score += calculate_score(m_step);
+	  int delta = calculate_score(m_step);
+	  if (!delta) {
+	    cerr << "STEP " << m_step << endl << to_string();
+	    assert(delta);
+	  }
+	  m_score += delta;
 	  markturn(y - 1, x, turn);
 	  markturn(y + 1, x, turn);
 	  markturn(y, x - 1, turn);
@@ -198,10 +209,31 @@ bool Field::blink() {
 	  set(y, x, '0');
 	}
       }
+    //cerr << "TURNED " << endl << to_string();
     gravitate();
     m_step++;
   }
+  if (!foundone) {
+    if (!elements()) {
+      m_score += 70000;
+    }
+    if (!m_dots) {
+      add_B_row();
+      m_level++;
+      m_score += 7000;
+      m_dots = 5 + max(26 - m_level, 0);
+    }
+  }
   return foundone;
+}
+
+int Field::elements() const {
+  int r = 0;
+  for (int y = 0; y < 7; y++) 
+    for (int x = 0; x < 7; x++)
+      if (data[y*7+x] != ' ')
+	r++;
+  return r;
 }
 
 double Field::rating() const {
@@ -298,6 +330,48 @@ bool Field::add_B_row() {
       set(y, x, at(y + 1, x));
     set(6, x, 'B');
   }
-  cerr << to_string();
+  //cerr << to_string();
   return true;
+}
+
+void Field::ann_input(float *a) const {
+  for (int i = 0; i < 49; ++i) {
+    for (int c = 0; c < 9; c++)
+      a[i*9+c] = 0;
+    switch (data[i]) {
+    case ' ':
+      break;
+    case 'B':
+      a[i*9+9] = 1;
+      break;
+    case 'A':
+      a[i*9+8] = 1;
+      break;
+    default:
+      a[i*9+data[i] - '0'] = 1;
+    }
+  }
+}
+
+void Field::set_random(int elements) {
+  while (elements--) {
+    int col;
+    while (1) {
+      col = rand() % 7 + 1;
+      if (at(0, col - 1) == ' ')
+	break;
+    }
+    char element = rand() % 9;
+    switch (element) {
+    case 0:
+      element = 'A';
+      break;
+    case 8:
+      element = 'B';
+      break;
+    default:
+      element += '0';
+    }
+    *this = drop(element, col);
+  }
 }

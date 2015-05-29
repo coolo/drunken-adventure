@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>
+#include <fann.h>
 
 using namespace cv;
 using namespace std;
@@ -241,12 +242,38 @@ int main()
   buttons.push_back(Button('A', "A.png"));
   buttons.push_back(Button('B', "B.png"));
 
+  struct fann *ann;
+  ann = fann_create_from_file("drop7-GOOD.net");
+
   while (1) {
     char found;
     Field f = scan_field(found);
     
     cerr << f.to_string() << found << endl;
-    turn(f, found);
+
+    double max = std::numeric_limits<double>::min();
+    int col = -1;
+    for (int x = 0; x < 7; x++) {
+      if (f.at(0, x) != ' ')
+	continue;
+    
+      Field droped = f.drop(found, x + 1);
+      //cerr << droped.to_string();
+      //cerr << endl << endl;
+      
+      float inputs[49*9];
+      droped.ann_input(inputs);
+      //cout << "NEW\n" << n.to_string();
+            
+      float *calc = fann_run(ann, inputs);
+      cout << "calced " << x + 1 << " " << calc[0] << endl;
+    
+      if (max < calc[0]) {
+	col = x + 1;
+	max = calc[0];
+      }
+    }
+    cerr << "best " << col << endl;
     printf("done\n");
     getchar();
   }

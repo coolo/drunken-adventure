@@ -54,7 +54,8 @@ TEST_F(FieldTest, Drops) {
   
   Field f = Field::from_string(init);
   f = f.drop('1', 2);
-
+  f.blink();
+  
   // 2 and 1 disappear
   ASSERT_EQ(f.to_string(),
 	    "       \n"
@@ -215,7 +216,17 @@ TEST_F(FieldTest, Scores2) {
     f.drop('1', 4);
 }
     
-      
+TEST_F(FieldTest, Drop3) {
+  const char *init =
+    "2   554\n"
+    "3   445\n"
+    "3   214\n"
+    "6B  215\n"
+    "AA  214\n"
+    "67 5212\n"
+    "2165212\n";
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
