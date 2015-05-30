@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
+#include <sys/types.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -13,7 +15,7 @@ struct Step {
   
 int main(int argc, char **argv)
 {
-  int hidden = 300;
+  int hidden = 150;
   if (argc > 1)
     hidden = atoi(argv[1]);
   
@@ -23,8 +25,8 @@ int main(int argc, char **argv)
   struct fann *ann;
   ann = fann_create_from_file("drop7.net");
   if (!ann) {
-    srand(time(0));
-    ann = fann_create_standard(3, num_input, hidden, num_output);
+    srand(time(0) + getpid());
+    ann = fann_create_standard(3, num_input, 160, num_output);
     fann_randomize_weights(ann, -0.1, 0.1);
   }
   
@@ -33,7 +35,7 @@ int main(int argc, char **argv)
 
   fann_set_training_algorithm(ann, FANN_TRAIN_QUICKPROP);
 
-  int level = 3000;
+  int level = 300;
   vector<Step> steps;
   while (level--) {
     Field f;
