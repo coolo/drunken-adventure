@@ -486,8 +486,8 @@ int on_screen(const char *filename) {
    return button.x;
 }
 
-bool check_reload() {
-    Button t('a', "data/reload.png");
+bool check_reload(const char *filename) {
+    Button t('a', filename); 
     Point2i button = image_search(frame, t, 1000);
     if (button.x) {
       printf("sleep 10 minutes\n");
@@ -581,7 +581,11 @@ int main(int argc, char**argv)
     if (!fetchFrame())
 	    continue;
 
-    check_reload();
+    if (check_reload("data/reload.png"))
+	    continue;
+    if (check_button("data/tryagain.png")) {
+	    continue;
+    }
 
     if (on_screen("data/attack.png")) {
 

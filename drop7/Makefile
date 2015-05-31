@@ -13,7 +13,7 @@ train: train.cpp  Field.cpp Field.h
 	g++ -O3 -g -Wall -Werror -o train train.cpp Field.cpp $$(pkg-config --libs fann)
 
 test: test.cpp Field.cpp Field.h
-	g++ -O3 -g -Wall -Werror -o test test.cpp Field.cpp $$(pkg-config --libs fann)
+	g++ -O3 -g -Wall -Werror -o test test.cpp Field.cpp -std=c++11 $$(pkg-config --libs fann)
 
 clean:
 	rm field_test a.out

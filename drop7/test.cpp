@@ -3,14 +3,13 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
+#include <map>
+#include <unordered_set>
+#include <sys/types.h>
+#include <unistd.h>
 
 using namespace std;
 
-struct Step {
-  float input[49*9];
-  float output;
-};
-  
 int main(int argc, char **argv)
 {
   const char *filename = "drop7.net";
@@ -21,15 +20,20 @@ int main(int argc, char **argv)
   ann = fann_create_from_file(filename);
   if (!ann) 
     exit(1);
-  
-  const int max_level = 80;
+
+  srand(time(0) + getpid());
+  const int max_level = 1000;
   int level = max_level;
   long total_score = 0;
-
+  long max_score = 0;
+  
+  map<string, long> hashes;
+  
   while (level--) {
     Field f;
-    srand(level);
     f.set_random();
+
+    unordered_set<string> states;
     
     while (1) {
       char choice = rand() % 8;
@@ -56,10 +60,6 @@ int main(int argc, char **argv)
 	float *calc = fann_run(ann, inputs);
 	//cout << "calc " << int(calc[0] * 100) << endl;
 		
-	n.finalize_random();
-	while (n.blink())
-	  n.finalize_random();
-	
 	if (calc[0] > best || (calc[0] == best && rand() % 5 > 3)) {
 	  best = calc[0];
 	  best_col = col;
@@ -70,25 +70,44 @@ int main(int argc, char **argv)
       if (best_col == 0) { // lost
 	cout << "STEPS " << f.score() << endl;
 	total_score += f.score();
+	if (f.score() > max_score)
+	  max_score = f.score();
 	break;
       }
 
-      //cerr << "BEFORE " << endl << f.to_string();
       f = f.drop(choice, best_col);
-
-      //cerr << "DROP " << choice << " " << best_col << " " << s.output << endl << f.to_string();
+      states.insert(f.to_string());
       f.finalize_random();
-      //cerr << "RANDOM " << endl << f.to_string();
+
       while (f.blink()) {
-	//cerr << "BLINKED " << endl << f.to_string();
 	f.finalize_random();
       }
       
     }
+    int myscore = f.score();
+    unordered_set<string>::const_iterator it = states.begin();
+    for (; it != states.end(); ++it) {
+      if (myscore > hashes[*it])
+	hashes[*it] = myscore;
+    }
   }
   
-  fann_destroy(ann);
-  cout << "TOTAL: " << total_score / max_level << endl;
-  
+  cout << "TOTAL: " << total_score / max_level << " " << hashes.size() << endl;
+
+  fann_train_data *train_data;
+  train_data = fann_create_train(hashes.size(), 49 * 9, 1);
+  map<string,long>::const_iterator it = hashes.begin();
+  int counter = 0;
+  for (; it != hashes.end(); ++it, ++counter) {
+    Field f = Field::from_string(it->first.c_str());
+    f.ann_input(train_data->input[counter]);
+    float goal = sqrt(it->second / 500000.);
+    if (goal > 1)
+      goal = 1;
+    train_data->output[counter][0] = goal;
+  }
+  fann_set_train_stop_function(ann, FANN_STOPFUNC_BIT);
+  fann_train_on_data(ann, train_data, 300, 10, 7);
+  fann_save(ann, "retrained.net");
   return 0;
 }

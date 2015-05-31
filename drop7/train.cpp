@@ -5,6 +5,7 @@
 #include <vector>
 #include <sys/types.h>
 #include <unistd.h>
+#include <map>
 
 using namespace std;
 
@@ -70,10 +71,6 @@ int main(int argc, char **argv)
 	float *calc = fann_run(ann, inputs);
 	//cout << "calc " << int(calc[0] * 100) << endl;
 		
-	n.finalize_random();
-	while (n.blink())
-	  n.finalize_random();
-	
 	if (calc[0] > best || (calc[0] == best && rand() % 5 > 3)) {
 	  best = calc[0];
 	  best_col = col;
