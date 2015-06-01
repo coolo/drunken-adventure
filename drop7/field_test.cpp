@@ -67,7 +67,8 @@ TEST_F(FieldTest, Drops) {
 	    "   3 47\n");
 
   f = f.drop('4', 5);
-
+  f.blink();
+  
   // both 4s disappear
   ASSERT_EQ(f.to_string(),
 	    "       \n"
@@ -89,7 +90,8 @@ TEST_F(FieldTest, Drops) {
   
   f = Field::from_string(init);
   f = f.drop('1', 1);
-
+  f.blink();
+  
   ASSERT_EQ(f.to_string(),
 	    "       \n"
 	    "       \n"
@@ -101,7 +103,8 @@ TEST_F(FieldTest, Drops) {
   
   f = Field::from_string(init);
   f = f.drop('1', 4);
-
+  f.blink();
+  
   ASSERT_EQ(f.to_string(),
 	    "       \n"
 	    "       \n"
@@ -126,7 +129,8 @@ TEST_F(FieldTest, Changes) {
   
   Field f = Field::from_string(init);
   f = f.drop('1', 7);
-
+  f.blink();
+  
   // 1 disappears and turns
   ASSERT_EQ(f.to_string(),
 	    "       \n"
@@ -140,6 +144,7 @@ TEST_F(FieldTest, Changes) {
 
 TEST_F(FieldTest, Scores) {
 
+  srand(0); // makes the A as a 1
   const char *init =
     "       \n"
     "       \n"
@@ -156,9 +161,20 @@ TEST_F(FieldTest, Scores) {
 	    "       \n"
 	    "       \n"
 	    "       \n"
+	    "      7\n"
+	    "   71 6\n"
+	    "35 76A3\n");
+  
+  f2.blink();
+  
+  ASSERT_EQ(f2.to_string(),
+	    "       \n"
+	    "       \n"
+	    "       \n"
+	    "       \n"
 	    "       \n"
 	    "   71 7\n"
-	    "35 7606\n");
+	    "35 7616\n");
 
   ASSERT_GT(f.drop('7', 7).rating(),
 	    f.drop('7', 3).rating());
@@ -216,17 +232,6 @@ TEST_F(FieldTest, Scores2) {
     f.drop('1', 4);
 }
     
-TEST_F(FieldTest, Drop3) {
-  const char *init =
-    "2   554\n"
-    "3   445\n"
-    "3   214\n"
-    "6B  215\n"
-    "AA  214\n"
-    "67 5212\n"
-    "2165212\n";
-}
-
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

@@ -8,11 +8,83 @@
 
 using namespace std;
 
+Stone::Stone() {
+  state = Shown;
+  value = 0;
+}
+
+Stone::Stone(const Stone &rhs) {
+  state = rhs.state;
+  value = rhs.value;
+}
+
+void Stone::set_B() {
+  state = SuperHidden;
+}
+    
+Stone::Stone(char c) {
+  if (c == 'B') {
+    state = SuperHidden;
+  } else if (c == 'A') {
+    state = Hidden;
+  } else if (c == ' ') {
+    value = 0;
+    return;
+  } else {
+    state = Shown;
+    value = c - '0';
+    return;
+  }
+  // need to guess
+  value = rand() % 7;
+}
+
+void Stone::pick_random() {
+  value = rand() % 7 + 1;
+  if (rand() % 7 < 2)
+    state = SuperHidden;
+  else
+    state = Shown;
+}
+
+void Stone::turn() {
+  if (state == Hidden)
+    state = Shown;
+  if (state == SuperHidden)
+    state = Hidden;
+}
+
+char Stone::to_char() const {
+  if (!value)
+    return ' ';
+  if (state == Shown)
+    return value + '0';
+  if (state == Hidden)
+    return 'A';
+  return 'B';
+}
+
+string Stone::to_string() const {
+  if (!value)
+    return " ";
+  char buffer[3];
+  sprintf(buffer, "%d", value);
+  string ret = buffer;
+  if (state == Shown)
+    return ret;
+  if (state == Hidden)
+    return ret + "!";
+  return ret + "?";
+}
+
+bool Stone::is_null() const {
+  assert(value >= 0 && value < 8);
+  return value == 0;
+}
+
 static map<string, double> hashes;
 
 Field::Field() {
-  memset(data, ' ', sizeof(data));
-  data[49] = 0;
   m_score = 0;
   m_step = 0;
   m_level = 1;
@@ -20,11 +92,13 @@ Field::Field() {
 }
 
 Field::Field(const Field &f) {
-  memcpy(data, f.data, sizeof(data));
+  for (int i = 0; i < 49; i++)
+    data[i] = f.data[i];
   m_score = f.m_score;
   m_step = f.m_step;
   m_level = f.m_level;
   m_dots = f.m_dots;
+  line = f.line;
 }
 
 Field Field::from_string(const char *text)
@@ -46,6 +120,22 @@ char Field::at(int y, int x) const
   if (y < 0 || y >= 7 || x < 0 || x >= 7)
     return ' ';
    
+  return data[y*7+x].to_char();
+}
+
+Stone Field::next_stone()
+{
+  assert(!line.empty());
+  Stone e = line.front();
+  line.pop_front();
+  return e;
+}
+
+Stone Field::stone(int y, int x) const
+{
+  if (y < 0 || y >= 7 || x < 0 || x >= 7)
+    return Stone();
+   
   return data[y*7+x];
 }
 
@@ -55,7 +145,15 @@ void Field::set(int y, int x, char c)
   assert(x >= 0 && x < 7);
 
   assert(c == ' ' || (c >= '0' && c <= '7') || c == 'A' || c == 'B');
-  data[y*7+x] = c;
+  data[y*7+x] = Stone(c);
+}
+
+void Field::set(int y, int x, Stone e)
+{
+  assert(y >= 0 && y < 7);
+  assert(x >= 0 && x < 7);
+
+  data[y*7+x] = e;
 }
 
 string Field::to_string() const
@@ -79,6 +177,21 @@ Field Field::drop(char c, int col) const {
   while (ret.at(y + 1, col - 1) == ' ' && y < 6)
     y++;
   ret.set(y, col - 1, c);
+  ret.m_step = 0;
+  ret.m_dots = m_dots - 1;
+
+  return ret;
+}
+
+Field Field::drop(Stone e, int col) const {
+  assert(this->stone(0, col - 1).is_null()); // not yet lost
+
+  Field ret = *this;
+  int y = 0;
+
+  while (ret.stone(y + 1, col - 1).is_null() && y < 6)
+    y++;
+  ret.set(y, col - 1, e);
   ret.m_step = 0;
   ret.m_dots = m_dots - 1;
 
@@ -198,18 +311,12 @@ bool Field::blink() {
 	  markturn(y, x - 1, turn);
 	  markturn(y, x + 1, turn);
 	}
+
     for (int y = 0; y < 7; y++) 
-      for (int x = 0; x < 7; x++) {
-	if (turn[y * 7 + x] && at(y, x) == 'B') {
-	  set(y, x, 'A');
-	  turn[y * 7 + x]--;
-	}
-        // turn B twice if marked as such
-	if (turn[y * 7 + x] && at(y, x) == 'A') {
-	  set(y, x, '0');
-	}
-      }
-    //cerr << "TURNED " << endl << to_string();
+      for (int x = 0; x < 7; x++)
+	while (turn[y * 7 + x]--)
+	  data[y * 7 + x].turn();
+    
     gravitate();
     m_step++;
   }
@@ -231,7 +338,7 @@ int Field::elements() const {
   int r = 0;
   for (int y = 0; y < 7; y++) 
     for (int x = 0; x < 7; x++)
-      if (data[y*7+x] != ' ')
+      if (!data[y*7+x].is_null())
 	r++;
   return r;
 }
@@ -275,7 +382,7 @@ double Field::recursive_rating(int depth) const {
   depth--;
 
   char buffer[65];
-  sprintf(buffer, "%d-%s", depth, data);
+  sprintf(buffer, "%d-%s", depth, to_string().c_str());
 
   map<string,double>::const_iterator it = hashes.find(buffer);
   if (it != hashes.end())
@@ -328,7 +435,9 @@ bool Field::add_B_row() {
       return false; // lost
     for (int y = 0; y < 6; y++)
       set(y, x, at(y + 1, x));
-    set(6, x, 'B');
+    Stone b = next_stone();
+    b.set_B();
+    set(6, x, b);
   }
   //cerr << to_string();
   return true;
@@ -338,7 +447,8 @@ void Field::ann_input(float *a) const {
   for (int i = 0; i < 49; ++i) {
     for (int c = 0; c < 9; c++)
       a[i*9+c] = 0;
-    switch (data[i]) {
+    char c = data[i].to_char();
+    switch (c) {
     case ' ':
       break;
     case 'B':
@@ -348,12 +458,17 @@ void Field::ann_input(float *a) const {
       a[i*9+8] = 1;
       break;
     default:
-      a[i*9+data[i] - '0'] = 1;
+      a[i*9+c - '0'] = 1;
     }
   }
 }
 
 void Field::set_random(int elements) {
+  for (int i = 0; i < 1400; i++) {
+    Stone n;
+    n.pick_random();
+    line.push_back(n);
+  }
   while (elements--) {
     int col;
     while (1) {
@@ -361,17 +476,8 @@ void Field::set_random(int elements) {
       if (at(0, col - 1) == ' ')
 	break;
     }
-    char element = rand() % 9;
-    switch (element) {
-    case 0:
-      element = 'A';
-      break;
-    case 8:
-      element = 'B';
-      break;
-    default:
-      element += '0';
-    }
+    Stone element = line.front();
+    line.pop_front();
     *this = drop(element, col);
   }
 }
