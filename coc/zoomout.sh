@@ -29,3 +29,4 @@ sendevent /dev/input/event2 3 54 1446
 sendevent /dev/input/event2 3 47 1
 sendevent /dev/input/event2 3 54 1257
 sendevent /dev/input/event2 0 0 0
+input touchscreen swipe 200 100 200 400
