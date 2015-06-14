@@ -158,13 +158,15 @@ void Field::set(int y, int x, Stone e)
 
 string Field::to_string() const
 {
-  string ret;
+  string ret = "\nX=======X\n";
   for (int y = 0; y < 7; y++)
     {
+      ret += "|";
       for (int x = 0; x < 7; x++)
 	ret += this->at(y, x);
-      ret += "\n";
+      ret += "|\n";
     }
+  ret += "X=======X\n";
   return ret;
 }
 
@@ -464,6 +466,7 @@ void Field::ann_input(float *a) const {
 }
 
 void Field::set_random(int elements) {
+  line.clear();
   for (int i = 0; i < 1400; i++) {
     Stone n;
     n.pick_random();

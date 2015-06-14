@@ -231,7 +231,24 @@ TEST_F(FieldTest, Scores2) {
     f = Field::from_string(init);
     f.drop('1', 4);
 }
+
+TEST_F(FieldTest, Blink) {
+    const char *init =
+      " 3  B5 \n"
+      " 4  33 \n"
+      " 3  74 \n"
+      "77 B117\n"
+      "64412A2\n"
+      "5BB5BAB\n";
     
+    Field f = Field::from_string(init);
+    
+    // the rating of the disappearing drop is better
+    while (f.blink());
+    cerr << f.to_string();
+}
+       
+      
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

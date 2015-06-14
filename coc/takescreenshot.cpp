@@ -70,7 +70,7 @@ void reexec(int _sleep = 0)
     waitpid(catcher_pid, NULL, 0);
   sleep(_sleep);
   printf("reexec\n");
-  execlp("./record", "record", (char*)0);
+  execlp("./takescreenshot", "takescreenshot", (char*)0);
 }
 
 void sigalarm_handler(int signum)
@@ -93,6 +93,8 @@ int main(int argc, char**argv)
   struct timeval oldtv;
   gettimeofday(&oldtv, 0);
 
+  namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
+  
   while (do_loop) {
     alarm(5); // make sure we don't block here
     if (!cap.read(frame)) {
@@ -100,7 +102,10 @@ int main(int argc, char**argv)
       reexec();
     }
     saveScreen("current");
-    cerr << "do_loop\n";
+	kill(adb_pid, SIGTERM);
+    exit(0);
+    //imshow( "Display window", frame );       
+    waitKey(1);   
     alarm(0);
   }
     

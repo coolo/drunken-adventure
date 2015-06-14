@@ -18,5 +18,8 @@ gens: gens.cpp Field.cpp Field.h
 test: test.cpp Field.cpp Field.h
 	g++ -O3 -g -Wall -Werror -o test test.cpp Field.cpp -std=c++11 $$(pkg-config --libs fann)
 
+athousand: athousand.cpp Field.cpp Field.h
+	g++ -O3 -g -Wall -Werror -o athousand athousand.cpp Field.cpp -std=c++11
+
 clean:
 	rm field_test a.out

@@ -31,6 +31,8 @@ public:
   Stone stone(int y, int x) const;
   void set(int y, int x, char c);
   void set(int y, int x, Stone e);
+
+  bool free_column(int col) const { return stone(0, col - 1).is_null(); }
   
   // drops a '1'..'7' in col (note it's x+1)
   Field drop(char c, int col) const;
