@@ -32,8 +32,6 @@ project coc "Clash of Clan" 2015-07-11 +1y {
   include "ec6.tji"
   include "ec7.tji"
 
-  include "dec1.tji"
-
   include "gm1.tji"
   include "gm2.tji"
   include "gm3.tji"
@@ -66,6 +64,10 @@ project coc "Clash of Clan" 2015-07-11 +1y {
   include "ad2.tji"
   include "ad3.tji"
   include "ad4.tji"
+
+  include "dec1.tji"
+  include "dec2.tji"
+  include "dec3.tji"
 
   navigator navbar
 
