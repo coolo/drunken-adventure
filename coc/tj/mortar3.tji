@@ -1,6 +1,6 @@
   task mortar_3_1 "Build Mortar 3 as Level 1" {
      effort 8h
-     depends !th_3
+     depends !th_6
      ${need_builder}
   }
 

@@ -1,15 +1,18 @@
 
   task ad_1_1 "Build Air Defense 1 as Level 1" {
+    complete 100
       effort 5h
       depends !th_4
       ${need_builder}
   }
   task ad_1_2 "Upgrade Air Defense 1 to Level 2" {
+    complete 100
       effort 1d
       depends !ad_1_1
       ${need_builder}
   }
   task ad_1_3 "Upgrade Air Defense 1 to Level 3" {
+    complete 10
       effort 3d
       depends !ad_1_2, !th_5
       ${need_builder}

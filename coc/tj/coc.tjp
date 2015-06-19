@@ -80,8 +80,6 @@ textreport frame "" {
   footer "----"
 
   columns name,
-          end { title "Due Date" },
-          complete,
           priority,
           resources
 

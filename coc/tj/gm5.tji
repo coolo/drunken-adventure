@@ -1,28 +1,33 @@
   task gm_5_2 "Build Gold Mine 5 as Level 2" {
+      complete 100
       effort 15min
       ${need_builder}
       depends !th_5
   }
 
   task gm_5_3 "Upgrade Gold Mine 5 to Level 3" {
+      complete 100
       effort 15min
       depends !gm_5_2, !th_2
       ${need_builder}
   }
 
   task gm_5_4 "Upgrade Gold Mine 5 to Level 4" {
+      complete 100
       effort 1h
       depends !gm_5_3
       ${need_builder}
   }
 
   task gm_5_5 "Upgrade Gold Mine 5 to Level 5" {
+      complete 100
       effort 2h
       depends !gm_5_4, !th_3
       ${need_builder}
   }
 
   task gm_5_6 "Upgrade Gold Mine 5 to Level 6" {
+      complete 100
       effort 6h
       depends !gm_5_5
       ${need_builder}

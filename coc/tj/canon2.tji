@@ -1,27 +1,32 @@
   task canon_2_2 "Build Canon 2 as Level 2" {
+      complete 100
       effort 15min
       ${need_builder}
   }
 
   task canon_2_3 "Upgrade Canon 2 to Level 3" {
+      complete 100
       effort 45min
       depends !canon_2_2, !th_2
       ${need_builder}
   }
 
   task canon_2_4 "Upgrade Canon 2 to Level 4" {
+      complete 100
       effort 2h
       depends !canon_2_3, !th_3
       ${need_builder}
   }
 
   task canon_2_5 "Upgrade Canon 2 to Level 5" {
+      complete 100
       effort 6h
       depends !canon_2_4, !th_4
       ${need_builder}
   }
 
   task canon_2_6 "Upgrade Canon 2 to Level 6" {
+      complete 100
       effort 12h
       depends !canon_2_5, !th_5
       ${need_builder}

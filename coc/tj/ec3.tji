@@ -1,27 +1,32 @@
   task ec_3_2 "Build Elixir Collector 3 as Level 2" {
+    complete 100
       effort 15min
       ${need_builder}
       depends !th_3
   }
   task ec_3_3 "Upgrade Elixir Collector 3 to Level 3" {
+    complete 100
       effort 15min
       depends !ec_3_2, !th_2
       ${need_builder}
   }
 
   task ec_3_4 "Upgrade Elixir Collector 3 to Level 4" {
+    complete 100
       effort 1h
       depends !ec_3_3
       ${need_builder}
   }
 
   task ec_3_5 "Upgrade Elixir Collector 3 to Level 5" {
+    complete 100
       effort 2h
       depends !ec_3_4, !th_3
       ${need_builder}
   }
 
   task ec_3_6 "Upgrade Elixir Collector 3 to Level 6" {
+    complete 100
       effort 6h
       depends !ec_3_5
       ${need_builder}

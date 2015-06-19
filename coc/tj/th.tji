@@ -1,10 +1,12 @@
   task th_2 "Upgrade TH to 2" {
+      complete 100
       effort 15min
       priority 200
       ${need_builder}
   }
 
   task th_3 "Upgrade TH to 3" {
+      complete 100
       effort 3h
       priority 200
       ${need_builder}
@@ -12,6 +14,7 @@
   }
 
   task th_4 "Upgrade TH to 4" {
+      complete 100
       effort 1d
       ${need_builder}
       priority 200
@@ -19,6 +22,7 @@
   }
 
   task th_5 "Upgrade TH to 5" {
+      complete 100
       effort 2d
       ${need_builder}
       priority 200
@@ -26,6 +30,7 @@
   }
 
   task th_6 "Upgrade TH to 6" {
+      complete 100
       effort 4d
       ${need_builder}
       priority 200

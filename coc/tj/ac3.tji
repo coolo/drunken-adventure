@@ -1,70 +1,88 @@
   task archer_tower_3_2 "Build Archer Tower 3 as Level 2" {
+      priority 300
+      complete 100
       effort 30min
       depends !th_5
       ${need_builder}
   }
 
   task archer_tower_3_3 "Upgrade Archer Tower 3 to Level 3" {
+      priority 300
+      complete 100
       effort 45min
       depends !archer_tower_3_2, !th_3
       ${need_builder}
   }
 
   task archer_tower_3_4 "Upgrade Archer Tower 3 to Level 4" {
+      priority 300
+      complete 100
       effort 4h
       depends !archer_tower_3_3, !th_4
       ${need_builder}
   }
 
   task archer_tower_3_5 "Upgrade Archer Tower 3 to Level 5" {
+      priority 300
+      complete 100
       effort 12h
       depends !archer_tower_3_4, !th_5
       ${need_builder}
   }
 
   task archer_tower_3_6 "Upgrade Archer Tower 3 to Level 6" {
+      priority 300
+      complete 100
       effort 1d
       depends !archer_tower_3_5
       ${need_builder}
   }
 
   task archer_tower_3_7 "Upgrade Archer Tower 3 to Level 7" {
+      priority 300
+      complete 80
       effort 2d
       depends !archer_tower_3_6, !th_6
       ${need_builder}
   }
 
   task archer_tower_3_8 "Upgrade Archer Tower 3 to Level 8" {
+      priority 300
       effort 3d
       depends !archer_tower_3_7, !th_7
       ${need_builder}
   }
 
   task archer_tower_3_9 "Upgrade Archer Tower 3 to Level 9" {
+      priority 300
       effort 4d
       depends !archer_tower_3_8, !th_8
       ${need_builder}
   }
 
   task archer_tower_3_10 "Upgrade Archer Tower 3 to Level 10" {
+      priority 300
       effort 5d
       depends !archer_tower_3_9
       ${need_builder}
   }
 
   task archer_tower_3_11 "Upgrade Archer Tower 3 to Level 11" {
+      priority 300
       effort 6d
       depends !archer_tower_3_10, !th_9
       ${need_builder}
   }
 
   task archer_tower_3_12 "Upgrade Archer Tower 3 to Level 12" {
+      priority 300
       effort 7d
       depends !archer_tower_3_11, !th_10
       ${need_builder}
   }
 
   task archer_tower_3_13 "Upgrade Archer Tower 3 to Level 13" {
+      priority 300
       effort 8d
       depends !archer_tower_3_12
       ${need_builder}
