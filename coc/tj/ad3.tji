@@ -1,0 +1,47 @@
+
+  task ad_3_1 "Build Air Defense 3 as Level 1" {
+      effort 5h
+      depends !th_8
+      ${need_builder}
+  }
+  task ad_3_2 "Upgrade Air Defense 3 to Level 2" {
+      effort 1d
+      depends !ad_3_1
+      ${need_builder}
+  }
+  task ad_3_3 "Upgrade Air Defense 3 to Level 3" {
+      effort 3d
+      depends !ad_3_2, !th_5
+      ${need_builder}
+  }
+
+  task ad_3_4 "Upgrade Air Defense 3 to Level 4" {
+      effort 5d
+      depends !ad_3_3, !th_6
+      ${need_builder}
+  }
+
+  task ad_3_5 "Upgrade Air Defense 3 to Level 5" {
+      effort 6d
+      depends !ad_3_4, !th_7
+      ${need_builder}
+  }
+
+  task ad_3_6 "Upgrade Air Defense 3 to Level 6" {
+      effort 8d
+      depends !ad_3_5, !th_8
+      ${need_builder}
+  }
+
+  task ad_3_7 "Upgrade Air Defense 3 to Level 7" {
+      effort 10d
+      depends !ad_3_6, !th_9
+      ${need_builder}
+  }
+
+  task ad_3_8 "Upgrade Air Defense 3 to Level 8" {
+      effort 12d
+      depends !ad_3_7, !th_10
+      ${need_builder}
+  }
+

@@ -62,6 +62,11 @@ project coc "Clash of Clan" 2015-07-11 +1y {
   include "mortar3.tji"
   include "mortar4.tji"
 
+  include "ad1.tji"
+  include "ad2.tji"
+  include "ad3.tji"
+  include "ad4.tji"
+
   navigator navbar
 
 textreport frame "" {
