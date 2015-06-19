@@ -1,0 +1,65 @@
+  task ec_5_2 "Build Elixir Collector 5 as Level 2" {
+      effort 15min
+      ${need_builder}
+      depends !th_5
+  }
+
+  task ec_5_3 "Upgrade Elixir Collector 5 to Level 3" {
+      effort 15min
+      depends !ec_5_2, !th_2
+      ${need_builder}
+  }
+
+  task ec_5_4 "Upgrade Elixir Collector 5 to Level 4" {
+      effort 1h
+      depends !ec_5_3
+      ${need_builder}
+  }
+
+  task ec_5_5 "Upgrade Elixir Collector 5 to Level 5" {
+      effort 2h
+      depends !ec_5_4, !th_3
+      ${need_builder}
+  }
+
+  task ec_5_6 "Upgrade Elixir Collector 5 to Level 6" {
+      effort 6h
+      depends !ec_5_5
+      ${need_builder}
+  }
+
+  task ec_5_7 "Upgrade Elixir Collector 5 to Level 7" {
+      effort 12h
+      depends !ec_5_6, !th_4
+      ${need_builder}
+  }
+
+  task ec_5_8 "Upgrade Elixir Collector 5 to Level 8" {
+      effort 1d
+      depends !ec_5_7
+      ${need_builder}
+  }
+
+  task ec_5_9 "Upgrade Elixir Collector 5 to Level 9" {
+      effort 2d
+      depends !ec_5_8, !th_5
+      ${need_builder}
+  }
+
+  task ec_5_10 "Upgrade Elixir Collector 5 to Level 10" {
+      effort 3d
+      depends !ec_5_9
+      ${need_builder}
+  }
+
+  task ec_5_11 "Upgrade Elixir Collector 5 to Level 11" {
+      effort 4d
+      depends !ec_5_10, !th_7
+      ${need_builder}
+  }
+
+  task ec_5_12 "Upgrade Elixir Collector 5 to Level 12" {
+      effort 5d
+      depends !ec_5_11, !th_8
+      ${need_builder}
+  }

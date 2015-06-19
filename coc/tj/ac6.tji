@@ -1,0 +1,72 @@
+  task archer_tower_6_2 "Build Archer Tower 6 as Level 2" {
+      effort 30min
+      depends !th_9
+      ${need_builder}
+  }
+
+  task archer_tower_6_3 "Upgrade Archer Tower 6 to Level 3" {
+      effort 45min
+      depends !archer_tower_6_2, !th_3
+      ${need_builder}
+  }
+
+  task archer_tower_6_4 "Upgrade Archer Tower 6 to Level 4" {
+      effort 4h
+      depends !archer_tower_6_3, !th_4
+      ${need_builder}
+  }
+
+  task archer_tower_6_5 "Upgrade Archer Tower 6 to Level 5" {
+      effort 12h
+      depends !archer_tower_6_4, !th_5
+      ${need_builder}
+  }
+
+  task archer_tower_6_6 "Upgrade Archer Tower 6 to Level 6" {
+      effort 1d
+      depends !archer_tower_6_5
+      ${need_builder}
+  }
+
+  task archer_tower_6_7 "Upgrade Archer Tower 6 to Level 7" {
+      effort 2d
+      depends !archer_tower_6_6, !th_6
+      ${need_builder}
+  }
+
+  task archer_tower_6_8 "Upgrade Archer Tower 6 to Level 8" {
+      effort 3d
+      depends !archer_tower_6_7, !th_7
+      ${need_builder}
+  }
+
+  task archer_tower_6_9 "Upgrade Archer Tower 6 to Level 9" {
+      effort 4d
+      depends !archer_tower_6_8, !th_8
+      ${need_builder}
+  }
+
+  task archer_tower_6_10 "Upgrade Archer Tower 6 to Level 10" {
+      effort 5d
+      depends !archer_tower_6_9
+      ${need_builder}
+  }
+
+  task archer_tower_6_11 "Upgrade Archer Tower 6 to Level 11" {
+      effort 6d
+      depends !archer_tower_6_10, !th_9
+      ${need_builder}
+  }
+
+  task archer_tower_6_12 "Upgrade Archer Tower 6 to Level 12" {
+      effort 7d
+      depends !archer_tower_6_11, !th_10
+      ${need_builder}
+  }
+
+  task archer_tower_6_13 "Upgrade Archer Tower 6 to Level 13" {
+      effort 8d
+      depends !archer_tower_6_12
+      ${need_builder}
+   }
+

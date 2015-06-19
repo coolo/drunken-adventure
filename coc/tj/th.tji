@@ -1,0 +1,52 @@
+  task th_2 "Upgrade TH to 2" {
+      effort 15min
+      ${need_builder}
+  }
+
+  task th_3 "Upgrade TH to 3" {
+      effort 3h
+      ${need_builder}
+      depends !th_2
+  }
+  
+  task th_4 "Upgrade TH to 4" {
+      effort 1d
+      ${need_builder}
+      depends !th_3
+  }
+  
+  task th_5 "Upgrade TH to 5" {
+      effort 2d
+      ${need_builder}
+      depends !th_4
+  }
+
+  task th_6 "Upgrade TH to 6" {
+      effort 4d
+      ${need_builder}
+      depends !th_5
+  }
+
+  task th_7 "Upgrade TH to 7" {
+      effort 6d
+      ${need_builder}
+      depends !th_6
+  }
+
+  task th_8 "Upgrade TH to 8" {
+      effort 8d
+      ${need_builder}
+      depends !th_7
+  }
+
+  task th_9 "Upgrade TH to 9" {
+      effort 10d
+      ${need_builder}
+      depends !th_8
+  }
+
+  task th_10 "Upgrade TH to 10" {
+      effort 14d
+      ${need_builder}
+      depends !th_9
+  }

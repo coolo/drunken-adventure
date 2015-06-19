@@ -1,0 +1,80 @@
+project coc "Clash of Clan" 2015-07-11 +1y {
+    timingresolution 15min
+}
+
+  resource builder "Builder" {
+      resource b1 "Builder 1" {
+	    }
+      resource b2 "Builder 2" {
+	    }
+      resource b3 "Builder 3" {
+	    }
+      resource b4 "Builder 4" {
+     	}
+    }
+
+  macro need_builder [
+    allocate b1 {
+  	  alternative b2, b3, b4
+      }
+    ]
+
+
+  include "th.tji"
+
+  include "ec1.tji"
+  include "ec2.tji"
+  include "ec3.tji"
+  include "ec4.tji"
+  include "ec5.tji"
+  include "ec6.tji"
+  include "ec7.tji"
+
+  include "dec1.tji"
+
+  include "gm1.tji"
+  include "gm2.tji"
+  include "gm3.tji"
+  include "gm4.tji"
+  include "gm5.tji"
+  include "gm6.tji"
+  include "gm7.tji"
+
+  include "canon1.tji"
+  include "canon2.tji"
+  include "canon3.tji"
+  include "canon4.tji"
+  include "canon5.tji"
+  include "canon6.tji"
+
+  include "ac1.tji"
+  include "ac2.tji"
+  include "ac3.tji"
+  include "ac4.tji"
+  include "ac5.tji"
+  include "ac6.tji"
+  include "ac7.tji"
+
+  navigator navbar
+
+textreport frame "" {
+  formats csv
+  header -8<-
+    == My ToDo List for ${today} ==
+    <[navigator id="navbar"]>
+  ->8-
+  footer "----"
+
+  columns name,
+          end { title "Due Date" },
+          complete,
+          priority,
+          resources
+
+  taskreport "TODOs" {
+      hidetask plan.complete >= 100
+  }
+
+  purge formats
+}
+
