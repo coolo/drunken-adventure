@@ -1,0 +1,19 @@
+
+  task gb_1_2 "Upgrade Giant Bomb 1 to Level 2" {
+    complete 100
+      effort 6h
+      depends !th_6
+      ${need_builder}
+  }
+  task gb_1_3 "Upgrade Giant Bomb 1 to Level 3" {
+      effort 1d
+      depends !gb_1_2, !th_8
+      ${need_builder}
+  }
+
+  task gb_1_4 "Upgrade Giant Bomb 1 to Level 4" {
+      effort 3d
+      depends !gb_1_3, !th_10
+      ${need_builder}
+  }
+

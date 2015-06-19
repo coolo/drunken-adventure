@@ -18,7 +18,7 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   macro need_builder [
     allocate b1 {
   	  alternative b2, b3, b4
-	  select order
+	  select maxloaded
 	  persistent
       }
 
@@ -37,6 +37,12 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   include "ec5.tji"
   include "ec6.tji"
   include "ec7.tji"
+
+  include "gb1.tji"
+  include "gb2.tji"
+  include "gb3.tji"
+  include "gb4.tji"
+  include "gb5.tji"
 
   include "gm1.tji"
   include "gm2.tji"
