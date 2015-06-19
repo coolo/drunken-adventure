@@ -1,0 +1,39 @@
+  task as_1 "Build Air Sweeper" {
+      complete 100
+      depends !th_6
+      effort 1d
+      ${need_builder}
+  }
+
+  task as_2 "Upgrade Air Sweeper to 2" {
+      complete 100
+      depends !as_1
+      effort 3d
+      ${need_builder}
+  }
+
+  task as_3 "Upgrade Air Sweeper to 3" {
+      complete 100
+      effort 5d
+      ${need_builder}
+      depends !as_2, !th_7
+  }
+
+  task as_4 "Upgrade Air Sweeper to 4" {
+      effort 7d
+      ${need_builder}
+      depends !as_3, !th_8
+  }
+
+  task as_5 "Upgrade Air Sweeper to 5" {
+      effort 8d
+      ${need_builder}
+      depends !as_4, !th_9
+  }
+
+  task as_6 "Upgrade Air Sweeper to 6" {
+      effort 9d
+      ${need_builder}
+      depends !as_5, !th_10
+  }
+
