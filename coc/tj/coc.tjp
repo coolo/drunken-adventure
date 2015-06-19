@@ -1,5 +1,7 @@
 project coc "Clash of Clan" 2015-07-11 +1y {
     timingresolution 15min
+    dailyworkinghours 24
+    workinghours mon,tue,wed,thu,fri,sat,sun 0:00 - 24:00
 }
 
   resource builder "Builder" {
@@ -54,6 +56,11 @@ project coc "Clash of Clan" 2015-07-11 +1y {
   include "ac5.tji"
   include "ac6.tji"
   include "ac7.tji"
+
+  include "mortar1.tji"
+  include "mortar2.tji"
+  include "mortar3.tji"
+  include "mortar4.tji"
 
   navigator navbar
 

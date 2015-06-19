@@ -1,0 +1,48 @@
+  task mortar_4_1 "Build Mortar 4 as Level 1" {
+     effort 8h
+     depends !th_3
+     ${need_builder}
+  }
+
+  task mortar_4_2 "Build Mortar 4 as Level 2" {
+      depends !mortar_4_1, !th_4
+      effort 12h
+      ${need_builder}
+  }
+
+  task mortar_4_3 "Upgrade Mortar 4 to Level 3" {
+      effort 1d
+      depends !mortar_4_2, !th_5
+      ${need_builder}
+  }
+
+  task mortar_4_4 "Upgrade Mortar 4 to Level 4" {
+      effort 2d
+      depends !mortar_4_3, !th_6
+      ${need_builder}
+  }
+
+  task mortar_4_5 "Upgrade Mortar 4 to Level 5" {
+      effort 4d
+      depends !mortar_4_4, !th_7
+      ${need_builder}
+  }
+
+  task mortar_4_6 "Upgrade Mortar 4 to Level 6" {
+      effort 5d
+      depends !mortar_4_5, !th_8
+      ${need_builder}
+  }
+
+  task mortar_4_7 "Upgrade Mortar 4 to Level 7" {
+      effort 7d
+      depends !mortar_4_6, !th_9
+      ${need_builder}
+  }
+
+  task mortar_4_8 "Upgrade Mortar 4 to Level 8" {
+      effort 10d
+      depends !mortar_4_7, !th_10
+      ${need_builder}
+  }
+
