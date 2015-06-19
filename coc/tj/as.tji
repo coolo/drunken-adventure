@@ -16,6 +16,7 @@
       complete 100
       effort 5d
       ${need_builder}
+      priority 700
       depends !as_2, !th_7
   }
 

@@ -1,20 +1,20 @@
   task bomb_1_2 "Build Bomb 1 as Level 2" {
+    complete 100
      effort 15min
      depends !th_3
      ${need_builder}
   }
 
   task bomb_1_3 "Upgrade Bomb 1 to Level 3" {
+    complete 100
       effort 2h
       depends !bomb_1_2, !th_5
-      priority 750
       ${need_builder}
   }
 
   task bomb_1_4 "Upgrade Bomb 1 to Level 4" {
       effort 8h
       depends !bomb_1_3, !th_7
-      priority 750
       ${need_builder}
   }
 

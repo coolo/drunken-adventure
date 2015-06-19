@@ -2,12 +2,14 @@
     complete 100
       effort 15min
       ${need_builder}
+      priority 400
       depends !th_5
   }
 
   task ec_5_3 "Upgrade Elixir Collector 5 to Level 3" {
     complete 100
       effort 15min
+      priority 400
       depends !ec_5_2, !th_2
       ${need_builder}
   }
@@ -15,6 +17,7 @@
   task ec_5_4 "Upgrade Elixir Collector 5 to Level 4" {
     complete 100
       effort 1h
+      priority 400
       depends !ec_5_3
       ${need_builder}
   }
@@ -22,6 +25,7 @@
   task ec_5_5 "Upgrade Elixir Collector 5 to Level 5" {
     complete 100
       effort 2h
+      priority 400
       depends !ec_5_4, !th_3
       ${need_builder}
   }
@@ -29,6 +33,7 @@
   task ec_5_6 "Upgrade Elixir Collector 5 to Level 6" {
     complete 100
       effort 6h
+      priority 400
       depends !ec_5_5
       ${need_builder}
   }
@@ -36,6 +41,7 @@
   task ec_5_7 "Upgrade Elixir Collector 5 to Level 7" {
     complete 100
       effort 12h
+      priority 400
       depends !ec_5_6, !th_4
       ${need_builder}
   }
@@ -43,6 +49,7 @@
   task ec_5_8 "Upgrade Elixir Collector 5 to Level 8" {
     complete 100
       effort 1d
+      priority 400
       depends !ec_5_7
       ${need_builder}
   }
@@ -50,24 +57,28 @@
   task ec_5_9 "Upgrade Elixir Collector 5 to Level 9" {
     complete 100
       effort 2d
+      priority 400
       depends !ec_5_8, !th_5
       ${need_builder}
   }
 
   task ec_5_10 "Upgrade Elixir Collector 5 to Level 10" {
       effort 3d
+      priority 400
       depends !ec_5_9
       ${need_builder}
   }
 
   task ec_5_11 "Upgrade Elixir Collector 5 to Level 11" {
       effort 4d
+      priority 400
       depends !ec_5_10, !th_7
       ${need_builder}
   }
 
   task ec_5_12 "Upgrade Elixir Collector 5 to Level 12" {
       effort 5d
+      priority 400
       depends !ec_5_11, !th_8
       ${need_builder}
   }

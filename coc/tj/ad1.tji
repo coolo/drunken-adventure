@@ -12,7 +12,6 @@
       ${need_builder}
   }
   task ad_1_3 "Upgrade Air Defense 1 to Level 3" {
-    complete 10
       effort 3d
       depends !ad_1_2, !th_5
       ${need_builder}

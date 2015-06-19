@@ -18,13 +18,17 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   macro need_builder [
     allocate b1 {
   	  alternative b2, b3, b4
+	  select order
+	  persistent
       }
+
     ]
 
 
   include "th.tji"
   include "cc.tji"
   include "as.tji"
+  include "st.tji"	
 
   include "ec1.tji"
   include "ec2.tji"
@@ -56,6 +60,13 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   include "ac5.tji"
   include "ac6.tji"
   include "ac7.tji"
+
+  include "bomb1.tji"
+  include "bomb2.tji"
+  include "bomb3.tji"
+  include "bomb4.tji"
+  include "bomb5.tji"
+  include "bomb6.tji"
 
   include "mortar1.tji"
   include "mortar2.tji"
@@ -108,6 +119,8 @@ textreport frame "" {
           priority,
           start, end,
           resources
+
+  timeformat "%Y-%m-%d %H:%M"
 
   taskreport "TODOs" {
       hidetask plan.complete >= 100
