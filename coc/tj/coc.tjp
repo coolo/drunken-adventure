@@ -1,7 +1,7 @@
 project coc "Clash of Clan" 2015-07-11 +2y {
     timingresolution 15min
     dailyworkinghours 24
-    workinghours mon,tue,wed,thu,fri,sat,sun 0:00 - 24:00
+    workinghours mon,tue,wed,thu,fri,sat,sun 0:00 - 23:59
 }
 
   resource builder "Builder" {
@@ -18,7 +18,7 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   macro need_builder [
     allocate b1 {
   	  alternative b2, b3, b4
-	  select maxloaded
+	  select order
 	  persistent
       }
 
@@ -44,6 +44,21 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   include "gb4.tji"
   include "gb5.tji"
 
+  include "gs1.tji"
+  include "gs2.tji"
+  include "gs3.tji"
+  include "gs4.tji"
+
+  include "es1.tji"
+  include "es2.tji"
+  include "es3.tji"
+  include "es4.tji"
+
+  include "camp1.tji"
+  include "camp2.tji"
+  include "camp3.tji"
+  include "camp4.tji"
+  
   include "ab1.tji"
   include "ab2.tji"
   include "ab3.tji"

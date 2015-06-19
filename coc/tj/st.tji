@@ -24,11 +24,13 @@
   }
   task st_5 "Build Spring Trap 5" {
       priority 200
+      effort 15min
       ${need_builder}
       depends !th_8
   }
   task st_6 "Build Spring Trap 6" {
       priority 200
+      effort 15min
       ${need_builder}
       depends !th_8
   }

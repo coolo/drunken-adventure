@@ -1,0 +1,56 @@
+  task army_camp_4_1 "Build Army Camp 4 as Level 1" {
+     effort 15min
+     depends !th_7
+     priority 800
+     ${need_builder}
+  }
+
+  task army_camp_4_2 "Build Army Camp 4 as Level 2" {
+      depends !army_camp_4_1, !th_2
+      effort 1h
+      priority 800
+      ${need_builder}
+  }
+
+  task army_camp_4_3 "Upgrade Army Camp 4 to Level 3" {
+      effort 3h
+      depends !army_camp_4_2, !th_3
+      priority 800
+      ${need_builder}
+  }
+
+  task army_camp_4_4 "Upgrade Army Camp 4 to Level 4" {
+      effort 8h
+      depends !army_camp_4_3, !th_4
+      priority 800
+      ${need_builder}
+  }
+
+  task army_camp_4_5 "Upgrade Army Camp 4 to Level 5" {
+      effort 1d
+      depends !army_camp_4_4, !th_5
+      priority 800
+      ${need_builder}
+  }
+
+  task army_camp_4_6 "Upgrade Army Camp 4 to Level 6" {
+      effort 3d
+      depends !army_camp_4_5, !th_6
+      priority 800
+      ${need_builder}
+  }
+
+  task army_camp_4_7 "Upgrade Army Camp 4 to Level 7" {
+      effort 5d
+      depends !army_camp_4_6, !th_9
+      priority 800
+      ${need_builder}
+  }
+
+  task army_camp_4_8 "Upgrade Army Camp 4 to Level 8" {
+      effort 10d
+      depends !army_camp_4_7, !th_10
+      priority 800
+      ${need_builder}
+  }
+
