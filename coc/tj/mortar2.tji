@@ -32,7 +32,6 @@
   task mortar_2_5 "Upgrade Mortar 2 to Level 5" {
       effort 4d
       depends !mortar_2_4, !th_7
-      priority 750
       ${need_builder}
   }
 

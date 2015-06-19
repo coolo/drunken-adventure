@@ -31,28 +31,24 @@
   task mortar_1_5 "Upgrade Mortar 1 to Level 5" {
       effort 4d
       depends !mortar_1_4, !th_7
-      priority 750
       ${need_builder}
   }
 
   task mortar_1_6 "Upgrade Mortar 1 to Level 6" {
       effort 5d
       depends !mortar_1_5, !th_8
-      priority 750
       ${need_builder}
   }
 
   task mortar_1_7 "Upgrade Mortar 1 to Level 7" {
       effort 7d
       depends !mortar_1_6, !th_9
-      priority 750
       ${need_builder}
   }
 
   task mortar_1_8 "Upgrade Mortar 1 to Level 8" {
       effort 10d
       depends !mortar_1_7, !th_10
-      priority 750
       ${need_builder}
   }
 

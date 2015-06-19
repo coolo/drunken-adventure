@@ -1,4 +1,4 @@
-project coc "Clash of Clan" 2015-07-11 +1y {
+project coc "Clash of Clan" 2015-07-11 +2y {
     timingresolution 15min
     dailyworkinghours 24
     workinghours mon,tue,wed,thu,fri,sat,sun 0:00 - 24:00
@@ -23,6 +23,8 @@ project coc "Clash of Clan" 2015-07-11 +1y {
 
 
   include "th.tji"
+  include "cc.tji"
+  include "as.tji"
 
   include "ec1.tji"
   include "ec2.tji"
@@ -69,10 +71,33 @@ project coc "Clash of Clan" 2015-07-11 +1y {
   include "dec2.tji"
   include "dec3.tji"
 
+  include "wt1.tji"
+  include "wt2.tji"
+  include "wt3.tji"
+  include "wt4.tji"
+
   navigator navbar
 
+macro TaskTip [
+  tooltip istask() -8<-
+     '''Start: ''' <-query attribute='start'->
+     '''End: ''' <-query attribute='end'->
+        ----
+     '''Resources:'''
+
+     <-query attribute='resources'->
+        ----
+       '''Precursors: '''
+
+    <-query attribute='precursors'->
+       ----
+     '''Followers: '''
+
+     <-query attribute='followers'->
+               ->8-
+                                                    ]
 textreport frame "" {
-  formats csv
+  formats csv, html
   header -8<-
     == My ToDo List for ${today} ==
     <[navigator id="navbar"]>
@@ -81,6 +106,7 @@ textreport frame "" {
 
   columns name,
           priority,
+          start, end,
           resources
 
   taskreport "TODOs" {
@@ -88,5 +114,61 @@ textreport frame "" {
   }
 
   purge formats
+}
+
+# Macro to set the background color of a cell according to the alert
+# level of the task.
+macro AlertColor [
+  cellcolor plan.alert = 0 "#00D000" # green
+  cellcolor plan.alert = 1 "#D0D000" # yellow
+  cellcolor plan.alert = 2 "#D00000" # red
+]
+
+# A list of tasks showing the resources assigned to each task.
+taskreport development "" {
+    scenarios plan
+      headline "Development - Resource Allocation Report"
+        columns bsi { title 'WBS' }, name, start, end, effort { title "Work" },
+                  duration, chart { ${TaskTip} scale day width 500 }
+      timeformat "%Y-%m-%d"
+        hideresource ~(isleaf() & isleaf_())
+          sortresources name.up
+}
+taskreport status "" {
+  columns bsi { width 50 title 'WBS' }, name { width 150 },
+          start { width 100 }, end { width 100 },
+          effort { width 100 },
+          alert { tooltip plan.journal
+                          != '' "<-query attribute='journal'->" width 150 },
+          status { width 150 }
+  scenarios plan
+
+  taskreport dashboard "" {
+    headline "Project Dashboard (<-query attribute='now'->)"
+    columns name { title "Task" ${AlertColor} width 200},
+            resources { width 200 ${AlertColor}
+                        listtype bullets
+                        listitem "<-query attribute='name'->"
+                        start ${projectstart} end ${projectend} },
+            alerttrend { title "Trend" ${AlertColor} width 50 },
+            journal { width 350 ${AlertColor} }
+    journalmode status_up
+    journalattributes headline, author, date, summary, details
+    hidetask ~hasalert(0)
+    sorttasks alert.down, plan.end.up
+    period %{${now} - 1w} +1w
+  }
+  taskreport completed "" {
+    headline "Already completed tasks"
+    hidetask ~(plan.end <= ${now})
+  }
+  taskreport ongoing "" {
+    headline "Ongoing tasks"
+    hidetask ~((plan.start <= ${now}) & (plan.end > ${now}))
+  }
+  taskreport future "" {
+    headline "Future tasks"
+    hidetask ~(plan.start > ${now})
+  }
 }
 

@@ -1,0 +1,42 @@
+  task cc_1 "Repair Clan Castle" {
+      complete 100
+      depends !th_3
+  }
+
+  task cc_2 "Upgrade Clan Castle to 2" {
+      complete 100
+      priority 900
+      depends !cc_1, !th_4
+      effort 6h
+      ${need_builder}
+  }
+
+  task cc_3 "Upgrade Clan Castle to 3" {
+      complete 100
+      effort 1d
+      priority 900
+      ${need_builder}
+      depends !cc_2, !th_6
+  }
+
+  task cc_4 "Upgrade Clan Castle to 4" {
+      effort 2d
+      ${need_builder}
+      priority 900
+      depends !cc_3, !th_8
+  }
+
+  task cc_5 "Upgrade Clan Castle to 5" {
+      effort 7d
+      ${need_builder}
+      priority 900
+      depends !cc_4, !th_9
+  }
+
+  task cc_6 "Upgrade Clan Castle to 6" {
+      effort 14d
+      ${need_builder}
+      priority 900
+      depends !cc_5, !th_10
+  }
+
