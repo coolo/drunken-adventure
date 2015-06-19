@@ -44,6 +44,12 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   include "gb4.tji"
   include "gb5.tji"
 
+  include "ab1.tji"
+  include "ab2.tji"
+  include "ab3.tji"
+  include "ab4.tji"
+  include "ab5.tji"
+
   include "gm1.tji"
   include "gm2.tji"
   include "gm3.tji"
