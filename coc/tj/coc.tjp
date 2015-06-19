@@ -105,6 +105,11 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   include "ad3.tji"
   include "ad4.tji"
 
+  include "barrack1.tji"
+  include "barrack2.tji"
+  include "barrack3.tji"
+  include "barrack4.tji"
+
   include "dec1.tji"
   include "dec2.tji"
   include "dec3.tji"
@@ -144,7 +149,6 @@ textreport frame "" {
 
   columns name,
           priority,
-          start, end,
           resources
 
   timeformat "%Y-%m-%d %H:%M"
