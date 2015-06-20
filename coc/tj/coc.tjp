@@ -1,4 +1,4 @@
-project coc "Clash of Clan" 2015-06-20-09:00-+0000 +2y {
+project coc "Clash of Clan" 2015-06-20-09:00-+0000 +3y {
     timingresolution 15min
     dailyworkinghours 24
     workinghours mon,tue,wed,thu,fri,sat,sun 0:00 - 23:59
@@ -26,6 +26,10 @@ project coc "Clash of Clan" 2015-06-20-09:00-+0000 +2y {
   macro builder_effort [
      ${need_builder}
      effort ${1}
+  ]
+
+  macro mine_priority [
+     priority 250
   ]
 
   include "th.tji"
@@ -181,6 +185,10 @@ taskreport development "" {
         hideresource ~(isleaf() & isleaf_())
           sortresources name.up
 }
+icalreport "TODO.ics" {
+  hidetask plan.resources = ''
+}
+
 taskreport status "" {
   columns bsi { width 50 title 'WBS' }, name { width 150 },
           start { width 100 }, end { width 100 },

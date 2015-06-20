@@ -5,64 +5,64 @@
 
   task ec_1_3 "Upgrade Elixir Collector 1 to Level 3" {
       complete 100
-      priority 400
+      ${mine_priority}
       depends !ec_1_2, !th_2
       #${builder_effort "15min"}
   }
 
   task ec_1_4 "Upgrade Elixir Collector 1 to Level 4" {
     complete 100
-      priority 400
+      ${mine_priority}
       depends !ec_1_3
       #${builder_effort "1h"}
   }
 
   task ec_1_5 "Upgrade Elixir Collector 1 to Level 5" {
       complete 100
-      priority 400
+      ${mine_priority}
       depends !ec_1_4, !th_3
       #${builder_effort "2h"}
   }
 
   task ec_1_6 "Upgrade Elixir Collector 1 to Level 6" {
       complete 100
-      priority 400
+      ${mine_priority}
       depends !ec_1_5
       #${builder_effort "6h"}
   }
 
   task ec_1_7 "Upgrade Elixir Collector 1 to Level 7" {
-      priority 400
+      ${mine_priority}
       depends !ec_1_6, !th_4
       ${builder_effort "12h"}
   }
 
   task ec_1_8 "Upgrade Elixir Collector 1 to Level 8" {
-      priority 400
+      ${mine_priority}
       depends !ec_1_7
       ${builder_effort "1d"}
   }
 
   task ec_1_9 "Upgrade Elixir Collector 1 to Level 9" {
-      priority 400
+      ${mine_priority}
       depends !ec_1_8, !th_5
       ${builder_effort "2d"}
   }
 
   task ec_1_10 "Upgrade Elixir Collector 1 to Level 10" {
-      priority 400
+      ${mine_priority}
       depends !ec_1_9
       ${builder_effort "3d"}
   }
 
   task ec_1_11 "Upgrade Elixir Collector 1 to Level 11" {
-      priority 400
+      ${mine_priority}
       depends !ec_1_10, !th_7
       ${builder_effort "4d"}
   }
 
   task ec_1_12 "Upgrade Elixir Collector 1 to Level 12" {
-      priority 400
+      ${mine_priority}
       depends !ec_1_11, !th_8
       ${builder_effort "5d"}
   }
