@@ -1,69 +1,60 @@
   task barrack_3_2 "Build Barrack 3 as Level 2" {
     complete 100
-      effort 15min
-      ${need_builder}
+      ${builder_effort "15min"}
       depends !th_4
   }
 
   task barrack_3_3 "Upgrade Barrack 3 to Level 3" {
     complete 100
-      effort 2h
       priority 900
       depends !barrack_3_2
-      ${need_builder}
+      ${builder_effort "2h"}
   }
 
   task barrack_3_4 "Upgrade Barrack 3 to Level 4" {
     complete 100
-      effort 4h
       priority 900
       depends !barrack_3_3, !th_2
-      ${need_builder}
+      ${builder_effort "4h"}
   }
 
   task barrack_3_5 "Upgrade Barrack 3 to Level 5" {
     complete 100
-      effort 10h
       priority 900
       depends !barrack_3_4, !th_3
-      ${need_builder}
+      ${builder_effort "10h"}
   }
 
   task barrack_3_6 "Upgrade Barrack 3 to Level 6" {
     complete 100
-      effort 16h
       priority 900
       depends !barrack_3_5, !th_4
-      ${need_builder}
+      ${builder_effort "16h"}
   }
 
   task barrack_3_7 "Upgrade Barrack 3 to Level 7" {
     complete 100
-      effort 1d
       priority 900
       depends !barrack_3_6, !th_5
-      ${need_builder}
+      ${builder_effort "1d"}
   }
 
   task barrack_3_8 "Upgrade Barrack 3 to Level 8" {
     complete 100
-      effort 2d
       priority 900
       depends !barrack_3_7, !th_6
-      ${need_builder}
+      ${builder_effort "2d"}
   }
 
   task barrack_3_9 "Upgrade Barrack 3 to Level 9" {
-      effort 4d
       priority 900
       depends !barrack_3_8, !th_7
-      ${need_builder}
+      ${builder_effort "4d"}
   }
 
   task barrack_3_10 "Upgrade Barrack 3 to Level 10" {
-      effort 6d
       priority 900
       depends !barrack_3_9, !th_8
-      ${need_builder}
+      ${builder_effort "6d"}
   }
 

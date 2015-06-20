@@ -1,30 +1,25 @@
   task bomb_6_2 "Build Bomb 6 as Level 2" {
-     effort 15min
      depends !th_7
-     ${need_builder}
+     ${builder_effort "15min"}
   }
 
   task bomb_6_3 "Upgrade Bomb 6 to Level 3" {
-      effort 2h
       depends !bomb_6_2, !th_5
-      ${need_builder}
+      ${builder_effort "2h"}
   }
 
   task bomb_6_4 "Upgrade Bomb 6 to Level 4" {
-      effort 8h
       depends !bomb_6_3, !th_7
-      ${need_builder}
+      ${builder_effort "8h"}
   }
 
   task bomb_6_5 "Upgrade Bomb 6 to Level 5" {
-      effort 1d
       depends !bomb_6_4, !th_8
-      ${need_builder}
+      ${builder_effort "1d"}
   }
 
   task bomb_6_6 "Upgrade Bomb 6 to Level 6" {
-      effort 2d
       depends !bomb_6_5, !th_9
-      ${need_builder}
+      ${builder_effort "2d"}
   }
 

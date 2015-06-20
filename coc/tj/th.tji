@@ -1,66 +1,57 @@
   task th_2 "Upgrade TH to 2" {
       complete 100
-      effort 15min
       priority 200
-      ${need_builder}
+      ${builder_effort "15min"}
   }
 
   task th_3 "Upgrade TH to 3" {
       complete 100
-      effort 3h
       priority 200
-      ${need_builder}
+      ${builder_effort "3h"}
       depends !th_2
   }
 
   task th_4 "Upgrade TH to 4" {
       complete 100
-      effort 1d
-      ${need_builder}
+      ${builder_effort "1d"}
       priority 200
       depends !th_3
   }
 
   task th_5 "Upgrade TH to 5" {
       complete 100
-      effort 2d
-      ${need_builder}
+      ${builder_effort "2d"}
       priority 200
       depends !th_4
   }
 
   task th_6 "Upgrade TH to 6" {
       complete 100
-      effort 4d
-      ${need_builder}
+      ${builder_effort "4d"}
       priority 200
       depends !th_5
   }
 
   task th_7 "Upgrade TH to 7" {
-      effort 6d
-      ${need_builder}
+      ${builder_effort "6d"}
       priority 200
       depends !th_6
   }
 
   task th_8 "Upgrade TH to 8" {
-      effort 8d
-      ${need_builder}
+      ${builder_effort "8d"}
       priority 200
       depends !th_7
   }
 
   task th_9 "Upgrade TH to 9" {
-      effort 10d
-      ${need_builder}
+      ${builder_effort "10d"}
       priority 200
       depends !th_8
   }
 
   task th_10 "Upgrade TH to 10" {
-      effort 14d
-      ${need_builder}
+      ${builder_effort "14d"}
       priority 200
       depends !th_9
   }

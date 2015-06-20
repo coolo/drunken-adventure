@@ -1,72 +1,60 @@
   task canon_4_2 "Build Canon 4 as Level 2" {
-      effort 15min
-      ${need_builder}
+      ${builder_effort "15min"}
       depends !th_7
   }
 
   task canon_4_3 "Upgrade Canon 4 to Level 3" {
-      effort 45min
       depends !canon_4_2, !th_2
-      ${need_builder}
+      ${builder_effort "45min"}
   }
 
   task canon_4_4 "Upgrade Canon 4 to Level 4" {
-      effort 2h
       depends !canon_4_3, !th_3
-      ${need_builder}
+      ${builder_effort "2h"}
   }
 
   task canon_4_5 "Upgrade Canon 4 to Level 5" {
-      effort 6h
       depends !canon_4_4, !th_4
-      ${need_builder}
+      ${builder_effort "6h"}
   }
 
   task canon_4_6 "Upgrade Canon 4 to Level 6" {
-      effort 12h
       depends !canon_4_5, !th_5
-      ${need_builder}
+      ${builder_effort "12h"}
   }
 
   task canon_4_7 "Upgrade Canon 4 to Level 7" {
-      effort 1d
       depends !canon_4_6, !th_6
-      ${need_builder}
+      ${builder_effort "1d"}
   }
 
   task canon_4_8 "Upgrade Canon 4 to Level 8" {
-      effort 2d
       depends !canon_4_7, !th_7
-      ${need_builder}
+      ${builder_effort "2d"}
   }
 
   task canon_4_9 "Upgrade Canon 4 to Level 9" {
-      effort 3d
       depends !canon_4_8, !th_8
-      ${need_builder}
+      ${builder_effort "3d"}
   }
 
   task canon_4_10 "Upgrade Canon 4 to Level 10" {
-      effort 4d
       depends !canon_4_9, !th_8
-      ${need_builder}
+      ${builder_effort "4d"}
   }
 
   task canon_4_11 "Upgrade Canon 4 to Level 11" {
-      effort 5d
       depends !canon_4_10, !th_9
-      ${need_builder}
+      ${builder_effort "5d"}
   }
 
   task canon_4_12 "Upgrade Canon 4 to Level 12" {
-      effort 6d
       depends !canon_4_11, !th_10
-      ${need_builder}
+      ${builder_effort "6d"}
   }
 
   task canon_4_13 "Upgrade Canon 4 to Level 13" {
-      effort 7d
       depends !canon_4_12
-      ${need_builder}
+      ${builder_effort "7d"}
    }
 

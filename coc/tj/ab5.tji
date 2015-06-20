@@ -1,18 +1,15 @@
 
   task ab_5_2 "Upgrade Air Bomb 5 to Level 2" {
-      effort 4h
       depends !th_10
-      ${need_builder}
+      ${builder_effort "4h"}
   }
   task ab_5_3 "Upgrade Air Bomb 5 to Level 3" {
-      effort 12h
       depends !ab_5_2, !th_7
-      ${need_builder}
+      ${builder_effort "12h"}
   }
 
   task ab_5_4 "Upgrade Air Bomb 5 to Level 4" {
-      effort 1d
       depends !ab_5_3, !th_9
-      ${need_builder}
+      ${builder_effort "1d"}
   }
 

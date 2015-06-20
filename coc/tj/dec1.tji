@@ -1,34 +1,28 @@
   task dec_1_1 "Build Dark Elixir Collector 1 as Level 1" {
-      effort 1d
       depends !th_7
-      ${need_builder}
+      ${builder_effort "1d"}
   }
   task dec_1_2 "Upgrade Dark Elixir Collector 1 to Level 2" {
-      effort 2d
       depends !dec_1_1
-      ${need_builder}
+      ${builder_effort "2d"}
   }
   task dec_1_3 "Upgrade Dark Elixir Collector 1 to Level 3" {
-      effort 3d
       depends !dec_1_2
-      ${need_builder}
+      ${builder_effort "3d"}
   }
 
   task dec_1_4 "Upgrade Dark Elixir Collector 1 to Level 4" {
-      effort 4d
       depends !dec_1_3, !th_9
-      ${need_builder}
+      ${builder_effort "4d"}
   }
 
   task dec_1_5 "Upgrade Dark Elixir Collector 1 to Level 5" {
-      effort 6d
       depends !dec_1_4
-      ${need_builder}
+      ${builder_effort "6d"}
   }
 
   task dec_1_6 "Upgrade Dark Elixir Collector 1 to Level 6" {
-      effort 8d
       depends !dec_1_5
-      ${need_builder}
+      ${builder_effort "8d"}
   }
 

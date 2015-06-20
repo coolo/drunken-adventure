@@ -1,18 +1,15 @@
 
   task gb_5_2 "Upgrade Giant Bomb 5 to Level 2" {
-      effort 6h
       depends !th_10
-      ${need_builder}
+      ${builder_effort "6h"}
   }
   task gb_5_3 "Upgrade Giant Bomb 5 to Level 3" {
-      effort 1d
       depends !gb_5_2, !th_8
-      ${need_builder}
+      ${builder_effort "1d"}
   }
 
   task gb_5_4 "Upgrade Giant Bomb 5 to Level 4" {
-      effort 3d
       depends !gb_5_3, !th_10
-      ${need_builder}
+      ${builder_effort "3d"}
   }
 
