@@ -33,7 +33,7 @@
 
   task gm_1_7 "Upgrade Gold Mine 1 to Level 7" {
       priority 1000
-${builder_effort "60min"}
+ ${builder_effort "60min"}
       depends !gm_1_6, !th_4
       #${builder_effort "12h"}
   }

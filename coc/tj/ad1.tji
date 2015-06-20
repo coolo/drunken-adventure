@@ -11,6 +11,7 @@
   }
   task ad_1_3 "Upgrade Air Defense 1 to Level 3" {
       depends !ad_1_2, !th_5
+      complete 100
       #${builder_effort "3d"}
   }
 
