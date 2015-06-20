@@ -1,4 +1,4 @@
-project coc "Clash of Clan" 2015-07-11 +2y {
+project coc "Clash of Clan" 2015-05-20 +2y {
     timingresolution 15min
     dailyworkinghours 24
     workinghours mon,tue,wed,thu,fri,sat,sun 0:00 - 23:59
@@ -28,7 +28,7 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   include "th.tji"
   include "cc.tji"
   include "as.tji"
-  include "st.tji"	
+  include "st.tji"
 
   include "ec1.tji"
   include "ec2.tji"
@@ -58,7 +58,7 @@ project coc "Clash of Clan" 2015-07-11 +2y {
   include "camp2.tji"
   include "camp3.tji"
   include "camp4.tji"
-  
+
   include "ab1.tji"
   include "ab2.tji"
   include "ab3.tji"
@@ -149,12 +149,15 @@ textreport frame "" {
 
   columns name,
           priority,
+          complete,start,end,
           resources
 
   timeformat "%Y-%m-%d %H:%M"
 
   taskreport "TODOs" {
       hidetask plan.complete >= 100
+  }
+  taskreport "all" {
   }
 
   purge formats
