@@ -1,7 +1,7 @@
   task bomb_3_2 "Build Bomb 3 as Level 2" {
     complete 100
      depends !th_5
-     ${builder_effort "15min"}
+    # ${builder_effort "15min"}
   }
 
   task bomb_3_3 "Upgrade Bomb 3 to Level 3" {

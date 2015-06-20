@@ -1,5 +1,5 @@
   task mortar_3_1 "Build Mortar 3 as Level 1" {
-     depends !th_6
+     depends !th_7
      ${builder_effort "8h"}
   }
 

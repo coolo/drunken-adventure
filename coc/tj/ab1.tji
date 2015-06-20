@@ -2,7 +2,7 @@
   task ab_1_2 "Upgrade Air Bomb 1 to Level 2" {
     complete 100
       depends !th_5
-      ${builder_effort "4h"}
+    #  ${builder_effort "4h"}
   }
   task ab_1_3 "Upgrade Air Bomb 1 to Level 3" {
       depends !ab_1_2, !th_7

@@ -1,47 +1,39 @@
 
   task wt_4_1 "Build Wizard Tower 4 as Level 1" {
-      effort 12h
       depends !th_9
-      ${need_builder}
+      ${builder_effort "12h"}
   }
   task wt_4_2 "Upgrade Wizard Tower 4 to Level 2" {
-      effort 1d
       depends !wt_4_1
-      ${need_builder}
+      ${builder_effort "1d"}
   }
   task wt_4_3 "Upgrade Wizard Tower 4 to Level 3" {
-      effort 22d
       depends !wt_4_2, !th_6
-      ${need_builder}
+      ${builder_effort "22d"}
   }
 
   task wt_4_4 "Upgrade Wizard Tower 4 to Level 4" {
-      effort 3d
       depends !wt_4_3, !th_7
-      ${need_builder}
+      ${builder_effort "3d"}
   }
 
   task wt_4_5 "Upgrade Wizard Tower 4 to Level 5" {
-      effort 4d
       depends !wt_4_4, !th_8
-      ${need_builder}
+      ${builder_effort "4d"}
   }
 
   task wt_4_6 "Upgrade Wizard Tower 4 to Level 6" {
-      effort 5d
       depends !wt_4_5, !th_8
-      ${need_builder}
+      ${builder_effort "5d"}
   }
 
   task wt_4_7 "Upgrade Wizard Tower 4 to Level 7" {
-      effort 7d
       depends !wt_4_6, !th_9
-      ${need_builder}
+      ${builder_effort "7d"}
   }
 
   task wt_4_8 "Upgrade Wizard Tower 4 to Level 8" {
-      effort 10d
       depends !wt_4_7, !th_10
-      ${need_builder}
+      ${builder_effort "10d"}
   }
 

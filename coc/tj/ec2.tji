@@ -1,6 +1,6 @@
   task ec_2_2 "Build Elixir Collector 2 as Level 2" {
      complete 100
-      ${builder_effort "15min"}
+      #${builder_effort "15min"}
       priority 400
       depends !th_2
   }
@@ -9,21 +9,21 @@
     complete 100
       priority 400
       depends !ec_2_2, !th_2
-      ${builder_effort "15min"}
+      #${builder_effort "15min"}
   }
 
   task ec_2_4 "Upgrade Elixir Collector 2 to Level 4" {
     complete 100
       priority 400
       depends !ec_2_3
-      ${builder_effort "1h"}
+      #${builder_effort "1h"}
   }
 
   task ec_2_5 "Upgrade Elixir Collector 2 to Level 5" {
     complete 100
       priority 400
       depends !ec_2_4, !th_3
-      ${builder_effort "2h"}
+      #${builder_effort "2h"}
   }
 
   task ec_2_6 "Upgrade Elixir Collector 2 to Level 6" {

@@ -2,55 +2,55 @@
     complete 100
       depends !th_2
       priority 750
-      ${builder_effort "30min"}
+  #    ${builder_effort "30min"}
   }
 
   task gs_1_3 "Upgrade Gold Storage 1 to Level 3" {
      complete 100
       depends !gs_1_2, !th_2
       priority 750
-      ${builder_effort "1h"}
+  #    ${builder_effort "1h"}
   }
 
   task gs_1_4 "Upgrade Gold Storage 1 to Level 4" {
      complete 100
       depends !gs_1_3, !th_3
       priority 750
-      ${builder_effort "2h"}
+  #    ${builder_effort "2h"}
   }
 
   task gs_1_5 "Upgrade Gold Storage 1 to Level 5" {
      complete 100
       depends !gs_1_4, !th_3
-      ${builder_effort "3h"}
+  #    ${builder_effort "3h"}
   }
 
   task gs_1_6 "Upgrade Gold Storage 1 to Level 6" {
      complete 100
       depends !gs_1_5, !th_3
-      ${builder_effort "4h"}
+  #    ${builder_effort "4h"}
   }
 
   task gs_1_7 "Upgrade Gold Storage 1 to Level 7" {
      complete 100
       depends !gs_1_6, !th_4
-      ${builder_effort "6h"}
+  #    ${builder_effort "6h"}
   }
 
   task gs_1_8 "Upgrade Gold Storage 1 to Level 8" {
      complete 100
       depends !gs_1_7, !th_4
-      ${builder_effort "8h"}
+  #    ${builder_effort "8h"}
   }
   task gs_1_9 "Upgrade Gold Storage 1 to Level 9" {
      complete 100
       depends !gs_1_8, !th_5
-      ${builder_effort "12h"}
+  #    ${builder_effort "12h"}
   }
   task gs_1_10 "Upgrade Gold Storage 1 to Level 10" {
      complete 100
       depends !gs_1_9, !th_6
-      ${builder_effort "1d"}
+  #    ${builder_effort "1d"}
   }
 
   task gs_1_11 "Upgrade Gold Storage 1 to Level 11" {

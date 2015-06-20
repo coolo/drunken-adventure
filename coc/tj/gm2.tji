@@ -1,6 +1,6 @@
   task gm_2_2 "Build Gold Mine 2 as Level 2" {
       complete 100
-      ${builder_effort "15min"}
+  #    ${builder_effort "15min"}
       priority 400
       depends !th_2
   }
@@ -9,14 +9,14 @@
       complete 100
       priority 400
       depends !gm_2_2, !th_2
-      ${builder_effort "15min"}
+  #    ${builder_effort "15min"}
   }
 
   task gm_2_4 "Upgrade Gold Mine 2 to Level 4" {
       complete 100
       priority 400
       depends !gm_2_3
-      ${builder_effort "1h"}
+  #    ${builder_effort "1h"}
   }
 
   task gm_2_5 "Upgrade Gold Mine 2 to Level 5" {

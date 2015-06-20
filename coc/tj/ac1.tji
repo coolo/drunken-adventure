@@ -1,37 +1,37 @@
   task archer_tower_1_2 "Build Archer Tower 1 as Level 2" {
       complete 100
       depends !th_2
-      ${builder_effort "30min"}
+      #${builder_effort "30min"}
   }
 
   task archer_tower_1_3 "Upgrade Archer Tower 1 to Level 3" {
       complete 100
       depends !archer_tower_1_2, !th_3
-      ${builder_effort "45min"}
+      #${builder_effort "45min"}
   }
 
   task archer_tower_1_4 "Upgrade Archer Tower 1 to Level 4" {
       complete 100
       depends !archer_tower_1_3, !th_4
-      ${builder_effort "4h"}
+      #${builder_effort "4h"}
   }
 
   task archer_tower_1_5 "Upgrade Archer Tower 1 to Level 5" {
       complete 100
       depends !archer_tower_1_4, !th_5
-      ${builder_effort "12h"}
+      #${builder_effort "12h"}
   }
 
   task archer_tower_1_6 "Upgrade Archer Tower 1 to Level 6" {
       complete 100
       depends !archer_tower_1_5
-      ${builder_effort "1d"}
+      #${builder_effort "1d"}
   }
 
   task archer_tower_1_7 "Upgrade Archer Tower 1 to Level 7" {
       complete 100
       depends !archer_tower_1_6, !th_6
-      ${builder_effort "2d"}
+      #${builder_effort "2d"}
   }
 
   task archer_tower_1_8 "Upgrade Archer Tower 1 to Level 8" {

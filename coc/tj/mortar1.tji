@@ -2,14 +2,14 @@
      complete 100
      depends !th_3
      priority 750
-     ${builder_effort "8h"}
+  #   ${builder_effort "8h"}
   }
 
   task mortar_1_2 "Build Mortar 1 as Level 2" {
     complete 100
       depends !mortar_1_1, !th_4
       priority 750
-      ${builder_effort "12h"}
+  #    ${builder_effort "12h"}
   }
 
   task mortar_1_3 "Upgrade Mortar 1 to Level 3" {

@@ -1,17 +1,17 @@
   task as_1 "Build Air Sweeper" {
       complete 100
       depends !th_6
-      ${builder_effort "1d"}
+  #    ${builder_effort "1d"}
   }
 
   task as_2 "Upgrade Air Sweeper to 2" {
-      complete 100
       depends !as_1
-      ${builder_effort "3d"}
+  #    ${builder_effort "3d"}
+     ${builder_effort "36h"}
+      priority 1000
   }
 
   task as_3 "Upgrade Air Sweeper to 3" {
-      complete 100
       ${builder_effort "5d"}
       priority 700
       depends !as_2, !th_7

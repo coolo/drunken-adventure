@@ -1,4 +1,4 @@
-project coc "Clash of Clan" 2015-05-20 +2y {
+project coc "Clash of Clan" 2015-06-20-09:00-+0000 +2y {
     timingresolution 15min
     dailyworkinghours 24
     workinghours mon,tue,wed,thu,fri,sat,sun 0:00 - 23:59
@@ -27,7 +27,7 @@ project coc "Clash of Clan" 2015-05-20 +2y {
      ${need_builder}
      effort ${1}
   ]
-  
+
   include "th.tji"
   include "cc.tji"
   include "as.tji"
@@ -157,10 +157,8 @@ textreport frame "" {
 
   timeformat "%Y-%m-%d %H:%M"
 
-  taskreport "TODOs" {
-      hidetask plan.complete >= 100
-  }
   taskreport "all" {
+     hidetask plan.resources = ''
   }
 
   purge formats
