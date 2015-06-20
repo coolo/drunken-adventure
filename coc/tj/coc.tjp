@@ -21,10 +21,13 @@ project coc "Clash of Clan" 2015-05-20 +2y {
 	  select order
 	  persistent
       }
-
     ]
 
-
+  macro builder_effort [
+     ${need_builder}
+     effort ${1}
+  ]
+  
   include "th.tji"
   include "cc.tji"
   include "as.tji"
