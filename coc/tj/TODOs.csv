@@ -1,507 +1,507 @@
-"Name","Priority"
-"Build Air_Bomb 1 as Level 2",650
-"Upgrade Cannon 2 to Level 7",550
-"Upgrade Mortar 1 to Level 3",600
-"Upgrade Wizard Tower 1 to Level 2",630
-"Upgrade Cannon 1 to Level 6",550
-"Upgrade Cannon 1 to Level 7",550
-"Upgrade TH to 7",300
-"Upgrade Elixir_Storage 1 to Level 10",500
-"Upgrade Mortar 1 to Level 4",600
-"Upgrade Wizard Tower 1 to Level 3",630
-"Upgrade Elixir_Collector 6 to Level 9",250
-"Upgrade Elixir_Collector 1 to Level 7",250
-"Upgrade Elixir_Collector 3 to Level 7",250
-"Upgrade Elixir_Collector 4 to Level 7",250
-"Upgrade Elixir_Collector 1 to Level 8",250
-"Upgrade Elixir_Collector 2 to Level 6",250
-"Upgrade Elixir_Collector 3 to Level 8",250
-"Upgrade Elixir_Collector 2 to Level 7",250
-"Upgrade Elixir_Collector 4 to Level 8",250
-"Upgrade Elixir_Collector 2 to Level 8",250
-"Upgrade Elixir_Collector 1 to Level 9",250
-"Upgrade Elixir_Collector 5 to Level 10",250
-"Upgrade Elixir_Collector 4 to Level 9",250
-"Upgrade Bomb 1 to Level 4",910
-"Build Bomb 5 as Level 2",910
-"Build Bomb 6 as Level 2",910
-"Upgrade Laboratory 1 to Level 5",950
-"Upgrade Bomb 5 to Level 3",910
-"Upgrade Bomb 6 to Level 3",910
-"Upgrade Bomb 2 to Level 4",910
-"Upgrade Bomb 3 to Level 4",910
-"Upgrade Bomb 4 to Level 4",910
-"Upgrade Bomb 5 to Level 4",910
-"Upgrade Bomb 6 to Level 4",910
-"Build Army_Camp 4 as Level 1",830
-"Upgrade Army_Camp 4 to Level 2",830
-"Upgrade Army_Camp 4 to Level 3",830
-"Build Barracks 4 as Level 2",800
-"Build Dark_Barracks 1 as Level 1",800
-"Upgrade Barracks 4 to Level 3",800
-"Upgrade Army_Camp 4 to Level 4",830
-"Upgrade Barracks 1 to Level 9",800
-"Upgrade Barracks 4 to Level 4",800
-"Upgrade Barracks 4 to Level 5",800
-"Upgrade Army_Camp 4 to Level 5",830
-"Upgrade Barracks 4 to Level 6",800
-"Upgrade Barracks 2 to Level 9",800
-"Upgrade Barracks 3 to Level 9",800
-"Upgrade Barracks 4 to Level 7",800
-"Upgrade Army_Camp 4 to Level 6",830
-"Upgrade Spell_Factory 1 to Level 3",750
-"Upgrade Dark_Barracks 1 to Level 2",800
-"Build Air Defense 2 as Level 1",690
-"Upgrade Barracks 4 to Level 8",800
-"Upgrade Air Defense 2 to Level 2",690
-"Upgrade Air Defense 2 to Level 3",690
-"Upgrade Barracks 4 to Level 9",800
-"Upgrade Air Defense 1 to Level 5",690
-"Upgrade Air Sweeper 1 to Level 3",690
-"Build Archer Tower 4 as Level 2",660
-"Upgrade Archer Tower 4 to Level 3",660
-"Upgrade Archer Tower 4 to Level 4",660
-"Upgrade Archer Tower 4 to Level 5",660
-"Upgrade Archer Tower 4 to Level 6",660
-"Upgrade Archer Tower 4 to Level 7",660
-"Upgrade Air Defense 2 to Level 4",690
-"Upgrade Archer Tower 1 to Level 8",660
-"Upgrade Archer Tower 2 to Level 8",660
-"Upgrade Archer Tower 3 to Level 8",660
-"Build Hidden Tesla 1 as Level 1",650
-"Build Hidden Tesla 2 as Level 1",650
-"Upgrade Air_Bomb 1 to Level 3",650
-"Upgrade Air_Bomb 2 to Level 3",650
-"Upgrade Hidden Tesla 1 to Level 2",650
-"Upgrade Wizard Tower 1 to Level 4",630
-"Upgrade Hidden Tesla 2 to Level 2",650
-"Upgrade Wizard Tower 2 to Level 4",630
-"Upgrade Air Defense 2 to Level 5",690
-"Upgrade Hidden Tesla 1 to Level 3",650
-"Build Giant_Bomb 2 as Level 2",620
-"Upgrade Hidden Tesla 2 to Level 3",650
-"Build Mortar 3 as Level 1",600
-"Upgrade Mortar 3 to Level 2",600
-"Upgrade Mortar 3 to Level 3",600
-"Upgrade Mortar 3 to Level 4",600
-"Upgrade Mortar 1 to Level 5",600
-"Upgrade Mortar 2 to Level 5",600
-"Upgrade Archer Tower 4 to Level 8",660
-"Upgrade Mortar 3 to Level 5",600
-"Build Seeking_Air_Mine 1 as Level 1",600
-"Build Cannon 4 as Level 2",550
-"Build Cannon 5 as Level 2",550
-"Upgrade Cannon 4 to Level 3",550
-"Upgrade Cannon 5 to Level 3",550
-"Upgrade Cannon 4 to Level 4",550
-"Upgrade Cannon 5 to Level 4",550
-"Upgrade Cannon 4 to Level 5",550
-"Upgrade Cannon 5 to Level 5",550
-"Upgrade Cannon 4 to Level 6",550
-"Upgrade Cannon 5 to Level 6",550
-"Upgrade Cannon 1 to Level 8",550
-"Upgrade Cannon 2 to Level 8",550
-"Upgrade Cannon 4 to Level 7",550
-"Upgrade Cannon 3 to Level 8",550
-"Upgrade Cannon 5 to Level 7",550
-"Upgrade Cannon 4 to Level 8",550
-"Upgrade Cannon 5 to Level 8",550
-"Build Dark_Elixir_Drill 1 as Level 1",500
-"Build Dark_Elixir_Storage 1 as Level 1",500
-"Upgrade Dark_Elixir_Drill 1 to Level 2",500
-"Upgrade Dark_Elixir_Storage 1 to Level 2",500
-"Upgrade TH to 8",300
-"Upgrade Elixir_Collector 1 to Level 10",250
-"Upgrade Dark_Elixir_Drill 1 to Level 3",500
-"Upgrade Elixir_Collector 4 to Level 10",250
-"Upgrade Elixir_Collector 1 to Level 11",250
-"Upgrade Elixir_Collector 4 to Level 11",250
-"Upgrade Elixir_Collector 2 to Level 9",250
-"Upgrade Elixir_Collector 2 to Level 10",250
-"Upgrade Bomb 1 to Level 5",910
-"Upgrade Bomb 2 to Level 5",910
-"Upgrade Bomb 3 to Level 5",910
-"Upgrade Laboratory 1 to Level 6",950
-"Upgrade Bomb 4 to Level 5",910
-"Upgrade Bomb 5 to Level 5",910
-"Upgrade Bomb 6 to Level 5",910
-"Upgrade Clan Castle to 4",900
-"Upgrade Dark_Barracks 1 to Level 3",800
-"Build Dark_Barracks 2 as Level 1",800
-"Upgrade Air Defense 1 to Level 6",690
-"Build Air Defense 3 as Level 1",690
-"Upgrade Air Defense 3 to Level 2",690
-"Upgrade Air Defense 2 to Level 6",690
-"Upgrade Dark_Barracks 2 to Level 2",800
-"Upgrade Air Sweeper 1 to Level 4",690
-"Upgrade Dark_Barracks 1 to Level 4",800
-"Upgrade Dark_Barracks 2 to Level 3",800
-"Build Archer Tower 5 as Level 2",660
-"Upgrade Archer Tower 5 to Level 3",660
-"Upgrade Archer Tower 5 to Level 4",660
-"Upgrade Archer Tower 5 to Level 5",660
-"Upgrade Archer Tower 5 to Level 6",660
-"Upgrade Archer Tower 5 to Level 7",660
-"Upgrade Archer Tower 1 to Level 9",660
-"Upgrade Dark_Barracks 2 to Level 4",800
-"Upgrade Archer Tower 5 to Level 8",660
-"Upgrade Archer Tower 2 to Level 9",660
-"Upgrade Archer Tower 3 to Level 9",660
-"Upgrade Archer Tower 4 to Level 9",660
-"Upgrade Archer Tower 1 to Level 10",660
-"Upgrade Archer Tower 5 to Level 9",660
-"Upgrade Air Defense 3 to Level 3",690
-"Upgrade Archer Tower 2 to Level 10",660
-"Upgrade Air Defense 3 to Level 4",690
-"Upgrade Archer Tower 3 to Level 10",660
-"Upgrade Archer Tower 4 to Level 10",660
-"Upgrade Archer Tower 5 to Level 10",660
-"Upgrade Air Defense 3 to Level 5",690
-"Build Hidden Tesla 3 as Level 1",650
-"Upgrade Hidden Tesla 1 to Level 4",650
-"Upgrade Hidden Tesla 3 to Level 2",650
-"Upgrade Hidden Tesla 2 to Level 4",650
-"Upgrade Hidden Tesla 3 to Level 3",650
-"Upgrade Air Defense 3 to Level 6",690
-"Upgrade Hidden Tesla 1 to Level 5",650
-"Upgrade Hidden Tesla 2 to Level 5",650
-"Upgrade Hidden Tesla 3 to Level 4",650
-"Build Air_Bomb 3 as Level 2",650
-"Build Air_Bomb 4 as Level 2",650
-"Upgrade Air_Bomb 3 to Level 3",650
-"Upgrade Air_Bomb 4 to Level 3",650
-"Build Wizard Tower 3 as Level 1",630
-"Upgrade Hidden Tesla 1 to Level 6",650
-"Upgrade Hidden Tesla 3 to Level 5",650
-"Upgrade Wizard Tower 1 to Level 5",630
-"Upgrade Hidden Tesla 2 to Level 6",650
-"Upgrade Wizard Tower 2 to Level 5",630
-"Upgrade Hidden Tesla 3 to Level 6",650
-"Upgrade Wizard Tower 1 to Level 6",630
-"Upgrade Wizard Tower 2 to Level 6",630
-"Build Giant_Bomb 3 as Level 2",620
-"Upgrade Giant_Bomb 1 to Level 3",620
-"Upgrade Giant_Bomb 2 to Level 3",620
-"Upgrade Giant_Bomb 3 to Level 3",620
-"Build Mortar 4 as Level 1",600
-"Upgrade Mortar 4 to Level 2",600
-"Upgrade Mortar 4 to Level 3",600
-"Upgrade Mortar 1 to Level 6",600
-"Upgrade Mortar 2 to Level 6",600
-"Upgrade Mortar 4 to Level 4",600
-"Upgrade Mortar 3 to Level 6",600
-"Upgrade Mortar 4 to Level 5",600
-"Upgrade Wizard Tower 3 to Level 2",630
-"Upgrade Wizard Tower 3 to Level 3",630
-"Build Skeleton_Trap 1 as Level 1",600
-"Build Skeleton_Trap 2 as Level 1",600
-"Upgrade Skeleton_Trap 1 to Level 2",600
-"Upgrade Skeleton_Trap 2 to Level 2",600
-"Build Seeking_Air_Mine 2 as Level 1",600
-"Upgrade Cannon 1 to Level 9",550
-"Upgrade Mortar 4 to Level 6",600
-"Upgrade Cannon 2 to Level 9",550
-"Upgrade Wizard Tower 3 to Level 4",630
-"Upgrade Cannon 3 to Level 9",550
-"Upgrade Cannon 4 to Level 9",550
-"Upgrade Wizard Tower 3 to Level 5",630
-"Upgrade Cannon 5 to Level 9",550
-"Upgrade Cannon 2 to Level 10",550
-"Upgrade Wizard Tower 3 to Level 6",630
-"Upgrade Cannon 1 to Level 10",550
-"Upgrade Cannon 3 to Level 10",550
-"Upgrade Cannon 4 to Level 10",550
-"Upgrade Cannon 5 to Level 10",550
-"Build Dark_Elixir_Drill 2 as Level 1",500
-"Upgrade Dark_Elixir_Storage 1 to Level 3",500
-"Upgrade Dark_Elixir_Drill 2 to Level 2",500
-"Build Elixir_Storage 3 as Level 2",500
-"Build Gold_Storage 3 as Level 2",500
-"Upgrade Elixir_Storage 3 to Level 3",500
-"Upgrade Gold_Storage 3 to Level 3",500
-"Upgrade Elixir_Storage 3 to Level 4",500
-"Upgrade Gold_Storage 3 to Level 4",500
-"Upgrade Elixir_Storage 3 to Level 5",500
-"Upgrade Gold_Storage 3 to Level 5",500
-"Upgrade Elixir_Storage 3 to Level 6",500
-"Upgrade Gold_Storage 3 to Level 6",500
-"Upgrade Elixir_Storage 3 to Level 7",500
-"Upgrade Dark_Elixir_Drill 2 to Level 3",500
-"Upgrade Gold_Storage 3 to Level 7",500
-"Upgrade Elixir_Storage 3 to Level 8",500
-"Upgrade Gold_Storage 3 to Level 8",500
-"Upgrade Elixir_Storage 3 to Level 9",500
-"Upgrade Gold_Storage 3 to Level 9",500
-"Upgrade TH to 9",300
-"Upgrade Dark_Elixir_Storage 1 to Level 4",500
-"Upgrade Elixir_Collector 6 to Level 10",250
-"Upgrade Elixir_Storage 3 to Level 10",500
-"Upgrade Elixir_Collector 3 to Level 9",250
-"Upgrade Elixir_Collector 6 to Level 11",250
-"Upgrade Gold_Storage 3 to Level 10",500
-"Upgrade Gold_Mine 5 to Level 9",240
-"Upgrade Elixir_Collector 3 to Level 10",250
-"Upgrade Gold_Mine 2 to Level 7",240
-"Upgrade Gold_Mine 3 to Level 7",240
-"Upgrade Gold_Mine 1 to Level 5",240
-"Upgrade Gold_Mine 1 to Level 6",240
-"Upgrade Gold_Mine 2 to Level 8",240
-"Upgrade Gold_Mine 1 to Level 7",240
-"Upgrade Gold_Mine 3 to Level 8",240
-"Upgrade Gold_Mine 1 to Level 8",240
-"Upgrade Gold_Mine 3 to Level 9",240
-"Upgrade Elixir_Collector 3 to Level 11",250
-"Upgrade Gold_Mine 1 to Level 9",240
-"Upgrade Gold_Mine 4 to Level 8",240
-"Upgrade Bomb 1 to Level 6",910
-"Upgrade Bomb 2 to Level 6",910
-"Upgrade Bomb 3 to Level 6",910
-"Upgrade Laboratory 1 to Level 7",950
-"Upgrade Bomb 4 to Level 6",910
-"Upgrade Bomb 5 to Level 6",910
-"Upgrade Bomb 6 to Level 6",910
-"Upgrade Clan Castle to 5",900
-"Upgrade Army_Camp 1 to Level 7",830
-"Upgrade Army_Camp 2 to Level 7",830
-"Upgrade Army_Camp 3 to Level 7",830
-"Upgrade Army_Camp 4 to Level 7",830
-"Upgrade Dark_Barracks 1 to Level 5",800
-"Upgrade Dark_Barracks 2 to Level 5",800
-"Upgrade Spell_Factory 1 to Level 4",750
-"Build Air Defense 4 as Level 1",690
-"Upgrade Air Defense 4 to Level 2",690
-"Upgrade Air Defense 4 to Level 3",690
-"Upgrade Air Defense 1 to Level 7",690
-"Upgrade Air Defense 2 to Level 7",690
-"Upgrade Air Defense 3 to Level 7",690
-"Upgrade Air Defense 4 to Level 4",690
-"Upgrade Air Sweeper 1 to Level 5",690
-"Upgrade Air Defense 4 to Level 5",690
-"Build Archer Tower 6 as Level 2",660
-"Upgrade Archer Tower 6 to Level 3",660
-"Upgrade Archer Tower 6 to Level 4",660
-"Upgrade Archer Tower 1 to Level 11",660
-"Upgrade Archer Tower 6 to Level 5",660
-"Upgrade Archer Tower 6 to Level 6",660
-"Upgrade Archer Tower 2 to Level 11",660
-"Upgrade Archer Tower 6 to Level 7",660
-"Upgrade Air Defense 4 to Level 6",690
-"Upgrade Archer Tower 6 to Level 8",660
-"Upgrade Archer Tower 3 to Level 11",660
-"Upgrade Archer Tower 6 to Level 9",660
-"Upgrade Archer Tower 4 to Level 11",660
-"Upgrade Archer Tower 6 to Level 10",660
-"Upgrade Air Defense 4 to Level 7",690
-"Upgrade Archer Tower 5 to Level 11",660
-"Build Hidden Tesla 4 as Level 1",650
-"Upgrade Hidden Tesla 4 to Level 2",650
-"Upgrade Hidden Tesla 4 to Level 3",650
-"Build X-Bow 1 as Level 1",650
-"Build X-Bow 2 as Level 1",650
-"Upgrade Hidden Tesla 1 to Level 7",650
-"Upgrade Hidden Tesla 4 to Level 4",650
-"Upgrade X-Bow 1 to Level 2",650
-"Upgrade Archer Tower 6 to Level 11",660
-"Upgrade Hidden Tesla 2 to Level 7",650
-"Upgrade Hidden Tesla 3 to Level 7",650
-"Upgrade Hidden Tesla 4 to Level 5",650
-"Upgrade X-Bow 1 to Level 3",650
-"Upgrade X-Bow 2 to Level 2",650
-"Upgrade Hidden Tesla 4 to Level 6",650
-"Upgrade Air_Bomb 1 to Level 4",650
-"Upgrade Air_Bomb 2 to Level 4",650
-"Upgrade Air_Bomb 3 to Level 4",650
-"Upgrade Air_Bomb 4 to Level 4",650
-"Build Wizard Tower 4 as Level 1",630
-"Upgrade Wizard Tower 4 to Level 2",630
-"Upgrade Wizard Tower 1 to Level 7",630
-"Upgrade X-Bow 2 to Level 3",650
-"Upgrade Wizard Tower 4 to Level 3",630
-"Upgrade Hidden Tesla 4 to Level 7",650
-"Upgrade Wizard Tower 2 to Level 7",630
-"Upgrade Wizard Tower 3 to Level 7",630
-"Build Giant_Bomb 4 as Level 2",620
-"Upgrade Giant_Bomb 4 to Level 3",620
-"Upgrade Mortar 1 to Level 7",600
-"Upgrade Mortar 2 to Level 7",600
-"Upgrade Mortar 3 to Level 7",600
-"Upgrade Mortar 4 to Level 7",600
-"Upgrade Wizard Tower 4 to Level 4",630
-"Upgrade Wizard Tower 4 to Level 5",630
-"Build Seeking_Air_Mine 3 as Level 1",600
-"Build Seeking_Air_Mine 4 as Level 1",600
-"Upgrade Seeking_Air_Mine 1 to Level 2",600
-"Upgrade Seeking_Air_Mine 2 to Level 2",600
-"Upgrade Seeking_Air_Mine 3 to Level 2",600
-"Upgrade Wizard Tower 4 to Level 6",630
-"Upgrade Seeking_Air_Mine 4 to Level 2",600
-"Upgrade Skeleton_Trap 1 to Level 3",600
-"Upgrade Skeleton_Trap 2 to Level 3",600
-"Upgrade Cannon 1 to Level 11",550
-"Upgrade Cannon 2 to Level 11",550
-"Upgrade Cannon 3 to Level 11",550
-"Upgrade Wizard Tower 4 to Level 7",630
-"Upgrade Cannon 4 to Level 11",550
-"Upgrade Cannon 5 to Level 11",550
-"Upgrade Dark_Elixir_Drill 1 to Level 4",500
-"Upgrade Dark_Elixir_Drill 2 to Level 4",500
-"Upgrade Dark_Elixir_Drill 1 to Level 5",500
-"Upgrade Dark_Elixir_Storage 1 to Level 5",500
-"Upgrade Dark_Elixir_Drill 2 to Level 5",500
-"Build Elixir_Storage 4 as Level 2",500
-"Build Gold_Storage 4 as Level 2",500
-"Upgrade Elixir_Storage 4 to Level 3",500
-"Upgrade Gold_Storage 4 to Level 3",500
-"Upgrade Elixir_Storage 4 to Level 4",500
-"Upgrade Gold_Storage 4 to Level 4",500
-"Upgrade Elixir_Storage 4 to Level 5",500
-"Upgrade Gold_Storage 4 to Level 5",500
-"Upgrade Elixir_Storage 4 to Level 6",500
-"Upgrade Gold_Storage 4 to Level 6",500
-"Upgrade Elixir_Storage 4 to Level 7",500
-"Upgrade Gold_Storage 4 to Level 7",500
-"Upgrade Elixir_Storage 4 to Level 8",500
-"Upgrade Gold_Storage 4 to Level 8",500
-"Upgrade Elixir_Storage 4 to Level 9",500
-"Upgrade Gold_Storage 4 to Level 9",500
-"Upgrade Elixir_Storage 4 to Level 10",500
-"Upgrade TH to 10",300
-"Upgrade Gold_Storage 4 to Level 10",500
-"Upgrade Gold_Mine 2 to Level 9",240
-"Upgrade Gold_Mine 4 to Level 9",240
-"Upgrade Gold_Mine 6 to Level 11",240
-"Upgrade Gold_Mine 1 to Level 10",240
-"Upgrade Elixir_Collector 2 to Level 11",250
-"Upgrade Gold_Mine 1 to Level 11",240
-"Upgrade Elixir_Collector 5 to Level 11",250
-"Upgrade Gold_Mine 2 to Level 10",240
-"Upgrade Gold_Mine 3 to Level 10",240
-"Upgrade Gold_Mine 4 to Level 10",240
-"Upgrade Gold_Mine 2 to Level 11",240
-"Upgrade Gold_Mine 5 to Level 10",240
-"Upgrade Gold_Mine 4 to Level 11",240
-"Upgrade Clan Castle to 6",900
-"Build Inferno Tower 1 as Level 1",700
-"Upgrade Laboratory 1 to Level 8",950
-"Upgrade Spell_Factory 1 to Level 5",750
-"Upgrade Air Defense 1 to Level 8",690
-"Build Inferno Tower 2 as Level 1",700
-"Upgrade Air Defense 2 to Level 8",690
-"Upgrade Inferno Tower 1 to Level 2",700
-"Upgrade Inferno Tower 2 to Level 2",700
-"Upgrade Air Defense 3 to Level 8",690
-"Upgrade Inferno Tower 1 to Level 3",700
-"Upgrade Air Defense 4 to Level 8",690
-"Upgrade Inferno Tower 2 to Level 3",700
-"Upgrade Air Sweeper 1 to Level 6",690
-"Build Archer Tower 7 as Level 2",660
-"Upgrade Archer Tower 7 to Level 3",660
-"Upgrade Archer Tower 7 to Level 4",660
-"Upgrade Archer Tower 7 to Level 5",660
-"Upgrade Archer Tower 7 to Level 6",660
-"Upgrade Archer Tower 7 to Level 7",660
-"Upgrade Archer Tower 7 to Level 8",660
-"Upgrade Archer Tower 1 to Level 12",660
-"Upgrade Archer Tower 2 to Level 12",660
-"Upgrade Archer Tower 3 to Level 12",660
-"Upgrade Archer Tower 7 to Level 9",660
-"Upgrade Archer Tower 4 to Level 12",660
-"Upgrade Archer Tower 7 to Level 10",660
-"Upgrade Archer Tower 5 to Level 12",660
-"Upgrade Archer Tower 6 to Level 12",660
-"Upgrade Archer Tower 7 to Level 11",660
-"Upgrade Archer Tower 2 to Level 13",660
-"Upgrade Archer Tower 3 to Level 13",660
-"Upgrade Archer Tower 4 to Level 13",660
-"Upgrade Archer Tower 7 to Level 12",660
-"Upgrade Archer Tower 1 to Level 13",660
-"Upgrade Archer Tower 5 to Level 13",660
-"Upgrade Archer Tower 6 to Level 13",660
-"Upgrade Archer Tower 7 to Level 13",660
-"Upgrade Hidden Tesla 1 to Level 8",650
-"Build X-Bow 3 as Level 1",650
-"Upgrade Hidden Tesla 2 to Level 8",650
-"Upgrade Hidden Tesla 3 to Level 8",650
-"Upgrade X-Bow 3 to Level 2",650
-"Upgrade Hidden Tesla 4 to Level 8",650
-"Upgrade X-Bow 1 to Level 4",650
-"Upgrade X-Bow 2 to Level 4",650
-"Upgrade X-Bow 3 to Level 3",650
-"Build Air_Bomb 5 as Level 2",650
-"Upgrade Air_Bomb 5 to Level 3",650
-"Upgrade Air_Bomb 5 to Level 4",650
-"Upgrade Wizard Tower 1 to Level 8",630
-"Upgrade Wizard Tower 2 to Level 8",630
-"Upgrade Wizard Tower 3 to Level 8",630
-"Upgrade X-Bow 3 to Level 4",650
-"Upgrade Wizard Tower 4 to Level 8",630
-"Build Giant_Bomb 5 as Level 2",620
-"Upgrade Giant_Bomb 5 to Level 3",620
-"Upgrade Giant_Bomb 1 to Level 4",620
-"Upgrade Giant_Bomb 2 to Level 4",620
-"Upgrade Giant_Bomb 3 to Level 4",620
-"Upgrade Giant_Bomb 4 to Level 4",620
-"Upgrade Giant_Bomb 5 to Level 4",620
-"Upgrade Mortar 1 to Level 8",600
-"Upgrade Mortar 2 to Level 8",600
-"Upgrade Mortar 3 to Level 8",600
-"Upgrade Mortar 4 to Level 8",600
-"Build Seeking_Air_Mine 5 as Level 1",600
-"Upgrade Seeking_Air_Mine 5 to Level 2",600
-"Upgrade Seeking_Air_Mine 1 to Level 3",600
-"Upgrade Seeking_Air_Mine 2 to Level 3",600
-"Upgrade Seeking_Air_Mine 3 to Level 3",600
-"Upgrade Seeking_Air_Mine 4 to Level 3",600
-"Upgrade Seeking_Air_Mine 5 to Level 3",600
-"Build Skeleton_Trap 3 as Level 1",600
-"Upgrade Skeleton_Trap 3 to Level 2",600
-"Build Cannon 6 as Level 2",550
-"Upgrade Cannon 6 to Level 3",550
-"Upgrade Cannon 6 to Level 4",550
-"Upgrade Cannon 6 to Level 5",550
-"Upgrade Cannon 1 to Level 12",550
-"Upgrade Skeleton_Trap 3 to Level 3",600
-"Upgrade Cannon 2 to Level 12",550
-"Upgrade Cannon 6 to Level 6",550
-"Upgrade Cannon 6 to Level 7",550
-"Upgrade Cannon 3 to Level 12",550
-"Upgrade Cannon 6 to Level 8",550
-"Upgrade Cannon 6 to Level 9",550
-"Upgrade Cannon 4 to Level 12",550
-"Upgrade Cannon 5 to Level 12",550
-"Upgrade Cannon 6 to Level 10",550
-"Upgrade Cannon 1 to Level 13",550
-"Upgrade Cannon 6 to Level 11",550
-"Upgrade Cannon 2 to Level 13",550
-"Upgrade Cannon 3 to Level 13",550
-"Upgrade Cannon 4 to Level 13",550
-"Upgrade Cannon 6 to Level 12",550
-"Upgrade Cannon 5 to Level 13",550
-"Build Dark_Elixir_Drill 3 as Level 1",500
-"Upgrade Dark_Elixir_Drill 3 to Level 2",500
-"Build Elixir_Collector 7 as Level 2",250
-"Upgrade Elixir_Collector 7 to Level 3",250
-"Upgrade Elixir_Collector 7 to Level 4",250
-"Upgrade Elixir_Collector 7 to Level 5",250
-"Upgrade Elixir_Collector 7 to Level 6",250
-"Upgrade Elixir_Collector 7 to Level 7",250
-"Upgrade Dark_Elixir_Drill 3 to Level 3",500
-"Build Gold_Mine 7 as Level 2",240
-"Upgrade Gold_Mine 7 to Level 3",240
-"Upgrade Gold_Mine 7 to Level 4",240
-"Upgrade Gold_Mine 7 to Level 5",240
-"Upgrade Gold_Mine 7 to Level 6",240
-"Upgrade Cannon 6 to Level 13",550
-"Upgrade Gold_Mine 7 to Level 7",240
-"Upgrade Gold_Mine 7 to Level 8",240
-"Upgrade Gold_Mine 7 to Level 9",240
-"Upgrade Dark_Elixir_Drill 3 to Level 4",500
-"Upgrade Gold_Mine 7 to Level 10",240
-"Upgrade Gold_Mine 5 to Level 11",240
-"Upgrade Gold_Mine 7 to Level 11",240
-"Upgrade Dark_Elixir_Drill 3 to Level 5",500
-"Upgrade Elixir_Collector 7 to Level 8",250
-"Upgrade Elixir_Collector 7 to Level 9",250
-"Upgrade Gold_Mine 3 to Level 11",240
-"Upgrade Elixir_Collector 7 to Level 10",250
-"Upgrade Elixir_Collector 7 to Level 11",250
+"Name","Priority","Start"
+"Build Air_Bomb 1 as Level 2 (24,000 Gold)",650,"2015-06-20 09:00"
+"Upgrade Cannon 2 to Level 7 (200,000 gold)",550,"2015-06-20 09:00"
+"Upgrade Mortar 1 to Level 3 (120,000 Gold)",600,"2015-06-20 09:00"
+"Upgrade Wizard Tower 1 to Level 2 (360,000 gold)",630,"2015-06-20 09:00"
+"Upgrade Cannon 1 to Level 6 (100,000 gold)",550,"2015-06-20 13:00"
+"Upgrade Cannon 1 to Level 7 (200,000 gold)",550,"2015-06-21 01:00"
+"Upgrade TH to 7",300,"2015-06-21 09:00"
+"Upgrade Elixir Storage 1 to Level 10 (250,000 Gold)",500,"2015-06-21 09:00"
+"Upgrade Mortar 1 to Level 4 (400,000 Gold)",600,"2015-06-21 09:00"
+"Upgrade Wizard Tower 1 to Level 3 (720,000 gold)",630,"2015-06-21 09:00"
+"Upgrade Elixir Collector 6 to Level 9 (56,000 Gold)",250,"2015-06-22 09:00"
+"Upgrade Elixir Collector 1 to Level 7 (14,000 Gold)",250,"2015-06-23 09:00"
+"Upgrade Elixir Collector 3 to Level 7 (14,000 Gold)",250,"2015-06-23 21:00"
+"Upgrade Elixir Collector 4 to Level 7 (14,000 Gold)",250,"2015-06-24 01:00"
+"Upgrade Elixir Collector 1 to Level 8 (28,000 Gold)",250,"2015-06-24 09:00"
+"Upgrade Elixir Collector 2 to Level 6 (7,000 Gold)",250,"2015-06-24 09:00"
+"Upgrade Elixir Collector 3 to Level 8 (28,000 Gold)",250,"2015-06-24 13:00"
+"Upgrade Elixir Collector 2 to Level 7 (14,000 Gold)",250,"2015-06-24 15:00"
+"Upgrade Elixir Collector 4 to Level 8 (28,000 Gold)",250,"2015-06-24 15:00"
+"Upgrade Elixir Collector 2 to Level 8 (28,000 Gold)",250,"2015-06-25 03:00"
+"Upgrade Elixir Collector 1 to Level 9 (56,000 Gold)",250,"2015-06-25 09:00"
+"Upgrade Elixir Collector 5 to Level 10 (84,000 Gold)",250,"2015-06-25 09:00"
+"Upgrade Elixir Collector 4 to Level 9 (56,000 Gold)",250,"2015-06-25 15:00"
+"Upgrade Bomb 1 to Level 4 (100,000 Gold)",910,"2015-06-27 09:00"
+"Build Bomb 5 as Level 2 (1,400 Gold)",910,"2015-06-27 09:00"
+"Build Bomb 6 as Level 2 (1,400 Gold)",910,"2015-06-27 09:00"
+"Upgrade Laboratory 1 to Level 5 (500,000 Elixir)",950,"2015-06-27 09:00"
+"Upgrade Bomb 5 to Level 3 (10,000 Gold)",910,"2015-06-27 09:15"
+"Upgrade Bomb 6 to Level 3 (10,000 Gold)",910,"2015-06-27 09:15"
+"Upgrade Bomb 2 to Level 4 (100,000 Gold)",910,"2015-06-27 11:15"
+"Upgrade Bomb 3 to Level 4 (100,000 Gold)",910,"2015-06-27 11:15"
+"Upgrade Bomb 4 to Level 4 (100,000 Gold)",910,"2015-06-27 17:00"
+"Upgrade Bomb 5 to Level 4 (100,000 Gold)",910,"2015-06-27 19:15"
+"Upgrade Bomb 6 to Level 4 (100,000 Gold)",910,"2015-06-27 19:15"
+"Build Army Camp 4 as Level 1 (250 Elixir)",830,"2015-06-28 01:00"
+"Upgrade Army Camp 4 to Level 2 (2,500 Elixir)",830,"2015-06-28 01:15"
+"Upgrade Army Camp 4 to Level 3 (10,000 Elixir)",830,"2015-06-28 02:15"
+"Build Barracks 4 as Level 2 (1,200 Elixir)",800,"2015-06-28 03:15"
+"Build Dark Barracks 1 as Level 1 (750,000 Elixir)",800,"2015-06-28 03:15"
+"Upgrade Barracks 4 to Level 3 (2,500 Elixir)",800,"2015-06-28 03:30"
+"Upgrade Army Camp 4 to Level 4 (100,000 Elixir)",830,"2015-06-28 05:15"
+"Upgrade Barracks 1 to Level 9 (1,500,000 Elixir)",800,"2015-06-28 05:15"
+"Upgrade Barracks 4 to Level 4 (5,000 Elixir)",800,"2015-06-28 05:30"
+"Upgrade Barracks 4 to Level 5 (10,000 Elixir)",800,"2015-06-28 09:30"
+"Upgrade Army Camp 4 to Level 5 (250,000 Elixir)",830,"2015-06-28 13:15"
+"Upgrade Barracks 4 to Level 6 (80,000 Elixir)",800,"2015-06-28 19:30"
+"Upgrade Barracks 2 to Level 9 (1,500,000 Elixir)",800,"2015-06-29 09:00"
+"Upgrade Barracks 3 to Level 9 (1,500,000 Elixir)",800,"2015-06-29 11:30"
+"Upgrade Barracks 4 to Level 7 (240,000 Elixir)",800,"2015-06-29 11:30"
+"Upgrade Army Camp 4 to Level 6 (750,000 Elixir)",830,"2015-06-29 13:15"
+"Upgrade Spell Factory 1 to Level 3 (800,000 Elixir)",750,"2015-07-02 05:15"
+"Upgrade Dark Barracks 1 to Level 2 (1,250,000 Elixir)",800,"2015-07-02 11:15"
+"Build Air Defense 2 as Level 1 (22,500 Gold)",690,"2015-07-03 11:30"
+"Upgrade Barracks 4 to Level 8 (700,000 Elixir)",800,"2015-07-03 11:30"
+"Upgrade Air Defense 2 to Level 2 (90,000 Gold)",690,"2015-07-03 16:30"
+"Upgrade Air Defense 2 to Level 3 (270,000 Gold)",690,"2015-07-04 16:30"
+"Upgrade Barracks 4 to Level 9 (1,500,000 Elixir)",800,"2015-07-05 11:30"
+"Upgrade Air Defense 1 to Level 5 (1,080,000 Gold)",690,"2015-07-06 05:15"
+"Upgrade Air Sweeper 1 to Level 3 (1,250,000 Gold)",690,"2015-07-07 11:15"
+"Build Archer Tower 4 as Level 2 (3,000 Gold)",660,"2015-07-09 09:00"
+"Upgrade Archer Tower 4 to Level 3 (5,000 Gold)",660,"2015-07-09 09:30"
+"Upgrade Archer Tower 4 to Level 4 (20,000 Gold)",660,"2015-07-09 10:15"
+"Upgrade Archer Tower 4 to Level 5 (80,000 Gold)",660,"2015-07-09 14:15"
+"Upgrade Archer Tower 4 to Level 6 (180,000 Gold)",660,"2015-07-10 02:15"
+"Upgrade Archer Tower 4 to Level 7 (360,000 Gold)",660,"2015-07-11 02:15"
+"Upgrade Air Defense 2 to Level 4 (540,000 Gold)",690,"2015-07-11 16:30"
+"Upgrade Archer Tower 1 to Level 8 (720,000 Gold)",660,"2015-07-11 16:30"
+"Upgrade Archer Tower 2 to Level 8 (720,000 Gold)",660,"2015-07-12 05:15"
+"Upgrade Archer Tower 3 to Level 8 (720,000 Gold)",660,"2015-07-12 11:15"
+"Build Hidden Tesla 1 as Level 1 (1,000,000 Gold)",650,"2015-07-14 16:30"
+"Build Hidden Tesla 2 as Level 1 (1,000,000 Gold)",650,"2015-07-15 05:15"
+"Upgrade Air_Bomb 1 to Level 3 (200,000 Gold)",650,"2015-07-15 11:15"
+"Upgrade Air_Bomb 2 to Level 3 (200,000 Gold)",650,"2015-07-15 16:30"
+"Upgrade Hidden Tesla 1 to Level 2 (1,250,000 Gold)",650,"2015-07-15 16:30"
+"Upgrade Wizard Tower 1 to Level 4 (1,280,000 gold)",630,"2015-07-16 04:30"
+"Upgrade Hidden Tesla 2 to Level 2 (1,250,000 Gold)",650,"2015-07-16 05:15"
+"Upgrade Wizard Tower 2 to Level 4 (1,280,000 gold)",630,"2015-07-16 05:15"
+"Upgrade Air Defense 2 to Level 5 (1,080,000 Gold)",690,"2015-07-16 16:30"
+"Upgrade Hidden Tesla 1 to Level 3 (1,500,000 Gold)",650,"2015-07-18 16:30"
+"Build Giant Bomb 2 as Level 2 (27,500 Gold)",620,"2015-07-19 05:15"
+"Upgrade Hidden Tesla 2 to Level 3 (1,500,000 Gold)",650,"2015-07-19 05:15"
+"Build Mortar 3 as Level 1 (8,000 Gold)",600,"2015-07-19 11:15"
+"Upgrade Mortar 3 to Level 2 (32,000 Gold)",600,"2015-07-19 19:15"
+"Upgrade Mortar 3 to Level 3 (120,000 Gold)",600,"2015-07-20 07:15"
+"Upgrade Mortar 3 to Level 4 (400,000 Gold)",600,"2015-07-21 07:15"
+"Upgrade Mortar 1 to Level 5 (800,000 Gold)",600,"2015-07-23 07:15"
+"Upgrade Mortar 2 to Level 5 (800,000 Gold)",600,"2015-07-23 23:15"
+"Upgrade Archer Tower 4 to Level 8 (720,000 Gold)",660,"2015-07-24 02:15"
+"Upgrade Mortar 3 to Level 5 (800,000 Gold)",600,"2015-07-27 02:15"
+"Build Seeking Air Mine 1 as Level 1 (15,000 Gold)",600,"2015-07-27 04:30"
+"Build Cannon 4 as Level 2 (1,250 gold)",550,"2015-07-27 04:45"
+"Build Cannon 5 as Level 2 (1,250 gold)",550,"2015-07-27 05:00"
+"Upgrade Cannon 4 to Level 3 (4,000 gold)",550,"2015-07-27 05:15"
+"Upgrade Cannon 5 to Level 3 (4,000 gold)",550,"2015-07-27 06:00"
+"Upgrade Cannon 4 to Level 4 (16,000 gold)",550,"2015-07-27 06:45"
+"Upgrade Cannon 5 to Level 4 (16,000 gold)",550,"2015-07-27 07:15"
+"Upgrade Cannon 4 to Level 5 (50,000 gold)",550,"2015-07-27 08:45"
+"Upgrade Cannon 5 to Level 5 (50,000 gold)",550,"2015-07-27 09:15"
+"Upgrade Cannon 4 to Level 6 (100,000 gold)",550,"2015-07-27 14:45"
+"Upgrade Cannon 5 to Level 6 (100,000 gold)",550,"2015-07-27 15:15"
+"Upgrade Cannon 1 to Level 8 (400,000 gold)",550,"2015-07-27 23:15"
+"Upgrade Cannon 2 to Level 8 (400,000 gold)",550,"2015-07-28 02:45"
+"Upgrade Cannon 4 to Level 7 (200,000 gold)",550,"2015-07-28 02:45"
+"Upgrade Cannon 3 to Level 8 (400,000 gold)",550,"2015-07-28 03:15"
+"Upgrade Cannon 5 to Level 7 (200,000 gold)",550,"2015-07-28 03:15"
+"Upgrade Cannon 4 to Level 8 (400,000 gold)",550,"2015-07-30 03:15"
+"Upgrade Cannon 5 to Level 8 (400,000 gold)",550,"2015-07-30 23:15"
+"Build Dark Elixir Drill 1 as Level 1 (1,000,000 Elixir)",500,"2015-07-31 02:15"
+"Build Dark Elixir Storage 1 as Level 1 (600,000 Elixir)",500,"2015-07-31 02:45"
+"Upgrade Dark Elixir Drill 1 to Level 2 (1,500,000 Elixir)",500,"2015-08-01 02:15"
+"Upgrade Dark Elixir Storage 1 to Level 2 (1,200,000 Elixir)",500,"2015-08-01 02:45"
+"Upgrade TH to 8",300,"2015-08-01 03:15"
+"Upgrade Elixir Collector 1 to Level 10 (84,000 Gold)",250,"2015-08-02 05:15"
+"Upgrade Dark Elixir Drill 1 to Level 3 (2,000,000 Elixir)",500,"2015-08-03 02:15"
+"Upgrade Elixir Collector 4 to Level 10 (84,000 Gold)",250,"2015-08-03 02:45"
+"Upgrade Elixir Collector 1 to Level 11 (168,000 Gold)",250,"2015-08-05 05:15"
+"Upgrade Elixir Collector 4 to Level 11 (168,000 Gold)",250,"2015-08-06 02:45"
+"Upgrade Elixir Collector 2 to Level 9 (56,000 Gold)",250,"2015-08-06 20:15"
+"Upgrade Elixir Collector 2 to Level 10 (84,000 Gold)",250,"2015-08-08 20:15"
+"Upgrade Bomb 1 to Level 5 (1,000,000 Gold)",910,"2015-08-09 03:15"
+"Upgrade Bomb 2 to Level 5 (1,000,000 Gold)",910,"2015-08-09 03:15"
+"Upgrade Bomb 3 to Level 5 (1,000,000 Gold)",910,"2015-08-09 03:15"
+"Upgrade Laboratory 1 to Level 6 (1,000,000 Elixir)",950,"2015-08-09 03:15"
+"Upgrade Bomb 4 to Level 5 (1,000,000 Gold)",910,"2015-08-10 03:15"
+"Upgrade Bomb 5 to Level 5 (1,000,000 Gold)",910,"2015-08-10 03:15"
+"Upgrade Bomb 6 to Level 5 (1,000,000 Gold)",910,"2015-08-10 03:15"
+"Upgrade Clan Castle to 4",900,"2015-08-11 03:15"
+"Upgrade Dark Barracks 1 to Level 3 (1,750,000 Elixir)",800,"2015-08-11 03:15"
+"Build Dark Barracks 2 as Level 1 (750,000 Elixir)",800,"2015-08-11 03:15"
+"Upgrade Air Defense 1 to Level 6 (2,160,000 Gold)",690,"2015-08-13 03:15"
+"Build Air Defense 3 as Level 1 (22,500 Gold)",690,"2015-08-13 03:15"
+"Upgrade Air Defense 3 to Level 2 (90,000 Gold)",690,"2015-08-13 08:15"
+"Upgrade Air Defense 2 to Level 6 (2,160,000 Gold)",690,"2015-08-14 03:15"
+"Upgrade Dark Barracks 2 to Level 2 (1,250,000 Elixir)",800,"2015-08-14 03:15"
+"Upgrade Air Sweeper 1 to Level 4 (2,400,000 Gold)",690,"2015-08-17 03:15"
+"Upgrade Dark Barracks 1 to Level 4 (2,250,000 Elixir)",800,"2015-08-17 03:15"
+"Upgrade Dark Barracks 2 to Level 3 (1,750,000 Elixir)",800,"2015-08-19 03:15"
+"Build Archer Tower 5 as Level 2 (3,000 Gold)",660,"2015-08-22 03:15"
+"Upgrade Archer Tower 5 to Level 3 (5,000 Gold)",660,"2015-08-22 03:45"
+"Upgrade Archer Tower 5 to Level 4 (20,000 Gold)",660,"2015-08-22 04:30"
+"Upgrade Archer Tower 5 to Level 5 (80,000 Gold)",660,"2015-08-22 08:30"
+"Upgrade Archer Tower 5 to Level 6 (180,000 Gold)",660,"2015-08-22 20:30"
+"Upgrade Archer Tower 5 to Level 7 (360,000 Gold)",660,"2015-08-23 20:30"
+"Upgrade Archer Tower 1 to Level 9 (1,500,000 Gold)",660,"2015-08-24 03:15"
+"Upgrade Dark Barracks 2 to Level 4 (2,250,000 Elixir)",800,"2015-08-25 03:15"
+"Upgrade Archer Tower 5 to Level 8 (720,000 Gold)",660,"2015-08-25 20:30"
+"Upgrade Archer Tower 2 to Level 9 (1,500,000 Gold)",660,"2015-08-28 03:15"
+"Upgrade Archer Tower 3 to Level 9 (1,500,000 Gold)",660,"2015-08-28 03:15"
+"Upgrade Archer Tower 4 to Level 9 (1,500,000 Gold)",660,"2015-08-28 20:30"
+"Upgrade Archer Tower 1 to Level 10 (2,500,000 Gold)",660,"2015-09-01 03:15"
+"Upgrade Archer Tower 5 to Level 9 (1,500,000 Gold)",660,"2015-09-01 03:15"
+"Upgrade Air Defense 3 to Level 3 (270,000 Gold)",690,"2015-09-01 08:15"
+"Upgrade Archer Tower 2 to Level 10 (2,500,000 Gold)",660,"2015-09-01 20:30"
+"Upgrade Air Defense 3 to Level 4 (540,000 Gold)",690,"2015-09-04 08:15"
+"Upgrade Archer Tower 3 to Level 10 (2,500,000 Gold)",660,"2015-09-05 03:15"
+"Upgrade Archer Tower 4 to Level 10 (2,500,000 Gold)",660,"2015-09-06 03:15"
+"Upgrade Archer Tower 5 to Level 10 (2,500,000 Gold)",660,"2015-09-06 20:30"
+"Upgrade Air Defense 3 to Level 5 (1,080,000 Gold)",690,"2015-09-09 08:15"
+"Build Hidden Tesla 3 as Level 1 (1,000,000 Gold)",650,"2015-09-10 03:15"
+"Upgrade Hidden Tesla 1 to Level 4 (2,000,000 Gold)",650,"2015-09-11 03:15"
+"Upgrade Hidden Tesla 3 to Level 2 (1,250,000 Gold)",650,"2015-09-11 03:15"
+"Upgrade Hidden Tesla 2 to Level 4 (2,000,000 Gold)",650,"2015-09-11 20:30"
+"Upgrade Hidden Tesla 3 to Level 3 (1,500,000 Gold)",650,"2015-09-14 03:15"
+"Upgrade Air Defense 3 to Level 6 (2,160,000 Gold)",690,"2015-09-15 08:15"
+"Upgrade Hidden Tesla 1 to Level 5 (2,500,000 Gold)",650,"2015-09-17 03:15"
+"Upgrade Hidden Tesla 2 to Level 5 (2,500,000 Gold)",650,"2015-09-17 20:30"
+"Upgrade Hidden Tesla 3 to Level 4 (2,000,000 Gold)",650,"2015-09-19 03:15"
+"Build Air_Bomb 3 as Level 2 (24,000 Gold)",650,"2015-09-23 08:15"
+"Build Air_Bomb 4 as Level 2 (24,000 Gold)",650,"2015-09-23 12:15"
+"Upgrade Air_Bomb 3 to Level 3 (200,000 Gold)",650,"2015-09-23 16:15"
+"Upgrade Air_Bomb 4 to Level 3 (200,000 Gold)",650,"2015-09-24 04:15"
+"Build Wizard Tower 3 as Level 1 (180,000 gold)",630,"2015-09-24 16:15"
+"Upgrade Hidden Tesla 1 to Level 6 (3,000,000 Gold)",650,"2015-09-25 03:15"
+"Upgrade Hidden Tesla 3 to Level 5 (2,500,000 Gold)",650,"2015-09-25 03:15"
+"Upgrade Wizard Tower 1 to Level 5 (1,960,000 gold)",630,"2015-09-25 03:15"
+"Upgrade Hidden Tesla 2 to Level 6 (3,000,000 Gold)",650,"2015-09-25 20:30"
+"Upgrade Wizard Tower 2 to Level 5 (1,960,000 gold)",630,"2015-09-29 03:15"
+"Upgrade Hidden Tesla 3 to Level 6 (3,000,000 Gold)",650,"2015-10-03 03:15"
+"Upgrade Wizard Tower 1 to Level 6 (2,680,000 gold)",630,"2015-10-03 03:15"
+"Upgrade Wizard Tower 2 to Level 6 (2,680,000 gold)",630,"2015-10-05 03:15"
+"Build Giant Bomb 3 as Level 2 (27,500 Gold)",620,"2015-10-05 20:30"
+"Upgrade Giant Bomb 1 to Level 3 (17,500 Gold)",620,"2015-10-06 02:30"
+"Upgrade Giant Bomb 2 to Level 3 (17,500 Gold)",620,"2015-10-07 02:30"
+"Upgrade Giant Bomb 3 to Level 3 (17,500 Gold)",620,"2015-10-08 02:30"
+"Build Mortar 4 as Level 1 (8,000 Gold)",600,"2015-10-08 03:15"
+"Upgrade Mortar 4 to Level 2 (32,000 Gold)",600,"2015-10-08 11:15"
+"Upgrade Mortar 4 to Level 3 (120,000 Gold)",600,"2015-10-08 23:15"
+"Upgrade Mortar 1 to Level 6 (1,600,000 Gold)",600,"2015-10-09 02:30"
+"Upgrade Mortar 2 to Level 6 (1,600,000 Gold)",600,"2015-10-09 23:15"
+"Upgrade Mortar 4 to Level 4 (400,000 Gold)",600,"2015-10-09 23:15"
+"Upgrade Mortar 3 to Level 6 (1,600,000 Gold)",600,"2015-10-10 03:15"
+"Upgrade Mortar 4 to Level 5 (800,000 Gold)",600,"2015-10-11 23:15"
+"Upgrade Wizard Tower 3 to Level 2 (360,000 gold)",630,"2015-10-13 04:15"
+"Upgrade Wizard Tower 3 to Level 3 (720,000 gold)",630,"2015-10-14 04:15"
+"Build Skeleton Trap 1 as Level 1 (6,000 Gold)",600,"2015-10-14 23:15"
+"Build Skeleton Trap 2 as Level 1 (6,000 Gold)",600,"2015-10-14 23:30"
+"Upgrade Skeleton Trap 1 to Level 2 (600,000 Gold)",600,"2015-10-14 23:45"
+"Upgrade Skeleton Trap 2 to Level 2 (600,000 Gold)",600,"2015-10-15 05:45"
+"Build Seeking Air Mine 2 as Level 1 (15,000 Gold)",600,"2015-10-15 11:45"
+"Upgrade Cannon 1 to Level 9 (800,000 gold)",550,"2015-10-15 12:00"
+"Upgrade Mortar 4 to Level 6 (1,600,000 Gold)",600,"2015-10-15 23:15"
+"Upgrade Cannon 2 to Level 9 (800,000 gold)",550,"2015-10-16 02:30"
+"Upgrade Wizard Tower 3 to Level 4 (1,280,000 gold)",630,"2015-10-16 04:15"
+"Upgrade Cannon 3 to Level 9 (800,000 gold)",550,"2015-10-19 02:30"
+"Upgrade Cannon 4 to Level 9 (800,000 gold)",550,"2015-10-19 03:15"
+"Upgrade Wizard Tower 3 to Level 5 (1,960,000 gold)",630,"2015-10-19 04:15"
+"Upgrade Cannon 5 to Level 9 (800,000 gold)",550,"2015-10-22 02:30"
+"Upgrade Cannon 2 to Level 10 (1,600,000 gold)",550,"2015-10-22 03:15"
+"Upgrade Wizard Tower 3 to Level 6 (2,680,000 gold)",630,"2015-10-23 04:15"
+"Upgrade Cannon 1 to Level 10 (1,600,000 gold)",550,"2015-10-23 12:00"
+"Upgrade Cannon 3 to Level 10 (1,600,000 gold)",550,"2015-10-23 12:00"
+"Upgrade Cannon 4 to Level 10 (1,600,000 gold)",550,"2015-10-25 02:30"
+"Upgrade Cannon 5 to Level 10 (1,600,000 gold)",550,"2015-10-27 12:00"
+"Build Dark Elixir Drill 2 as Level 1 (1,000,000 Elixir)",500,"2015-10-28 04:15"
+"Upgrade Dark Elixir Storage 1 to Level 3 (1,800,000 Elixir)",500,"2015-10-29 02:30"
+"Upgrade Dark Elixir Drill 2 to Level 2 (1,500,000 Elixir)",500,"2015-10-29 04:15"
+"Build Elixir Storage 3 as Level 2 (1050 Gold)",500,"2015-10-30 03:15"
+"Build Gold Storage 3 as Level 2 (1050 Elixir)",500,"2015-10-30 03:45"
+"Upgrade Elixir Storage 3 to Level 3 (1,500 Gold)",500,"2015-10-30 04:15"
+"Upgrade Gold Storage 3 to Level 3 (1,500 Elixir)",500,"2015-10-30 05:15"
+"Upgrade Elixir Storage 3 to Level 4 (3,000 Gold)",500,"2015-10-30 06:15"
+"Upgrade Gold Storage 3 to Level 4 (3,000 Elixir)",500,"2015-10-30 08:15"
+"Upgrade Elixir Storage 3 to Level 5 (6,000 Gold)",500,"2015-10-30 10:15"
+"Upgrade Gold Storage 3 to Level 5 (6,000 Elixir)",500,"2015-10-30 13:15"
+"Upgrade Elixir Storage 3 to Level 6 (12,000 Gold)",500,"2015-10-30 16:15"
+"Upgrade Gold Storage 3 to Level 6 (12,000 Elixir)",500,"2015-10-30 20:15"
+"Upgrade Elixir Storage 3 to Level 7 (25,000 Gold)",500,"2015-10-31 00:15"
+"Upgrade Dark Elixir Drill 2 to Level 3 (2,000,000 Elixir)",500,"2015-10-31 04:15"
+"Upgrade Gold Storage 3 to Level 7 (25,000 Elixir)",500,"2015-10-31 06:15"
+"Upgrade Elixir Storage 3 to Level 8 (50,000 Gold)",500,"2015-10-31 12:00"
+"Upgrade Gold Storage 3 to Level 8 (50,000 Elixir)",500,"2015-10-31 12:15"
+"Upgrade Elixir Storage 3 to Level 9 (100,000 Gold)",500,"2015-10-31 20:00"
+"Upgrade Gold Storage 3 to Level 9 (100,000 Elixir)",500,"2015-10-31 20:15"
+"Upgrade TH to 9",300,"2015-11-01 02:30"
+"Upgrade Dark Elixir Storage 1 to Level 4 (2,400,000 Elixir)",500,"2015-11-01 02:30"
+"Upgrade Elixir Collector 6 to Level 10 (84,000 Gold)",250,"2015-11-01 08:00"
+"Upgrade Elixir Storage 3 to Level 10 (250,000 Gold)",500,"2015-11-01 08:00"
+"Upgrade Elixir Collector 3 to Level 9 (56,000 Gold)",250,"2015-11-03 19:15"
+"Upgrade Elixir Collector 6 to Level 11 (168,000 Gold)",250,"2015-11-04 08:00"
+"Upgrade Gold Storage 3 to Level 10 (250,000 Elixir)",500,"2015-11-05 08:15"
+"Upgrade Gold Mine 5 to Level 9 (56,000 Elixir)",240,"2015-11-05 10:15"
+"Upgrade Elixir Collector 3 to Level 10 (84,000 Gold)",250,"2015-11-06 19:15"
+"Upgrade Gold Mine 2 to Level 7 (14,000 Elixir)",240,"2015-11-07 10:15"
+"Upgrade Gold Mine 3 to Level 7 (14,000 Elixir)",240,"2015-11-07 22:15"
+"Upgrade Gold Mine 1 to Level 5 (3,000 Elixir)",240,"2015-11-08 08:00"
+"Upgrade Gold Mine 1 to Level 6 (7,000 Elixir)",240,"2015-11-08 10:00"
+"Upgrade Gold Mine 2 to Level 8 (28,000 Elixir)",240,"2015-11-08 10:15"
+"Upgrade Gold Mine 1 to Level 7 (14,000 Elixir)",240,"2015-11-08 16:00"
+"Upgrade Gold Mine 3 to Level 8 (28,000 Elixir)",240,"2015-11-08 16:00"
+"Upgrade Gold Mine 1 to Level 8 (28,000 Elixir)",240,"2015-11-09 04:00"
+"Upgrade Gold Mine 3 to Level 9 (56,000 Elixir)",240,"2015-11-09 16:00"
+"Upgrade Elixir Collector 3 to Level 11 (168,000 Gold)",250,"2015-11-09 19:15"
+"Upgrade Gold Mine 1 to Level 9 (56,000 Elixir)",240,"2015-11-10 04:00"
+"Upgrade Gold Mine 4 to Level 8 (28,000 Elixir)",240,"2015-11-11 16:00"
+"Upgrade Bomb 1 to Level 6 (1,500,000 Gold)",910,"2015-11-12 02:30"
+"Upgrade Bomb 2 to Level 6 (1,500,000 Gold)",910,"2015-11-12 02:30"
+"Upgrade Bomb 3 to Level 6 (1,500,000 Gold)",910,"2015-11-12 02:30"
+"Upgrade Laboratory 1 to Level 7 (2,500,000 Elixir)",950,"2015-11-12 02:30"
+"Upgrade Bomb 4 to Level 6 (1,500,000 Gold)",910,"2015-11-14 02:30"
+"Upgrade Bomb 5 to Level 6 (1,500,000 Gold)",910,"2015-11-14 02:30"
+"Upgrade Bomb 6 to Level 6 (1,500,000 Gold)",910,"2015-11-14 02:30"
+"Upgrade Clan Castle to 5",900,"2015-11-16 02:30"
+"Upgrade Army Camp 1 to Level 7 (2,250,000 Elixir)",830,"2015-11-16 02:30"
+"Upgrade Army Camp 2 to Level 7 (2,250,000 Elixir)",830,"2015-11-16 02:30"
+"Upgrade Army Camp 3 to Level 7 (2,250,000 Elixir)",830,"2015-11-17 02:30"
+"Upgrade Army Camp 4 to Level 7 (2,250,000 Elixir)",830,"2015-11-21 02:30"
+"Upgrade Dark Barracks 1 to Level 5 (2,750,000 Elixir)",800,"2015-11-21 02:30"
+"Upgrade Dark Barracks 2 to Level 5 (2,750,000 Elixir)",800,"2015-11-22 02:30"
+"Upgrade Spell Factory 1 to Level 4 (1,600,000 Elixir)",750,"2015-11-23 02:30"
+"Build Air Defense 4 as Level 1 (22,500 Gold)",690,"2015-11-26 02:30"
+"Upgrade Air Defense 4 to Level 2 (90,000 Gold)",690,"2015-11-26 07:30"
+"Upgrade Air Defense 4 to Level 3 (270,000 Gold)",690,"2015-11-27 07:30"
+"Upgrade Air Defense 1 to Level 7 (4,320,000 Gold)",690,"2015-11-28 02:30"
+"Upgrade Air Defense 2 to Level 7 (4,320,000 Gold)",690,"2015-11-29 02:30"
+"Upgrade Air Defense 3 to Level 7 (4,320,000 Gold)",690,"2015-11-30 02:30"
+"Upgrade Air Defense 4 to Level 4 (540,000 Gold)",690,"2015-11-30 07:30"
+"Upgrade Air Sweeper 1 to Level 5 (4,800,000 Gold)",690,"2015-11-30 07:30"
+"Upgrade Air Defense 4 to Level 5 (1,080,000 Gold)",690,"2015-12-05 07:30"
+"Build Archer Tower 6 as Level 2 (3,000 Gold)",660,"2015-12-08 02:30"
+"Upgrade Archer Tower 6 to Level 3 (5,000 Gold)",660,"2015-12-08 03:00"
+"Upgrade Archer Tower 6 to Level 4 (20,000 Gold)",660,"2015-12-08 03:45"
+"Upgrade Archer Tower 1 to Level 11 (4,500,000 Gold)",660,"2015-12-08 07:30"
+"Upgrade Archer Tower 6 to Level 5 (80,000 Gold)",660,"2015-12-08 07:45"
+"Upgrade Archer Tower 6 to Level 6 (180,000 Gold)",660,"2015-12-08 19:45"
+"Upgrade Archer Tower 2 to Level 11 (4,500,000 Gold)",660,"2015-12-09 02:30"
+"Upgrade Archer Tower 6 to Level 7 (360,000 Gold)",660,"2015-12-09 19:45"
+"Upgrade Air Defense 4 to Level 6 (2,160,000 Gold)",690,"2015-12-11 07:30"
+"Upgrade Archer Tower 6 to Level 8 (720,000 Gold)",660,"2015-12-11 19:45"
+"Upgrade Archer Tower 3 to Level 11 (4,500,000 Gold)",660,"2015-12-14 07:30"
+"Upgrade Archer Tower 6 to Level 9 (1,500,000 Gold)",660,"2015-12-14 19:45"
+"Upgrade Archer Tower 4 to Level 11 (4,500,000 Gold)",660,"2015-12-15 02:30"
+"Upgrade Archer Tower 6 to Level 10 (2,500,000 Gold)",660,"2015-12-18 19:45"
+"Upgrade Air Defense 4 to Level 7 (4,320,000 Gold)",690,"2015-12-19 07:30"
+"Upgrade Archer Tower 5 to Level 11 (4,500,000 Gold)",660,"2015-12-20 07:30"
+"Build Hidden Tesla 4 as Level 1 (1,000,000 Gold)",650,"2015-12-21 02:30"
+"Upgrade Hidden Tesla 4 to Level 2 (1,250,000 Gold)",650,"2015-12-22 02:30"
+"Upgrade Hidden Tesla 4 to Level 3 (1,500,000 Gold)",650,"2015-12-25 02:30"
+"Build X-Bow 1 as Level 1 (3,000,000 Gold)",650,"2015-12-26 07:30"
+"Build X-Bow 2 as Level 1 (3,000,000 Gold)",650,"2015-12-29 02:30"
+"Upgrade Hidden Tesla 1 to Level 7 (3,500,000 Gold)",650,"2015-12-30 02:30"
+"Upgrade Hidden Tesla 4 to Level 4 (2,000,000 Gold)",650,"2015-12-30 02:30"
+"Upgrade X-Bow 1 to Level 2 (5,000,000 Gold)",650,"2016-01-02 07:30"
+"Upgrade Archer Tower 6 to Level 11 (4,500,000 Gold)",660,"2016-01-02 19:45"
+"Upgrade Hidden Tesla 2 to Level 7 (3,500,000 Gold)",650,"2016-01-02 19:45"
+"Upgrade Hidden Tesla 3 to Level 7 (3,500,000 Gold)",650,"2016-01-11 02:30"
+"Upgrade Hidden Tesla 4 to Level 5 (2,500,000 Gold)",650,"2016-01-11 02:30"
+"Upgrade X-Bow 1 to Level 3 (7,000,000 Gold)",650,"2016-01-12 07:30"
+"Upgrade X-Bow 2 to Level 2 (5,000,000 Gold)",650,"2016-01-17 02:30"
+"Upgrade Hidden Tesla 4 to Level 6 (3,000,000 Gold)",650,"2016-01-19 02:30"
+"Upgrade Air_Bomb 1 to Level 4 (1,500,000 Gold)",650,"2016-01-23 02:30"
+"Upgrade Air_Bomb 2 to Level 4 (1,500,000 Gold)",650,"2016-01-24 02:30"
+"Upgrade Air_Bomb 3 to Level 4 (1,500,000 Gold)",650,"2016-01-25 02:30"
+"Upgrade Air_Bomb 4 to Level 4 (1,500,000 Gold)",650,"2016-01-26 02:30"
+"Build Wizard Tower 4 as Level 1 (180,000 gold)",630,"2016-01-26 07:30"
+"Upgrade Wizard Tower 4 to Level 2 (360,000 gold)",630,"2016-01-26 19:30"
+"Upgrade Wizard Tower 1 to Level 7 (5,360,000 gold)",630,"2016-01-27 02:30"
+"Upgrade X-Bow 2 to Level 3 (7,000,000 Gold)",650,"2016-01-27 02:30"
+"Upgrade Wizard Tower 4 to Level 3 (720,000 gold)",630,"2016-01-27 19:30"
+"Upgrade Hidden Tesla 4 to Level 7 (3,500,000 Gold)",650,"2016-01-29 02:30"
+"Upgrade Wizard Tower 2 to Level 7 (5,360,000 gold)",630,"2016-02-01 19:45"
+"Upgrade Wizard Tower 3 to Level 7 (5,360,000 gold)",630,"2016-02-03 02:30"
+"Build Giant Bomb 4 as Level 2 (27,500 Gold)",620,"2016-02-08 19:45"
+"Upgrade Giant Bomb 4 to Level 3 (17,500 Gold)",620,"2016-02-09 01:45"
+"Upgrade Mortar 1 to Level 7 (3,200,000 Gold)",600,"2016-02-10 01:45"
+"Upgrade Mortar 2 to Level 7 (3,200,000 Gold)",600,"2016-02-10 02:30"
+"Upgrade Mortar 3 to Level 7 (3,200,000 Gold)",600,"2016-02-10 02:30"
+"Upgrade Mortar 4 to Level 7 (3,200,000 Gold)",600,"2016-02-10 19:30"
+"Upgrade Wizard Tower 4 to Level 4 (1,280,000 gold)",630,"2016-02-10 19:30"
+"Upgrade Wizard Tower 4 to Level 5 (1,960,000 gold)",630,"2016-02-13 19:30"
+"Build Seeking Air Mine 3 as Level 1 (15,000 Gold)",600,"2016-02-17 01:45"
+"Build Seeking Air Mine 4 as Level 1 (15,000 Gold)",600,"2016-02-17 02:00"
+"Upgrade Seeking Air Mine 1 to Level 2 (2,000,000 Gold)",600,"2016-02-17 02:15"
+"Upgrade Seeking Air Mine 2 to Level 2 (2,000,000 Gold)",600,"2016-02-17 02:30"
+"Upgrade Seeking Air Mine 3 to Level 2 (2,000,000 Gold)",600,"2016-02-17 19:30"
+"Upgrade Wizard Tower 4 to Level 6 (2,680,000 gold)",630,"2016-02-17 19:30"
+"Upgrade Seeking Air Mine 4 to Level 2 (2,000,000 Gold)",600,"2016-02-18 02:15"
+"Upgrade Skeleton Trap 1 to Level 3 (1,300,000 Gold)",600,"2016-02-18 02:30"
+"Upgrade Skeleton Trap 2 to Level 3 (1,300,000 Gold)",600,"2016-02-18 19:30"
+"Upgrade Cannon 1 to Level 11 (3,200,000 gold)",550,"2016-02-19 02:15"
+"Upgrade Cannon 2 to Level 11 (3,200,000 gold)",550,"2016-02-19 02:30"
+"Upgrade Cannon 3 to Level 11 (3,200,000 gold)",550,"2016-02-19 19:30"
+"Upgrade Wizard Tower 4 to Level 7 (5,360,000 gold)",630,"2016-02-22 19:30"
+"Upgrade Cannon 4 to Level 11 (3,200,000 gold)",550,"2016-02-24 02:15"
+"Upgrade Cannon 5 to Level 11 (3,200,000 gold)",550,"2016-02-24 02:30"
+"Upgrade Dark Elixir Drill 1 to Level 4 (3,000,000 Elixir)",500,"2016-02-24 19:30"
+"Upgrade Dark Elixir Drill 2 to Level 4 (3,000,000 Elixir)",500,"2016-02-28 19:30"
+"Upgrade Dark Elixir Drill 1 to Level 5 (4,000,000 Elixir)",500,"2016-02-29 02:15"
+"Upgrade Dark Elixir Storage 1 to Level 5 (3,000,000 Elixir)",500,"2016-02-29 02:30"
+"Upgrade Dark Elixir Drill 2 to Level 5 (4,000,000 Elixir)",500,"2016-03-03 19:30"
+"Build Elixir Storage 4 as Level 2 (1050 Gold)",500,"2016-03-05 02:30"
+"Build Gold Storage 4 as Level 2 (1050 Elixir)",500,"2016-03-05 03:00"
+"Upgrade Elixir Storage 4 to Level 3 (1,500 Gold)",500,"2016-03-05 03:30"
+"Upgrade Gold Storage 4 to Level 3 (1,500 Elixir)",500,"2016-03-05 04:30"
+"Upgrade Elixir Storage 4 to Level 4 (3,000 Gold)",500,"2016-03-05 05:30"
+"Upgrade Gold Storage 4 to Level 4 (3,000 Elixir)",500,"2016-03-05 07:30"
+"Upgrade Elixir Storage 4 to Level 5 (6,000 Gold)",500,"2016-03-05 09:30"
+"Upgrade Gold Storage 4 to Level 5 (6,000 Elixir)",500,"2016-03-05 12:30"
+"Upgrade Elixir Storage 4 to Level 6 (12,000 Gold)",500,"2016-03-05 15:30"
+"Upgrade Gold Storage 4 to Level 6 (12,000 Elixir)",500,"2016-03-05 19:30"
+"Upgrade Elixir Storage 4 to Level 7 (25,000 Gold)",500,"2016-03-05 23:30"
+"Upgrade Gold Storage 4 to Level 7 (25,000 Elixir)",500,"2016-03-06 02:15"
+"Upgrade Elixir Storage 4 to Level 8 (50,000 Gold)",500,"2016-03-06 05:30"
+"Upgrade Gold Storage 4 to Level 8 (50,000 Elixir)",500,"2016-03-06 08:15"
+"Upgrade Elixir Storage 4 to Level 9 (100,000 Gold)",500,"2016-03-06 13:30"
+"Upgrade Gold Storage 4 to Level 9 (100,000 Elixir)",500,"2016-03-06 16:15"
+"Upgrade Elixir Storage 4 to Level 10 (250,000 Gold)",500,"2016-03-07 01:30"
+"Upgrade TH to 10",300,"2016-03-07 02:30"
+"Upgrade Gold Storage 4 to Level 10 (250,000 Elixir)",500,"2016-03-07 04:15"
+"Upgrade Gold Mine 2 to Level 9 (56,000 Elixir)",240,"2016-03-08 00:00"
+"Upgrade Gold Mine 4 to Level 9 (56,000 Elixir)",240,"2016-03-08 15:00"
+"Upgrade Gold Mine 6 to Level 11 (168,000 Elixir)",240,"2016-03-10 00:00"
+"Upgrade Gold Mine 1 to Level 10 (84,000 Elixir)",240,"2016-03-10 15:00"
+"Upgrade Elixir Collector 2 to Level 11 (168,000 Gold)",250,"2016-03-12 12:30"
+"Upgrade Gold Mine 1 to Level 11 (168,000 Elixir)",240,"2016-03-13 15:00"
+"Upgrade Elixir Collector 5 to Level 11 (168,000 Gold)",250,"2016-03-14 19:00"
+"Upgrade Gold Mine 2 to Level 10 (84,000 Elixir)",240,"2016-03-17 15:00"
+"Upgrade Gold Mine 3 to Level 10 (84,000 Elixir)",240,"2016-03-18 00:00"
+"Upgrade Gold Mine 4 to Level 10 (84,000 Elixir)",240,"2016-03-18 19:00"
+"Upgrade Gold Mine 2 to Level 11 (168,000 Elixir)",240,"2016-03-20 15:00"
+"Upgrade Gold Mine 5 to Level 10 (84,000 Elixir)",240,"2016-03-20 15:00"
+"Upgrade Gold Mine 4 to Level 11 (168,000 Elixir)",240,"2016-03-21 19:00"
+"Upgrade Clan Castle to 6",900,"2016-03-22 02:30"
+"Build Inferno Tower 1 as Level 1 (5,000,000 Gold)",700,"2016-03-22 02:30"
+"Upgrade Laboratory 1 to Level 8 (4,000,000 Elixir)",950,"2016-03-22 02:30"
+"Upgrade Spell Factory 1 to Level 5 (3,200,000 Elixir)",750,"2016-03-22 02:30"
+"Upgrade Air Defense 1 to Level 8 (7,560,000 Gold)",690,"2016-03-28 02:30"
+"Build Inferno Tower 2 as Level 1 (5,000,000 Gold)",700,"2016-03-28 02:30"
+"Upgrade Air Defense 2 to Level 8 (7,560,000 Gold)",690,"2016-03-29 02:30"
+"Upgrade Inferno Tower 1 to Level 2 (6,500,000 Gold)",700,"2016-03-29 02:30"
+"Upgrade Inferno Tower 2 to Level 2 (6,500,000 Gold)",700,"2016-04-04 02:30"
+"Upgrade Air Defense 3 to Level 8 (7,560,000 Gold)",690,"2016-04-05 02:30"
+"Upgrade Inferno Tower 1 to Level 3 (8,000,000 Gold)",700,"2016-04-08 02:30"
+"Upgrade Air Defense 4 to Level 8 (7,560,000 Gold)",690,"2016-04-10 02:30"
+"Upgrade Inferno Tower 2 to Level 3 (8,000,000 Gold)",700,"2016-04-14 02:30"
+"Upgrade Air Sweeper 1 to Level 6 (7,200,000 Gold)",690,"2016-04-19 02:30"
+"Build Archer Tower 7 as Level 2 (3,000 Gold)",660,"2016-04-22 02:30"
+"Upgrade Archer Tower 7 to Level 3 (5,000 Gold)",660,"2016-04-22 03:00"
+"Upgrade Archer Tower 7 to Level 4 (20,000 Gold)",660,"2016-04-22 03:45"
+"Upgrade Archer Tower 7 to Level 5 (80,000 Gold)",660,"2016-04-22 07:45"
+"Upgrade Archer Tower 7 to Level 6 (180,000 Gold)",660,"2016-04-22 19:45"
+"Upgrade Archer Tower 7 to Level 7 (360,000 Gold)",660,"2016-04-23 19:45"
+"Upgrade Archer Tower 7 to Level 8 (720,000 Gold)",660,"2016-04-25 19:45"
+"Upgrade Archer Tower 1 to Level 12 (6,500,000 Gold)",660,"2016-04-28 02:30"
+"Upgrade Archer Tower 2 to Level 12 (6,500,000 Gold)",660,"2016-04-28 02:30"
+"Upgrade Archer Tower 3 to Level 12 (6,500,000 Gold)",660,"2016-04-28 19:45"
+"Upgrade Archer Tower 7 to Level 9 (1,500,000 Gold)",660,"2016-04-28 19:45"
+"Upgrade Archer Tower 4 to Level 12 (6,500,000 Gold)",660,"2016-05-01 02:30"
+"Upgrade Archer Tower 7 to Level 10 (2,500,000 Gold)",660,"2016-05-02 19:45"
+"Upgrade Archer Tower 5 to Level 12 (6,500,000 Gold)",660,"2016-05-05 02:30"
+"Upgrade Archer Tower 6 to Level 12 (6,500,000 Gold)",660,"2016-05-05 19:45"
+"Upgrade Archer Tower 7 to Level 11 (4,500,000 Gold)",660,"2016-05-07 19:45"
+"Upgrade Archer Tower 2 to Level 13 (7,500,000 Gold)",660,"2016-05-08 02:30"
+"Upgrade Archer Tower 3 to Level 13 (7,500,000 Gold)",660,"2016-05-12 02:30"
+"Upgrade Archer Tower 4 to Level 13 (7,500,000 Gold)",660,"2016-05-12 19:45"
+"Upgrade Archer Tower 7 to Level 12 (6,500,000 Gold)",660,"2016-05-13 19:45"
+"Upgrade Archer Tower 1 to Level 13 (7,500,000 Gold)",660,"2016-05-20 02:30"
+"Upgrade Archer Tower 5 to Level 13 (7,500,000 Gold)",660,"2016-05-20 02:30"
+"Upgrade Archer Tower 6 to Level 13 (7,500,000 Gold)",660,"2016-05-20 19:45"
+"Upgrade Archer Tower 7 to Level 13 (7,500,000 Gold)",660,"2016-05-23 02:30"
+"Upgrade Hidden Tesla 1 to Level 8 (5,000,000 Gold)",650,"2016-05-28 02:30"
+"Build X-Bow 3 as Level 1 (3,000,000 Gold)",650,"2016-05-28 02:30"
+"Upgrade Hidden Tesla 2 to Level 8 (5,000,000 Gold)",650,"2016-05-28 19:45"
+"Upgrade Hidden Tesla 3 to Level 8 (5,000,000 Gold)",650,"2016-05-31 02:30"
+"Upgrade X-Bow 3 to Level 2 (5,000,000 Gold)",650,"2016-06-04 02:30"
+"Upgrade Hidden Tesla 4 to Level 8 (5,000,000 Gold)",650,"2016-06-11 02:30"
+"Upgrade X-Bow 1 to Level 4 (8,000,000 Gold)",650,"2016-06-11 19:45"
+"Upgrade X-Bow 2 to Level 4 (8,000,000 Gold)",650,"2016-06-14 02:30"
+"Upgrade X-Bow 3 to Level 3 (7,000,000 Gold)",650,"2016-06-14 02:30"
+"Build Air_Bomb 5 as Level 2 (24,000 Gold)",650,"2016-06-25 02:30"
+"Upgrade Air_Bomb 5 to Level 3 (200,000 Gold)",650,"2016-06-25 06:30"
+"Upgrade Air_Bomb 5 to Level 4 (1,500,000 Gold)",650,"2016-06-25 18:30"
+"Upgrade Wizard Tower 1 to Level 8 (6,480,000 gold)",630,"2016-06-25 19:45"
+"Upgrade Wizard Tower 2 to Level 8 (6,480,000 gold)",630,"2016-06-26 18:30"
+"Upgrade Wizard Tower 3 to Level 8 (6,480,000 gold)",630,"2016-06-28 02:30"
+"Upgrade X-Bow 3 to Level 4 (8,000,000 Gold)",650,"2016-06-28 02:30"
+"Upgrade Wizard Tower 4 to Level 8 (6,480,000 gold)",630,"2016-07-05 19:45"
+"Build Giant Bomb 5 as Level 2 (27,500 Gold)",620,"2016-07-06 18:30"
+"Upgrade Giant Bomb 5 to Level 3 (17,500 Gold)",620,"2016-07-07 00:30"
+"Upgrade Giant Bomb 1 to Level 4 (20,000 Gold)",620,"2016-07-08 00:30"
+"Upgrade Giant Bomb 2 to Level 4 (20,000 Gold)",620,"2016-07-08 02:30"
+"Upgrade Giant Bomb 3 to Level 4 (20,000 Gold)",620,"2016-07-11 00:30"
+"Upgrade Giant Bomb 4 to Level 4 (20,000 Gold)",620,"2016-07-11 02:30"
+"Upgrade Giant Bomb 5 to Level 4 (20,000 Gold)",620,"2016-07-12 02:30"
+"Upgrade Mortar 1 to Level 8 (6,400,000 Gold)",600,"2016-07-14 00:30"
+"Upgrade Mortar 2 to Level 8 (6,400,000 Gold)",600,"2016-07-14 02:30"
+"Upgrade Mortar 3 to Level 8 (6,400,000 Gold)",600,"2016-07-15 02:30"
+"Upgrade Mortar 4 to Level 8 (6,400,000 Gold)",600,"2016-07-15 19:45"
+"Build Seeking Air Mine 5 as Level 1 (15,000 Gold)",600,"2016-07-24 00:30"
+"Upgrade Seeking Air Mine 5 to Level 2 (2,000,000 Gold)",600,"2016-07-24 00:45"
+"Upgrade Seeking Air Mine 1 to Level 3 (4,000,000 Gold)",600,"2016-07-24 02:30"
+"Upgrade Seeking Air Mine 2 to Level 3 (4,000,000 Gold)",600,"2016-07-25 00:45"
+"Upgrade Seeking Air Mine 3 to Level 3 (4,000,000 Gold)",600,"2016-07-25 02:30"
+"Upgrade Seeking Air Mine 4 to Level 3 (4,000,000 Gold)",600,"2016-07-25 19:45"
+"Upgrade Seeking Air Mine 5 to Level 3 (4,000,000 Gold)",600,"2016-07-27 02:30"
+"Build Skeleton Trap 3 as Level 1 (6,000 Gold)",600,"2016-07-28 00:45"
+"Upgrade Skeleton Trap 3 to Level 2 (600,000 Gold)",600,"2016-07-28 01:00"
+"Build Cannon 6 as Level 2 (1,250 gold)",550,"2016-07-28 02:30"
+"Upgrade Cannon 6 to Level 3 (4,000 gold)",550,"2016-07-28 02:45"
+"Upgrade Cannon 6 to Level 4 (16,000 gold)",550,"2016-07-28 03:30"
+"Upgrade Cannon 6 to Level 5 (50,000 gold)",550,"2016-07-28 05:30"
+"Upgrade Cannon 1 to Level 12 (6,400,000 gold)",550,"2016-07-28 07:00"
+"Upgrade Skeleton Trap 3 to Level 3 (1,300,000 Gold)",600,"2016-07-28 07:00"
+"Upgrade Cannon 2 to Level 12 (6,400,000 gold)",550,"2016-07-28 19:45"
+"Upgrade Cannon 6 to Level 6 (100,000 gold)",550,"2016-07-29 11:30"
+"Upgrade Cannon 6 to Level 7 (200,000 gold)",550,"2016-07-29 23:30"
+"Upgrade Cannon 3 to Level 12 (6,400,000 gold)",550,"2016-07-30 02:30"
+"Upgrade Cannon 6 to Level 8 (400,000 gold)",550,"2016-07-30 23:30"
+"Upgrade Cannon 6 to Level 9 (800,000 gold)",550,"2016-08-01 23:30"
+"Upgrade Cannon 4 to Level 12 (6,400,000 gold)",550,"2016-08-03 07:00"
+"Upgrade Cannon 5 to Level 12 (6,400,000 gold)",550,"2016-08-03 19:45"
+"Upgrade Cannon 6 to Level 10 (1,600,000 gold)",550,"2016-08-04 23:30"
+"Upgrade Cannon 1 to Level 13 (7,500,000 gold)",550,"2016-08-05 02:30"
+"Upgrade Cannon 6 to Level 11 (3,200,000 gold)",550,"2016-08-08 23:30"
+"Upgrade Cannon 2 to Level 13 (7,500,000 gold)",550,"2016-08-09 07:00"
+"Upgrade Cannon 3 to Level 13 (7,500,000 gold)",550,"2016-08-09 19:45"
+"Upgrade Cannon 4 to Level 13 (7,500,000 gold)",550,"2016-08-12 02:30"
+"Upgrade Cannon 6 to Level 12 (6,400,000 gold)",550,"2016-08-13 23:30"
+"Upgrade Cannon 5 to Level 13 (7,500,000 gold)",550,"2016-08-16 07:00"
+"Build Dark Elixir Drill 3 as Level 1 (1,000,000 Elixir)",500,"2016-08-16 19:45"
+"Upgrade Dark Elixir Drill 3 to Level 2 (1,500,000 Elixir)",500,"2016-08-17 19:45"
+"Build Elixir Collector 7 as Level 2 (450 Gold)",250,"2016-08-19 02:30"
+"Upgrade Elixir Collector 7 to Level 3 (700 Gold)",250,"2016-08-19 02:45"
+"Upgrade Elixir Collector 7 to Level 4 (1,400 Gold)",250,"2016-08-19 03:00"
+"Upgrade Elixir Collector 7 to Level 5 (3,500 Gold)",250,"2016-08-19 04:00"
+"Upgrade Elixir Collector 7 to Level 6 (7,000 Gold)",250,"2016-08-19 06:00"
+"Upgrade Elixir Collector 7 to Level 7 (14,000 Gold)",250,"2016-08-19 12:00"
+"Upgrade Dark Elixir Drill 3 to Level 3 (2,000,000 Elixir)",500,"2016-08-19 19:45"
+"Build Gold Mine 7 as Level 2 (450 Elixir)",240,"2016-08-19 19:45"
+"Upgrade Gold Mine 7 to Level 3 (700 Elixir)",240,"2016-08-19 20:00"
+"Upgrade Gold Mine 7 to Level 4 (1,400 Elixir)",240,"2016-08-19 20:15"
+"Upgrade Gold Mine 7 to Level 5 (3,000 Elixir)",240,"2016-08-19 21:15"
+"Upgrade Gold Mine 7 to Level 6 (7,000 Elixir)",240,"2016-08-19 23:15"
+"Upgrade Cannon 6 to Level 13 (7,500,000 gold)",550,"2016-08-19 23:30"
+"Upgrade Gold Mine 7 to Level 7 (14,000 Elixir)",240,"2016-08-20 05:15"
+"Upgrade Gold Mine 7 to Level 8 (28,000 Elixir)",240,"2016-08-20 17:15"
+"Upgrade Gold Mine 7 to Level 9 (56,000 Elixir)",240,"2016-08-21 17:15"
+"Upgrade Dark Elixir Drill 3 to Level 4 (3,000,000 Elixir)",500,"2016-08-22 19:45"
+"Upgrade Gold Mine 7 to Level 10 (84,000 Elixir)",240,"2016-08-23 17:15"
+"Upgrade Gold Mine 5 to Level 11 (168,000 Elixir)",240,"2016-08-25 05:45"
+"Upgrade Gold Mine 7 to Level 11 (168,000 Elixir)",240,"2016-08-26 17:15"
+"Upgrade Dark Elixir Drill 3 to Level 5 (4,000,000 Elixir)",500,"2016-08-26 19:45"
+"Upgrade Elixir Collector 7 to Level 8 (28,000 Gold)",250,"2016-09-02 00:00"
+"Upgrade Elixir Collector 7 to Level 9 (56,000 Gold)",250,"2016-09-03 00:00"
+"Upgrade Gold Mine 3 to Level 11 (168,000 Elixir)",240,"2016-09-04 21:30"
+"Upgrade Elixir Collector 7 to Level 10 (84,000 Gold)",250,"2016-09-05 00:00"
+"Upgrade Elixir Collector 7 to Level 11 (168,000 Gold)",250,"2016-09-08 00:00"

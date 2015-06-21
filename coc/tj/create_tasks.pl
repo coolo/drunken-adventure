@@ -350,41 +350,41 @@ add_building('Inferno_Tower', 'Inferno Tower', 700);
 set_complete('Inferno_Tower');
 add_building('Air_Bomb', 'Air_Bomb', 650);
 set_complete('Air_Bomb', 1, 2);
-add_building('Giant_Bomb', 'Giant_Bomb', 620);
+add_building('Giant_Bomb', 'Giant Bomb', 620);
 set_complete('Giant_Bomb', 2);
-add_building('Seeking_Air_Mine', 'Seeking_Air_Mine', 600);
+add_building('Seeking_Air_Mine', 'Seeking Air Mine', 600);
 set_complete('Seeking_Air_Mine');
-add_building('Skeleton_Trap', 'Skeleton_Trap', 600);
+add_building('Skeleton_Trap', 'Skeleton Trap', 600);
 set_complete('Skeleton_Trap');
-add_building('Spring_Trap', 'Spring_Trap', 600);
+add_building('Spring_Trap', 'Spring Trap', 600);
 set_complete('Spring_Trap', 1, 1, 1, 1);
 add_building('Bomb', 'Bomb', 910);
 set_complete('Bomb', 3, 3, 3, 3);
 
 # Offense
-add_building('Army_Camp', 'Army_Camp', 830);
+add_building('Army_Camp', 'Army Camp', 830);
 set_complete('Army_Camp', 6, 6, 6);
 add_building('Barracks', 'Barracks', 800);
 set_complete('Barracks', 8, 8, 8);
-add_building('Dark_Barracks', 'Dark_Barracks', 800);
+add_building('Dark_Barracks', 'Dark Barracks', 800);
 set_complete('Dark_Barracks');
 add_building('Laboratory', 'Laboratory', 950);
 set_complete('Laboratory', 4);
-add_building('Spell_Factory', 'Spell_Factory', 750);
+add_building('Spell_Factory', 'Spell Factory', 750);
 set_complete('Spell_Factory', 2);
 
 # Resources
-add_building('Elixir_Collector', 'Elixir_Collector', 250);
+add_building('Elixir_Collector', 'Elixir Collector', 250);
 set_complete('Elixir_Collector', 6, 5, 6, 6, 9, 8);
-add_building('Elixir_Storage', 'Elixir_Storage', 500);
+add_building('Elixir_Storage', 'Elixir Storage', 500);
 set_complete('Elixir_Storage', 9, 10);
-add_building('Gold_Mine', 'Gold_Mine', 240);
+add_building('Gold_Mine', 'Gold Mine', 240);
 set_complete('Gold_Mine', 4, 6, 6, 7, 8, 10);
-add_building('Gold_Storage', 'Gold_Storage', 500);
+add_building('Gold_Storage', 'Gold Storage', 500);
 set_complete('Gold_Storage', 10, 10);
-add_building('Dark_Elixir_Drill', 'Dark_Elixir_Drill', 500);
+add_building('Dark_Elixir_Drill', 'Dark Elixir Drill', 500);
 set_complete('Dark_Elixir_Drill');
-add_building('Dark_Elixir_Storage', 'Dark_Elixir_Storage', 500);
+add_building('Dark_Elixir_Storage', 'Dark Elixir Storage', 500);
 set_complete('Dark_Elixir_Storage');
 
 #print Dumper(\%buildings);
@@ -401,10 +401,11 @@ for my $nick (sort keys %buildings) {
 	for my $lvl ($firstlvl..$buildings{$nick}->{maxlvl}) {
 	    print "task $nick\_$num\_$lvl \"";
 	    my @deps;
+	    my $costs = $buildings{$nick}->{costs}->{$lvl};
 	    if ($lvl == $firstlvl) {
-		printf "Build %s $num as Level $lvl", $buildings{$nick}->{name};
+		printf "Build %s $num as Level $lvl ($costs)", $buildings{$nick}->{name};
 	    } else {
-		printf "Upgrade %s $num to Level $lvl", $buildings{$nick}->{name};
+		printf "Upgrade %s $num to Level $lvl ($costs)", $buildings{$nick}->{name};
 		push(@deps, "!$nick\_$num\_" . ($lvl - 1));
 	    }
 	    print "\" { \n";
