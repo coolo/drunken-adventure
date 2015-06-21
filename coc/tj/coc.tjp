@@ -157,8 +157,7 @@ textreport frame "" {
   footer "----"
 
   columns name,
-          priority,
-          start,end
+          priority
 
   timeformat "%Y-%m-%d %H:%M"
 

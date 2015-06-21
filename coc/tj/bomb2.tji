@@ -6,7 +6,7 @@
 
   task bomb_2_3 "Upgrade Bomb 2 to Level 3" {
       depends !bomb_2_2, !th_5
-      ${builder_effort "2h"}
+     # ${builder_effort "2h"}
   }
 
   task bomb_2_4 "Upgrade Bomb 2 to Level 4" {
