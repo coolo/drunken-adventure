@@ -13,6 +13,8 @@ project coc "Clash of Clan" 2015-06-20-09:00-+0000 +3y {
 	    }
       resource b4 "Builder 4" {
      	}
+      resource b5 "Builder 5" {
+      }
     }
 
   macro need_builder [
@@ -184,9 +186,6 @@ taskreport development "" {
       timeformat "%Y-%m-%d"
         hideresource ~(isleaf() & isleaf_())
           sortresources name.up
-}
-icalreport "TODO.ics" {
-  hidetask plan.resources = ''
 }
 
 taskreport status "" {

@@ -1,16 +1,19 @@
 
   task gb_1_2 "Upgrade Giant Bomb 1 to Level 2" {
     complete 100
+    priority 920
       depends !th_6
       #${builder_effort "6h"}
   }
   task gb_1_3 "Upgrade Giant Bomb 1 to Level 3" {
       depends !gb_1_2, !th_8
+      priority 920
       ${builder_effort "1d"}
   }
 
   task gb_1_4 "Upgrade Giant Bomb 1 to Level 4" {
       depends !gb_1_3, !th_10
+      priority 920
       ${builder_effort "3d"}
   }
 

@@ -1,59 +1,71 @@
   task archer_tower_4_2 "Build Archer Tower 4 as Level 2" {
+    priority 860
       depends !th_7
       ${builder_effort "30min"}
   }
 
   task archer_tower_4_3 "Upgrade Archer Tower 4 to Level 3" {
+    priority 860
       depends !archer_tower_4_2, !th_3
       ${builder_effort "45min"}
   }
 
   task archer_tower_4_4 "Upgrade Archer Tower 4 to Level 4" {
+    priority 860
       depends !archer_tower_4_3, !th_4
       ${builder_effort "4h"}
   }
 
   task archer_tower_4_5 "Upgrade Archer Tower 4 to Level 5" {
+    priority 860
       depends !archer_tower_4_4, !th_5
       ${builder_effort "12h"}
   }
 
   task archer_tower_4_6 "Upgrade Archer Tower 4 to Level 6" {
+    priority 860
       depends !archer_tower_4_5
       ${builder_effort "1d"}
   }
 
   task archer_tower_4_7 "Upgrade Archer Tower 4 to Level 7" {
+    priority 860
       depends !archer_tower_4_6, !th_6
       ${builder_effort "2d"}
   }
 
   task archer_tower_4_8 "Upgrade Archer Tower 4 to Level 8" {
+    priority 860
       depends !archer_tower_4_7, !th_7
       ${builder_effort "3d"}
   }
 
   task archer_tower_4_9 "Upgrade Archer Tower 4 to Level 9" {
+    priority 860
       depends !archer_tower_4_8, !th_8
       ${builder_effort "4d"}
   }
 
   task archer_tower_4_10 "Upgrade Archer Tower 4 to Level 10" {
+    priority 860
       depends !archer_tower_4_9
       ${builder_effort "5d"}
   }
 
   task archer_tower_4_11 "Upgrade Archer Tower 4 to Level 11" {
+    priority 860
       depends !archer_tower_4_10, !th_9
       ${builder_effort "6d"}
   }
 
   task archer_tower_4_12 "Upgrade Archer Tower 4 to Level 12" {
+    priority 860
       depends !archer_tower_4_11, !th_10
       ${builder_effort "7d"}
   }
 
   task archer_tower_4_13 "Upgrade Archer Tower 4 to Level 13" {
+    priority 860
       depends !archer_tower_4_12
       ${builder_effort "8d"}
    }

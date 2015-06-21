@@ -40,7 +40,7 @@
   }
 
   task barrack_2_8 "Upgrade Barrack 2 to Level 8" {
-      priority 900
+      priority 1000
       depends !barrack_2_7, !th_6
       ${builder_effort "2d"}
   }

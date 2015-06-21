@@ -2,21 +2,25 @@
   task ad_1_1 "Build Air Defense 1 as Level 1" {
     complete 100
       depends !th_4
+      priority 890
 #      ${builder_effort "5h"}
   }
   task ad_1_2 "Upgrade Air Defense 1 to Level 2" {
     complete 100
+    priority 890
       depends !ad_1_1
 #      ${builder_effort "1d"}
   }
   task ad_1_3 "Upgrade Air Defense 1 to Level 3" {
       depends !ad_1_2, !th_5
+      priority 890
       complete 100
       #${builder_effort "3d"}
   }
 
   task ad_1_4 "Upgrade Air Defense 1 to Level 4" {
       depends !ad_1_3, !th_6
+      #priority 890
       #${builder_effort "5d"}
       ${builder_effort "50h"}
       priority 1000
@@ -24,20 +28,24 @@
 
   task ad_1_5 "Upgrade Air Defense 1 to Level 5" {
       depends !ad_1_4, !th_7
+      priority 890
       ${builder_effort "6d"}
   }
 
   task ad_1_6 "Upgrade Air Defense 1 to Level 6" {
       depends !ad_1_5, !th_8
+      priority 890
       ${builder_effort "8d"}
   }
 
   task ad_1_7 "Upgrade Air Defense 1 to Level 7" {
       depends !ad_1_6, !th_9
+      priority 890
       ${builder_effort "10d"}
   }
 
   task ad_1_8 "Upgrade Air Defense 1 to Level 8" {
+      priority 890
       depends !ad_1_7, !th_10
       ${builder_effort "12d"}
   }
