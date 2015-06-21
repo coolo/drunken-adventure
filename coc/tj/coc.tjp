@@ -82,13 +82,6 @@ project coc "Clash of Clan" 2015-06-20-09:00-+0000 +3y {
   include "gm6.tji"
   include "gm7.tji"
 
-  include "canon1.tji"
-  include "canon2.tji"
-  include "canon3.tji"
-  include "canon4.tji"
-  include "canon5.tji"
-  include "canon6.tji"
-
   include "ac1.tji"
   include "ac2.tji"
   include "ac3.tji"
@@ -123,10 +116,7 @@ project coc "Clash of Clan" 2015-06-20-09:00-+0000 +3y {
   include "dec2.tji"
   include "dec3.tji"
 
-  include "wt1.tji"
-  include "wt2.tji"
-  include "wt3.tji"
-  include "wt4.tji"
+  include "tasks.tji"
 
   navigator navbar
 

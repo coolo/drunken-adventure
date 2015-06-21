@@ -1,0 +1,603 @@
+task cannon_1_2 "Build Cannon 1 as Level 2" { 
+  priority 500
+}
+
+task cannon_1_3 "Upgrade Cannon 1 to Level 3" { 
+  priority 500
+  depends !cannon_1_2, !th_2
+}
+
+task cannon_1_4 "Upgrade Cannon 1 to Level 4" { 
+  priority 500
+  depends !cannon_1_3, !th_3
+}
+
+task cannon_1_5 "Upgrade Cannon 1 to Level 5" { 
+  priority 500
+  depends !cannon_1_4, !th_4
+}
+
+task cannon_1_6 "Upgrade Cannon 1 to Level 6" { 
+  ${builder_effort "12h"}
+  priority 500
+  depends !cannon_1_5, !th_5
+}
+
+task cannon_1_7 "Upgrade Cannon 1 to Level 7" { 
+  ${builder_effort "1d"}
+  priority 500
+  depends !cannon_1_6, !th_6
+}
+
+task cannon_1_8 "Upgrade Cannon 1 to Level 8" { 
+  ${builder_effort "2d"}
+  priority 500
+  depends !cannon_1_7, !th_7
+}
+
+task cannon_1_9 "Upgrade Cannon 1 to Level 9" { 
+  ${builder_effort "3d"}
+  priority 500
+  depends !cannon_1_8, !th_8
+}
+
+task cannon_1_10 "Upgrade Cannon 1 to Level 10" { 
+  ${builder_effort "4d"}
+  priority 500
+  depends !cannon_1_9, !th_8
+}
+
+task cannon_1_11 "Upgrade Cannon 1 to Level 11" { 
+  ${builder_effort "5d"}
+  priority 500
+  depends !cannon_1_10, !th_9
+}
+
+task cannon_1_12 "Upgrade Cannon 1 to Level 12" { 
+  ${builder_effort "6d"}
+  priority 500
+  depends !cannon_1_11, !th_10
+}
+
+task cannon_1_13 "Upgrade Cannon 1 to Level 13" { 
+  ${builder_effort "7d"}
+  priority 500
+  depends !cannon_1_12, !th_10
+}
+
+task cannon_2_2 "Build Cannon 2 as Level 2" { 
+  priority 500
+}
+
+task cannon_2_3 "Upgrade Cannon 2 to Level 3" { 
+  priority 500
+  depends !cannon_2_2, !th_2
+}
+
+task cannon_2_4 "Upgrade Cannon 2 to Level 4" { 
+  priority 500
+  depends !cannon_2_3, !th_3
+}
+
+task cannon_2_5 "Upgrade Cannon 2 to Level 5" { 
+  priority 500
+  depends !cannon_2_4, !th_4
+}
+
+task cannon_2_6 "Upgrade Cannon 2 to Level 6" { 
+  priority 500
+  depends !cannon_2_5, !th_5
+}
+
+task cannon_2_7 "Upgrade Cannon 2 to Level 7" { 
+  ${builder_effort "1d"}
+  priority 500
+  depends !cannon_2_6, !th_6
+}
+
+task cannon_2_8 "Upgrade Cannon 2 to Level 8" { 
+  ${builder_effort "2d"}
+  priority 500
+  depends !cannon_2_7, !th_7
+}
+
+task cannon_2_9 "Upgrade Cannon 2 to Level 9" { 
+  ${builder_effort "3d"}
+  priority 500
+  depends !cannon_2_8, !th_8
+}
+
+task cannon_2_10 "Upgrade Cannon 2 to Level 10" { 
+  ${builder_effort "4d"}
+  priority 500
+  depends !cannon_2_9, !th_8
+}
+
+task cannon_2_11 "Upgrade Cannon 2 to Level 11" { 
+  ${builder_effort "5d"}
+  priority 500
+  depends !cannon_2_10, !th_9
+}
+
+task cannon_2_12 "Upgrade Cannon 2 to Level 12" { 
+  ${builder_effort "6d"}
+  priority 500
+  depends !cannon_2_11, !th_10
+}
+
+task cannon_2_13 "Upgrade Cannon 2 to Level 13" { 
+  ${builder_effort "7d"}
+  priority 500
+  depends !cannon_2_12, !th_10
+}
+
+task cannon_3_2 "Build Cannon 3 as Level 2" { 
+  priority 500
+  depends !th_5
+}
+
+task cannon_3_3 "Upgrade Cannon 3 to Level 3" { 
+  priority 500
+  depends !cannon_3_2, !th_5
+}
+
+task cannon_3_4 "Upgrade Cannon 3 to Level 4" { 
+  priority 500
+  depends !cannon_3_3, !th_5
+}
+
+task cannon_3_5 "Upgrade Cannon 3 to Level 5" { 
+  priority 500
+  depends !cannon_3_4, !th_5
+}
+
+task cannon_3_6 "Upgrade Cannon 3 to Level 6" { 
+  priority 500
+  depends !cannon_3_5, !th_5
+}
+
+task cannon_3_7 "Upgrade Cannon 3 to Level 7" { 
+  priority 500
+  depends !cannon_3_6, !th_6
+}
+
+task cannon_3_8 "Upgrade Cannon 3 to Level 8" { 
+  ${builder_effort "2d"}
+  priority 500
+  depends !cannon_3_7, !th_7
+}
+
+task cannon_3_9 "Upgrade Cannon 3 to Level 9" { 
+  ${builder_effort "3d"}
+  priority 500
+  depends !cannon_3_8, !th_8
+}
+
+task cannon_3_10 "Upgrade Cannon 3 to Level 10" { 
+  ${builder_effort "4d"}
+  priority 500
+  depends !cannon_3_9, !th_8
+}
+
+task cannon_3_11 "Upgrade Cannon 3 to Level 11" { 
+  ${builder_effort "5d"}
+  priority 500
+  depends !cannon_3_10, !th_9
+}
+
+task cannon_3_12 "Upgrade Cannon 3 to Level 12" { 
+  ${builder_effort "6d"}
+  priority 500
+  depends !cannon_3_11, !th_10
+}
+
+task cannon_3_13 "Upgrade Cannon 3 to Level 13" { 
+  ${builder_effort "7d"}
+  priority 500
+  depends !cannon_3_12, !th_10
+}
+
+task cannon_4_2 "Build Cannon 4 as Level 2" { 
+  ${builder_effort "15min"}
+  priority 500
+  depends !th_7
+}
+
+task cannon_4_3 "Upgrade Cannon 4 to Level 3" { 
+  ${builder_effort "45min"}
+  priority 500
+  depends !cannon_4_2, !th_7
+}
+
+task cannon_4_4 "Upgrade Cannon 4 to Level 4" { 
+  ${builder_effort "2h"}
+  priority 500
+  depends !cannon_4_3, !th_7
+}
+
+task cannon_4_5 "Upgrade Cannon 4 to Level 5" { 
+  ${builder_effort "6h"}
+  priority 500
+  depends !cannon_4_4, !th_7
+}
+
+task cannon_4_6 "Upgrade Cannon 4 to Level 6" { 
+  ${builder_effort "12h"}
+  priority 500
+  depends !cannon_4_5, !th_7
+}
+
+task cannon_4_7 "Upgrade Cannon 4 to Level 7" { 
+  ${builder_effort "1d"}
+  priority 500
+  depends !cannon_4_6, !th_7
+}
+
+task cannon_4_8 "Upgrade Cannon 4 to Level 8" { 
+  ${builder_effort "2d"}
+  priority 500
+  depends !cannon_4_7, !th_7
+}
+
+task cannon_4_9 "Upgrade Cannon 4 to Level 9" { 
+  ${builder_effort "3d"}
+  priority 500
+  depends !cannon_4_8, !th_8
+}
+
+task cannon_4_10 "Upgrade Cannon 4 to Level 10" { 
+  ${builder_effort "4d"}
+  priority 500
+  depends !cannon_4_9, !th_8
+}
+
+task cannon_4_11 "Upgrade Cannon 4 to Level 11" { 
+  ${builder_effort "5d"}
+  priority 500
+  depends !cannon_4_10, !th_9
+}
+
+task cannon_4_12 "Upgrade Cannon 4 to Level 12" { 
+  ${builder_effort "6d"}
+  priority 500
+  depends !cannon_4_11, !th_10
+}
+
+task cannon_4_13 "Upgrade Cannon 4 to Level 13" { 
+  ${builder_effort "7d"}
+  priority 500
+  depends !cannon_4_12, !th_10
+}
+
+task cannon_5_2 "Build Cannon 5 as Level 2" { 
+  ${builder_effort "15min"}
+  priority 500
+  depends !th_7
+}
+
+task cannon_5_3 "Upgrade Cannon 5 to Level 3" { 
+  ${builder_effort "45min"}
+  priority 500
+  depends !cannon_5_2, !th_7
+}
+
+task cannon_5_4 "Upgrade Cannon 5 to Level 4" { 
+  ${builder_effort "2h"}
+  priority 500
+  depends !cannon_5_3, !th_7
+}
+
+task cannon_5_5 "Upgrade Cannon 5 to Level 5" { 
+  ${builder_effort "6h"}
+  priority 500
+  depends !cannon_5_4, !th_7
+}
+
+task cannon_5_6 "Upgrade Cannon 5 to Level 6" { 
+  ${builder_effort "12h"}
+  priority 500
+  depends !cannon_5_5, !th_7
+}
+
+task cannon_5_7 "Upgrade Cannon 5 to Level 7" { 
+  ${builder_effort "1d"}
+  priority 500
+  depends !cannon_5_6, !th_7
+}
+
+task cannon_5_8 "Upgrade Cannon 5 to Level 8" { 
+  ${builder_effort "2d"}
+  priority 500
+  depends !cannon_5_7, !th_7
+}
+
+task cannon_5_9 "Upgrade Cannon 5 to Level 9" { 
+  ${builder_effort "3d"}
+  priority 500
+  depends !cannon_5_8, !th_8
+}
+
+task cannon_5_10 "Upgrade Cannon 5 to Level 10" { 
+  ${builder_effort "4d"}
+  priority 500
+  depends !cannon_5_9, !th_8
+}
+
+task cannon_5_11 "Upgrade Cannon 5 to Level 11" { 
+  ${builder_effort "5d"}
+  priority 500
+  depends !cannon_5_10, !th_9
+}
+
+task cannon_5_12 "Upgrade Cannon 5 to Level 12" { 
+  ${builder_effort "6d"}
+  priority 500
+  depends !cannon_5_11, !th_10
+}
+
+task cannon_5_13 "Upgrade Cannon 5 to Level 13" { 
+  ${builder_effort "7d"}
+  priority 500
+  depends !cannon_5_12, !th_10
+}
+
+task cannon_6_2 "Build Cannon 6 as Level 2" { 
+  ${builder_effort "15min"}
+  priority 500
+  depends !th_10
+}
+
+task cannon_6_3 "Upgrade Cannon 6 to Level 3" { 
+  ${builder_effort "45min"}
+  priority 500
+  depends !cannon_6_2, !th_10
+}
+
+task cannon_6_4 "Upgrade Cannon 6 to Level 4" { 
+  ${builder_effort "2h"}
+  priority 500
+  depends !cannon_6_3, !th_10
+}
+
+task cannon_6_5 "Upgrade Cannon 6 to Level 5" { 
+  ${builder_effort "6h"}
+  priority 500
+  depends !cannon_6_4, !th_10
+}
+
+task cannon_6_6 "Upgrade Cannon 6 to Level 6" { 
+  ${builder_effort "12h"}
+  priority 500
+  depends !cannon_6_5, !th_10
+}
+
+task cannon_6_7 "Upgrade Cannon 6 to Level 7" { 
+  ${builder_effort "1d"}
+  priority 500
+  depends !cannon_6_6, !th_10
+}
+
+task cannon_6_8 "Upgrade Cannon 6 to Level 8" { 
+  ${builder_effort "2d"}
+  priority 500
+  depends !cannon_6_7, !th_10
+}
+
+task cannon_6_9 "Upgrade Cannon 6 to Level 9" { 
+  ${builder_effort "3d"}
+  priority 500
+  depends !cannon_6_8, !th_10
+}
+
+task cannon_6_10 "Upgrade Cannon 6 to Level 10" { 
+  ${builder_effort "4d"}
+  priority 500
+  depends !cannon_6_9, !th_10
+}
+
+task cannon_6_11 "Upgrade Cannon 6 to Level 11" { 
+  ${builder_effort "5d"}
+  priority 500
+  depends !cannon_6_10, !th_10
+}
+
+task cannon_6_12 "Upgrade Cannon 6 to Level 12" { 
+  ${builder_effort "6d"}
+  priority 500
+  depends !cannon_6_11, !th_10
+}
+
+task cannon_6_13 "Upgrade Cannon 6 to Level 13" { 
+  ${builder_effort "7d"}
+  priority 500
+  depends !cannon_6_12, !th_10
+}
+
+task wt_1_1 "Build Wizard Tower 1 as Level 1" { 
+  priority 830
+  depends !th_5
+}
+
+task wt_1_2 "Upgrade Wizard Tower 1 to Level 2" { 
+  priority 830
+  depends !wt_1_1, !th_5
+}
+
+task wt_1_3 "Upgrade Wizard Tower 1 to Level 3" { 
+  priority 830
+  depends !wt_1_2, !th_6
+}
+
+task wt_1_4 "Upgrade Wizard Tower 1 to Level 4" { 
+  ${builder_effort "3d"}
+  priority 830
+  depends !wt_1_3, !th_7
+}
+
+task wt_1_5 "Upgrade Wizard Tower 1 to Level 5" { 
+  ${builder_effort "4d"}
+  priority 830
+  depends !wt_1_4, !th_8
+}
+
+task wt_1_6 "Upgrade Wizard Tower 1 to Level 6" { 
+  ${builder_effort "5d"}
+  priority 830
+  depends !wt_1_5, !th_8
+}
+
+task wt_1_7 "Upgrade Wizard Tower 1 to Level 7" { 
+  ${builder_effort "7d"}
+  priority 830
+  depends !wt_1_6, !th_9
+}
+
+task wt_1_8 "Upgrade Wizard Tower 1 to Level 8" { 
+  ${builder_effort "10d"}
+  priority 830
+  depends !wt_1_7, !th_10
+}
+
+task wt_2_1 "Build Wizard Tower 2 as Level 1" { 
+  priority 830
+  depends !th_6
+}
+
+task wt_2_2 "Upgrade Wizard Tower 2 to Level 2" { 
+  ${builder_effort "1d"}
+  priority 830
+  depends !wt_2_1, !th_6
+}
+
+task wt_2_3 "Upgrade Wizard Tower 2 to Level 3" { 
+  ${builder_effort "2d"}
+  priority 830
+  depends !wt_2_2, !th_6
+}
+
+task wt_2_4 "Upgrade Wizard Tower 2 to Level 4" { 
+  ${builder_effort "3d"}
+  priority 830
+  depends !wt_2_3, !th_7
+}
+
+task wt_2_5 "Upgrade Wizard Tower 2 to Level 5" { 
+  ${builder_effort "4d"}
+  priority 830
+  depends !wt_2_4, !th_8
+}
+
+task wt_2_6 "Upgrade Wizard Tower 2 to Level 6" { 
+  ${builder_effort "5d"}
+  priority 830
+  depends !wt_2_5, !th_8
+}
+
+task wt_2_7 "Upgrade Wizard Tower 2 to Level 7" { 
+  ${builder_effort "7d"}
+  priority 830
+  depends !wt_2_6, !th_9
+}
+
+task wt_2_8 "Upgrade Wizard Tower 2 to Level 8" { 
+  ${builder_effort "10d"}
+  priority 830
+  depends !wt_2_7, !th_10
+}
+
+task wt_3_1 "Build Wizard Tower 3 as Level 1" { 
+  ${builder_effort "12h"}
+  priority 830
+  depends !th_8
+}
+
+task wt_3_2 "Upgrade Wizard Tower 3 to Level 2" { 
+  ${builder_effort "1d"}
+  priority 830
+  depends !wt_3_1, !th_8
+}
+
+task wt_3_3 "Upgrade Wizard Tower 3 to Level 3" { 
+  ${builder_effort "2d"}
+  priority 830
+  depends !wt_3_2, !th_8
+}
+
+task wt_3_4 "Upgrade Wizard Tower 3 to Level 4" { 
+  ${builder_effort "3d"}
+  priority 830
+  depends !wt_3_3, !th_8
+}
+
+task wt_3_5 "Upgrade Wizard Tower 3 to Level 5" { 
+  ${builder_effort "4d"}
+  priority 830
+  depends !wt_3_4, !th_8
+}
+
+task wt_3_6 "Upgrade Wizard Tower 3 to Level 6" { 
+  ${builder_effort "5d"}
+  priority 830
+  depends !wt_3_5, !th_8
+}
+
+task wt_3_7 "Upgrade Wizard Tower 3 to Level 7" { 
+  ${builder_effort "7d"}
+  priority 830
+  depends !wt_3_6, !th_9
+}
+
+task wt_3_8 "Upgrade Wizard Tower 3 to Level 8" { 
+  ${builder_effort "10d"}
+  priority 830
+  depends !wt_3_7, !th_10
+}
+
+task wt_4_1 "Build Wizard Tower 4 as Level 1" { 
+  ${builder_effort "12h"}
+  priority 830
+  depends !th_9
+}
+
+task wt_4_2 "Upgrade Wizard Tower 4 to Level 2" { 
+  ${builder_effort "1d"}
+  priority 830
+  depends !wt_4_1, !th_9
+}
+
+task wt_4_3 "Upgrade Wizard Tower 4 to Level 3" { 
+  ${builder_effort "2d"}
+  priority 830
+  depends !wt_4_2, !th_9
+}
+
+task wt_4_4 "Upgrade Wizard Tower 4 to Level 4" { 
+  ${builder_effort "3d"}
+  priority 830
+  depends !wt_4_3, !th_9
+}
+
+task wt_4_5 "Upgrade Wizard Tower 4 to Level 5" { 
+  ${builder_effort "4d"}
+  priority 830
+  depends !wt_4_4, !th_9
+}
+
+task wt_4_6 "Upgrade Wizard Tower 4 to Level 6" { 
+  ${builder_effort "5d"}
+  priority 830
+  depends !wt_4_5, !th_9
+}
+
+task wt_4_7 "Upgrade Wizard Tower 4 to Level 7" { 
+  ${builder_effort "7d"}
+  priority 830
+  depends !wt_4_6, !th_9
+}
+
+task wt_4_8 "Upgrade Wizard Tower 4 to Level 8" { 
+  ${builder_effort "10d"}
+  priority 830
+  depends !wt_4_7, !th_10
+}
+

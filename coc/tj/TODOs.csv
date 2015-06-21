@@ -5,9 +5,9 @@
 "Upgrade Wizard Tower 2 to Level 2",830
 "Upgrade Mortar 1 to Level 4",800
 "Upgrade Wizard Tower 2 to Level 3",830
-"Upgrade Canon 1 to Level 6",500
-"Upgrade Canon 2 to Level 7",500
-"Upgrade Canon 1 to Level 7",500
+"Upgrade Cannon 1 to Level 6",500
+"Upgrade Cannon 2 to Level 7",500
+"Upgrade Cannon 1 to Level 7",500
 "Upgrade TH to 7",300
 "Upgrade Elixir Storage 2 to Level 10",500
 "Upgrade Gold Mine 5 to Level 7",250
@@ -18,35 +18,42 @@
 "Upgrade Elixir Collector 1 to Level 7",250
 "Upgrade Elixir Collector 3 to Level 7",250
 "Upgrade Elixir Collector 4 to Level 7",250
-"Upgrade Gold Mine 2 to Level 5",250
-"Upgrade Elixir Collector 2 to Level 6",250
-"Upgrade Elixir Collector 2 to Level 7",250
-"Upgrade Gold Mine 2 to Level 6",250
-"Upgrade Gold Mine 2 to Level 7",250
 "Upgrade Elixir Collector 1 to Level 8",250
+"Upgrade Elixir Collector 2 to Level 6",250
+"Upgrade Gold Mine 2 to Level 5",250
+"Upgrade Gold Mine 2 to Level 6",250
+"Upgrade Elixir Collector 2 to Level 7",250
+"Upgrade Elixir Collector 3 to Level 8",250
+"Upgrade Elixir Collector 2 to Level 8",250
+"Upgrade Gold Mine 2 to Level 7",250
+"Upgrade Elixir Collector 1 to Level 9",250
+"Upgrade Elixir Collector 4 to Level 8",250
+"Upgrade Gold Mine 1 to Level 8",250
+"Upgrade Elixir Collector 4 to Level 9",250
+"Upgrade Gold Mine 2 to Level 8",250
 "Upgrade Giant Bomb 2 to Level 2",920
 "Upgrade Air Bomb 1 to Level 3",950
 "Upgrade Air Bomb 2 to Level 3",950
 "Upgrade Barrack 1 to Level 9",900
 "Upgrade Barrack 2 to Level 9",900
-"Upgrade Barrack 3 to Level 9",900
 "Build Air Defense 2 as Level 1",890
+"Upgrade Barrack 3 to Level 9",900
 "Upgrade Air Defense 2 to Level 2",890
-"Build Archer Tower 4 as Level 2",860
+"Upgrade Air Defense 2 to Level 3",890
 "Upgrade Air Defense 1 to Level 5",890
+"Build Archer Tower 4 as Level 2",860
 "Upgrade Archer Tower 4 to Level 3",860
 "Upgrade Archer Tower 4 to Level 4",860
 "Upgrade Archer Tower 4 to Level 5",860
-"Upgrade Archer Tower 4 to Level 6",860
 "Upgrade Archer Tower 1 to Level 8",860
-"Upgrade Air Defense 2 to Level 3",890
-"Upgrade Archer Tower 4 to Level 7",860
 "Upgrade Archer Tower 2 to Level 8",860
-"Upgrade Archer Tower 3 to Level 8",860
 "Upgrade Air Defense 2 to Level 4",890
+"Upgrade Archer Tower 3 to Level 8",860
+"Upgrade Archer Tower 4 to Level 6",860
+"Upgrade Archer Tower 4 to Level 7",860
 "Upgrade Archer Tower 4 to Level 8",860
-"Upgrade Wizard Tower 1 to Level 4",830
 "Upgrade Air Defense 2 to Level 5",890
+"Upgrade Wizard Tower 1 to Level 4",830
 "Upgrade Wizard Tower 2 to Level 4",830
 "Build Mortar 3 as Level 1",800
 "Build Mortar 3 as Level 2",800
@@ -63,59 +70,56 @@
 "Upgrade Army Camp 4 to Level 6",800
 "Upgrade Air Sweeper to 3",700
 "Build Dark Elixir Collector 1 as Level 1",500
-"Build Canon 4 as Level 2",500
-"Build Canon 5 as Level 2",500
-"Upgrade Canon 4 to Level 3",500
-"Upgrade Canon 5 to Level 3",500
-"Upgrade Canon 4 to Level 4",500
-"Upgrade Canon 5 to Level 4",500
-"Upgrade Canon 4 to Level 5",500
-"Upgrade Canon 5 to Level 5",500
-"Upgrade Canon 4 to Level 6",500
-"Upgrade Canon 5 to Level 6",500
+"Build Cannon 4 as Level 2",500
+"Build Cannon 5 as Level 2",500
+"Upgrade Cannon 4 to Level 3",500
+"Upgrade Cannon 5 to Level 3",500
+"Upgrade Cannon 4 to Level 4",500
+"Upgrade Cannon 5 to Level 4",500
+"Upgrade Cannon 4 to Level 5",500
+"Upgrade Cannon 5 to Level 5",500
 "Upgrade Dark Elixir Collector 1 to Level 2",500
-"Upgrade Canon 4 to Level 7",500
-"Upgrade Canon 5 to Level 7",500
-"Upgrade Canon 1 to Level 8",500
-"Upgrade Canon 2 to Level 8",500
+"Upgrade Cannon 4 to Level 6",500
+"Upgrade Cannon 4 to Level 7",500
+"Upgrade Cannon 1 to Level 8",500
+"Upgrade Cannon 2 to Level 8",500
 "Upgrade Dark Elixir Collector 1 to Level 3",500
-"Upgrade Canon 3 to Level 8",500
-"Upgrade Canon 4 to Level 8",500
-"Upgrade Canon 5 to Level 8",500
+"Upgrade Cannon 5 to Level 6",500
+"Upgrade Cannon 5 to Level 7",500
+"Upgrade Cannon 3 to Level 8",500
+"Upgrade Cannon 4 to Level 8",500
+"Upgrade Cannon 5 to Level 8",500
 "Build Barrack 4 as Level 2",500
 "Upgrade Barrack 4 to Level 3",900
-"Upgrade Barrack 4 to Level 4",900
 "Upgrade Gold Storage 1 to Level 11",500
 "Upgrade Gold Storage 2 to Level 11",500
+"Upgrade Barrack 4 to Level 4",900
 "Upgrade Barrack 4 to Level 5",900
-"Upgrade Barrack 4 to Level 6",900
 "Upgrade Elixir Storage 1 to Level 11",500
-"Upgrade Barrack 4 to Level 7",900
+"Upgrade Barrack 4 to Level 6",900
 "Upgrade Elixir Storage 2 to Level 11",500
+"Upgrade Barrack 4 to Level 7",900
 "Build Bomb 5 as Level 2",500
 "Build Bomb 6 as Level 2",500
 "Upgrade Bomb 5 to Level 3",500
-"Upgrade Barrack 4 to Level 8",900
 "Upgrade Bomb 6 to Level 3",500
 "Upgrade Bomb 1 to Level 4",500
+"Upgrade Barrack 4 to Level 8",900
 "Upgrade Bomb 2 to Level 4",500
 "Upgrade Bomb 3 to Level 4",500
 "Upgrade Bomb 4 to Level 4",500
 "Upgrade Bomb 5 to Level 4",500
 "Upgrade Bomb 6 to Level 4",500
 "Upgrade TH to 8",300
+"Upgrade Gold Mine 4 to Level 8",250
+"Upgrade Gold Mine 2 to Level 9",250
 "Upgrade Gold Mine 6 to Level 11",250
 "Upgrade Barrack 4 to Level 9",900
-"Upgrade Elixir Collector 1 to Level 9",250
-"Upgrade Elixir Collector 2 to Level 8",250
-"Upgrade Elixir Collector 3 to Level 8",250
-"Upgrade Elixir Collector 2 to Level 9",250
-"Upgrade Elixir Collector 4 to Level 8",250
-"Upgrade Elixir Collector 3 to Level 9",250
-"Upgrade Gold Mine 1 to Level 8",250
-"Upgrade Gold Mine 1 to Level 9",250
-"Upgrade Gold Mine 2 to Level 8",250
-"Upgrade Gold Mine 2 to Level 9",250
+"Upgrade Gold Mine 4 to Level 9",250
+"Upgrade Elixir Collector 5 to Level 10",250
+"Upgrade Elixir Collector 6 to Level 10",250
+"Upgrade Elixir Collector 5 to Level 11",250
+"Upgrade Gold Mine 2 to Level 10",250
 "Build Spring Trap 5",200
 "Build Spring Trap 6",200
 "Upgrade Giant Bomb 3 to Level 2",920
@@ -163,6 +167,7 @@
 "Upgrade Wizard Tower 1 to Level 5",830
 "Upgrade Wizard Tower 2 to Level 5",830
 "Upgrade Wizard Tower 3 to Level 3",830
+"Upgrade Wizard Tower 3 to Level 4",830
 "Build Mortar 4 as Level 1",800
 "Build Mortar 4 as Level 2",800
 "Upgrade Mortar 1 to Level 6",800
@@ -170,6 +175,7 @@
 "Upgrade Mortar 4 to Level 3",800
 "Upgrade Mortar 3 to Level 6",800
 "Upgrade Wizard Tower 2 to Level 6",830
+"Upgrade Wizard Tower 3 to Level 5",830
 "Build Gold Storage 3 as Level 2",750
 "Build Elixir Storage 3 as Level 2",750
 "Upgrade Gold Storage 3 to Level 3",750
@@ -177,30 +183,28 @@
 "Upgrade Gold Storage 3 to Level 4",750
 "Upgrade Elixir Storage 3 to Level 4",750
 "Upgrade Air Sweeper to 4",700
-"Build Dark Elixir Collector 2 as Level 1",500
+"Upgrade Wizard Tower 1 to Level 6",830
+"Upgrade Wizard Tower 3 to Level 6",830
 "Upgrade Mortar 4 to Level 4",800
+"Build Dark Elixir Collector 2 as Level 1",500
+"Upgrade Cannon 1 to Level 9",500
 "Upgrade Dark Elixir Collector 2 to Level 2",500
 "Upgrade Mortar 4 to Level 5",800
-"Upgrade Dark Elixir Collector 2 to Level 3",500
-"Upgrade Canon 1 to Level 9",500
+"Upgrade Cannon 2 to Level 9",500
+"Upgrade Cannon 3 to Level 9",500
+"Upgrade Cannon 4 to Level 9",500
 "Upgrade Mortar 4 to Level 6",800
-"Upgrade Canon 2 to Level 9",500
-"Upgrade Canon 3 to Level 9",500
-"Upgrade Canon 4 to Level 9",500
-"Upgrade Canon 5 to Level 9",500
-"Upgrade Wizard Tower 3 to Level 4",830
-"Upgrade Canon 2 to Level 10",500
-"Upgrade Canon 1 to Level 10",500
-"Upgrade Canon 3 to Level 10",500
-"Upgrade Canon 4 to Level 10",500
-"Upgrade Wizard Tower 3 to Level 5",830
-"Upgrade Canon 5 to Level 10",500
+"Upgrade Cannon 5 to Level 9",500
+"Upgrade Cannon 1 to Level 10",500
+"Upgrade Cannon 2 to Level 10",500
+"Upgrade Cannon 3 to Level 10",500
+"Upgrade Cannon 4 to Level 10",500
+"Upgrade Cannon 5 to Level 10",500
+"Upgrade Dark Elixir Collector 2 to Level 3",500
 "Upgrade Gold Storage 3 to Level 5",500
 "Upgrade Elixir Storage 3 to Level 5",500
 "Upgrade Gold Storage 3 to Level 6",500
-"Upgrade Wizard Tower 1 to Level 6",830
 "Upgrade Elixir Storage 3 to Level 6",500
-"Upgrade Wizard Tower 3 to Level 6",830
 "Upgrade Gold Storage 3 to Level 7",500
 "Upgrade Elixir Storage 3 to Level 7",500
 "Upgrade Gold Storage 3 to Level 8",500
@@ -209,25 +213,23 @@
 "Upgrade Elixir Storage 3 to Level 9",500
 "Upgrade Gold Storage 3 to Level 10",500
 "Upgrade Elixir Storage 3 to Level 10",500
-"Upgrade Gold Storage 3 to Level 11",500
-"Upgrade Elixir Storage 3 to Level 11",500
 "Upgrade Bomb 1 to Level 5",500
 "Upgrade Bomb 2 to Level 5",500
+"Upgrade Gold Storage 3 to Level 11",500
+"Upgrade Elixir Storage 3 to Level 11",500
 "Upgrade Bomb 3 to Level 5",500
 "Upgrade Bomb 4 to Level 5",500
 "Upgrade Bomb 5 to Level 5",500
 "Upgrade Bomb 6 to Level 5",500
 "Upgrade TH to 9",300
 "Upgrade Gold Mine 6 to Level 12",250
-"Upgrade Gold Mine 4 to Level 8",250
-"Upgrade Gold Mine 4 to Level 9",250
-"Upgrade Elixir Collector 1 to Level 10",250
-"Upgrade Elixir Collector 2 to Level 10",250
-"Upgrade Elixir Collector 3 to Level 10",250
-"Upgrade Elixir Collector 1 to Level 11",250
-"Upgrade Elixir Collector 5 to Level 10",250
-"Upgrade Elixir Collector 2 to Level 11",250
-"Upgrade Elixir Collector 5 to Level 11",250
+"Upgrade Elixir Collector 4 to Level 10",250
+"Upgrade Gold Mine 1 to Level 9",250
+"Upgrade Gold Mine 1 to Level 10",250
+"Upgrade Elixir Collector 4 to Level 11",250
+"Upgrade Gold Mine 2 to Level 11",250
+"Upgrade Elixir Collector 4 to Level 12",250
+"Upgrade Elixir Collector 5 to Level 12",250
 "Upgrade Air Bomb 1 to Level 4",950
 "Upgrade Air Bomb 2 to Level 4",950
 "Upgrade Air Bomb 3 to Level 4",950
@@ -260,21 +262,22 @@
 "Upgrade Wizard Tower 4 to Level 2",830
 "Upgrade Air Defense 4 to Level 7",890
 "Upgrade Wizard Tower 4 to Level 3",830
+"Upgrade Wizard Tower 4 to Level 4",830
 "Upgrade Wizard Tower 1 to Level 7",830
 "Upgrade Wizard Tower 2 to Level 7",830
-"Upgrade Archer Tower 6 to Level 11",860
+"Upgrade Wizard Tower 4 to Level 5",830
 "Upgrade Wizard Tower 3 to Level 7",830
+"Upgrade Wizard Tower 4 to Level 6",830
+"Upgrade Archer Tower 6 to Level 11",860
 "Upgrade Mortar 1 to Level 7",800
 "Upgrade Mortar 2 to Level 7",800
 "Upgrade Mortar 3 to Level 7",800
 "Upgrade Mortar 4 to Level 7",800
 "Upgrade Army Camp 1 to Level 7",800
-"Upgrade Wizard Tower 4 to Level 4",830
-"Upgrade Wizard Tower 4 to Level 5",830
+"Upgrade Wizard Tower 4 to Level 7",830
 "Upgrade Army Camp 2 to Level 7",800
 "Upgrade Army Camp 3 to Level 7",800
 "Upgrade Army Camp 4 to Level 7",800
-"Upgrade Wizard Tower 4 to Level 6",830
 "Build Gold Storage 4 as Level 2",750
 "Build Elixir Storage 4 as Level 2",750
 "Upgrade Gold Storage 4 to Level 3",750
@@ -284,14 +287,13 @@
 "Upgrade Air Sweeper to 5",700
 "Upgrade Dark Elixir Collector 1 to Level 4",500
 "Upgrade Dark Elixir Collector 2 to Level 4",500
-"Upgrade Wizard Tower 4 to Level 7",830
+"Upgrade Cannon 1 to Level 11",500
 "Upgrade Dark Elixir Collector 1 to Level 5",500
+"Upgrade Cannon 2 to Level 11",500
 "Upgrade Dark Elixir Collector 2 to Level 5",500
-"Upgrade Canon 1 to Level 11",500
-"Upgrade Canon 2 to Level 11",500
-"Upgrade Canon 3 to Level 11",500
-"Upgrade Canon 4 to Level 11",500
-"Upgrade Canon 5 to Level 11",500
+"Upgrade Cannon 3 to Level 11",500
+"Upgrade Cannon 4 to Level 11",500
+"Upgrade Cannon 5 to Level 11",500
 "Upgrade Dark Elixir Collector 1 to Level 6",500
 "Upgrade Dark Elixir Collector 2 to Level 6",500
 "Upgrade Gold Storage 4 to Level 5",500
@@ -313,17 +315,19 @@
 "Upgrade Bomb 3 to Level 6",500
 "Upgrade Bomb 4 to Level 6",500
 "Upgrade Bomb 5 to Level 6",500
-"Upgrade Bomb 6 to Level 6",500
 "Upgrade TH to 10",300
-"Upgrade Elixir Collector 1 to Level 12",250
-"Upgrade Elixir Collector 5 to Level 12",250
-"Upgrade Elixir Collector 2 to Level 12",250
-"Upgrade Elixir Collector 6 to Level 10",250
-"Upgrade Elixir Collector 3 to Level 11",250
-"Upgrade Gold Mine 1 to Level 10",250
+"Upgrade Bomb 6 to Level 6",500
+"Upgrade Elixir Collector 1 to Level 10",250
+"Upgrade Elixir Collector 2 to Level 9",250
+"Upgrade Elixir Collector 3 to Level 9",250
+"Upgrade Elixir Collector 2 to Level 10",250
+"Upgrade Elixir Collector 3 to Level 10",250
+"Upgrade Elixir Collector 1 to Level 11",250
+"Upgrade Elixir Collector 2 to Level 11",250
 "Upgrade Elixir Collector 6 to Level 11",250
-"Upgrade Gold Mine 2 to Level 10",250
-"Upgrade Elixir Collector 3 to Level 12",250
+"Upgrade Elixir Collector 1 to Level 12",250
+"Upgrade Elixir Collector 2 to Level 12",250
+"Upgrade Elixir Collector 6 to Level 12",250
 "Upgrade Giant Bomb 1 to Level 4",920
 "Upgrade Giant Bomb 2 to Level 4",920
 "Upgrade Giant Bomb 3 to Level 4",920
@@ -373,34 +377,34 @@
 "Upgrade Mortar 3 to Level 8",800
 "Upgrade Mortar 4 to Level 8",800
 "Upgrade Air Sweeper to 6",700
-"Build Canon 6 as Level 2",500
-"Upgrade Canon 6 to Level 3",500
-"Upgrade Canon 6 to Level 4",500
-"Upgrade Canon 6 to Level 5",500
-"Upgrade Canon 6 to Level 6",500
-"Upgrade Canon 6 to Level 7",500
-"Upgrade Canon 6 to Level 8",500
+"Build Cannon 6 as Level 2",500
+"Upgrade Cannon 6 to Level 3",500
+"Upgrade Cannon 6 to Level 4",500
+"Upgrade Cannon 6 to Level 5",500
+"Upgrade Cannon 6 to Level 6",500
+"Upgrade Cannon 6 to Level 7",500
+"Upgrade Cannon 6 to Level 8",500
 "Build Dark Elixir Collector 3 as Level 1",500
-"Upgrade Canon 1 to Level 12",500
-"Upgrade Canon 6 to Level 9",500
-"Upgrade Canon 2 to Level 12",500
-"Upgrade Canon 6 to Level 10",500
+"Upgrade Cannon 1 to Level 12",500
+"Upgrade Cannon 6 to Level 9",500
+"Upgrade Cannon 2 to Level 12",500
+"Upgrade Cannon 6 to Level 10",500
 "Upgrade Dark Elixir Collector 3 to Level 2",500
-"Upgrade Canon 3 to Level 12",500
+"Upgrade Cannon 3 to Level 12",500
 "Upgrade Dark Elixir Collector 3 to Level 3",500
-"Upgrade Canon 4 to Level 12",500
-"Upgrade Canon 6 to Level 11",500
+"Upgrade Cannon 4 to Level 12",500
+"Upgrade Cannon 6 to Level 11",500
 "Upgrade Dark Elixir Collector 3 to Level 4",500
-"Upgrade Canon 5 to Level 12",500
-"Upgrade Canon 6 to Level 12",500
+"Upgrade Cannon 5 to Level 12",500
+"Upgrade Cannon 6 to Level 12",500
 "Upgrade Dark Elixir Collector 3 to Level 5",500
-"Upgrade Canon 1 to Level 13",500
-"Upgrade Canon 2 to Level 13",500
-"Upgrade Canon 3 to Level 13",500
+"Upgrade Cannon 1 to Level 13",500
+"Upgrade Cannon 2 to Level 13",500
+"Upgrade Cannon 3 to Level 13",500
 "Upgrade Dark Elixir Collector 3 to Level 6",500
-"Upgrade Canon 4 to Level 13",500
-"Upgrade Canon 5 to Level 13",500
-"Upgrade Canon 6 to Level 13",500
+"Upgrade Cannon 4 to Level 13",500
+"Upgrade Cannon 5 to Level 13",500
+"Upgrade Cannon 6 to Level 13",500
 "Upgrade Air Bomb 5 to Level 2",500
 "Upgrade Air Bomb 5 to Level 3",500
 "Upgrade Air Bomb 5 to Level 4",500
@@ -422,25 +426,21 @@
 "Upgrade Gold Mine 7 to Level 9",250
 "Upgrade Elixir Collector 7 to Level 10",250
 "Upgrade Gold Mine 7 to Level 10",250
-"Upgrade Elixir Collector 6 to Level 12",250
-"Upgrade Gold Mine 2 to Level 11",250
+"Upgrade Gold Mine 2 to Level 12",250
+"Upgrade Gold Mine 3 to Level 10",250
 "Upgrade Elixir Collector 7 to Level 11",250
 "Upgrade Gold Mine 7 to Level 11",250
-"Upgrade Gold Mine 2 to Level 12",250
-"Upgrade Gold Mine 1 to Level 11",250
+"Upgrade Gold Mine 3 to Level 11",250
+"Upgrade Gold Mine 4 to Level 10",250
 "Upgrade Elixir Collector 7 to Level 12",250
 "Upgrade Gold Mine 7 to Level 12",250
-"Upgrade Gold Mine 1 to Level 12",250
-"Upgrade Gold Mine 3 to Level 10",250
-"Upgrade Elixir Collector 4 to Level 9",250
-"Upgrade Gold Mine 3 to Level 11",250
-"Upgrade Elixir Collector 4 to Level 10",250
-"Upgrade Gold Mine 4 to Level 10",250
-"Upgrade Gold Mine 5 to Level 10",250
-"Upgrade Gold Mine 3 to Level 12",250
-"Upgrade Elixir Collector 4 to Level 11",250
 "Upgrade Gold Mine 4 to Level 11",250
-"Upgrade Elixir Collector 4 to Level 12",250
+"Upgrade Gold Mine 3 to Level 12",250
 "Upgrade Gold Mine 4 to Level 12",250
+"Upgrade Gold Mine 5 to Level 10",250
+"Upgrade Elixir Collector 3 to Level 11",250
 "Upgrade Gold Mine 5 to Level 11",250
+"Upgrade Elixir Collector 3 to Level 12",250
 "Upgrade Gold Mine 5 to Level 12",250
+"Upgrade Gold Mine 1 to Level 11",250
+"Upgrade Gold Mine 1 to Level 12",250
