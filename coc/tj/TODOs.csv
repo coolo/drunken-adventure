@@ -1,8 +1,4 @@
 "Name","Priority","Start","End"
-"Upgrade Air Sweeper to 2",1000,"2015-06-20 09:00","2015-06-21 21:00"
-"Upgrade Mortar 2 to Level 4",1000,"2015-06-20 09:00","2015-06-21 13:00"
-"Upgrade Air Defense 1 to Level 4",1000,"2015-06-20 09:00","2015-06-22 11:00"
-"Upgrade Barrack 2 to Level 8",900,"2015-06-20 09:00","2015-06-22 09:00"
 "Upgrade Mortar 1 to Level 3",750,"2015-06-21 13:00","2015-06-22 13:00"
 "Upgrade Wizard Tower 2 to Level 2",500,"2015-06-21 21:00","2015-06-22 21:00"
 "Upgrade Canon 2 to Level 7",500,"2015-06-22 09:00","2015-06-23 09:00"
