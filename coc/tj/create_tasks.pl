@@ -329,15 +329,40 @@ set_level('Air_Bomb', 2, '24,000 Gold', '4h', 5);
 set_level('Air_Bomb', 3, '200,000 Gold', '12h', 7);
 set_level('Air_Bomb', 4, '1,500,000 Gold', '1d', 9);
 
+set_number('Clan_Castle', 3, 1);
+set_level('Clan_Castle', 2, '325,000 Gold and Elixir', '6h', 4);
+set_level('Clan_Castle', 3, '700,000 Gold and Elixir', '1d', 6);
+set_level('Clan_Castle', 4, '1,000,000 Gold and Elixir', '2d', 8);
+set_level('Clan_Castle', 5, '1,500,000 Gold and Elixir', '7d', 9);
+set_level('Clan_Castle', 6, '2,000,000 Gold and Elixir', '14d', 10);
+
+set_number('th', 1, 1);
+set_level('th', 2, '1,000 Gold', '15min', 1);
+set_level('th', 3, '4,000 Gold', '3h', 2);
+set_level('th', 4, '25,000 Gold', '1d', 3);
+set_level('th', 5, '150,000 Gold', '2d', 4);
+set_level('th', 6, '750,000 Gold', '4d', 5);
+set_level('th', 7, '1,200,000 Gold', '6d', 6);
+set_level('th', 8, '2,000,000 Gold', '8d', 7);
+set_level('th', 9, '3,000,000 Gold', '10d', 8);
+set_level('th', 10, '4,000,000 Gold', '14d', 9);
+
+# Base
+add_building('th', 'Town Hall', 300);
+set_complete('th', 6);
+
+add_building('Clan_Castle', 'Clan Castle', 800);
+set_complete('Clan_Castle', 3);
+
 # Defenses
 add_building('Wizard_Tower', 'Wizard Tower', 630);
-set_complete('Wizard_Tower', 1, 3);
+set_complete('Wizard_Tower', 2, 3);
 add_building('Cannon', 'Cannon', 550);
-set_complete('Cannon', 5, 6, 7);
+set_complete('Cannon', 5, 7, 7);
 add_building('Archer_Tower', 'Archer Tower', 660);
 set_complete('Archer_Tower', 7, 7, 7);
 add_building('Mortar', 'Mortar', 600);
-set_complete('Mortar', 2, 4);
+set_complete('Mortar', 3, 4);
 add_building('Air_Defense', 'Air Defense', 690);
 set_complete('Air_Defense', 4);
 add_building('Air_Sweeper', 'Air Sweeper', 690);
@@ -349,7 +374,7 @@ set_complete('X_Bow');
 add_building('Inferno_Tower', 'Inferno Tower', 700);
 set_complete('Inferno_Tower');
 add_building('Air_Bomb', 'Air_Bomb', 650);
-set_complete('Air_Bomb', 1, 2);
+set_complete('Air_Bomb', 2, 2);
 add_building('Giant_Bomb', 'Giant Bomb', 620);
 set_complete('Giant_Bomb', 2);
 add_building('Seeking_Air_Mine', 'Seeking Air Mine', 600);
@@ -389,6 +414,9 @@ set_complete('Dark_Elixir_Storage');
 
 #print Dumper(\%buildings);
 
+open(TASKS, ">tasks.tji");
+my %tasks;
+
 for my $nick (sort keys %buildings) {
     for my $num (1..$buildings{$nick}->{numbers}->{10}) {
 	my $firstlvl = 1;
@@ -399,28 +427,36 @@ for my $nick (sort keys %buildings) {
 	$buildings{$nick}->{maxlvl} //= 1;
 
 	for my $lvl ($firstlvl..$buildings{$nick}->{maxlvl}) {
-	    print "task $nick\_$num\_$lvl \"";
+	    my $taskname = "$nick\_$num\_$lvl";
+	    my $descr;
 	    my @deps;
 	    my $costs = $buildings{$nick}->{costs}->{$lvl};
 	    if ($lvl == $firstlvl) {
-		printf "Build %s $num as Level $lvl ($costs)", $buildings{$nick}->{name};
+		$descr = sprintf "Build %s $num as Level $lvl ($costs)", $buildings{$nick}->{name};
 	    } else {
-		printf "Upgrade %s $num to Level $lvl ($costs)", $buildings{$nick}->{name};
-		push(@deps, "!$nick\_$num\_" . ($lvl - 1));
+		$descr = sprintf "Upgrade %s $num to Level $lvl ($costs)", $buildings{$nick}->{name};
+		if ($nick ne 'th') {
+		    push(@deps, "$nick\_$num\_" . ($lvl - 1));
+		}
 	    }
-	    print "\" { \n";
+	    print TASKS "task $taskname \"$descr\" {\n";
+	    $tasks{$taskname}->{descr} = $descr;
 	    if (($buildings{$nick}->{complete}->{$num} // 0) < $lvl) {
-		printf "  \${builder_effort \"%s\"}\n", $buildings{$nick}->{effort}->{$lvl};
+		printf TASKS "  \${builder_effort \"%s\"}\n", $buildings{$nick}->{effort}->{$lvl};
+		$tasks{$taskname}->{effort} = $buildings{$nick}->{effort}->{$lvl};
 	    }
 	    my $thlvl = $buildings{$nick}->{required}->{$lvl};
 	    while ($num > $buildings{$nick}->{numbers}->{$thlvl}) {
 		$thlvl++;
 	    }
-	    push(@deps, "!th_$thlvl") if ($thlvl > 1);
-	    print "  priority " . ($buildings{$nick}->{priority} // 500) . "\n";
-	    print "  depends " . join(', ', @deps) . "\n" if (@deps);
-	    print "}\n\n";
+	    push(@deps, "th_1_$thlvl") if ($thlvl > 1);
+	    $tasks{$taskname}->{priority} = $buildings{$nick}->{priority} // 500;
+	    print TASKS "  priority " . ($buildings{$nick}->{priority} // 500) . "\n";
+	    print TASKS "  depends " . join(', ', map { "!$_" } @deps) . "\n" if (@deps);
+	    $tasks{$taskname}->{deps} = \@deps;
+	    print TASKS "}\n\n";
 	}
     }
 }
 
+#print Dumper(\%tasks);

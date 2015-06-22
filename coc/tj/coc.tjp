@@ -34,9 +34,6 @@ project coc "Clash of Clan" 2015-06-20-09:00-+0000 +3y {
      priority 250
   ]
 
-  include "th.tji"
-  include "cc.tji"
-
   include "tasks.tji"
 
   navigator navbar

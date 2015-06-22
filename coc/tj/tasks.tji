@@ -1,4028 +1,4100 @@
-task Air_Bomb_1_2 "Build Air_Bomb 1 as Level 2 (24,000 Gold)" { 
+task Air_Bomb_1_2 "Build Air_Bomb 1 as Level 2 (24,000 Gold)" {
+  priority 650
+  depends !th_1_5
+}
+
+task Air_Bomb_1_3 "Upgrade Air_Bomb 1 to Level 3 (200,000 Gold)" {
+  ${builder_effort "12h"}
+  priority 650
+  depends !Air_Bomb_1_2, !th_1_7
+}
+
+task Air_Bomb_1_4 "Upgrade Air_Bomb 1 to Level 4 (1,500,000 Gold)" {
+  ${builder_effort "1d"}
+  priority 650
+  depends !Air_Bomb_1_3, !th_1_9
+}
+
+task Air_Bomb_2_2 "Build Air_Bomb 2 as Level 2 (24,000 Gold)" {
+  priority 650
+  depends !th_1_5
+}
+
+task Air_Bomb_2_3 "Upgrade Air_Bomb 2 to Level 3 (200,000 Gold)" {
+  ${builder_effort "12h"}
+  priority 650
+  depends !Air_Bomb_2_2, !th_1_7
+}
+
+task Air_Bomb_2_4 "Upgrade Air_Bomb 2 to Level 4 (1,500,000 Gold)" {
+  ${builder_effort "1d"}
+  priority 650
+  depends !Air_Bomb_2_3, !th_1_9
+}
+
+task Air_Bomb_3_2 "Build Air_Bomb 3 as Level 2 (24,000 Gold)" {
   ${builder_effort "4h"}
   priority 650
-  depends !th_5
+  depends !th_1_8
 }
 
-task Air_Bomb_1_3 "Upgrade Air_Bomb 1 to Level 3 (200,000 Gold)" { 
+task Air_Bomb_3_3 "Upgrade Air_Bomb 3 to Level 3 (200,000 Gold)" {
   ${builder_effort "12h"}
   priority 650
-  depends !Air_Bomb_1_2, !th_7
+  depends !Air_Bomb_3_2, !th_1_8
 }
 
-task Air_Bomb_1_4 "Upgrade Air_Bomb 1 to Level 4 (1,500,000 Gold)" { 
+task Air_Bomb_3_4 "Upgrade Air_Bomb 3 to Level 4 (1,500,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
-  depends !Air_Bomb_1_3, !th_9
+  depends !Air_Bomb_3_3, !th_1_9
 }
 
-task Air_Bomb_2_2 "Build Air_Bomb 2 as Level 2 (24,000 Gold)" { 
-  priority 650
-  depends !th_5
-}
-
-task Air_Bomb_2_3 "Upgrade Air_Bomb 2 to Level 3 (200,000 Gold)" { 
-  ${builder_effort "12h"}
-  priority 650
-  depends !Air_Bomb_2_2, !th_7
-}
-
-task Air_Bomb_2_4 "Upgrade Air_Bomb 2 to Level 4 (1,500,000 Gold)" { 
-  ${builder_effort "1d"}
-  priority 650
-  depends !Air_Bomb_2_3, !th_9
-}
-
-task Air_Bomb_3_2 "Build Air_Bomb 3 as Level 2 (24,000 Gold)" { 
+task Air_Bomb_4_2 "Build Air_Bomb 4 as Level 2 (24,000 Gold)" {
   ${builder_effort "4h"}
   priority 650
-  depends !th_8
+  depends !th_1_8
 }
 
-task Air_Bomb_3_3 "Upgrade Air_Bomb 3 to Level 3 (200,000 Gold)" { 
+task Air_Bomb_4_3 "Upgrade Air_Bomb 4 to Level 3 (200,000 Gold)" {
   ${builder_effort "12h"}
   priority 650
-  depends !Air_Bomb_3_2, !th_8
+  depends !Air_Bomb_4_2, !th_1_8
 }
 
-task Air_Bomb_3_4 "Upgrade Air_Bomb 3 to Level 4 (1,500,000 Gold)" { 
+task Air_Bomb_4_4 "Upgrade Air_Bomb 4 to Level 4 (1,500,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
-  depends !Air_Bomb_3_3, !th_9
+  depends !Air_Bomb_4_3, !th_1_9
 }
 
-task Air_Bomb_4_2 "Build Air_Bomb 4 as Level 2 (24,000 Gold)" { 
+task Air_Bomb_5_2 "Build Air_Bomb 5 as Level 2 (24,000 Gold)" {
   ${builder_effort "4h"}
   priority 650
-  depends !th_8
+  depends !th_1_10
 }
 
-task Air_Bomb_4_3 "Upgrade Air_Bomb 4 to Level 3 (200,000 Gold)" { 
+task Air_Bomb_5_3 "Upgrade Air_Bomb 5 to Level 3 (200,000 Gold)" {
   ${builder_effort "12h"}
   priority 650
-  depends !Air_Bomb_4_2, !th_8
+  depends !Air_Bomb_5_2, !th_1_10
 }
 
-task Air_Bomb_4_4 "Upgrade Air_Bomb 4 to Level 4 (1,500,000 Gold)" { 
+task Air_Bomb_5_4 "Upgrade Air_Bomb 5 to Level 4 (1,500,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
-  depends !Air_Bomb_4_3, !th_9
+  depends !Air_Bomb_5_3, !th_1_10
 }
 
-task Air_Bomb_5_2 "Build Air_Bomb 5 as Level 2 (24,000 Gold)" { 
-  ${builder_effort "4h"}
-  priority 650
-  depends !th_10
-}
-
-task Air_Bomb_5_3 "Upgrade Air_Bomb 5 to Level 3 (200,000 Gold)" { 
-  ${builder_effort "12h"}
-  priority 650
-  depends !Air_Bomb_5_2, !th_10
-}
-
-task Air_Bomb_5_4 "Upgrade Air_Bomb 5 to Level 4 (1,500,000 Gold)" { 
-  ${builder_effort "1d"}
-  priority 650
-  depends !Air_Bomb_5_3, !th_10
-}
-
-task Air_Defense_1_1 "Build Air Defense 1 as Level 1 (22,500 Gold)" { 
+task Air_Defense_1_1 "Build Air Defense 1 as Level 1 (22,500 Gold)" {
   priority 690
-  depends !th_4
+  depends !th_1_4
 }
 
-task Air_Defense_1_2 "Upgrade Air Defense 1 to Level 2 (90,000 Gold)" { 
+task Air_Defense_1_2 "Upgrade Air Defense 1 to Level 2 (90,000 Gold)" {
   priority 690
-  depends !Air_Defense_1_1, !th_4
+  depends !Air_Defense_1_1, !th_1_4
 }
 
-task Air_Defense_1_3 "Upgrade Air Defense 1 to Level 3 (270,000 Gold)" { 
+task Air_Defense_1_3 "Upgrade Air Defense 1 to Level 3 (270,000 Gold)" {
   priority 690
-  depends !Air_Defense_1_2, !th_5
+  depends !Air_Defense_1_2, !th_1_5
 }
 
-task Air_Defense_1_4 "Upgrade Air Defense 1 to Level 4 (540,000 Gold)" { 
+task Air_Defense_1_4 "Upgrade Air Defense 1 to Level 4 (540,000 Gold)" {
   priority 690
-  depends !Air_Defense_1_3, !th_6
+  depends !Air_Defense_1_3, !th_1_6
 }
 
-task Air_Defense_1_5 "Upgrade Air Defense 1 to Level 5 (1,080,000 Gold)" { 
+task Air_Defense_1_5 "Upgrade Air Defense 1 to Level 5 (1,080,000 Gold)" {
   ${builder_effort "6d"}
   priority 690
-  depends !Air_Defense_1_4, !th_7
+  depends !Air_Defense_1_4, !th_1_7
 }
 
-task Air_Defense_1_6 "Upgrade Air Defense 1 to Level 6 (2,160,000 Gold)" { 
+task Air_Defense_1_6 "Upgrade Air Defense 1 to Level 6 (2,160,000 Gold)" {
   ${builder_effort "8d"}
   priority 690
-  depends !Air_Defense_1_5, !th_8
+  depends !Air_Defense_1_5, !th_1_8
 }
 
-task Air_Defense_1_7 "Upgrade Air Defense 1 to Level 7 (4,320,000 Gold)" { 
+task Air_Defense_1_7 "Upgrade Air Defense 1 to Level 7 (4,320,000 Gold)" {
   ${builder_effort "10d"}
   priority 690
-  depends !Air_Defense_1_6, !th_9
+  depends !Air_Defense_1_6, !th_1_9
 }
 
-task Air_Defense_1_8 "Upgrade Air Defense 1 to Level 8 (7,560,000 Gold)" { 
+task Air_Defense_1_8 "Upgrade Air Defense 1 to Level 8 (7,560,000 Gold)" {
   ${builder_effort "12d"}
   priority 690
-  depends !Air_Defense_1_7, !th_10
+  depends !Air_Defense_1_7, !th_1_10
 }
 
-task Air_Defense_2_1 "Build Air Defense 2 as Level 1 (22,500 Gold)" { 
+task Air_Defense_2_1 "Build Air Defense 2 as Level 1 (22,500 Gold)" {
   ${builder_effort "5h"}
   priority 690
-  depends !th_7
+  depends !th_1_7
 }
 
-task Air_Defense_2_2 "Upgrade Air Defense 2 to Level 2 (90,000 Gold)" { 
+task Air_Defense_2_2 "Upgrade Air Defense 2 to Level 2 (90,000 Gold)" {
   ${builder_effort "1d"}
   priority 690
-  depends !Air_Defense_2_1, !th_7
+  depends !Air_Defense_2_1, !th_1_7
 }
 
-task Air_Defense_2_3 "Upgrade Air Defense 2 to Level 3 (270,000 Gold)" { 
+task Air_Defense_2_3 "Upgrade Air Defense 2 to Level 3 (270,000 Gold)" {
   ${builder_effort "3d"}
   priority 690
-  depends !Air_Defense_2_2, !th_7
+  depends !Air_Defense_2_2, !th_1_7
 }
 
-task Air_Defense_2_4 "Upgrade Air Defense 2 to Level 4 (540,000 Gold)" { 
+task Air_Defense_2_4 "Upgrade Air Defense 2 to Level 4 (540,000 Gold)" {
   ${builder_effort "5d"}
   priority 690
-  depends !Air_Defense_2_3, !th_7
+  depends !Air_Defense_2_3, !th_1_7
 }
 
-task Air_Defense_2_5 "Upgrade Air Defense 2 to Level 5 (1,080,000 Gold)" { 
+task Air_Defense_2_5 "Upgrade Air Defense 2 to Level 5 (1,080,000 Gold)" {
   ${builder_effort "6d"}
   priority 690
-  depends !Air_Defense_2_4, !th_7
+  depends !Air_Defense_2_4, !th_1_7
 }
 
-task Air_Defense_2_6 "Upgrade Air Defense 2 to Level 6 (2,160,000 Gold)" { 
+task Air_Defense_2_6 "Upgrade Air Defense 2 to Level 6 (2,160,000 Gold)" {
   ${builder_effort "8d"}
   priority 690
-  depends !Air_Defense_2_5, !th_8
+  depends !Air_Defense_2_5, !th_1_8
 }
 
-task Air_Defense_2_7 "Upgrade Air Defense 2 to Level 7 (4,320,000 Gold)" { 
+task Air_Defense_2_7 "Upgrade Air Defense 2 to Level 7 (4,320,000 Gold)" {
   ${builder_effort "10d"}
   priority 690
-  depends !Air_Defense_2_6, !th_9
+  depends !Air_Defense_2_6, !th_1_9
 }
 
-task Air_Defense_2_8 "Upgrade Air Defense 2 to Level 8 (7,560,000 Gold)" { 
+task Air_Defense_2_8 "Upgrade Air Defense 2 to Level 8 (7,560,000 Gold)" {
   ${builder_effort "12d"}
   priority 690
-  depends !Air_Defense_2_7, !th_10
+  depends !Air_Defense_2_7, !th_1_10
 }
 
-task Air_Defense_3_1 "Build Air Defense 3 as Level 1 (22,500 Gold)" { 
+task Air_Defense_3_1 "Build Air Defense 3 as Level 1 (22,500 Gold)" {
   ${builder_effort "5h"}
   priority 690
-  depends !th_8
+  depends !th_1_8
 }
 
-task Air_Defense_3_2 "Upgrade Air Defense 3 to Level 2 (90,000 Gold)" { 
+task Air_Defense_3_2 "Upgrade Air Defense 3 to Level 2 (90,000 Gold)" {
   ${builder_effort "1d"}
   priority 690
-  depends !Air_Defense_3_1, !th_8
+  depends !Air_Defense_3_1, !th_1_8
 }
 
-task Air_Defense_3_3 "Upgrade Air Defense 3 to Level 3 (270,000 Gold)" { 
+task Air_Defense_3_3 "Upgrade Air Defense 3 to Level 3 (270,000 Gold)" {
   ${builder_effort "3d"}
   priority 690
-  depends !Air_Defense_3_2, !th_8
+  depends !Air_Defense_3_2, !th_1_8
 }
 
-task Air_Defense_3_4 "Upgrade Air Defense 3 to Level 4 (540,000 Gold)" { 
+task Air_Defense_3_4 "Upgrade Air Defense 3 to Level 4 (540,000 Gold)" {
   ${builder_effort "5d"}
   priority 690
-  depends !Air_Defense_3_3, !th_8
+  depends !Air_Defense_3_3, !th_1_8
 }
 
-task Air_Defense_3_5 "Upgrade Air Defense 3 to Level 5 (1,080,000 Gold)" { 
+task Air_Defense_3_5 "Upgrade Air Defense 3 to Level 5 (1,080,000 Gold)" {
   ${builder_effort "6d"}
   priority 690
-  depends !Air_Defense_3_4, !th_8
+  depends !Air_Defense_3_4, !th_1_8
 }
 
-task Air_Defense_3_6 "Upgrade Air Defense 3 to Level 6 (2,160,000 Gold)" { 
+task Air_Defense_3_6 "Upgrade Air Defense 3 to Level 6 (2,160,000 Gold)" {
   ${builder_effort "8d"}
   priority 690
-  depends !Air_Defense_3_5, !th_8
+  depends !Air_Defense_3_5, !th_1_8
 }
 
-task Air_Defense_3_7 "Upgrade Air Defense 3 to Level 7 (4,320,000 Gold)" { 
+task Air_Defense_3_7 "Upgrade Air Defense 3 to Level 7 (4,320,000 Gold)" {
   ${builder_effort "10d"}
   priority 690
-  depends !Air_Defense_3_6, !th_9
+  depends !Air_Defense_3_6, !th_1_9
 }
 
-task Air_Defense_3_8 "Upgrade Air Defense 3 to Level 8 (7,560,000 Gold)" { 
+task Air_Defense_3_8 "Upgrade Air Defense 3 to Level 8 (7,560,000 Gold)" {
   ${builder_effort "12d"}
   priority 690
-  depends !Air_Defense_3_7, !th_10
+  depends !Air_Defense_3_7, !th_1_10
 }
 
-task Air_Defense_4_1 "Build Air Defense 4 as Level 1 (22,500 Gold)" { 
+task Air_Defense_4_1 "Build Air Defense 4 as Level 1 (22,500 Gold)" {
   ${builder_effort "5h"}
   priority 690
-  depends !th_9
+  depends !th_1_9
 }
 
-task Air_Defense_4_2 "Upgrade Air Defense 4 to Level 2 (90,000 Gold)" { 
+task Air_Defense_4_2 "Upgrade Air Defense 4 to Level 2 (90,000 Gold)" {
   ${builder_effort "1d"}
   priority 690
-  depends !Air_Defense_4_1, !th_9
+  depends !Air_Defense_4_1, !th_1_9
 }
 
-task Air_Defense_4_3 "Upgrade Air Defense 4 to Level 3 (270,000 Gold)" { 
+task Air_Defense_4_3 "Upgrade Air Defense 4 to Level 3 (270,000 Gold)" {
   ${builder_effort "3d"}
   priority 690
-  depends !Air_Defense_4_2, !th_9
+  depends !Air_Defense_4_2, !th_1_9
 }
 
-task Air_Defense_4_4 "Upgrade Air Defense 4 to Level 4 (540,000 Gold)" { 
+task Air_Defense_4_4 "Upgrade Air Defense 4 to Level 4 (540,000 Gold)" {
   ${builder_effort "5d"}
   priority 690
-  depends !Air_Defense_4_3, !th_9
+  depends !Air_Defense_4_3, !th_1_9
 }
 
-task Air_Defense_4_5 "Upgrade Air Defense 4 to Level 5 (1,080,000 Gold)" { 
+task Air_Defense_4_5 "Upgrade Air Defense 4 to Level 5 (1,080,000 Gold)" {
   ${builder_effort "6d"}
   priority 690
-  depends !Air_Defense_4_4, !th_9
+  depends !Air_Defense_4_4, !th_1_9
 }
 
-task Air_Defense_4_6 "Upgrade Air Defense 4 to Level 6 (2,160,000 Gold)" { 
+task Air_Defense_4_6 "Upgrade Air Defense 4 to Level 6 (2,160,000 Gold)" {
   ${builder_effort "8d"}
   priority 690
-  depends !Air_Defense_4_5, !th_9
+  depends !Air_Defense_4_5, !th_1_9
 }
 
-task Air_Defense_4_7 "Upgrade Air Defense 4 to Level 7 (4,320,000 Gold)" { 
+task Air_Defense_4_7 "Upgrade Air Defense 4 to Level 7 (4,320,000 Gold)" {
   ${builder_effort "10d"}
   priority 690
-  depends !Air_Defense_4_6, !th_9
+  depends !Air_Defense_4_6, !th_1_9
 }
 
-task Air_Defense_4_8 "Upgrade Air Defense 4 to Level 8 (7,560,000 Gold)" { 
+task Air_Defense_4_8 "Upgrade Air Defense 4 to Level 8 (7,560,000 Gold)" {
   ${builder_effort "12d"}
   priority 690
-  depends !Air_Defense_4_7, !th_10
+  depends !Air_Defense_4_7, !th_1_10
 }
 
-task Air_Sweeper_1_1 "Build Air Sweeper 1 as Level 1 (500,000 Gold)" { 
+task Air_Sweeper_1_1 "Build Air Sweeper 1 as Level 1 (500,000 Gold)" {
   priority 690
-  depends !th_6
+  depends !th_1_6
 }
 
-task Air_Sweeper_1_2 "Upgrade Air Sweeper 1 to Level 2 (750,000 Gold)" { 
+task Air_Sweeper_1_2 "Upgrade Air Sweeper 1 to Level 2 (750,000 Gold)" {
   priority 690
-  depends !Air_Sweeper_1_1, !th_6
+  depends !Air_Sweeper_1_1, !th_1_6
 }
 
-task Air_Sweeper_1_3 "Upgrade Air Sweeper 1 to Level 3 (1,250,000 Gold)" { 
+task Air_Sweeper_1_3 "Upgrade Air Sweeper 1 to Level 3 (1,250,000 Gold)" {
   ${builder_effort "5d"}
   priority 690
-  depends !Air_Sweeper_1_2, !th_7
+  depends !Air_Sweeper_1_2, !th_1_7
 }
 
-task Air_Sweeper_1_4 "Upgrade Air Sweeper 1 to Level 4 (2,400,000 Gold)" { 
+task Air_Sweeper_1_4 "Upgrade Air Sweeper 1 to Level 4 (2,400,000 Gold)" {
   ${builder_effort "7d"}
   priority 690
-  depends !Air_Sweeper_1_3, !th_8
+  depends !Air_Sweeper_1_3, !th_1_8
 }
 
-task Air_Sweeper_1_5 "Upgrade Air Sweeper 1 to Level 5 (4,800,000 Gold)" { 
+task Air_Sweeper_1_5 "Upgrade Air Sweeper 1 to Level 5 (4,800,000 Gold)" {
   ${builder_effort "8d"}
   priority 690
-  depends !Air_Sweeper_1_4, !th_9
+  depends !Air_Sweeper_1_4, !th_1_9
 }
 
-task Air_Sweeper_1_6 "Upgrade Air Sweeper 1 to Level 6 (7,200,000 Gold)" { 
+task Air_Sweeper_1_6 "Upgrade Air Sweeper 1 to Level 6 (7,200,000 Gold)" {
   ${builder_effort "9d"}
   priority 690
-  depends !Air_Sweeper_1_5, !th_10
+  depends !Air_Sweeper_1_5, !th_1_10
 }
 
-task Archer_Tower_1_2 "Build Archer Tower 1 as Level 2 (3,000 Gold)" { 
+task Archer_Tower_1_2 "Build Archer Tower 1 as Level 2 (3,000 Gold)" {
   priority 660
-  depends !th_2
+  depends !th_1_2
 }
 
-task Archer_Tower_1_3 "Upgrade Archer Tower 1 to Level 3 (5,000 Gold)" { 
+task Archer_Tower_1_3 "Upgrade Archer Tower 1 to Level 3 (5,000 Gold)" {
   priority 660
-  depends !Archer_Tower_1_2, !th_3
+  depends !Archer_Tower_1_2, !th_1_3
 }
 
-task Archer_Tower_1_4 "Upgrade Archer Tower 1 to Level 4 (20,000 Gold)" { 
+task Archer_Tower_1_4 "Upgrade Archer Tower 1 to Level 4 (20,000 Gold)" {
   priority 660
-  depends !Archer_Tower_1_3, !th_4
+  depends !Archer_Tower_1_3, !th_1_4
 }
 
-task Archer_Tower_1_5 "Upgrade Archer Tower 1 to Level 5 (80,000 Gold)" { 
+task Archer_Tower_1_5 "Upgrade Archer Tower 1 to Level 5 (80,000 Gold)" {
   priority 660
-  depends !Archer_Tower_1_4, !th_5
+  depends !Archer_Tower_1_4, !th_1_5
 }
 
-task Archer_Tower_1_6 "Upgrade Archer Tower 1 to Level 6 (180,000 Gold)" { 
+task Archer_Tower_1_6 "Upgrade Archer Tower 1 to Level 6 (180,000 Gold)" {
   priority 660
-  depends !Archer_Tower_1_5, !th_5
+  depends !Archer_Tower_1_5, !th_1_5
 }
 
-task Archer_Tower_1_7 "Upgrade Archer Tower 1 to Level 7 (360,000 Gold)" { 
+task Archer_Tower_1_7 "Upgrade Archer Tower 1 to Level 7 (360,000 Gold)" {
   priority 660
-  depends !Archer_Tower_1_6, !th_6
+  depends !Archer_Tower_1_6, !th_1_6
 }
 
-task Archer_Tower_1_8 "Upgrade Archer Tower 1 to Level 8 (720,000 Gold)" { 
+task Archer_Tower_1_8 "Upgrade Archer Tower 1 to Level 8 (720,000 Gold)" {
   ${builder_effort "3d"}
   priority 660
-  depends !Archer_Tower_1_7, !th_7
+  depends !Archer_Tower_1_7, !th_1_7
 }
 
-task Archer_Tower_1_9 "Upgrade Archer Tower 1 to Level 9 (1,500,000 Gold)" { 
+task Archer_Tower_1_9 "Upgrade Archer Tower 1 to Level 9 (1,500,000 Gold)" {
   ${builder_effort "4d"}
   priority 660
-  depends !Archer_Tower_1_8, !th_8
+  depends !Archer_Tower_1_8, !th_1_8
 }
 
-task Archer_Tower_1_10 "Upgrade Archer Tower 1 to Level 10 (2,500,000 Gold)" { 
+task Archer_Tower_1_10 "Upgrade Archer Tower 1 to Level 10 (2,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 660
-  depends !Archer_Tower_1_9, !th_8
+  depends !Archer_Tower_1_9, !th_1_8
 }
 
-task Archer_Tower_1_11 "Upgrade Archer Tower 1 to Level 11 (4,500,000 Gold)" { 
+task Archer_Tower_1_11 "Upgrade Archer Tower 1 to Level 11 (4,500,000 Gold)" {
   ${builder_effort "6d"}
   priority 660
-  depends !Archer_Tower_1_10, !th_9
+  depends !Archer_Tower_1_10, !th_1_9
 }
 
-task Archer_Tower_1_12 "Upgrade Archer Tower 1 to Level 12 (6,500,000 Gold)" { 
+task Archer_Tower_1_12 "Upgrade Archer Tower 1 to Level 12 (6,500,000 Gold)" {
   ${builder_effort "7d"}
   priority 660
-  depends !Archer_Tower_1_11, !th_10
+  depends !Archer_Tower_1_11, !th_1_10
 }
 
-task Archer_Tower_1_13 "Upgrade Archer Tower 1 to Level 13 (7,500,000 Gold)" { 
+task Archer_Tower_1_13 "Upgrade Archer Tower 1 to Level 13 (7,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 660
-  depends !Archer_Tower_1_12, !th_10
+  depends !Archer_Tower_1_12, !th_1_10
 }
 
-task Archer_Tower_2_2 "Build Archer Tower 2 as Level 2 (3,000 Gold)" { 
+task Archer_Tower_2_2 "Build Archer Tower 2 as Level 2 (3,000 Gold)" {
   priority 660
-  depends !th_4
+  depends !th_1_4
 }
 
-task Archer_Tower_2_3 "Upgrade Archer Tower 2 to Level 3 (5,000 Gold)" { 
+task Archer_Tower_2_3 "Upgrade Archer Tower 2 to Level 3 (5,000 Gold)" {
   priority 660
-  depends !Archer_Tower_2_2, !th_4
+  depends !Archer_Tower_2_2, !th_1_4
 }
 
-task Archer_Tower_2_4 "Upgrade Archer Tower 2 to Level 4 (20,000 Gold)" { 
+task Archer_Tower_2_4 "Upgrade Archer Tower 2 to Level 4 (20,000 Gold)" {
   priority 660
-  depends !Archer_Tower_2_3, !th_4
+  depends !Archer_Tower_2_3, !th_1_4
 }
 
-task Archer_Tower_2_5 "Upgrade Archer Tower 2 to Level 5 (80,000 Gold)" { 
+task Archer_Tower_2_5 "Upgrade Archer Tower 2 to Level 5 (80,000 Gold)" {
   priority 660
-  depends !Archer_Tower_2_4, !th_5
+  depends !Archer_Tower_2_4, !th_1_5
 }
 
-task Archer_Tower_2_6 "Upgrade Archer Tower 2 to Level 6 (180,000 Gold)" { 
+task Archer_Tower_2_6 "Upgrade Archer Tower 2 to Level 6 (180,000 Gold)" {
   priority 660
-  depends !Archer_Tower_2_5, !th_5
+  depends !Archer_Tower_2_5, !th_1_5
 }
 
-task Archer_Tower_2_7 "Upgrade Archer Tower 2 to Level 7 (360,000 Gold)" { 
+task Archer_Tower_2_7 "Upgrade Archer Tower 2 to Level 7 (360,000 Gold)" {
   priority 660
-  depends !Archer_Tower_2_6, !th_6
+  depends !Archer_Tower_2_6, !th_1_6
 }
 
-task Archer_Tower_2_8 "Upgrade Archer Tower 2 to Level 8 (720,000 Gold)" { 
+task Archer_Tower_2_8 "Upgrade Archer Tower 2 to Level 8 (720,000 Gold)" {
   ${builder_effort "3d"}
   priority 660
-  depends !Archer_Tower_2_7, !th_7
+  depends !Archer_Tower_2_7, !th_1_7
 }
 
-task Archer_Tower_2_9 "Upgrade Archer Tower 2 to Level 9 (1,500,000 Gold)" { 
+task Archer_Tower_2_9 "Upgrade Archer Tower 2 to Level 9 (1,500,000 Gold)" {
   ${builder_effort "4d"}
   priority 660
-  depends !Archer_Tower_2_8, !th_8
+  depends !Archer_Tower_2_8, !th_1_8
 }
 
-task Archer_Tower_2_10 "Upgrade Archer Tower 2 to Level 10 (2,500,000 Gold)" { 
+task Archer_Tower_2_10 "Upgrade Archer Tower 2 to Level 10 (2,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 660
-  depends !Archer_Tower_2_9, !th_8
+  depends !Archer_Tower_2_9, !th_1_8
 }
 
-task Archer_Tower_2_11 "Upgrade Archer Tower 2 to Level 11 (4,500,000 Gold)" { 
+task Archer_Tower_2_11 "Upgrade Archer Tower 2 to Level 11 (4,500,000 Gold)" {
   ${builder_effort "6d"}
   priority 660
-  depends !Archer_Tower_2_10, !th_9
+  depends !Archer_Tower_2_10, !th_1_9
 }
 
-task Archer_Tower_2_12 "Upgrade Archer Tower 2 to Level 12 (6,500,000 Gold)" { 
+task Archer_Tower_2_12 "Upgrade Archer Tower 2 to Level 12 (6,500,000 Gold)" {
   ${builder_effort "7d"}
   priority 660
-  depends !Archer_Tower_2_11, !th_10
+  depends !Archer_Tower_2_11, !th_1_10
 }
 
-task Archer_Tower_2_13 "Upgrade Archer Tower 2 to Level 13 (7,500,000 Gold)" { 
+task Archer_Tower_2_13 "Upgrade Archer Tower 2 to Level 13 (7,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 660
-  depends !Archer_Tower_2_12, !th_10
+  depends !Archer_Tower_2_12, !th_1_10
 }
 
-task Archer_Tower_3_2 "Build Archer Tower 3 as Level 2 (3,000 Gold)" { 
+task Archer_Tower_3_2 "Build Archer Tower 3 as Level 2 (3,000 Gold)" {
   priority 660
-  depends !th_5
+  depends !th_1_5
 }
 
-task Archer_Tower_3_3 "Upgrade Archer Tower 3 to Level 3 (5,000 Gold)" { 
+task Archer_Tower_3_3 "Upgrade Archer Tower 3 to Level 3 (5,000 Gold)" {
   priority 660
-  depends !Archer_Tower_3_2, !th_5
+  depends !Archer_Tower_3_2, !th_1_5
 }
 
-task Archer_Tower_3_4 "Upgrade Archer Tower 3 to Level 4 (20,000 Gold)" { 
+task Archer_Tower_3_4 "Upgrade Archer Tower 3 to Level 4 (20,000 Gold)" {
   priority 660
-  depends !Archer_Tower_3_3, !th_5
+  depends !Archer_Tower_3_3, !th_1_5
 }
 
-task Archer_Tower_3_5 "Upgrade Archer Tower 3 to Level 5 (80,000 Gold)" { 
+task Archer_Tower_3_5 "Upgrade Archer Tower 3 to Level 5 (80,000 Gold)" {
   priority 660
-  depends !Archer_Tower_3_4, !th_5
+  depends !Archer_Tower_3_4, !th_1_5
 }
 
-task Archer_Tower_3_6 "Upgrade Archer Tower 3 to Level 6 (180,000 Gold)" { 
+task Archer_Tower_3_6 "Upgrade Archer Tower 3 to Level 6 (180,000 Gold)" {
   priority 660
-  depends !Archer_Tower_3_5, !th_5
+  depends !Archer_Tower_3_5, !th_1_5
 }
 
-task Archer_Tower_3_7 "Upgrade Archer Tower 3 to Level 7 (360,000 Gold)" { 
+task Archer_Tower_3_7 "Upgrade Archer Tower 3 to Level 7 (360,000 Gold)" {
   priority 660
-  depends !Archer_Tower_3_6, !th_6
+  depends !Archer_Tower_3_6, !th_1_6
 }
 
-task Archer_Tower_3_8 "Upgrade Archer Tower 3 to Level 8 (720,000 Gold)" { 
+task Archer_Tower_3_8 "Upgrade Archer Tower 3 to Level 8 (720,000 Gold)" {
   ${builder_effort "3d"}
   priority 660
-  depends !Archer_Tower_3_7, !th_7
+  depends !Archer_Tower_3_7, !th_1_7
 }
 
-task Archer_Tower_3_9 "Upgrade Archer Tower 3 to Level 9 (1,500,000 Gold)" { 
+task Archer_Tower_3_9 "Upgrade Archer Tower 3 to Level 9 (1,500,000 Gold)" {
   ${builder_effort "4d"}
   priority 660
-  depends !Archer_Tower_3_8, !th_8
+  depends !Archer_Tower_3_8, !th_1_8
 }
 
-task Archer_Tower_3_10 "Upgrade Archer Tower 3 to Level 10 (2,500,000 Gold)" { 
+task Archer_Tower_3_10 "Upgrade Archer Tower 3 to Level 10 (2,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 660
-  depends !Archer_Tower_3_9, !th_8
+  depends !Archer_Tower_3_9, !th_1_8
 }
 
-task Archer_Tower_3_11 "Upgrade Archer Tower 3 to Level 11 (4,500,000 Gold)" { 
+task Archer_Tower_3_11 "Upgrade Archer Tower 3 to Level 11 (4,500,000 Gold)" {
   ${builder_effort "6d"}
   priority 660
-  depends !Archer_Tower_3_10, !th_9
+  depends !Archer_Tower_3_10, !th_1_9
 }
 
-task Archer_Tower_3_12 "Upgrade Archer Tower 3 to Level 12 (6,500,000 Gold)" { 
+task Archer_Tower_3_12 "Upgrade Archer Tower 3 to Level 12 (6,500,000 Gold)" {
   ${builder_effort "7d"}
   priority 660
-  depends !Archer_Tower_3_11, !th_10
+  depends !Archer_Tower_3_11, !th_1_10
 }
 
-task Archer_Tower_3_13 "Upgrade Archer Tower 3 to Level 13 (7,500,000 Gold)" { 
+task Archer_Tower_3_13 "Upgrade Archer Tower 3 to Level 13 (7,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 660
-  depends !Archer_Tower_3_12, !th_10
+  depends !Archer_Tower_3_12, !th_1_10
 }
 
-task Archer_Tower_4_2 "Build Archer Tower 4 as Level 2 (3,000 Gold)" { 
+task Archer_Tower_4_2 "Build Archer Tower 4 as Level 2 (3,000 Gold)" {
   ${builder_effort "30min"}
   priority 660
-  depends !th_7
+  depends !th_1_7
 }
 
-task Archer_Tower_4_3 "Upgrade Archer Tower 4 to Level 3 (5,000 Gold)" { 
+task Archer_Tower_4_3 "Upgrade Archer Tower 4 to Level 3 (5,000 Gold)" {
   ${builder_effort "45min"}
   priority 660
-  depends !Archer_Tower_4_2, !th_7
+  depends !Archer_Tower_4_2, !th_1_7
 }
 
-task Archer_Tower_4_4 "Upgrade Archer Tower 4 to Level 4 (20,000 Gold)" { 
+task Archer_Tower_4_4 "Upgrade Archer Tower 4 to Level 4 (20,000 Gold)" {
   ${builder_effort "4h"}
   priority 660
-  depends !Archer_Tower_4_3, !th_7
+  depends !Archer_Tower_4_3, !th_1_7
 }
 
-task Archer_Tower_4_5 "Upgrade Archer Tower 4 to Level 5 (80,000 Gold)" { 
+task Archer_Tower_4_5 "Upgrade Archer Tower 4 to Level 5 (80,000 Gold)" {
   ${builder_effort "12h"}
   priority 660
-  depends !Archer_Tower_4_4, !th_7
+  depends !Archer_Tower_4_4, !th_1_7
 }
 
-task Archer_Tower_4_6 "Upgrade Archer Tower 4 to Level 6 (180,000 Gold)" { 
+task Archer_Tower_4_6 "Upgrade Archer Tower 4 to Level 6 (180,000 Gold)" {
   ${builder_effort "1d"}
   priority 660
-  depends !Archer_Tower_4_5, !th_7
+  depends !Archer_Tower_4_5, !th_1_7
 }
 
-task Archer_Tower_4_7 "Upgrade Archer Tower 4 to Level 7 (360,000 Gold)" { 
+task Archer_Tower_4_7 "Upgrade Archer Tower 4 to Level 7 (360,000 Gold)" {
   ${builder_effort "2d"}
   priority 660
-  depends !Archer_Tower_4_6, !th_7
+  depends !Archer_Tower_4_6, !th_1_7
 }
 
-task Archer_Tower_4_8 "Upgrade Archer Tower 4 to Level 8 (720,000 Gold)" { 
+task Archer_Tower_4_8 "Upgrade Archer Tower 4 to Level 8 (720,000 Gold)" {
   ${builder_effort "3d"}
   priority 660
-  depends !Archer_Tower_4_7, !th_7
+  depends !Archer_Tower_4_7, !th_1_7
 }
 
-task Archer_Tower_4_9 "Upgrade Archer Tower 4 to Level 9 (1,500,000 Gold)" { 
+task Archer_Tower_4_9 "Upgrade Archer Tower 4 to Level 9 (1,500,000 Gold)" {
   ${builder_effort "4d"}
   priority 660
-  depends !Archer_Tower_4_8, !th_8
+  depends !Archer_Tower_4_8, !th_1_8
 }
 
-task Archer_Tower_4_10 "Upgrade Archer Tower 4 to Level 10 (2,500,000 Gold)" { 
+task Archer_Tower_4_10 "Upgrade Archer Tower 4 to Level 10 (2,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 660
-  depends !Archer_Tower_4_9, !th_8
+  depends !Archer_Tower_4_9, !th_1_8
 }
 
-task Archer_Tower_4_11 "Upgrade Archer Tower 4 to Level 11 (4,500,000 Gold)" { 
+task Archer_Tower_4_11 "Upgrade Archer Tower 4 to Level 11 (4,500,000 Gold)" {
   ${builder_effort "6d"}
   priority 660
-  depends !Archer_Tower_4_10, !th_9
+  depends !Archer_Tower_4_10, !th_1_9
 }
 
-task Archer_Tower_4_12 "Upgrade Archer Tower 4 to Level 12 (6,500,000 Gold)" { 
+task Archer_Tower_4_12 "Upgrade Archer Tower 4 to Level 12 (6,500,000 Gold)" {
   ${builder_effort "7d"}
   priority 660
-  depends !Archer_Tower_4_11, !th_10
+  depends !Archer_Tower_4_11, !th_1_10
 }
 
-task Archer_Tower_4_13 "Upgrade Archer Tower 4 to Level 13 (7,500,000 Gold)" { 
+task Archer_Tower_4_13 "Upgrade Archer Tower 4 to Level 13 (7,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 660
-  depends !Archer_Tower_4_12, !th_10
+  depends !Archer_Tower_4_12, !th_1_10
 }
 
-task Archer_Tower_5_2 "Build Archer Tower 5 as Level 2 (3,000 Gold)" { 
+task Archer_Tower_5_2 "Build Archer Tower 5 as Level 2 (3,000 Gold)" {
   ${builder_effort "30min"}
   priority 660
-  depends !th_8
+  depends !th_1_8
 }
 
-task Archer_Tower_5_3 "Upgrade Archer Tower 5 to Level 3 (5,000 Gold)" { 
+task Archer_Tower_5_3 "Upgrade Archer Tower 5 to Level 3 (5,000 Gold)" {
   ${builder_effort "45min"}
   priority 660
-  depends !Archer_Tower_5_2, !th_8
+  depends !Archer_Tower_5_2, !th_1_8
 }
 
-task Archer_Tower_5_4 "Upgrade Archer Tower 5 to Level 4 (20,000 Gold)" { 
+task Archer_Tower_5_4 "Upgrade Archer Tower 5 to Level 4 (20,000 Gold)" {
   ${builder_effort "4h"}
   priority 660
-  depends !Archer_Tower_5_3, !th_8
+  depends !Archer_Tower_5_3, !th_1_8
 }
 
-task Archer_Tower_5_5 "Upgrade Archer Tower 5 to Level 5 (80,000 Gold)" { 
+task Archer_Tower_5_5 "Upgrade Archer Tower 5 to Level 5 (80,000 Gold)" {
   ${builder_effort "12h"}
   priority 660
-  depends !Archer_Tower_5_4, !th_8
+  depends !Archer_Tower_5_4, !th_1_8
 }
 
-task Archer_Tower_5_6 "Upgrade Archer Tower 5 to Level 6 (180,000 Gold)" { 
+task Archer_Tower_5_6 "Upgrade Archer Tower 5 to Level 6 (180,000 Gold)" {
   ${builder_effort "1d"}
   priority 660
-  depends !Archer_Tower_5_5, !th_8
+  depends !Archer_Tower_5_5, !th_1_8
 }
 
-task Archer_Tower_5_7 "Upgrade Archer Tower 5 to Level 7 (360,000 Gold)" { 
+task Archer_Tower_5_7 "Upgrade Archer Tower 5 to Level 7 (360,000 Gold)" {
   ${builder_effort "2d"}
   priority 660
-  depends !Archer_Tower_5_6, !th_8
+  depends !Archer_Tower_5_6, !th_1_8
 }
 
-task Archer_Tower_5_8 "Upgrade Archer Tower 5 to Level 8 (720,000 Gold)" { 
+task Archer_Tower_5_8 "Upgrade Archer Tower 5 to Level 8 (720,000 Gold)" {
   ${builder_effort "3d"}
   priority 660
-  depends !Archer_Tower_5_7, !th_8
+  depends !Archer_Tower_5_7, !th_1_8
 }
 
-task Archer_Tower_5_9 "Upgrade Archer Tower 5 to Level 9 (1,500,000 Gold)" { 
+task Archer_Tower_5_9 "Upgrade Archer Tower 5 to Level 9 (1,500,000 Gold)" {
   ${builder_effort "4d"}
   priority 660
-  depends !Archer_Tower_5_8, !th_8
+  depends !Archer_Tower_5_8, !th_1_8
 }
 
-task Archer_Tower_5_10 "Upgrade Archer Tower 5 to Level 10 (2,500,000 Gold)" { 
+task Archer_Tower_5_10 "Upgrade Archer Tower 5 to Level 10 (2,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 660
-  depends !Archer_Tower_5_9, !th_8
+  depends !Archer_Tower_5_9, !th_1_8
 }
 
-task Archer_Tower_5_11 "Upgrade Archer Tower 5 to Level 11 (4,500,000 Gold)" { 
+task Archer_Tower_5_11 "Upgrade Archer Tower 5 to Level 11 (4,500,000 Gold)" {
   ${builder_effort "6d"}
   priority 660
-  depends !Archer_Tower_5_10, !th_9
+  depends !Archer_Tower_5_10, !th_1_9
 }
 
-task Archer_Tower_5_12 "Upgrade Archer Tower 5 to Level 12 (6,500,000 Gold)" { 
+task Archer_Tower_5_12 "Upgrade Archer Tower 5 to Level 12 (6,500,000 Gold)" {
   ${builder_effort "7d"}
   priority 660
-  depends !Archer_Tower_5_11, !th_10
+  depends !Archer_Tower_5_11, !th_1_10
 }
 
-task Archer_Tower_5_13 "Upgrade Archer Tower 5 to Level 13 (7,500,000 Gold)" { 
+task Archer_Tower_5_13 "Upgrade Archer Tower 5 to Level 13 (7,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 660
-  depends !Archer_Tower_5_12, !th_10
+  depends !Archer_Tower_5_12, !th_1_10
 }
 
-task Archer_Tower_6_2 "Build Archer Tower 6 as Level 2 (3,000 Gold)" { 
+task Archer_Tower_6_2 "Build Archer Tower 6 as Level 2 (3,000 Gold)" {
   ${builder_effort "30min"}
   priority 660
-  depends !th_9
+  depends !th_1_9
 }
 
-task Archer_Tower_6_3 "Upgrade Archer Tower 6 to Level 3 (5,000 Gold)" { 
+task Archer_Tower_6_3 "Upgrade Archer Tower 6 to Level 3 (5,000 Gold)" {
   ${builder_effort "45min"}
   priority 660
-  depends !Archer_Tower_6_2, !th_9
+  depends !Archer_Tower_6_2, !th_1_9
 }
 
-task Archer_Tower_6_4 "Upgrade Archer Tower 6 to Level 4 (20,000 Gold)" { 
+task Archer_Tower_6_4 "Upgrade Archer Tower 6 to Level 4 (20,000 Gold)" {
   ${builder_effort "4h"}
   priority 660
-  depends !Archer_Tower_6_3, !th_9
+  depends !Archer_Tower_6_3, !th_1_9
 }
 
-task Archer_Tower_6_5 "Upgrade Archer Tower 6 to Level 5 (80,000 Gold)" { 
+task Archer_Tower_6_5 "Upgrade Archer Tower 6 to Level 5 (80,000 Gold)" {
   ${builder_effort "12h"}
   priority 660
-  depends !Archer_Tower_6_4, !th_9
+  depends !Archer_Tower_6_4, !th_1_9
 }
 
-task Archer_Tower_6_6 "Upgrade Archer Tower 6 to Level 6 (180,000 Gold)" { 
+task Archer_Tower_6_6 "Upgrade Archer Tower 6 to Level 6 (180,000 Gold)" {
   ${builder_effort "1d"}
   priority 660
-  depends !Archer_Tower_6_5, !th_9
+  depends !Archer_Tower_6_5, !th_1_9
 }
 
-task Archer_Tower_6_7 "Upgrade Archer Tower 6 to Level 7 (360,000 Gold)" { 
+task Archer_Tower_6_7 "Upgrade Archer Tower 6 to Level 7 (360,000 Gold)" {
   ${builder_effort "2d"}
   priority 660
-  depends !Archer_Tower_6_6, !th_9
+  depends !Archer_Tower_6_6, !th_1_9
 }
 
-task Archer_Tower_6_8 "Upgrade Archer Tower 6 to Level 8 (720,000 Gold)" { 
+task Archer_Tower_6_8 "Upgrade Archer Tower 6 to Level 8 (720,000 Gold)" {
   ${builder_effort "3d"}
   priority 660
-  depends !Archer_Tower_6_7, !th_9
+  depends !Archer_Tower_6_7, !th_1_9
 }
 
-task Archer_Tower_6_9 "Upgrade Archer Tower 6 to Level 9 (1,500,000 Gold)" { 
+task Archer_Tower_6_9 "Upgrade Archer Tower 6 to Level 9 (1,500,000 Gold)" {
   ${builder_effort "4d"}
   priority 660
-  depends !Archer_Tower_6_8, !th_9
+  depends !Archer_Tower_6_8, !th_1_9
 }
 
-task Archer_Tower_6_10 "Upgrade Archer Tower 6 to Level 10 (2,500,000 Gold)" { 
+task Archer_Tower_6_10 "Upgrade Archer Tower 6 to Level 10 (2,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 660
-  depends !Archer_Tower_6_9, !th_9
+  depends !Archer_Tower_6_9, !th_1_9
 }
 
-task Archer_Tower_6_11 "Upgrade Archer Tower 6 to Level 11 (4,500,000 Gold)" { 
+task Archer_Tower_6_11 "Upgrade Archer Tower 6 to Level 11 (4,500,000 Gold)" {
   ${builder_effort "6d"}
   priority 660
-  depends !Archer_Tower_6_10, !th_9
+  depends !Archer_Tower_6_10, !th_1_9
 }
 
-task Archer_Tower_6_12 "Upgrade Archer Tower 6 to Level 12 (6,500,000 Gold)" { 
+task Archer_Tower_6_12 "Upgrade Archer Tower 6 to Level 12 (6,500,000 Gold)" {
   ${builder_effort "7d"}
   priority 660
-  depends !Archer_Tower_6_11, !th_10
+  depends !Archer_Tower_6_11, !th_1_10
 }
 
-task Archer_Tower_6_13 "Upgrade Archer Tower 6 to Level 13 (7,500,000 Gold)" { 
+task Archer_Tower_6_13 "Upgrade Archer Tower 6 to Level 13 (7,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 660
-  depends !Archer_Tower_6_12, !th_10
+  depends !Archer_Tower_6_12, !th_1_10
 }
 
-task Archer_Tower_7_2 "Build Archer Tower 7 as Level 2 (3,000 Gold)" { 
+task Archer_Tower_7_2 "Build Archer Tower 7 as Level 2 (3,000 Gold)" {
   ${builder_effort "30min"}
   priority 660
-  depends !th_10
+  depends !th_1_10
 }
 
-task Archer_Tower_7_3 "Upgrade Archer Tower 7 to Level 3 (5,000 Gold)" { 
+task Archer_Tower_7_3 "Upgrade Archer Tower 7 to Level 3 (5,000 Gold)" {
   ${builder_effort "45min"}
   priority 660
-  depends !Archer_Tower_7_2, !th_10
+  depends !Archer_Tower_7_2, !th_1_10
 }
 
-task Archer_Tower_7_4 "Upgrade Archer Tower 7 to Level 4 (20,000 Gold)" { 
+task Archer_Tower_7_4 "Upgrade Archer Tower 7 to Level 4 (20,000 Gold)" {
   ${builder_effort "4h"}
   priority 660
-  depends !Archer_Tower_7_3, !th_10
+  depends !Archer_Tower_7_3, !th_1_10
 }
 
-task Archer_Tower_7_5 "Upgrade Archer Tower 7 to Level 5 (80,000 Gold)" { 
+task Archer_Tower_7_5 "Upgrade Archer Tower 7 to Level 5 (80,000 Gold)" {
   ${builder_effort "12h"}
   priority 660
-  depends !Archer_Tower_7_4, !th_10
+  depends !Archer_Tower_7_4, !th_1_10
 }
 
-task Archer_Tower_7_6 "Upgrade Archer Tower 7 to Level 6 (180,000 Gold)" { 
+task Archer_Tower_7_6 "Upgrade Archer Tower 7 to Level 6 (180,000 Gold)" {
   ${builder_effort "1d"}
   priority 660
-  depends !Archer_Tower_7_5, !th_10
+  depends !Archer_Tower_7_5, !th_1_10
 }
 
-task Archer_Tower_7_7 "Upgrade Archer Tower 7 to Level 7 (360,000 Gold)" { 
+task Archer_Tower_7_7 "Upgrade Archer Tower 7 to Level 7 (360,000 Gold)" {
   ${builder_effort "2d"}
   priority 660
-  depends !Archer_Tower_7_6, !th_10
+  depends !Archer_Tower_7_6, !th_1_10
 }
 
-task Archer_Tower_7_8 "Upgrade Archer Tower 7 to Level 8 (720,000 Gold)" { 
+task Archer_Tower_7_8 "Upgrade Archer Tower 7 to Level 8 (720,000 Gold)" {
   ${builder_effort "3d"}
   priority 660
-  depends !Archer_Tower_7_7, !th_10
+  depends !Archer_Tower_7_7, !th_1_10
 }
 
-task Archer_Tower_7_9 "Upgrade Archer Tower 7 to Level 9 (1,500,000 Gold)" { 
+task Archer_Tower_7_9 "Upgrade Archer Tower 7 to Level 9 (1,500,000 Gold)" {
   ${builder_effort "4d"}
   priority 660
-  depends !Archer_Tower_7_8, !th_10
+  depends !Archer_Tower_7_8, !th_1_10
 }
 
-task Archer_Tower_7_10 "Upgrade Archer Tower 7 to Level 10 (2,500,000 Gold)" { 
+task Archer_Tower_7_10 "Upgrade Archer Tower 7 to Level 10 (2,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 660
-  depends !Archer_Tower_7_9, !th_10
+  depends !Archer_Tower_7_9, !th_1_10
 }
 
-task Archer_Tower_7_11 "Upgrade Archer Tower 7 to Level 11 (4,500,000 Gold)" { 
+task Archer_Tower_7_11 "Upgrade Archer Tower 7 to Level 11 (4,500,000 Gold)" {
   ${builder_effort "6d"}
   priority 660
-  depends !Archer_Tower_7_10, !th_10
+  depends !Archer_Tower_7_10, !th_1_10
 }
 
-task Archer_Tower_7_12 "Upgrade Archer Tower 7 to Level 12 (6,500,000 Gold)" { 
+task Archer_Tower_7_12 "Upgrade Archer Tower 7 to Level 12 (6,500,000 Gold)" {
   ${builder_effort "7d"}
   priority 660
-  depends !Archer_Tower_7_11, !th_10
+  depends !Archer_Tower_7_11, !th_1_10
 }
 
-task Archer_Tower_7_13 "Upgrade Archer Tower 7 to Level 13 (7,500,000 Gold)" { 
+task Archer_Tower_7_13 "Upgrade Archer Tower 7 to Level 13 (7,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 660
-  depends !Archer_Tower_7_12, !th_10
+  depends !Archer_Tower_7_12, !th_1_10
 }
 
-task Army_Camp_1_1 "Build Army Camp 1 as Level 1 (250 Elixir)" { 
+task Army_Camp_1_1 "Build Army Camp 1 as Level 1 (250 Elixir)" {
   priority 830
 }
 
-task Army_Camp_1_2 "Upgrade Army Camp 1 to Level 2 (2,500 Elixir)" { 
+task Army_Camp_1_2 "Upgrade Army Camp 1 to Level 2 (2,500 Elixir)" {
   priority 830
-  depends !Army_Camp_1_1, !th_2
+  depends !Army_Camp_1_1, !th_1_2
 }
 
-task Army_Camp_1_3 "Upgrade Army Camp 1 to Level 3 (10,000 Elixir)" { 
+task Army_Camp_1_3 "Upgrade Army Camp 1 to Level 3 (10,000 Elixir)" {
   priority 830
-  depends !Army_Camp_1_2, !th_3
+  depends !Army_Camp_1_2, !th_1_3
 }
 
-task Army_Camp_1_4 "Upgrade Army Camp 1 to Level 4 (100,000 Elixir)" { 
+task Army_Camp_1_4 "Upgrade Army Camp 1 to Level 4 (100,000 Elixir)" {
   priority 830
-  depends !Army_Camp_1_3, !th_4
+  depends !Army_Camp_1_3, !th_1_4
 }
 
-task Army_Camp_1_5 "Upgrade Army Camp 1 to Level 5 (250,000 Elixir)" { 
+task Army_Camp_1_5 "Upgrade Army Camp 1 to Level 5 (250,000 Elixir)" {
   priority 830
-  depends !Army_Camp_1_4, !th_5
+  depends !Army_Camp_1_4, !th_1_5
 }
 
-task Army_Camp_1_6 "Upgrade Army Camp 1 to Level 6 (750,000 Elixir)" { 
+task Army_Camp_1_6 "Upgrade Army Camp 1 to Level 6 (750,000 Elixir)" {
   priority 830
-  depends !Army_Camp_1_5, !th_6
+  depends !Army_Camp_1_5, !th_1_6
 }
 
-task Army_Camp_1_7 "Upgrade Army Camp 1 to Level 7 (2,250,000 Elixir)" { 
+task Army_Camp_1_7 "Upgrade Army Camp 1 to Level 7 (2,250,000 Elixir)" {
   ${builder_effort "5d"}
   priority 830
-  depends !Army_Camp_1_6, !th_9
+  depends !Army_Camp_1_6, !th_1_9
 }
 
-task Army_Camp_2_1 "Build Army Camp 2 as Level 1 (250 Elixir)" { 
+task Army_Camp_2_1 "Build Army Camp 2 as Level 1 (250 Elixir)" {
   priority 830
-  depends !th_3
+  depends !th_1_3
 }
 
-task Army_Camp_2_2 "Upgrade Army Camp 2 to Level 2 (2,500 Elixir)" { 
+task Army_Camp_2_2 "Upgrade Army Camp 2 to Level 2 (2,500 Elixir)" {
   priority 830
-  depends !Army_Camp_2_1, !th_3
+  depends !Army_Camp_2_1, !th_1_3
 }
 
-task Army_Camp_2_3 "Upgrade Army Camp 2 to Level 3 (10,000 Elixir)" { 
+task Army_Camp_2_3 "Upgrade Army Camp 2 to Level 3 (10,000 Elixir)" {
   priority 830
-  depends !Army_Camp_2_2, !th_3
+  depends !Army_Camp_2_2, !th_1_3
 }
 
-task Army_Camp_2_4 "Upgrade Army Camp 2 to Level 4 (100,000 Elixir)" { 
+task Army_Camp_2_4 "Upgrade Army Camp 2 to Level 4 (100,000 Elixir)" {
   priority 830
-  depends !Army_Camp_2_3, !th_4
+  depends !Army_Camp_2_3, !th_1_4
 }
 
-task Army_Camp_2_5 "Upgrade Army Camp 2 to Level 5 (250,000 Elixir)" { 
+task Army_Camp_2_5 "Upgrade Army Camp 2 to Level 5 (250,000 Elixir)" {
   priority 830
-  depends !Army_Camp_2_4, !th_5
+  depends !Army_Camp_2_4, !th_1_5
 }
 
-task Army_Camp_2_6 "Upgrade Army Camp 2 to Level 6 (750,000 Elixir)" { 
+task Army_Camp_2_6 "Upgrade Army Camp 2 to Level 6 (750,000 Elixir)" {
   priority 830
-  depends !Army_Camp_2_5, !th_6
+  depends !Army_Camp_2_5, !th_1_6
 }
 
-task Army_Camp_2_7 "Upgrade Army Camp 2 to Level 7 (2,250,000 Elixir)" { 
+task Army_Camp_2_7 "Upgrade Army Camp 2 to Level 7 (2,250,000 Elixir)" {
   ${builder_effort "5d"}
   priority 830
-  depends !Army_Camp_2_6, !th_9
+  depends !Army_Camp_2_6, !th_1_9
 }
 
-task Army_Camp_3_1 "Build Army Camp 3 as Level 1 (250 Elixir)" { 
+task Army_Camp_3_1 "Build Army Camp 3 as Level 1 (250 Elixir)" {
   priority 830
-  depends !th_5
+  depends !th_1_5
 }
 
-task Army_Camp_3_2 "Upgrade Army Camp 3 to Level 2 (2,500 Elixir)" { 
+task Army_Camp_3_2 "Upgrade Army Camp 3 to Level 2 (2,500 Elixir)" {
   priority 830
-  depends !Army_Camp_3_1, !th_5
+  depends !Army_Camp_3_1, !th_1_5
 }
 
-task Army_Camp_3_3 "Upgrade Army Camp 3 to Level 3 (10,000 Elixir)" { 
+task Army_Camp_3_3 "Upgrade Army Camp 3 to Level 3 (10,000 Elixir)" {
   priority 830
-  depends !Army_Camp_3_2, !th_5
+  depends !Army_Camp_3_2, !th_1_5
 }
 
-task Army_Camp_3_4 "Upgrade Army Camp 3 to Level 4 (100,000 Elixir)" { 
+task Army_Camp_3_4 "Upgrade Army Camp 3 to Level 4 (100,000 Elixir)" {
   priority 830
-  depends !Army_Camp_3_3, !th_5
+  depends !Army_Camp_3_3, !th_1_5
 }
 
-task Army_Camp_3_5 "Upgrade Army Camp 3 to Level 5 (250,000 Elixir)" { 
+task Army_Camp_3_5 "Upgrade Army Camp 3 to Level 5 (250,000 Elixir)" {
   priority 830
-  depends !Army_Camp_3_4, !th_5
+  depends !Army_Camp_3_4, !th_1_5
 }
 
-task Army_Camp_3_6 "Upgrade Army Camp 3 to Level 6 (750,000 Elixir)" { 
+task Army_Camp_3_6 "Upgrade Army Camp 3 to Level 6 (750,000 Elixir)" {
   priority 830
-  depends !Army_Camp_3_5, !th_6
+  depends !Army_Camp_3_5, !th_1_6
 }
 
-task Army_Camp_3_7 "Upgrade Army Camp 3 to Level 7 (2,250,000 Elixir)" { 
+task Army_Camp_3_7 "Upgrade Army Camp 3 to Level 7 (2,250,000 Elixir)" {
   ${builder_effort "5d"}
   priority 830
-  depends !Army_Camp_3_6, !th_9
+  depends !Army_Camp_3_6, !th_1_9
 }
 
-task Army_Camp_4_1 "Build Army Camp 4 as Level 1 (250 Elixir)" { 
+task Army_Camp_4_1 "Build Army Camp 4 as Level 1 (250 Elixir)" {
   ${builder_effort "15min"}
   priority 830
-  depends !th_7
+  depends !th_1_7
 }
 
-task Army_Camp_4_2 "Upgrade Army Camp 4 to Level 2 (2,500 Elixir)" { 
+task Army_Camp_4_2 "Upgrade Army Camp 4 to Level 2 (2,500 Elixir)" {
   ${builder_effort "1h"}
   priority 830
-  depends !Army_Camp_4_1, !th_7
+  depends !Army_Camp_4_1, !th_1_7
 }
 
-task Army_Camp_4_3 "Upgrade Army Camp 4 to Level 3 (10,000 Elixir)" { 
+task Army_Camp_4_3 "Upgrade Army Camp 4 to Level 3 (10,000 Elixir)" {
   ${builder_effort "3h"}
   priority 830
-  depends !Army_Camp_4_2, !th_7
+  depends !Army_Camp_4_2, !th_1_7
 }
 
-task Army_Camp_4_4 "Upgrade Army Camp 4 to Level 4 (100,000 Elixir)" { 
+task Army_Camp_4_4 "Upgrade Army Camp 4 to Level 4 (100,000 Elixir)" {
   ${builder_effort "8h"}
   priority 830
-  depends !Army_Camp_4_3, !th_7
+  depends !Army_Camp_4_3, !th_1_7
 }
 
-task Army_Camp_4_5 "Upgrade Army Camp 4 to Level 5 (250,000 Elixir)" { 
+task Army_Camp_4_5 "Upgrade Army Camp 4 to Level 5 (250,000 Elixir)" {
   ${builder_effort "1d"}
   priority 830
-  depends !Army_Camp_4_4, !th_7
+  depends !Army_Camp_4_4, !th_1_7
 }
 
-task Army_Camp_4_6 "Upgrade Army Camp 4 to Level 6 (750,000 Elixir)" { 
+task Army_Camp_4_6 "Upgrade Army Camp 4 to Level 6 (750,000 Elixir)" {
   ${builder_effort "3d"}
   priority 830
-  depends !Army_Camp_4_5, !th_7
+  depends !Army_Camp_4_5, !th_1_7
 }
 
-task Army_Camp_4_7 "Upgrade Army Camp 4 to Level 7 (2,250,000 Elixir)" { 
+task Army_Camp_4_7 "Upgrade Army Camp 4 to Level 7 (2,250,000 Elixir)" {
   ${builder_effort "5d"}
   priority 830
-  depends !Army_Camp_4_6, !th_9
+  depends !Army_Camp_4_6, !th_1_9
 }
 
-task Barracks_1_2 "Build Barracks 1 as Level 2 (1,200 Elixir)" { 
+task Barracks_1_2 "Build Barracks 1 as Level 2 (1,200 Elixir)" {
   priority 800
 }
 
-task Barracks_1_3 "Upgrade Barracks 1 to Level 3 (2,500 Elixir)" { 
+task Barracks_1_3 "Upgrade Barracks 1 to Level 3 (2,500 Elixir)" {
   priority 800
   depends !Barracks_1_2
 }
 
-task Barracks_1_4 "Upgrade Barracks 1 to Level 4 (5,000 Elixir)" { 
+task Barracks_1_4 "Upgrade Barracks 1 to Level 4 (5,000 Elixir)" {
   priority 800
-  depends !Barracks_1_3, !th_2
+  depends !Barracks_1_3, !th_1_2
 }
 
-task Barracks_1_5 "Upgrade Barracks 1 to Level 5 (10,000 Elixir)" { 
+task Barracks_1_5 "Upgrade Barracks 1 to Level 5 (10,000 Elixir)" {
   priority 800
-  depends !Barracks_1_4, !th_3
+  depends !Barracks_1_4, !th_1_3
 }
 
-task Barracks_1_6 "Upgrade Barracks 1 to Level 6 (80,000 Elixir)" { 
+task Barracks_1_6 "Upgrade Barracks 1 to Level 6 (80,000 Elixir)" {
   priority 800
-  depends !Barracks_1_5, !th_4
+  depends !Barracks_1_5, !th_1_4
 }
 
-task Barracks_1_7 "Upgrade Barracks 1 to Level 7 (240,000 Elixir)" { 
+task Barracks_1_7 "Upgrade Barracks 1 to Level 7 (240,000 Elixir)" {
   priority 800
-  depends !Barracks_1_6, !th_5
+  depends !Barracks_1_6, !th_1_5
 }
 
-task Barracks_1_8 "Upgrade Barracks 1 to Level 8 (700,000 Elixir)" { 
+task Barracks_1_8 "Upgrade Barracks 1 to Level 8 (700,000 Elixir)" {
   priority 800
-  depends !Barracks_1_7, !th_6
+  depends !Barracks_1_7, !th_1_6
 }
 
-task Barracks_1_9 "Upgrade Barracks 1 to Level 9 (1,500,000 Elixir)" { 
+task Barracks_1_9 "Upgrade Barracks 1 to Level 9 (1,500,000 Elixir)" {
   ${builder_effort "4d"}
   priority 800
-  depends !Barracks_1_8, !th_7
+  depends !Barracks_1_8, !th_1_7
 }
 
-task Barracks_2_2 "Build Barracks 2 as Level 2 (1,200 Elixir)" { 
+task Barracks_2_2 "Build Barracks 2 as Level 2 (1,200 Elixir)" {
   priority 800
-  depends !th_2
+  depends !th_1_2
 }
 
-task Barracks_2_3 "Upgrade Barracks 2 to Level 3 (2,500 Elixir)" { 
+task Barracks_2_3 "Upgrade Barracks 2 to Level 3 (2,500 Elixir)" {
   priority 800
-  depends !Barracks_2_2, !th_2
+  depends !Barracks_2_2, !th_1_2
 }
 
-task Barracks_2_4 "Upgrade Barracks 2 to Level 4 (5,000 Elixir)" { 
+task Barracks_2_4 "Upgrade Barracks 2 to Level 4 (5,000 Elixir)" {
   priority 800
-  depends !Barracks_2_3, !th_2
+  depends !Barracks_2_3, !th_1_2
 }
 
-task Barracks_2_5 "Upgrade Barracks 2 to Level 5 (10,000 Elixir)" { 
+task Barracks_2_5 "Upgrade Barracks 2 to Level 5 (10,000 Elixir)" {
   priority 800
-  depends !Barracks_2_4, !th_3
+  depends !Barracks_2_4, !th_1_3
 }
 
-task Barracks_2_6 "Upgrade Barracks 2 to Level 6 (80,000 Elixir)" { 
+task Barracks_2_6 "Upgrade Barracks 2 to Level 6 (80,000 Elixir)" {
   priority 800
-  depends !Barracks_2_5, !th_4
+  depends !Barracks_2_5, !th_1_4
 }
 
-task Barracks_2_7 "Upgrade Barracks 2 to Level 7 (240,000 Elixir)" { 
+task Barracks_2_7 "Upgrade Barracks 2 to Level 7 (240,000 Elixir)" {
   priority 800
-  depends !Barracks_2_6, !th_5
+  depends !Barracks_2_6, !th_1_5
 }
 
-task Barracks_2_8 "Upgrade Barracks 2 to Level 8 (700,000 Elixir)" { 
+task Barracks_2_8 "Upgrade Barracks 2 to Level 8 (700,000 Elixir)" {
   priority 800
-  depends !Barracks_2_7, !th_6
+  depends !Barracks_2_7, !th_1_6
 }
 
-task Barracks_2_9 "Upgrade Barracks 2 to Level 9 (1,500,000 Elixir)" { 
+task Barracks_2_9 "Upgrade Barracks 2 to Level 9 (1,500,000 Elixir)" {
   ${builder_effort "4d"}
   priority 800
-  depends !Barracks_2_8, !th_7
+  depends !Barracks_2_8, !th_1_7
 }
 
-task Barracks_3_2 "Build Barracks 3 as Level 2 (1,200 Elixir)" { 
+task Barracks_3_2 "Build Barracks 3 as Level 2 (1,200 Elixir)" {
   priority 800
-  depends !th_4
+  depends !th_1_4
 }
 
-task Barracks_3_3 "Upgrade Barracks 3 to Level 3 (2,500 Elixir)" { 
+task Barracks_3_3 "Upgrade Barracks 3 to Level 3 (2,500 Elixir)" {
   priority 800
-  depends !Barracks_3_2, !th_4
+  depends !Barracks_3_2, !th_1_4
 }
 
-task Barracks_3_4 "Upgrade Barracks 3 to Level 4 (5,000 Elixir)" { 
+task Barracks_3_4 "Upgrade Barracks 3 to Level 4 (5,000 Elixir)" {
   priority 800
-  depends !Barracks_3_3, !th_4
+  depends !Barracks_3_3, !th_1_4
 }
 
-task Barracks_3_5 "Upgrade Barracks 3 to Level 5 (10,000 Elixir)" { 
+task Barracks_3_5 "Upgrade Barracks 3 to Level 5 (10,000 Elixir)" {
   priority 800
-  depends !Barracks_3_4, !th_4
+  depends !Barracks_3_4, !th_1_4
 }
 
-task Barracks_3_6 "Upgrade Barracks 3 to Level 6 (80,000 Elixir)" { 
+task Barracks_3_6 "Upgrade Barracks 3 to Level 6 (80,000 Elixir)" {
   priority 800
-  depends !Barracks_3_5, !th_4
+  depends !Barracks_3_5, !th_1_4
 }
 
-task Barracks_3_7 "Upgrade Barracks 3 to Level 7 (240,000 Elixir)" { 
+task Barracks_3_7 "Upgrade Barracks 3 to Level 7 (240,000 Elixir)" {
   priority 800
-  depends !Barracks_3_6, !th_5
+  depends !Barracks_3_6, !th_1_5
 }
 
-task Barracks_3_8 "Upgrade Barracks 3 to Level 8 (700,000 Elixir)" { 
+task Barracks_3_8 "Upgrade Barracks 3 to Level 8 (700,000 Elixir)" {
   priority 800
-  depends !Barracks_3_7, !th_6
+  depends !Barracks_3_7, !th_1_6
 }
 
-task Barracks_3_9 "Upgrade Barracks 3 to Level 9 (1,500,000 Elixir)" { 
+task Barracks_3_9 "Upgrade Barracks 3 to Level 9 (1,500,000 Elixir)" {
   ${builder_effort "4d"}
   priority 800
-  depends !Barracks_3_8, !th_7
+  depends !Barracks_3_8, !th_1_7
 }
 
-task Barracks_4_2 "Build Barracks 4 as Level 2 (1,200 Elixir)" { 
+task Barracks_4_2 "Build Barracks 4 as Level 2 (1,200 Elixir)" {
   ${builder_effort "15min"}
   priority 800
-  depends !th_7
+  depends !th_1_7
 }
 
-task Barracks_4_3 "Upgrade Barracks 4 to Level 3 (2,500 Elixir)" { 
+task Barracks_4_3 "Upgrade Barracks 4 to Level 3 (2,500 Elixir)" {
   ${builder_effort "2h"}
   priority 800
-  depends !Barracks_4_2, !th_7
+  depends !Barracks_4_2, !th_1_7
 }
 
-task Barracks_4_4 "Upgrade Barracks 4 to Level 4 (5,000 Elixir)" { 
+task Barracks_4_4 "Upgrade Barracks 4 to Level 4 (5,000 Elixir)" {
   ${builder_effort "4h"}
   priority 800
-  depends !Barracks_4_3, !th_7
+  depends !Barracks_4_3, !th_1_7
 }
 
-task Barracks_4_5 "Upgrade Barracks 4 to Level 5 (10,000 Elixir)" { 
+task Barracks_4_5 "Upgrade Barracks 4 to Level 5 (10,000 Elixir)" {
   ${builder_effort "10h"}
   priority 800
-  depends !Barracks_4_4, !th_7
+  depends !Barracks_4_4, !th_1_7
 }
 
-task Barracks_4_6 "Upgrade Barracks 4 to Level 6 (80,000 Elixir)" { 
+task Barracks_4_6 "Upgrade Barracks 4 to Level 6 (80,000 Elixir)" {
   ${builder_effort "16h"}
   priority 800
-  depends !Barracks_4_5, !th_7
+  depends !Barracks_4_5, !th_1_7
 }
 
-task Barracks_4_7 "Upgrade Barracks 4 to Level 7 (240,000 Elixir)" { 
+task Barracks_4_7 "Upgrade Barracks 4 to Level 7 (240,000 Elixir)" {
   ${builder_effort "1d"}
   priority 800
-  depends !Barracks_4_6, !th_7
+  depends !Barracks_4_6, !th_1_7
 }
 
-task Barracks_4_8 "Upgrade Barracks 4 to Level 8 (700,000 Elixir)" { 
+task Barracks_4_8 "Upgrade Barracks 4 to Level 8 (700,000 Elixir)" {
   ${builder_effort "2d"}
   priority 800
-  depends !Barracks_4_7, !th_7
+  depends !Barracks_4_7, !th_1_7
 }
 
-task Barracks_4_9 "Upgrade Barracks 4 to Level 9 (1,500,000 Elixir)" { 
+task Barracks_4_9 "Upgrade Barracks 4 to Level 9 (1,500,000 Elixir)" {
   ${builder_effort "4d"}
   priority 800
-  depends !Barracks_4_8, !th_7
+  depends !Barracks_4_8, !th_1_7
 }
 
-task Bomb_1_2 "Build Bomb 1 as Level 2 (1,400 Gold)" { 
+task Bomb_1_2 "Build Bomb 1 as Level 2 (1,400 Gold)" {
   priority 910
-  depends !th_3
+  depends !th_1_3
 }
 
-task Bomb_1_3 "Upgrade Bomb 1 to Level 3 (10,000 Gold)" { 
+task Bomb_1_3 "Upgrade Bomb 1 to Level 3 (10,000 Gold)" {
   priority 910
-  depends !Bomb_1_2, !th_5
+  depends !Bomb_1_2, !th_1_5
 }
 
-task Bomb_1_4 "Upgrade Bomb 1 to Level 4 (100,000 Gold)" { 
+task Bomb_1_4 "Upgrade Bomb 1 to Level 4 (100,000 Gold)" {
   ${builder_effort "8h"}
   priority 910
-  depends !Bomb_1_3, !th_7
+  depends !Bomb_1_3, !th_1_7
 }
 
-task Bomb_1_5 "Upgrade Bomb 1 to Level 5 (1,000,000 Gold)" { 
+task Bomb_1_5 "Upgrade Bomb 1 to Level 5 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 910
-  depends !Bomb_1_4, !th_8
+  depends !Bomb_1_4, !th_1_8
 }
 
-task Bomb_1_6 "Upgrade Bomb 1 to Level 6 (1,500,000 Gold)" { 
+task Bomb_1_6 "Upgrade Bomb 1 to Level 6 (1,500,000 Gold)" {
   ${builder_effort "2d"}
   priority 910
-  depends !Bomb_1_5, !th_9
+  depends !Bomb_1_5, !th_1_9
 }
 
-task Bomb_2_2 "Build Bomb 2 as Level 2 (1,400 Gold)" { 
+task Bomb_2_2 "Build Bomb 2 as Level 2 (1,400 Gold)" {
   priority 910
-  depends !th_3
+  depends !th_1_3
 }
 
-task Bomb_2_3 "Upgrade Bomb 2 to Level 3 (10,000 Gold)" { 
+task Bomb_2_3 "Upgrade Bomb 2 to Level 3 (10,000 Gold)" {
   priority 910
-  depends !Bomb_2_2, !th_5
+  depends !Bomb_2_2, !th_1_5
 }
 
-task Bomb_2_4 "Upgrade Bomb 2 to Level 4 (100,000 Gold)" { 
+task Bomb_2_4 "Upgrade Bomb 2 to Level 4 (100,000 Gold)" {
   ${builder_effort "8h"}
   priority 910
-  depends !Bomb_2_3, !th_7
+  depends !Bomb_2_3, !th_1_7
 }
 
-task Bomb_2_5 "Upgrade Bomb 2 to Level 5 (1,000,000 Gold)" { 
+task Bomb_2_5 "Upgrade Bomb 2 to Level 5 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 910
-  depends !Bomb_2_4, !th_8
+  depends !Bomb_2_4, !th_1_8
 }
 
-task Bomb_2_6 "Upgrade Bomb 2 to Level 6 (1,500,000 Gold)" { 
+task Bomb_2_6 "Upgrade Bomb 2 to Level 6 (1,500,000 Gold)" {
   ${builder_effort "2d"}
   priority 910
-  depends !Bomb_2_5, !th_9
+  depends !Bomb_2_5, !th_1_9
 }
 
-task Bomb_3_2 "Build Bomb 3 as Level 2 (1,400 Gold)" { 
+task Bomb_3_2 "Build Bomb 3 as Level 2 (1,400 Gold)" {
   priority 910
-  depends !th_5
+  depends !th_1_5
 }
 
-task Bomb_3_3 "Upgrade Bomb 3 to Level 3 (10,000 Gold)" { 
+task Bomb_3_3 "Upgrade Bomb 3 to Level 3 (10,000 Gold)" {
   priority 910
-  depends !Bomb_3_2, !th_5
+  depends !Bomb_3_2, !th_1_5
 }
 
-task Bomb_3_4 "Upgrade Bomb 3 to Level 4 (100,000 Gold)" { 
+task Bomb_3_4 "Upgrade Bomb 3 to Level 4 (100,000 Gold)" {
   ${builder_effort "8h"}
   priority 910
-  depends !Bomb_3_3, !th_7
+  depends !Bomb_3_3, !th_1_7
 }
 
-task Bomb_3_5 "Upgrade Bomb 3 to Level 5 (1,000,000 Gold)" { 
+task Bomb_3_5 "Upgrade Bomb 3 to Level 5 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 910
-  depends !Bomb_3_4, !th_8
+  depends !Bomb_3_4, !th_1_8
 }
 
-task Bomb_3_6 "Upgrade Bomb 3 to Level 6 (1,500,000 Gold)" { 
+task Bomb_3_6 "Upgrade Bomb 3 to Level 6 (1,500,000 Gold)" {
   ${builder_effort "2d"}
   priority 910
-  depends !Bomb_3_5, !th_9
+  depends !Bomb_3_5, !th_1_9
 }
 
-task Bomb_4_2 "Build Bomb 4 as Level 2 (1,400 Gold)" { 
+task Bomb_4_2 "Build Bomb 4 as Level 2 (1,400 Gold)" {
   priority 910
-  depends !th_5
+  depends !th_1_5
 }
 
-task Bomb_4_3 "Upgrade Bomb 4 to Level 3 (10,000 Gold)" { 
+task Bomb_4_3 "Upgrade Bomb 4 to Level 3 (10,000 Gold)" {
   priority 910
-  depends !Bomb_4_2, !th_5
+  depends !Bomb_4_2, !th_1_5
 }
 
-task Bomb_4_4 "Upgrade Bomb 4 to Level 4 (100,000 Gold)" { 
+task Bomb_4_4 "Upgrade Bomb 4 to Level 4 (100,000 Gold)" {
   ${builder_effort "8h"}
   priority 910
-  depends !Bomb_4_3, !th_7
+  depends !Bomb_4_3, !th_1_7
 }
 
-task Bomb_4_5 "Upgrade Bomb 4 to Level 5 (1,000,000 Gold)" { 
+task Bomb_4_5 "Upgrade Bomb 4 to Level 5 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 910
-  depends !Bomb_4_4, !th_8
+  depends !Bomb_4_4, !th_1_8
 }
 
-task Bomb_4_6 "Upgrade Bomb 4 to Level 6 (1,500,000 Gold)" { 
+task Bomb_4_6 "Upgrade Bomb 4 to Level 6 (1,500,000 Gold)" {
   ${builder_effort "2d"}
   priority 910
-  depends !Bomb_4_5, !th_9
+  depends !Bomb_4_5, !th_1_9
 }
 
-task Bomb_5_2 "Build Bomb 5 as Level 2 (1,400 Gold)" { 
+task Bomb_5_2 "Build Bomb 5 as Level 2 (1,400 Gold)" {
   ${builder_effort "15min"}
   priority 910
-  depends !th_7
+  depends !th_1_7
 }
 
-task Bomb_5_3 "Upgrade Bomb 5 to Level 3 (10,000 Gold)" { 
+task Bomb_5_3 "Upgrade Bomb 5 to Level 3 (10,000 Gold)" {
   ${builder_effort "2h"}
   priority 910
-  depends !Bomb_5_2, !th_7
+  depends !Bomb_5_2, !th_1_7
 }
 
-task Bomb_5_4 "Upgrade Bomb 5 to Level 4 (100,000 Gold)" { 
+task Bomb_5_4 "Upgrade Bomb 5 to Level 4 (100,000 Gold)" {
   ${builder_effort "8h"}
   priority 910
-  depends !Bomb_5_3, !th_7
+  depends !Bomb_5_3, !th_1_7
 }
 
-task Bomb_5_5 "Upgrade Bomb 5 to Level 5 (1,000,000 Gold)" { 
+task Bomb_5_5 "Upgrade Bomb 5 to Level 5 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 910
-  depends !Bomb_5_4, !th_8
+  depends !Bomb_5_4, !th_1_8
 }
 
-task Bomb_5_6 "Upgrade Bomb 5 to Level 6 (1,500,000 Gold)" { 
+task Bomb_5_6 "Upgrade Bomb 5 to Level 6 (1,500,000 Gold)" {
   ${builder_effort "2d"}
   priority 910
-  depends !Bomb_5_5, !th_9
+  depends !Bomb_5_5, !th_1_9
 }
 
-task Bomb_6_2 "Build Bomb 6 as Level 2 (1,400 Gold)" { 
+task Bomb_6_2 "Build Bomb 6 as Level 2 (1,400 Gold)" {
   ${builder_effort "15min"}
   priority 910
-  depends !th_7
+  depends !th_1_7
 }
 
-task Bomb_6_3 "Upgrade Bomb 6 to Level 3 (10,000 Gold)" { 
+task Bomb_6_3 "Upgrade Bomb 6 to Level 3 (10,000 Gold)" {
   ${builder_effort "2h"}
   priority 910
-  depends !Bomb_6_2, !th_7
+  depends !Bomb_6_2, !th_1_7
 }
 
-task Bomb_6_4 "Upgrade Bomb 6 to Level 4 (100,000 Gold)" { 
+task Bomb_6_4 "Upgrade Bomb 6 to Level 4 (100,000 Gold)" {
   ${builder_effort "8h"}
   priority 910
-  depends !Bomb_6_3, !th_7
+  depends !Bomb_6_3, !th_1_7
 }
 
-task Bomb_6_5 "Upgrade Bomb 6 to Level 5 (1,000,000 Gold)" { 
+task Bomb_6_5 "Upgrade Bomb 6 to Level 5 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 910
-  depends !Bomb_6_4, !th_8
+  depends !Bomb_6_4, !th_1_8
 }
 
-task Bomb_6_6 "Upgrade Bomb 6 to Level 6 (1,500,000 Gold)" { 
+task Bomb_6_6 "Upgrade Bomb 6 to Level 6 (1,500,000 Gold)" {
   ${builder_effort "2d"}
   priority 910
-  depends !Bomb_6_5, !th_9
+  depends !Bomb_6_5, !th_1_9
 }
 
-task Cannon_1_2 "Build Cannon 1 as Level 2 (1,250 gold)" { 
+task Cannon_1_2 "Build Cannon 1 as Level 2 (1,250 gold)" {
   priority 550
 }
 
-task Cannon_1_3 "Upgrade Cannon 1 to Level 3 (4,000 gold)" { 
+task Cannon_1_3 "Upgrade Cannon 1 to Level 3 (4,000 gold)" {
   priority 550
-  depends !Cannon_1_2, !th_2
+  depends !Cannon_1_2, !th_1_2
 }
 
-task Cannon_1_4 "Upgrade Cannon 1 to Level 4 (16,000 gold)" { 
+task Cannon_1_4 "Upgrade Cannon 1 to Level 4 (16,000 gold)" {
   priority 550
-  depends !Cannon_1_3, !th_3
+  depends !Cannon_1_3, !th_1_3
 }
 
-task Cannon_1_5 "Upgrade Cannon 1 to Level 5 (50,000 gold)" { 
+task Cannon_1_5 "Upgrade Cannon 1 to Level 5 (50,000 gold)" {
   priority 550
-  depends !Cannon_1_4, !th_4
+  depends !Cannon_1_4, !th_1_4
 }
 
-task Cannon_1_6 "Upgrade Cannon 1 to Level 6 (100,000 gold)" { 
+task Cannon_1_6 "Upgrade Cannon 1 to Level 6 (100,000 gold)" {
   ${builder_effort "12h"}
   priority 550
-  depends !Cannon_1_5, !th_5
+  depends !Cannon_1_5, !th_1_5
 }
 
-task Cannon_1_7 "Upgrade Cannon 1 to Level 7 (200,000 gold)" { 
+task Cannon_1_7 "Upgrade Cannon 1 to Level 7 (200,000 gold)" {
   ${builder_effort "1d"}
   priority 550
-  depends !Cannon_1_6, !th_6
+  depends !Cannon_1_6, !th_1_6
 }
 
-task Cannon_1_8 "Upgrade Cannon 1 to Level 8 (400,000 gold)" { 
+task Cannon_1_8 "Upgrade Cannon 1 to Level 8 (400,000 gold)" {
   ${builder_effort "2d"}
   priority 550
-  depends !Cannon_1_7, !th_7
+  depends !Cannon_1_7, !th_1_7
 }
 
-task Cannon_1_9 "Upgrade Cannon 1 to Level 9 (800,000 gold)" { 
+task Cannon_1_9 "Upgrade Cannon 1 to Level 9 (800,000 gold)" {
   ${builder_effort "3d"}
   priority 550
-  depends !Cannon_1_8, !th_8
+  depends !Cannon_1_8, !th_1_8
 }
 
-task Cannon_1_10 "Upgrade Cannon 1 to Level 10 (1,600,000 gold)" { 
+task Cannon_1_10 "Upgrade Cannon 1 to Level 10 (1,600,000 gold)" {
   ${builder_effort "4d"}
   priority 550
-  depends !Cannon_1_9, !th_8
+  depends !Cannon_1_9, !th_1_8
 }
 
-task Cannon_1_11 "Upgrade Cannon 1 to Level 11 (3,200,000 gold)" { 
+task Cannon_1_11 "Upgrade Cannon 1 to Level 11 (3,200,000 gold)" {
   ${builder_effort "5d"}
   priority 550
-  depends !Cannon_1_10, !th_9
+  depends !Cannon_1_10, !th_1_9
 }
 
-task Cannon_1_12 "Upgrade Cannon 1 to Level 12 (6,400,000 gold)" { 
+task Cannon_1_12 "Upgrade Cannon 1 to Level 12 (6,400,000 gold)" {
   ${builder_effort "6d"}
   priority 550
-  depends !Cannon_1_11, !th_10
+  depends !Cannon_1_11, !th_1_10
 }
 
-task Cannon_1_13 "Upgrade Cannon 1 to Level 13 (7,500,000 gold)" { 
+task Cannon_1_13 "Upgrade Cannon 1 to Level 13 (7,500,000 gold)" {
   ${builder_effort "7d"}
   priority 550
-  depends !Cannon_1_12, !th_10
+  depends !Cannon_1_12, !th_1_10
 }
 
-task Cannon_2_2 "Build Cannon 2 as Level 2 (1,250 gold)" { 
+task Cannon_2_2 "Build Cannon 2 as Level 2 (1,250 gold)" {
   priority 550
 }
 
-task Cannon_2_3 "Upgrade Cannon 2 to Level 3 (4,000 gold)" { 
+task Cannon_2_3 "Upgrade Cannon 2 to Level 3 (4,000 gold)" {
   priority 550
-  depends !Cannon_2_2, !th_2
+  depends !Cannon_2_2, !th_1_2
 }
 
-task Cannon_2_4 "Upgrade Cannon 2 to Level 4 (16,000 gold)" { 
+task Cannon_2_4 "Upgrade Cannon 2 to Level 4 (16,000 gold)" {
   priority 550
-  depends !Cannon_2_3, !th_3
+  depends !Cannon_2_3, !th_1_3
 }
 
-task Cannon_2_5 "Upgrade Cannon 2 to Level 5 (50,000 gold)" { 
+task Cannon_2_5 "Upgrade Cannon 2 to Level 5 (50,000 gold)" {
   priority 550
-  depends !Cannon_2_4, !th_4
+  depends !Cannon_2_4, !th_1_4
 }
 
-task Cannon_2_6 "Upgrade Cannon 2 to Level 6 (100,000 gold)" { 
+task Cannon_2_6 "Upgrade Cannon 2 to Level 6 (100,000 gold)" {
   priority 550
-  depends !Cannon_2_5, !th_5
+  depends !Cannon_2_5, !th_1_5
 }
 
-task Cannon_2_7 "Upgrade Cannon 2 to Level 7 (200,000 gold)" { 
-  ${builder_effort "1d"}
+task Cannon_2_7 "Upgrade Cannon 2 to Level 7 (200,000 gold)" {
   priority 550
-  depends !Cannon_2_6, !th_6
+  depends !Cannon_2_6, !th_1_6
 }
 
-task Cannon_2_8 "Upgrade Cannon 2 to Level 8 (400,000 gold)" { 
+task Cannon_2_8 "Upgrade Cannon 2 to Level 8 (400,000 gold)" {
   ${builder_effort "2d"}
   priority 550
-  depends !Cannon_2_7, !th_7
+  depends !Cannon_2_7, !th_1_7
 }
 
-task Cannon_2_9 "Upgrade Cannon 2 to Level 9 (800,000 gold)" { 
+task Cannon_2_9 "Upgrade Cannon 2 to Level 9 (800,000 gold)" {
   ${builder_effort "3d"}
   priority 550
-  depends !Cannon_2_8, !th_8
+  depends !Cannon_2_8, !th_1_8
 }
 
-task Cannon_2_10 "Upgrade Cannon 2 to Level 10 (1,600,000 gold)" { 
+task Cannon_2_10 "Upgrade Cannon 2 to Level 10 (1,600,000 gold)" {
   ${builder_effort "4d"}
   priority 550
-  depends !Cannon_2_9, !th_8
+  depends !Cannon_2_9, !th_1_8
 }
 
-task Cannon_2_11 "Upgrade Cannon 2 to Level 11 (3,200,000 gold)" { 
+task Cannon_2_11 "Upgrade Cannon 2 to Level 11 (3,200,000 gold)" {
   ${builder_effort "5d"}
   priority 550
-  depends !Cannon_2_10, !th_9
+  depends !Cannon_2_10, !th_1_9
 }
 
-task Cannon_2_12 "Upgrade Cannon 2 to Level 12 (6,400,000 gold)" { 
+task Cannon_2_12 "Upgrade Cannon 2 to Level 12 (6,400,000 gold)" {
   ${builder_effort "6d"}
   priority 550
-  depends !Cannon_2_11, !th_10
+  depends !Cannon_2_11, !th_1_10
 }
 
-task Cannon_2_13 "Upgrade Cannon 2 to Level 13 (7,500,000 gold)" { 
+task Cannon_2_13 "Upgrade Cannon 2 to Level 13 (7,500,000 gold)" {
   ${builder_effort "7d"}
   priority 550
-  depends !Cannon_2_12, !th_10
+  depends !Cannon_2_12, !th_1_10
 }
 
-task Cannon_3_2 "Build Cannon 3 as Level 2 (1,250 gold)" { 
+task Cannon_3_2 "Build Cannon 3 as Level 2 (1,250 gold)" {
   priority 550
-  depends !th_5
+  depends !th_1_5
 }
 
-task Cannon_3_3 "Upgrade Cannon 3 to Level 3 (4,000 gold)" { 
+task Cannon_3_3 "Upgrade Cannon 3 to Level 3 (4,000 gold)" {
   priority 550
-  depends !Cannon_3_2, !th_5
+  depends !Cannon_3_2, !th_1_5
 }
 
-task Cannon_3_4 "Upgrade Cannon 3 to Level 4 (16,000 gold)" { 
+task Cannon_3_4 "Upgrade Cannon 3 to Level 4 (16,000 gold)" {
   priority 550
-  depends !Cannon_3_3, !th_5
+  depends !Cannon_3_3, !th_1_5
 }
 
-task Cannon_3_5 "Upgrade Cannon 3 to Level 5 (50,000 gold)" { 
+task Cannon_3_5 "Upgrade Cannon 3 to Level 5 (50,000 gold)" {
   priority 550
-  depends !Cannon_3_4, !th_5
+  depends !Cannon_3_4, !th_1_5
 }
 
-task Cannon_3_6 "Upgrade Cannon 3 to Level 6 (100,000 gold)" { 
+task Cannon_3_6 "Upgrade Cannon 3 to Level 6 (100,000 gold)" {
   priority 550
-  depends !Cannon_3_5, !th_5
+  depends !Cannon_3_5, !th_1_5
 }
 
-task Cannon_3_7 "Upgrade Cannon 3 to Level 7 (200,000 gold)" { 
+task Cannon_3_7 "Upgrade Cannon 3 to Level 7 (200,000 gold)" {
   priority 550
-  depends !Cannon_3_6, !th_6
+  depends !Cannon_3_6, !th_1_6
 }
 
-task Cannon_3_8 "Upgrade Cannon 3 to Level 8 (400,000 gold)" { 
+task Cannon_3_8 "Upgrade Cannon 3 to Level 8 (400,000 gold)" {
   ${builder_effort "2d"}
   priority 550
-  depends !Cannon_3_7, !th_7
+  depends !Cannon_3_7, !th_1_7
 }
 
-task Cannon_3_9 "Upgrade Cannon 3 to Level 9 (800,000 gold)" { 
+task Cannon_3_9 "Upgrade Cannon 3 to Level 9 (800,000 gold)" {
   ${builder_effort "3d"}
   priority 550
-  depends !Cannon_3_8, !th_8
+  depends !Cannon_3_8, !th_1_8
 }
 
-task Cannon_3_10 "Upgrade Cannon 3 to Level 10 (1,600,000 gold)" { 
+task Cannon_3_10 "Upgrade Cannon 3 to Level 10 (1,600,000 gold)" {
   ${builder_effort "4d"}
   priority 550
-  depends !Cannon_3_9, !th_8
+  depends !Cannon_3_9, !th_1_8
 }
 
-task Cannon_3_11 "Upgrade Cannon 3 to Level 11 (3,200,000 gold)" { 
+task Cannon_3_11 "Upgrade Cannon 3 to Level 11 (3,200,000 gold)" {
   ${builder_effort "5d"}
   priority 550
-  depends !Cannon_3_10, !th_9
+  depends !Cannon_3_10, !th_1_9
 }
 
-task Cannon_3_12 "Upgrade Cannon 3 to Level 12 (6,400,000 gold)" { 
+task Cannon_3_12 "Upgrade Cannon 3 to Level 12 (6,400,000 gold)" {
   ${builder_effort "6d"}
   priority 550
-  depends !Cannon_3_11, !th_10
+  depends !Cannon_3_11, !th_1_10
 }
 
-task Cannon_3_13 "Upgrade Cannon 3 to Level 13 (7,500,000 gold)" { 
+task Cannon_3_13 "Upgrade Cannon 3 to Level 13 (7,500,000 gold)" {
   ${builder_effort "7d"}
   priority 550
-  depends !Cannon_3_12, !th_10
+  depends !Cannon_3_12, !th_1_10
 }
 
-task Cannon_4_2 "Build Cannon 4 as Level 2 (1,250 gold)" { 
+task Cannon_4_2 "Build Cannon 4 as Level 2 (1,250 gold)" {
   ${builder_effort "15min"}
   priority 550
-  depends !th_7
+  depends !th_1_7
 }
 
-task Cannon_4_3 "Upgrade Cannon 4 to Level 3 (4,000 gold)" { 
+task Cannon_4_3 "Upgrade Cannon 4 to Level 3 (4,000 gold)" {
   ${builder_effort "45min"}
   priority 550
-  depends !Cannon_4_2, !th_7
+  depends !Cannon_4_2, !th_1_7
 }
 
-task Cannon_4_4 "Upgrade Cannon 4 to Level 4 (16,000 gold)" { 
+task Cannon_4_4 "Upgrade Cannon 4 to Level 4 (16,000 gold)" {
   ${builder_effort "2h"}
   priority 550
-  depends !Cannon_4_3, !th_7
+  depends !Cannon_4_3, !th_1_7
 }
 
-task Cannon_4_5 "Upgrade Cannon 4 to Level 5 (50,000 gold)" { 
+task Cannon_4_5 "Upgrade Cannon 4 to Level 5 (50,000 gold)" {
   ${builder_effort "6h"}
   priority 550
-  depends !Cannon_4_4, !th_7
+  depends !Cannon_4_4, !th_1_7
 }
 
-task Cannon_4_6 "Upgrade Cannon 4 to Level 6 (100,000 gold)" { 
+task Cannon_4_6 "Upgrade Cannon 4 to Level 6 (100,000 gold)" {
   ${builder_effort "12h"}
   priority 550
-  depends !Cannon_4_5, !th_7
+  depends !Cannon_4_5, !th_1_7
 }
 
-task Cannon_4_7 "Upgrade Cannon 4 to Level 7 (200,000 gold)" { 
+task Cannon_4_7 "Upgrade Cannon 4 to Level 7 (200,000 gold)" {
   ${builder_effort "1d"}
   priority 550
-  depends !Cannon_4_6, !th_7
+  depends !Cannon_4_6, !th_1_7
 }
 
-task Cannon_4_8 "Upgrade Cannon 4 to Level 8 (400,000 gold)" { 
+task Cannon_4_8 "Upgrade Cannon 4 to Level 8 (400,000 gold)" {
   ${builder_effort "2d"}
   priority 550
-  depends !Cannon_4_7, !th_7
+  depends !Cannon_4_7, !th_1_7
 }
 
-task Cannon_4_9 "Upgrade Cannon 4 to Level 9 (800,000 gold)" { 
+task Cannon_4_9 "Upgrade Cannon 4 to Level 9 (800,000 gold)" {
   ${builder_effort "3d"}
   priority 550
-  depends !Cannon_4_8, !th_8
+  depends !Cannon_4_8, !th_1_8
 }
 
-task Cannon_4_10 "Upgrade Cannon 4 to Level 10 (1,600,000 gold)" { 
+task Cannon_4_10 "Upgrade Cannon 4 to Level 10 (1,600,000 gold)" {
   ${builder_effort "4d"}
   priority 550
-  depends !Cannon_4_9, !th_8
+  depends !Cannon_4_9, !th_1_8
 }
 
-task Cannon_4_11 "Upgrade Cannon 4 to Level 11 (3,200,000 gold)" { 
+task Cannon_4_11 "Upgrade Cannon 4 to Level 11 (3,200,000 gold)" {
   ${builder_effort "5d"}
   priority 550
-  depends !Cannon_4_10, !th_9
+  depends !Cannon_4_10, !th_1_9
 }
 
-task Cannon_4_12 "Upgrade Cannon 4 to Level 12 (6,400,000 gold)" { 
+task Cannon_4_12 "Upgrade Cannon 4 to Level 12 (6,400,000 gold)" {
   ${builder_effort "6d"}
   priority 550
-  depends !Cannon_4_11, !th_10
+  depends !Cannon_4_11, !th_1_10
 }
 
-task Cannon_4_13 "Upgrade Cannon 4 to Level 13 (7,500,000 gold)" { 
+task Cannon_4_13 "Upgrade Cannon 4 to Level 13 (7,500,000 gold)" {
   ${builder_effort "7d"}
   priority 550
-  depends !Cannon_4_12, !th_10
+  depends !Cannon_4_12, !th_1_10
 }
 
-task Cannon_5_2 "Build Cannon 5 as Level 2 (1,250 gold)" { 
+task Cannon_5_2 "Build Cannon 5 as Level 2 (1,250 gold)" {
   ${builder_effort "15min"}
   priority 550
-  depends !th_7
+  depends !th_1_7
 }
 
-task Cannon_5_3 "Upgrade Cannon 5 to Level 3 (4,000 gold)" { 
+task Cannon_5_3 "Upgrade Cannon 5 to Level 3 (4,000 gold)" {
   ${builder_effort "45min"}
   priority 550
-  depends !Cannon_5_2, !th_7
+  depends !Cannon_5_2, !th_1_7
 }
 
-task Cannon_5_4 "Upgrade Cannon 5 to Level 4 (16,000 gold)" { 
+task Cannon_5_4 "Upgrade Cannon 5 to Level 4 (16,000 gold)" {
   ${builder_effort "2h"}
   priority 550
-  depends !Cannon_5_3, !th_7
+  depends !Cannon_5_3, !th_1_7
 }
 
-task Cannon_5_5 "Upgrade Cannon 5 to Level 5 (50,000 gold)" { 
+task Cannon_5_5 "Upgrade Cannon 5 to Level 5 (50,000 gold)" {
   ${builder_effort "6h"}
   priority 550
-  depends !Cannon_5_4, !th_7
+  depends !Cannon_5_4, !th_1_7
 }
 
-task Cannon_5_6 "Upgrade Cannon 5 to Level 6 (100,000 gold)" { 
+task Cannon_5_6 "Upgrade Cannon 5 to Level 6 (100,000 gold)" {
   ${builder_effort "12h"}
   priority 550
-  depends !Cannon_5_5, !th_7
+  depends !Cannon_5_5, !th_1_7
 }
 
-task Cannon_5_7 "Upgrade Cannon 5 to Level 7 (200,000 gold)" { 
+task Cannon_5_7 "Upgrade Cannon 5 to Level 7 (200,000 gold)" {
   ${builder_effort "1d"}
   priority 550
-  depends !Cannon_5_6, !th_7
+  depends !Cannon_5_6, !th_1_7
 }
 
-task Cannon_5_8 "Upgrade Cannon 5 to Level 8 (400,000 gold)" { 
+task Cannon_5_8 "Upgrade Cannon 5 to Level 8 (400,000 gold)" {
   ${builder_effort "2d"}
   priority 550
-  depends !Cannon_5_7, !th_7
+  depends !Cannon_5_7, !th_1_7
 }
 
-task Cannon_5_9 "Upgrade Cannon 5 to Level 9 (800,000 gold)" { 
+task Cannon_5_9 "Upgrade Cannon 5 to Level 9 (800,000 gold)" {
   ${builder_effort "3d"}
   priority 550
-  depends !Cannon_5_8, !th_8
+  depends !Cannon_5_8, !th_1_8
 }
 
-task Cannon_5_10 "Upgrade Cannon 5 to Level 10 (1,600,000 gold)" { 
+task Cannon_5_10 "Upgrade Cannon 5 to Level 10 (1,600,000 gold)" {
   ${builder_effort "4d"}
   priority 550
-  depends !Cannon_5_9, !th_8
+  depends !Cannon_5_9, !th_1_8
 }
 
-task Cannon_5_11 "Upgrade Cannon 5 to Level 11 (3,200,000 gold)" { 
+task Cannon_5_11 "Upgrade Cannon 5 to Level 11 (3,200,000 gold)" {
   ${builder_effort "5d"}
   priority 550
-  depends !Cannon_5_10, !th_9
+  depends !Cannon_5_10, !th_1_9
 }
 
-task Cannon_5_12 "Upgrade Cannon 5 to Level 12 (6,400,000 gold)" { 
+task Cannon_5_12 "Upgrade Cannon 5 to Level 12 (6,400,000 gold)" {
   ${builder_effort "6d"}
   priority 550
-  depends !Cannon_5_11, !th_10
+  depends !Cannon_5_11, !th_1_10
 }
 
-task Cannon_5_13 "Upgrade Cannon 5 to Level 13 (7,500,000 gold)" { 
+task Cannon_5_13 "Upgrade Cannon 5 to Level 13 (7,500,000 gold)" {
   ${builder_effort "7d"}
   priority 550
-  depends !Cannon_5_12, !th_10
+  depends !Cannon_5_12, !th_1_10
 }
 
-task Cannon_6_2 "Build Cannon 6 as Level 2 (1,250 gold)" { 
+task Cannon_6_2 "Build Cannon 6 as Level 2 (1,250 gold)" {
   ${builder_effort "15min"}
   priority 550
-  depends !th_10
+  depends !th_1_10
 }
 
-task Cannon_6_3 "Upgrade Cannon 6 to Level 3 (4,000 gold)" { 
+task Cannon_6_3 "Upgrade Cannon 6 to Level 3 (4,000 gold)" {
   ${builder_effort "45min"}
   priority 550
-  depends !Cannon_6_2, !th_10
+  depends !Cannon_6_2, !th_1_10
 }
 
-task Cannon_6_4 "Upgrade Cannon 6 to Level 4 (16,000 gold)" { 
+task Cannon_6_4 "Upgrade Cannon 6 to Level 4 (16,000 gold)" {
   ${builder_effort "2h"}
   priority 550
-  depends !Cannon_6_3, !th_10
+  depends !Cannon_6_3, !th_1_10
 }
 
-task Cannon_6_5 "Upgrade Cannon 6 to Level 5 (50,000 gold)" { 
+task Cannon_6_5 "Upgrade Cannon 6 to Level 5 (50,000 gold)" {
   ${builder_effort "6h"}
   priority 550
-  depends !Cannon_6_4, !th_10
+  depends !Cannon_6_4, !th_1_10
 }
 
-task Cannon_6_6 "Upgrade Cannon 6 to Level 6 (100,000 gold)" { 
+task Cannon_6_6 "Upgrade Cannon 6 to Level 6 (100,000 gold)" {
   ${builder_effort "12h"}
   priority 550
-  depends !Cannon_6_5, !th_10
+  depends !Cannon_6_5, !th_1_10
 }
 
-task Cannon_6_7 "Upgrade Cannon 6 to Level 7 (200,000 gold)" { 
+task Cannon_6_7 "Upgrade Cannon 6 to Level 7 (200,000 gold)" {
   ${builder_effort "1d"}
   priority 550
-  depends !Cannon_6_6, !th_10
+  depends !Cannon_6_6, !th_1_10
 }
 
-task Cannon_6_8 "Upgrade Cannon 6 to Level 8 (400,000 gold)" { 
+task Cannon_6_8 "Upgrade Cannon 6 to Level 8 (400,000 gold)" {
   ${builder_effort "2d"}
   priority 550
-  depends !Cannon_6_7, !th_10
+  depends !Cannon_6_7, !th_1_10
 }
 
-task Cannon_6_9 "Upgrade Cannon 6 to Level 9 (800,000 gold)" { 
+task Cannon_6_9 "Upgrade Cannon 6 to Level 9 (800,000 gold)" {
   ${builder_effort "3d"}
   priority 550
-  depends !Cannon_6_8, !th_10
+  depends !Cannon_6_8, !th_1_10
 }
 
-task Cannon_6_10 "Upgrade Cannon 6 to Level 10 (1,600,000 gold)" { 
+task Cannon_6_10 "Upgrade Cannon 6 to Level 10 (1,600,000 gold)" {
   ${builder_effort "4d"}
   priority 550
-  depends !Cannon_6_9, !th_10
+  depends !Cannon_6_9, !th_1_10
 }
 
-task Cannon_6_11 "Upgrade Cannon 6 to Level 11 (3,200,000 gold)" { 
+task Cannon_6_11 "Upgrade Cannon 6 to Level 11 (3,200,000 gold)" {
   ${builder_effort "5d"}
   priority 550
-  depends !Cannon_6_10, !th_10
+  depends !Cannon_6_10, !th_1_10
 }
 
-task Cannon_6_12 "Upgrade Cannon 6 to Level 12 (6,400,000 gold)" { 
+task Cannon_6_12 "Upgrade Cannon 6 to Level 12 (6,400,000 gold)" {
   ${builder_effort "6d"}
   priority 550
-  depends !Cannon_6_11, !th_10
+  depends !Cannon_6_11, !th_1_10
 }
 
-task Cannon_6_13 "Upgrade Cannon 6 to Level 13 (7,500,000 gold)" { 
+task Cannon_6_13 "Upgrade Cannon 6 to Level 13 (7,500,000 gold)" {
   ${builder_effort "7d"}
   priority 550
-  depends !Cannon_6_12, !th_10
+  depends !Cannon_6_12, !th_1_10
 }
 
-task Dark_Barracks_1_1 "Build Dark Barracks 1 as Level 1 (750,000 Elixir)" { 
+task Clan_Castle_1_2 "Build Clan Castle 1 as Level 2 (325,000 Gold and Elixir)" {
+  priority 800
+  depends !th_1_4
+}
+
+task Clan_Castle_1_3 "Upgrade Clan Castle 1 to Level 3 (700,000 Gold and Elixir)" {
+  priority 800
+  depends !Clan_Castle_1_2, !th_1_6
+}
+
+task Clan_Castle_1_4 "Upgrade Clan Castle 1 to Level 4 (1,000,000 Gold and Elixir)" {
+  ${builder_effort "2d"}
+  priority 800
+  depends !Clan_Castle_1_3, !th_1_8
+}
+
+task Clan_Castle_1_5 "Upgrade Clan Castle 1 to Level 5 (1,500,000 Gold and Elixir)" {
+  ${builder_effort "7d"}
+  priority 800
+  depends !Clan_Castle_1_4, !th_1_9
+}
+
+task Clan_Castle_1_6 "Upgrade Clan Castle 1 to Level 6 (2,000,000 Gold and Elixir)" {
+  ${builder_effort "14d"}
+  priority 800
+  depends !Clan_Castle_1_5, !th_1_10
+}
+
+task Dark_Barracks_1_1 "Build Dark Barracks 1 as Level 1 (750,000 Elixir)" {
   ${builder_effort "3d"}
   priority 800
-  depends !th_7
+  depends !th_1_7
 }
 
-task Dark_Barracks_1_2 "Upgrade Dark Barracks 1 to Level 2 (1,250,000 Elixir)" { 
+task Dark_Barracks_1_2 "Upgrade Dark Barracks 1 to Level 2 (1,250,000 Elixir)" {
   ${builder_effort "5d"}
   priority 800
-  depends !Dark_Barracks_1_1, !th_7
+  depends !Dark_Barracks_1_1, !th_1_7
 }
 
-task Dark_Barracks_1_3 "Upgrade Dark Barracks 1 to Level 3 (1,750,000 Elixir)" { 
+task Dark_Barracks_1_3 "Upgrade Dark Barracks 1 to Level 3 (1,750,000 Elixir)" {
   ${builder_effort "6d"}
   priority 800
-  depends !Dark_Barracks_1_2, !th_8
+  depends !Dark_Barracks_1_2, !th_1_8
 }
 
-task Dark_Barracks_1_4 "Upgrade Dark Barracks 1 to Level 4 (2,250,000 Elixir)" { 
+task Dark_Barracks_1_4 "Upgrade Dark Barracks 1 to Level 4 (2,250,000 Elixir)" {
   ${builder_effort "7d"}
   priority 800
-  depends !Dark_Barracks_1_3, !th_8
+  depends !Dark_Barracks_1_3, !th_1_8
 }
 
-task Dark_Barracks_1_5 "Upgrade Dark Barracks 1 to Level 5 (2,750,000 Elixir)" { 
+task Dark_Barracks_1_5 "Upgrade Dark Barracks 1 to Level 5 (2,750,000 Elixir)" {
   ${builder_effort "8d"}
   priority 800
-  depends !Dark_Barracks_1_4, !th_9
+  depends !Dark_Barracks_1_4, !th_1_9
 }
 
-task Dark_Barracks_2_1 "Build Dark Barracks 2 as Level 1 (750,000 Elixir)" { 
+task Dark_Barracks_2_1 "Build Dark Barracks 2 as Level 1 (750,000 Elixir)" {
   ${builder_effort "3d"}
   priority 800
-  depends !th_8
+  depends !th_1_8
 }
 
-task Dark_Barracks_2_2 "Upgrade Dark Barracks 2 to Level 2 (1,250,000 Elixir)" { 
+task Dark_Barracks_2_2 "Upgrade Dark Barracks 2 to Level 2 (1,250,000 Elixir)" {
   ${builder_effort "5d"}
   priority 800
-  depends !Dark_Barracks_2_1, !th_8
+  depends !Dark_Barracks_2_1, !th_1_8
 }
 
-task Dark_Barracks_2_3 "Upgrade Dark Barracks 2 to Level 3 (1,750,000 Elixir)" { 
+task Dark_Barracks_2_3 "Upgrade Dark Barracks 2 to Level 3 (1,750,000 Elixir)" {
   ${builder_effort "6d"}
   priority 800
-  depends !Dark_Barracks_2_2, !th_8
+  depends !Dark_Barracks_2_2, !th_1_8
 }
 
-task Dark_Barracks_2_4 "Upgrade Dark Barracks 2 to Level 4 (2,250,000 Elixir)" { 
+task Dark_Barracks_2_4 "Upgrade Dark Barracks 2 to Level 4 (2,250,000 Elixir)" {
   ${builder_effort "7d"}
   priority 800
-  depends !Dark_Barracks_2_3, !th_8
+  depends !Dark_Barracks_2_3, !th_1_8
 }
 
-task Dark_Barracks_2_5 "Upgrade Dark Barracks 2 to Level 5 (2,750,000 Elixir)" { 
+task Dark_Barracks_2_5 "Upgrade Dark Barracks 2 to Level 5 (2,750,000 Elixir)" {
   ${builder_effort "8d"}
   priority 800
-  depends !Dark_Barracks_2_4, !th_9
+  depends !Dark_Barracks_2_4, !th_1_9
 }
 
-task Dark_Elixir_Drill_1_1 "Build Dark Elixir Drill 1 as Level 1 (1,000,000 Elixir)" { 
+task Dark_Elixir_Drill_1_1 "Build Dark Elixir Drill 1 as Level 1 (1,000,000 Elixir)" {
   ${builder_effort "1d"}
   priority 500
-  depends !th_7
+  depends !th_1_7
 }
 
-task Dark_Elixir_Drill_1_2 "Upgrade Dark Elixir Drill 1 to Level 2 (1,500,000 Elixir)" { 
+task Dark_Elixir_Drill_1_2 "Upgrade Dark Elixir Drill 1 to Level 2 (1,500,000 Elixir)" {
   ${builder_effort "2d"}
   priority 500
-  depends !Dark_Elixir_Drill_1_1, !th_7
+  depends !Dark_Elixir_Drill_1_1, !th_1_7
 }
 
-task Dark_Elixir_Drill_1_3 "Upgrade Dark Elixir Drill 1 to Level 3 (2,000,000 Elixir)" { 
+task Dark_Elixir_Drill_1_3 "Upgrade Dark Elixir Drill 1 to Level 3 (2,000,000 Elixir)" {
   ${builder_effort "3d"}
   priority 500
-  depends !Dark_Elixir_Drill_1_2, !th_7
+  depends !Dark_Elixir_Drill_1_2, !th_1_7
 }
 
-task Dark_Elixir_Drill_1_4 "Upgrade Dark Elixir Drill 1 to Level 4 (3,000,000 Elixir)" { 
+task Dark_Elixir_Drill_1_4 "Upgrade Dark Elixir Drill 1 to Level 4 (3,000,000 Elixir)" {
   ${builder_effort "4d"}
   priority 500
-  depends !Dark_Elixir_Drill_1_3, !th_9
+  depends !Dark_Elixir_Drill_1_3, !th_1_9
 }
 
-task Dark_Elixir_Drill_1_5 "Upgrade Dark Elixir Drill 1 to Level 5 (4,000,000 Elixir)" { 
+task Dark_Elixir_Drill_1_5 "Upgrade Dark Elixir Drill 1 to Level 5 (4,000,000 Elixir)" {
   ${builder_effort "6d"}
   priority 500
-  depends !Dark_Elixir_Drill_1_4, !th_9
+  depends !Dark_Elixir_Drill_1_4, !th_1_9
 }
 
-task Dark_Elixir_Drill_2_1 "Build Dark Elixir Drill 2 as Level 1 (1,000,000 Elixir)" { 
+task Dark_Elixir_Drill_2_1 "Build Dark Elixir Drill 2 as Level 1 (1,000,000 Elixir)" {
   ${builder_effort "1d"}
   priority 500
-  depends !th_8
+  depends !th_1_8
 }
 
-task Dark_Elixir_Drill_2_2 "Upgrade Dark Elixir Drill 2 to Level 2 (1,500,000 Elixir)" { 
+task Dark_Elixir_Drill_2_2 "Upgrade Dark Elixir Drill 2 to Level 2 (1,500,000 Elixir)" {
   ${builder_effort "2d"}
   priority 500
-  depends !Dark_Elixir_Drill_2_1, !th_8
+  depends !Dark_Elixir_Drill_2_1, !th_1_8
 }
 
-task Dark_Elixir_Drill_2_3 "Upgrade Dark Elixir Drill 2 to Level 3 (2,000,000 Elixir)" { 
+task Dark_Elixir_Drill_2_3 "Upgrade Dark Elixir Drill 2 to Level 3 (2,000,000 Elixir)" {
   ${builder_effort "3d"}
   priority 500
-  depends !Dark_Elixir_Drill_2_2, !th_8
+  depends !Dark_Elixir_Drill_2_2, !th_1_8
 }
 
-task Dark_Elixir_Drill_2_4 "Upgrade Dark Elixir Drill 2 to Level 4 (3,000,000 Elixir)" { 
+task Dark_Elixir_Drill_2_4 "Upgrade Dark Elixir Drill 2 to Level 4 (3,000,000 Elixir)" {
   ${builder_effort "4d"}
   priority 500
-  depends !Dark_Elixir_Drill_2_3, !th_9
+  depends !Dark_Elixir_Drill_2_3, !th_1_9
 }
 
-task Dark_Elixir_Drill_2_5 "Upgrade Dark Elixir Drill 2 to Level 5 (4,000,000 Elixir)" { 
+task Dark_Elixir_Drill_2_5 "Upgrade Dark Elixir Drill 2 to Level 5 (4,000,000 Elixir)" {
   ${builder_effort "6d"}
   priority 500
-  depends !Dark_Elixir_Drill_2_4, !th_9
+  depends !Dark_Elixir_Drill_2_4, !th_1_9
 }
 
-task Dark_Elixir_Drill_3_1 "Build Dark Elixir Drill 3 as Level 1 (1,000,000 Elixir)" { 
+task Dark_Elixir_Drill_3_1 "Build Dark Elixir Drill 3 as Level 1 (1,000,000 Elixir)" {
   ${builder_effort "1d"}
   priority 500
-  depends !th_10
+  depends !th_1_10
 }
 
-task Dark_Elixir_Drill_3_2 "Upgrade Dark Elixir Drill 3 to Level 2 (1,500,000 Elixir)" { 
+task Dark_Elixir_Drill_3_2 "Upgrade Dark Elixir Drill 3 to Level 2 (1,500,000 Elixir)" {
   ${builder_effort "2d"}
   priority 500
-  depends !Dark_Elixir_Drill_3_1, !th_10
+  depends !Dark_Elixir_Drill_3_1, !th_1_10
 }
 
-task Dark_Elixir_Drill_3_3 "Upgrade Dark Elixir Drill 3 to Level 3 (2,000,000 Elixir)" { 
+task Dark_Elixir_Drill_3_3 "Upgrade Dark Elixir Drill 3 to Level 3 (2,000,000 Elixir)" {
   ${builder_effort "3d"}
   priority 500
-  depends !Dark_Elixir_Drill_3_2, !th_10
+  depends !Dark_Elixir_Drill_3_2, !th_1_10
 }
 
-task Dark_Elixir_Drill_3_4 "Upgrade Dark Elixir Drill 3 to Level 4 (3,000,000 Elixir)" { 
+task Dark_Elixir_Drill_3_4 "Upgrade Dark Elixir Drill 3 to Level 4 (3,000,000 Elixir)" {
   ${builder_effort "4d"}
   priority 500
-  depends !Dark_Elixir_Drill_3_3, !th_10
+  depends !Dark_Elixir_Drill_3_3, !th_1_10
 }
 
-task Dark_Elixir_Drill_3_5 "Upgrade Dark Elixir Drill 3 to Level 5 (4,000,000 Elixir)" { 
+task Dark_Elixir_Drill_3_5 "Upgrade Dark Elixir Drill 3 to Level 5 (4,000,000 Elixir)" {
   ${builder_effort "6d"}
   priority 500
-  depends !Dark_Elixir_Drill_3_4, !th_10
+  depends !Dark_Elixir_Drill_3_4, !th_1_10
 }
 
-task Dark_Elixir_Storage_1_1 "Build Dark Elixir Storage 1 as Level 1 (600,000 Elixir)" { 
+task Dark_Elixir_Storage_1_1 "Build Dark Elixir Storage 1 as Level 1 (600,000 Elixir)" {
   ${builder_effort "1d"}
   priority 500
-  depends !th_7
+  depends !th_1_7
 }
 
-task Dark_Elixir_Storage_1_2 "Upgrade Dark Elixir Storage 1 to Level 2 (1,200,000 Elixir)" { 
+task Dark_Elixir_Storage_1_2 "Upgrade Dark Elixir Storage 1 to Level 2 (1,200,000 Elixir)" {
   ${builder_effort "2d"}
   priority 500
-  depends !Dark_Elixir_Storage_1_1, !th_7
+  depends !Dark_Elixir_Storage_1_1, !th_1_7
 }
 
-task Dark_Elixir_Storage_1_3 "Upgrade Dark Elixir Storage 1 to Level 3 (1,800,000 Elixir)" { 
+task Dark_Elixir_Storage_1_3 "Upgrade Dark Elixir Storage 1 to Level 3 (1,800,000 Elixir)" {
   ${builder_effort "3d"}
   priority 500
-  depends !Dark_Elixir_Storage_1_2, !th_8
+  depends !Dark_Elixir_Storage_1_2, !th_1_8
 }
 
-task Dark_Elixir_Storage_1_4 "Upgrade Dark Elixir Storage 1 to Level 4 (2,400,000 Elixir)" { 
+task Dark_Elixir_Storage_1_4 "Upgrade Dark Elixir Storage 1 to Level 4 (2,400,000 Elixir)" {
   ${builder_effort "4d"}
   priority 500
-  depends !Dark_Elixir_Storage_1_3, !th_8
+  depends !Dark_Elixir_Storage_1_3, !th_1_8
 }
 
-task Dark_Elixir_Storage_1_5 "Upgrade Dark Elixir Storage 1 to Level 5 (3,000,000 Elixir)" { 
+task Dark_Elixir_Storage_1_5 "Upgrade Dark Elixir Storage 1 to Level 5 (3,000,000 Elixir)" {
   ${builder_effort "5d"}
   priority 500
-  depends !Dark_Elixir_Storage_1_4, !th_9
+  depends !Dark_Elixir_Storage_1_4, !th_1_9
 }
 
-task Elixir_Collector_1_2 "Build Elixir Collector 1 as Level 2 (450 Gold)" { 
+task Elixir_Collector_1_2 "Build Elixir Collector 1 as Level 2 (450 Gold)" {
   priority 250
 }
 
-task Elixir_Collector_1_3 "Upgrade Elixir Collector 1 to Level 3 (700 Gold)" { 
+task Elixir_Collector_1_3 "Upgrade Elixir Collector 1 to Level 3 (700 Gold)" {
   priority 250
-  depends !Elixir_Collector_1_2, !th_2
+  depends !Elixir_Collector_1_2, !th_1_2
 }
 
-task Elixir_Collector_1_4 "Upgrade Elixir Collector 1 to Level 4 (1,400 Gold)" { 
+task Elixir_Collector_1_4 "Upgrade Elixir Collector 1 to Level 4 (1,400 Gold)" {
   priority 250
-  depends !Elixir_Collector_1_3, !th_2
+  depends !Elixir_Collector_1_3, !th_1_2
 }
 
-task Elixir_Collector_1_5 "Upgrade Elixir Collector 1 to Level 5 (3,500 Gold)" { 
+task Elixir_Collector_1_5 "Upgrade Elixir Collector 1 to Level 5 (3,500 Gold)" {
   priority 250
-  depends !Elixir_Collector_1_4, !th_3
+  depends !Elixir_Collector_1_4, !th_1_3
 }
 
-task Elixir_Collector_1_6 "Upgrade Elixir Collector 1 to Level 6 (7,000 Gold)" { 
+task Elixir_Collector_1_6 "Upgrade Elixir Collector 1 to Level 6 (7,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_1_5, !th_3
+  depends !Elixir_Collector_1_5, !th_1_3
 }
 
-task Elixir_Collector_1_7 "Upgrade Elixir Collector 1 to Level 7 (14,000 Gold)" { 
+task Elixir_Collector_1_7 "Upgrade Elixir Collector 1 to Level 7 (14,000 Gold)" {
   ${builder_effort "12h"}
   priority 250
-  depends !Elixir_Collector_1_6, !th_4
+  depends !Elixir_Collector_1_6, !th_1_4
 }
 
-task Elixir_Collector_1_8 "Upgrade Elixir Collector 1 to Level 8 (28,000 Gold)" { 
+task Elixir_Collector_1_8 "Upgrade Elixir Collector 1 to Level 8 (28,000 Gold)" {
   ${builder_effort "1d"}
   priority 250
-  depends !Elixir_Collector_1_7, !th_4
+  depends !Elixir_Collector_1_7, !th_1_4
 }
 
-task Elixir_Collector_1_9 "Upgrade Elixir Collector 1 to Level 9 (56,000 Gold)" { 
+task Elixir_Collector_1_9 "Upgrade Elixir Collector 1 to Level 9 (56,000 Gold)" {
   ${builder_effort "2d"}
   priority 250
-  depends !Elixir_Collector_1_8, !th_5
+  depends !Elixir_Collector_1_8, !th_1_5
 }
 
-task Elixir_Collector_1_10 "Upgrade Elixir Collector 1 to Level 10 (84,000 Gold)" { 
+task Elixir_Collector_1_10 "Upgrade Elixir Collector 1 to Level 10 (84,000 Gold)" {
   ${builder_effort "3d"}
   priority 250
-  depends !Elixir_Collector_1_9, !th_5
+  depends !Elixir_Collector_1_9, !th_1_5
 }
 
-task Elixir_Collector_1_11 "Upgrade Elixir Collector 1 to Level 11 (168,000 Gold)" { 
+task Elixir_Collector_1_11 "Upgrade Elixir Collector 1 to Level 11 (168,000 Gold)" {
   ${builder_effort "4d"}
   priority 250
-  depends !Elixir_Collector_1_10, !th_7
+  depends !Elixir_Collector_1_10, !th_1_7
 }
 
-task Elixir_Collector_2_2 "Build Elixir Collector 2 as Level 2 (450 Gold)" { 
+task Elixir_Collector_2_2 "Build Elixir Collector 2 as Level 2 (450 Gold)" {
   priority 250
-  depends !th_2
+  depends !th_1_2
 }
 
-task Elixir_Collector_2_3 "Upgrade Elixir Collector 2 to Level 3 (700 Gold)" { 
+task Elixir_Collector_2_3 "Upgrade Elixir Collector 2 to Level 3 (700 Gold)" {
   priority 250
-  depends !Elixir_Collector_2_2, !th_2
+  depends !Elixir_Collector_2_2, !th_1_2
 }
 
-task Elixir_Collector_2_4 "Upgrade Elixir Collector 2 to Level 4 (1,400 Gold)" { 
+task Elixir_Collector_2_4 "Upgrade Elixir Collector 2 to Level 4 (1,400 Gold)" {
   priority 250
-  depends !Elixir_Collector_2_3, !th_2
+  depends !Elixir_Collector_2_3, !th_1_2
 }
 
-task Elixir_Collector_2_5 "Upgrade Elixir Collector 2 to Level 5 (3,500 Gold)" { 
+task Elixir_Collector_2_5 "Upgrade Elixir Collector 2 to Level 5 (3,500 Gold)" {
   priority 250
-  depends !Elixir_Collector_2_4, !th_3
+  depends !Elixir_Collector_2_4, !th_1_3
 }
 
-task Elixir_Collector_2_6 "Upgrade Elixir Collector 2 to Level 6 (7,000 Gold)" { 
+task Elixir_Collector_2_6 "Upgrade Elixir Collector 2 to Level 6 (7,000 Gold)" {
   ${builder_effort "6h"}
   priority 250
-  depends !Elixir_Collector_2_5, !th_3
+  depends !Elixir_Collector_2_5, !th_1_3
 }
 
-task Elixir_Collector_2_7 "Upgrade Elixir Collector 2 to Level 7 (14,000 Gold)" { 
+task Elixir_Collector_2_7 "Upgrade Elixir Collector 2 to Level 7 (14,000 Gold)" {
   ${builder_effort "12h"}
   priority 250
-  depends !Elixir_Collector_2_6, !th_4
+  depends !Elixir_Collector_2_6, !th_1_4
 }
 
-task Elixir_Collector_2_8 "Upgrade Elixir Collector 2 to Level 8 (28,000 Gold)" { 
+task Elixir_Collector_2_8 "Upgrade Elixir Collector 2 to Level 8 (28,000 Gold)" {
   ${builder_effort "1d"}
   priority 250
-  depends !Elixir_Collector_2_7, !th_4
+  depends !Elixir_Collector_2_7, !th_1_4
 }
 
-task Elixir_Collector_2_9 "Upgrade Elixir Collector 2 to Level 9 (56,000 Gold)" { 
+task Elixir_Collector_2_9 "Upgrade Elixir Collector 2 to Level 9 (56,000 Gold)" {
   ${builder_effort "2d"}
   priority 250
-  depends !Elixir_Collector_2_8, !th_5
+  depends !Elixir_Collector_2_8, !th_1_5
 }
 
-task Elixir_Collector_2_10 "Upgrade Elixir Collector 2 to Level 10 (84,000 Gold)" { 
+task Elixir_Collector_2_10 "Upgrade Elixir Collector 2 to Level 10 (84,000 Gold)" {
   ${builder_effort "3d"}
   priority 250
-  depends !Elixir_Collector_2_9, !th_5
+  depends !Elixir_Collector_2_9, !th_1_5
 }
 
-task Elixir_Collector_2_11 "Upgrade Elixir Collector 2 to Level 11 (168,000 Gold)" { 
+task Elixir_Collector_2_11 "Upgrade Elixir Collector 2 to Level 11 (168,000 Gold)" {
   ${builder_effort "4d"}
   priority 250
-  depends !Elixir_Collector_2_10, !th_7
+  depends !Elixir_Collector_2_10, !th_1_7
 }
 
-task Elixir_Collector_3_2 "Build Elixir Collector 3 as Level 2 (450 Gold)" { 
+task Elixir_Collector_3_2 "Build Elixir Collector 3 as Level 2 (450 Gold)" {
   priority 250
-  depends !th_3
+  depends !th_1_3
 }
 
-task Elixir_Collector_3_3 "Upgrade Elixir Collector 3 to Level 3 (700 Gold)" { 
+task Elixir_Collector_3_3 "Upgrade Elixir Collector 3 to Level 3 (700 Gold)" {
   priority 250
-  depends !Elixir_Collector_3_2, !th_3
+  depends !Elixir_Collector_3_2, !th_1_3
 }
 
-task Elixir_Collector_3_4 "Upgrade Elixir Collector 3 to Level 4 (1,400 Gold)" { 
+task Elixir_Collector_3_4 "Upgrade Elixir Collector 3 to Level 4 (1,400 Gold)" {
   priority 250
-  depends !Elixir_Collector_3_3, !th_3
+  depends !Elixir_Collector_3_3, !th_1_3
 }
 
-task Elixir_Collector_3_5 "Upgrade Elixir Collector 3 to Level 5 (3,500 Gold)" { 
+task Elixir_Collector_3_5 "Upgrade Elixir Collector 3 to Level 5 (3,500 Gold)" {
   priority 250
-  depends !Elixir_Collector_3_4, !th_3
+  depends !Elixir_Collector_3_4, !th_1_3
 }
 
-task Elixir_Collector_3_6 "Upgrade Elixir Collector 3 to Level 6 (7,000 Gold)" { 
+task Elixir_Collector_3_6 "Upgrade Elixir Collector 3 to Level 6 (7,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_3_5, !th_3
+  depends !Elixir_Collector_3_5, !th_1_3
 }
 
-task Elixir_Collector_3_7 "Upgrade Elixir Collector 3 to Level 7 (14,000 Gold)" { 
+task Elixir_Collector_3_7 "Upgrade Elixir Collector 3 to Level 7 (14,000 Gold)" {
   ${builder_effort "12h"}
   priority 250
-  depends !Elixir_Collector_3_6, !th_4
+  depends !Elixir_Collector_3_6, !th_1_4
 }
 
-task Elixir_Collector_3_8 "Upgrade Elixir Collector 3 to Level 8 (28,000 Gold)" { 
+task Elixir_Collector_3_8 "Upgrade Elixir Collector 3 to Level 8 (28,000 Gold)" {
   ${builder_effort "1d"}
   priority 250
-  depends !Elixir_Collector_3_7, !th_4
+  depends !Elixir_Collector_3_7, !th_1_4
 }
 
-task Elixir_Collector_3_9 "Upgrade Elixir Collector 3 to Level 9 (56,000 Gold)" { 
+task Elixir_Collector_3_9 "Upgrade Elixir Collector 3 to Level 9 (56,000 Gold)" {
   ${builder_effort "2d"}
   priority 250
-  depends !Elixir_Collector_3_8, !th_5
+  depends !Elixir_Collector_3_8, !th_1_5
 }
 
-task Elixir_Collector_3_10 "Upgrade Elixir Collector 3 to Level 10 (84,000 Gold)" { 
+task Elixir_Collector_3_10 "Upgrade Elixir Collector 3 to Level 10 (84,000 Gold)" {
   ${builder_effort "3d"}
   priority 250
-  depends !Elixir_Collector_3_9, !th_5
+  depends !Elixir_Collector_3_9, !th_1_5
 }
 
-task Elixir_Collector_3_11 "Upgrade Elixir Collector 3 to Level 11 (168,000 Gold)" { 
+task Elixir_Collector_3_11 "Upgrade Elixir Collector 3 to Level 11 (168,000 Gold)" {
   ${builder_effort "4d"}
   priority 250
-  depends !Elixir_Collector_3_10, !th_7
+  depends !Elixir_Collector_3_10, !th_1_7
 }
 
-task Elixir_Collector_4_2 "Build Elixir Collector 4 as Level 2 (450 Gold)" { 
+task Elixir_Collector_4_2 "Build Elixir Collector 4 as Level 2 (450 Gold)" {
   priority 250
-  depends !th_4
+  depends !th_1_4
 }
 
-task Elixir_Collector_4_3 "Upgrade Elixir Collector 4 to Level 3 (700 Gold)" { 
+task Elixir_Collector_4_3 "Upgrade Elixir Collector 4 to Level 3 (700 Gold)" {
   priority 250
-  depends !Elixir_Collector_4_2, !th_4
+  depends !Elixir_Collector_4_2, !th_1_4
 }
 
-task Elixir_Collector_4_4 "Upgrade Elixir Collector 4 to Level 4 (1,400 Gold)" { 
+task Elixir_Collector_4_4 "Upgrade Elixir Collector 4 to Level 4 (1,400 Gold)" {
   priority 250
-  depends !Elixir_Collector_4_3, !th_4
+  depends !Elixir_Collector_4_3, !th_1_4
 }
 
-task Elixir_Collector_4_5 "Upgrade Elixir Collector 4 to Level 5 (3,500 Gold)" { 
+task Elixir_Collector_4_5 "Upgrade Elixir Collector 4 to Level 5 (3,500 Gold)" {
   priority 250
-  depends !Elixir_Collector_4_4, !th_4
+  depends !Elixir_Collector_4_4, !th_1_4
 }
 
-task Elixir_Collector_4_6 "Upgrade Elixir Collector 4 to Level 6 (7,000 Gold)" { 
+task Elixir_Collector_4_6 "Upgrade Elixir Collector 4 to Level 6 (7,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_4_5, !th_4
+  depends !Elixir_Collector_4_5, !th_1_4
 }
 
-task Elixir_Collector_4_7 "Upgrade Elixir Collector 4 to Level 7 (14,000 Gold)" { 
+task Elixir_Collector_4_7 "Upgrade Elixir Collector 4 to Level 7 (14,000 Gold)" {
   ${builder_effort "12h"}
   priority 250
-  depends !Elixir_Collector_4_6, !th_4
+  depends !Elixir_Collector_4_6, !th_1_4
 }
 
-task Elixir_Collector_4_8 "Upgrade Elixir Collector 4 to Level 8 (28,000 Gold)" { 
+task Elixir_Collector_4_8 "Upgrade Elixir Collector 4 to Level 8 (28,000 Gold)" {
   ${builder_effort "1d"}
   priority 250
-  depends !Elixir_Collector_4_7, !th_4
+  depends !Elixir_Collector_4_7, !th_1_4
 }
 
-task Elixir_Collector_4_9 "Upgrade Elixir Collector 4 to Level 9 (56,000 Gold)" { 
+task Elixir_Collector_4_9 "Upgrade Elixir Collector 4 to Level 9 (56,000 Gold)" {
   ${builder_effort "2d"}
   priority 250
-  depends !Elixir_Collector_4_8, !th_5
+  depends !Elixir_Collector_4_8, !th_1_5
 }
 
-task Elixir_Collector_4_10 "Upgrade Elixir Collector 4 to Level 10 (84,000 Gold)" { 
+task Elixir_Collector_4_10 "Upgrade Elixir Collector 4 to Level 10 (84,000 Gold)" {
   ${builder_effort "3d"}
   priority 250
-  depends !Elixir_Collector_4_9, !th_5
+  depends !Elixir_Collector_4_9, !th_1_5
 }
 
-task Elixir_Collector_4_11 "Upgrade Elixir Collector 4 to Level 11 (168,000 Gold)" { 
+task Elixir_Collector_4_11 "Upgrade Elixir Collector 4 to Level 11 (168,000 Gold)" {
   ${builder_effort "4d"}
   priority 250
-  depends !Elixir_Collector_4_10, !th_7
+  depends !Elixir_Collector_4_10, !th_1_7
 }
 
-task Elixir_Collector_5_2 "Build Elixir Collector 5 as Level 2 (450 Gold)" { 
+task Elixir_Collector_5_2 "Build Elixir Collector 5 as Level 2 (450 Gold)" {
   priority 250
-  depends !th_5
+  depends !th_1_5
 }
 
-task Elixir_Collector_5_3 "Upgrade Elixir Collector 5 to Level 3 (700 Gold)" { 
+task Elixir_Collector_5_3 "Upgrade Elixir Collector 5 to Level 3 (700 Gold)" {
   priority 250
-  depends !Elixir_Collector_5_2, !th_5
+  depends !Elixir_Collector_5_2, !th_1_5
 }
 
-task Elixir_Collector_5_4 "Upgrade Elixir Collector 5 to Level 4 (1,400 Gold)" { 
+task Elixir_Collector_5_4 "Upgrade Elixir Collector 5 to Level 4 (1,400 Gold)" {
   priority 250
-  depends !Elixir_Collector_5_3, !th_5
+  depends !Elixir_Collector_5_3, !th_1_5
 }
 
-task Elixir_Collector_5_5 "Upgrade Elixir Collector 5 to Level 5 (3,500 Gold)" { 
+task Elixir_Collector_5_5 "Upgrade Elixir Collector 5 to Level 5 (3,500 Gold)" {
   priority 250
-  depends !Elixir_Collector_5_4, !th_5
+  depends !Elixir_Collector_5_4, !th_1_5
 }
 
-task Elixir_Collector_5_6 "Upgrade Elixir Collector 5 to Level 6 (7,000 Gold)" { 
+task Elixir_Collector_5_6 "Upgrade Elixir Collector 5 to Level 6 (7,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_5_5, !th_5
+  depends !Elixir_Collector_5_5, !th_1_5
 }
 
-task Elixir_Collector_5_7 "Upgrade Elixir Collector 5 to Level 7 (14,000 Gold)" { 
+task Elixir_Collector_5_7 "Upgrade Elixir Collector 5 to Level 7 (14,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_5_6, !th_5
+  depends !Elixir_Collector_5_6, !th_1_5
 }
 
-task Elixir_Collector_5_8 "Upgrade Elixir Collector 5 to Level 8 (28,000 Gold)" { 
+task Elixir_Collector_5_8 "Upgrade Elixir Collector 5 to Level 8 (28,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_5_7, !th_5
+  depends !Elixir_Collector_5_7, !th_1_5
 }
 
-task Elixir_Collector_5_9 "Upgrade Elixir Collector 5 to Level 9 (56,000 Gold)" { 
+task Elixir_Collector_5_9 "Upgrade Elixir Collector 5 to Level 9 (56,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_5_8, !th_5
+  depends !Elixir_Collector_5_8, !th_1_5
 }
 
-task Elixir_Collector_5_10 "Upgrade Elixir Collector 5 to Level 10 (84,000 Gold)" { 
+task Elixir_Collector_5_10 "Upgrade Elixir Collector 5 to Level 10 (84,000 Gold)" {
   ${builder_effort "3d"}
   priority 250
-  depends !Elixir_Collector_5_9, !th_5
+  depends !Elixir_Collector_5_9, !th_1_5
 }
 
-task Elixir_Collector_5_11 "Upgrade Elixir Collector 5 to Level 11 (168,000 Gold)" { 
+task Elixir_Collector_5_11 "Upgrade Elixir Collector 5 to Level 11 (168,000 Gold)" {
   ${builder_effort "4d"}
   priority 250
-  depends !Elixir_Collector_5_10, !th_7
+  depends !Elixir_Collector_5_10, !th_1_7
 }
 
-task Elixir_Collector_6_2 "Build Elixir Collector 6 as Level 2 (450 Gold)" { 
+task Elixir_Collector_6_2 "Build Elixir Collector 6 as Level 2 (450 Gold)" {
   priority 250
-  depends !th_6
+  depends !th_1_6
 }
 
-task Elixir_Collector_6_3 "Upgrade Elixir Collector 6 to Level 3 (700 Gold)" { 
+task Elixir_Collector_6_3 "Upgrade Elixir Collector 6 to Level 3 (700 Gold)" {
   priority 250
-  depends !Elixir_Collector_6_2, !th_6
+  depends !Elixir_Collector_6_2, !th_1_6
 }
 
-task Elixir_Collector_6_4 "Upgrade Elixir Collector 6 to Level 4 (1,400 Gold)" { 
+task Elixir_Collector_6_4 "Upgrade Elixir Collector 6 to Level 4 (1,400 Gold)" {
   priority 250
-  depends !Elixir_Collector_6_3, !th_6
+  depends !Elixir_Collector_6_3, !th_1_6
 }
 
-task Elixir_Collector_6_5 "Upgrade Elixir Collector 6 to Level 5 (3,500 Gold)" { 
+task Elixir_Collector_6_5 "Upgrade Elixir Collector 6 to Level 5 (3,500 Gold)" {
   priority 250
-  depends !Elixir_Collector_6_4, !th_6
+  depends !Elixir_Collector_6_4, !th_1_6
 }
 
-task Elixir_Collector_6_6 "Upgrade Elixir Collector 6 to Level 6 (7,000 Gold)" { 
+task Elixir_Collector_6_6 "Upgrade Elixir Collector 6 to Level 6 (7,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_6_5, !th_6
+  depends !Elixir_Collector_6_5, !th_1_6
 }
 
-task Elixir_Collector_6_7 "Upgrade Elixir Collector 6 to Level 7 (14,000 Gold)" { 
+task Elixir_Collector_6_7 "Upgrade Elixir Collector 6 to Level 7 (14,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_6_6, !th_6
+  depends !Elixir_Collector_6_6, !th_1_6
 }
 
-task Elixir_Collector_6_8 "Upgrade Elixir Collector 6 to Level 8 (28,000 Gold)" { 
+task Elixir_Collector_6_8 "Upgrade Elixir Collector 6 to Level 8 (28,000 Gold)" {
   priority 250
-  depends !Elixir_Collector_6_7, !th_6
+  depends !Elixir_Collector_6_7, !th_1_6
 }
 
-task Elixir_Collector_6_9 "Upgrade Elixir Collector 6 to Level 9 (56,000 Gold)" { 
+task Elixir_Collector_6_9 "Upgrade Elixir Collector 6 to Level 9 (56,000 Gold)" {
   ${builder_effort "2d"}
   priority 250
-  depends !Elixir_Collector_6_8, !th_6
+  depends !Elixir_Collector_6_8, !th_1_6
 }
 
-task Elixir_Collector_6_10 "Upgrade Elixir Collector 6 to Level 10 (84,000 Gold)" { 
+task Elixir_Collector_6_10 "Upgrade Elixir Collector 6 to Level 10 (84,000 Gold)" {
   ${builder_effort "3d"}
   priority 250
-  depends !Elixir_Collector_6_9, !th_6
+  depends !Elixir_Collector_6_9, !th_1_6
 }
 
-task Elixir_Collector_6_11 "Upgrade Elixir Collector 6 to Level 11 (168,000 Gold)" { 
+task Elixir_Collector_6_11 "Upgrade Elixir Collector 6 to Level 11 (168,000 Gold)" {
   ${builder_effort "4d"}
   priority 250
-  depends !Elixir_Collector_6_10, !th_7
+  depends !Elixir_Collector_6_10, !th_1_7
 }
 
-task Elixir_Collector_7_2 "Build Elixir Collector 7 as Level 2 (450 Gold)" { 
+task Elixir_Collector_7_2 "Build Elixir Collector 7 as Level 2 (450 Gold)" {
   ${builder_effort "15min"}
   priority 250
-  depends !th_10
+  depends !th_1_10
 }
 
-task Elixir_Collector_7_3 "Upgrade Elixir Collector 7 to Level 3 (700 Gold)" { 
+task Elixir_Collector_7_3 "Upgrade Elixir Collector 7 to Level 3 (700 Gold)" {
   ${builder_effort "15min"}
   priority 250
-  depends !Elixir_Collector_7_2, !th_10
+  depends !Elixir_Collector_7_2, !th_1_10
 }
 
-task Elixir_Collector_7_4 "Upgrade Elixir Collector 7 to Level 4 (1,400 Gold)" { 
+task Elixir_Collector_7_4 "Upgrade Elixir Collector 7 to Level 4 (1,400 Gold)" {
   ${builder_effort "1h"}
   priority 250
-  depends !Elixir_Collector_7_3, !th_10
+  depends !Elixir_Collector_7_3, !th_1_10
 }
 
-task Elixir_Collector_7_5 "Upgrade Elixir Collector 7 to Level 5 (3,500 Gold)" { 
+task Elixir_Collector_7_5 "Upgrade Elixir Collector 7 to Level 5 (3,500 Gold)" {
   ${builder_effort "2h"}
   priority 250
-  depends !Elixir_Collector_7_4, !th_10
+  depends !Elixir_Collector_7_4, !th_1_10
 }
 
-task Elixir_Collector_7_6 "Upgrade Elixir Collector 7 to Level 6 (7,000 Gold)" { 
+task Elixir_Collector_7_6 "Upgrade Elixir Collector 7 to Level 6 (7,000 Gold)" {
   ${builder_effort "6h"}
   priority 250
-  depends !Elixir_Collector_7_5, !th_10
+  depends !Elixir_Collector_7_5, !th_1_10
 }
 
-task Elixir_Collector_7_7 "Upgrade Elixir Collector 7 to Level 7 (14,000 Gold)" { 
+task Elixir_Collector_7_7 "Upgrade Elixir Collector 7 to Level 7 (14,000 Gold)" {
   ${builder_effort "12h"}
   priority 250
-  depends !Elixir_Collector_7_6, !th_10
+  depends !Elixir_Collector_7_6, !th_1_10
 }
 
-task Elixir_Collector_7_8 "Upgrade Elixir Collector 7 to Level 8 (28,000 Gold)" { 
+task Elixir_Collector_7_8 "Upgrade Elixir Collector 7 to Level 8 (28,000 Gold)" {
   ${builder_effort "1d"}
   priority 250
-  depends !Elixir_Collector_7_7, !th_10
+  depends !Elixir_Collector_7_7, !th_1_10
 }
 
-task Elixir_Collector_7_9 "Upgrade Elixir Collector 7 to Level 9 (56,000 Gold)" { 
+task Elixir_Collector_7_9 "Upgrade Elixir Collector 7 to Level 9 (56,000 Gold)" {
   ${builder_effort "2d"}
   priority 250
-  depends !Elixir_Collector_7_8, !th_10
+  depends !Elixir_Collector_7_8, !th_1_10
 }
 
-task Elixir_Collector_7_10 "Upgrade Elixir Collector 7 to Level 10 (84,000 Gold)" { 
+task Elixir_Collector_7_10 "Upgrade Elixir Collector 7 to Level 10 (84,000 Gold)" {
   ${builder_effort "3d"}
   priority 250
-  depends !Elixir_Collector_7_9, !th_10
+  depends !Elixir_Collector_7_9, !th_1_10
 }
 
-task Elixir_Collector_7_11 "Upgrade Elixir Collector 7 to Level 11 (168,000 Gold)" { 
+task Elixir_Collector_7_11 "Upgrade Elixir Collector 7 to Level 11 (168,000 Gold)" {
   ${builder_effort "4d"}
   priority 250
-  depends !Elixir_Collector_7_10, !th_10
+  depends !Elixir_Collector_7_10, !th_1_10
 }
 
-task Elixir_Storage_1_2 "Build Elixir Storage 1 as Level 2 (1050 Gold)" { 
+task Elixir_Storage_1_2 "Build Elixir Storage 1 as Level 2 (1050 Gold)" {
   priority 500
-  depends !th_2
+  depends !th_1_2
 }
 
-task Elixir_Storage_1_3 "Upgrade Elixir Storage 1 to Level 3 (1,500 Gold)" { 
+task Elixir_Storage_1_3 "Upgrade Elixir Storage 1 to Level 3 (1,500 Gold)" {
   priority 500
-  depends !Elixir_Storage_1_2, !th_2
+  depends !Elixir_Storage_1_2, !th_1_2
 }
 
-task Elixir_Storage_1_4 "Upgrade Elixir Storage 1 to Level 4 (3,000 Gold)" { 
+task Elixir_Storage_1_4 "Upgrade Elixir Storage 1 to Level 4 (3,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_1_3, !th_3
+  depends !Elixir_Storage_1_3, !th_1_3
 }
 
-task Elixir_Storage_1_5 "Upgrade Elixir Storage 1 to Level 5 (6,000 Gold)" { 
+task Elixir_Storage_1_5 "Upgrade Elixir Storage 1 to Level 5 (6,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_1_4, !th_3
+  depends !Elixir_Storage_1_4, !th_1_3
 }
 
-task Elixir_Storage_1_6 "Upgrade Elixir Storage 1 to Level 6 (12,000 Gold)" { 
+task Elixir_Storage_1_6 "Upgrade Elixir Storage 1 to Level 6 (12,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_1_5, !th_3
+  depends !Elixir_Storage_1_5, !th_1_3
 }
 
-task Elixir_Storage_1_7 "Upgrade Elixir Storage 1 to Level 7 (25,000 Gold)" { 
+task Elixir_Storage_1_7 "Upgrade Elixir Storage 1 to Level 7 (25,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_1_6, !th_4
+  depends !Elixir_Storage_1_6, !th_1_4
 }
 
-task Elixir_Storage_1_8 "Upgrade Elixir Storage 1 to Level 8 (50,000 Gold)" { 
+task Elixir_Storage_1_8 "Upgrade Elixir Storage 1 to Level 8 (50,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_1_7, !th_4
+  depends !Elixir_Storage_1_7, !th_1_4
 }
 
-task Elixir_Storage_1_9 "Upgrade Elixir Storage 1 to Level 9 (100,000 Gold)" { 
+task Elixir_Storage_1_9 "Upgrade Elixir Storage 1 to Level 9 (100,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_1_8, !th_5
+  depends !Elixir_Storage_1_8, !th_1_5
 }
 
-task Elixir_Storage_1_10 "Upgrade Elixir Storage 1 to Level 10 (250,000 Gold)" { 
+task Elixir_Storage_1_10 "Upgrade Elixir Storage 1 to Level 10 (250,000 Gold)" {
   ${builder_effort "1d"}
   priority 500
-  depends !Elixir_Storage_1_9, !th_6
+  depends !Elixir_Storage_1_9, !th_1_6
 }
 
-task Elixir_Storage_2_2 "Build Elixir Storage 2 as Level 2 (1050 Gold)" { 
+task Elixir_Storage_2_2 "Build Elixir Storage 2 as Level 2 (1050 Gold)" {
   priority 500
-  depends !th_3
+  depends !th_1_3
 }
 
-task Elixir_Storage_2_3 "Upgrade Elixir Storage 2 to Level 3 (1,500 Gold)" { 
+task Elixir_Storage_2_3 "Upgrade Elixir Storage 2 to Level 3 (1,500 Gold)" {
   priority 500
-  depends !Elixir_Storage_2_2, !th_3
+  depends !Elixir_Storage_2_2, !th_1_3
 }
 
-task Elixir_Storage_2_4 "Upgrade Elixir Storage 2 to Level 4 (3,000 Gold)" { 
+task Elixir_Storage_2_4 "Upgrade Elixir Storage 2 to Level 4 (3,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_2_3, !th_3
+  depends !Elixir_Storage_2_3, !th_1_3
 }
 
-task Elixir_Storage_2_5 "Upgrade Elixir Storage 2 to Level 5 (6,000 Gold)" { 
+task Elixir_Storage_2_5 "Upgrade Elixir Storage 2 to Level 5 (6,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_2_4, !th_3
+  depends !Elixir_Storage_2_4, !th_1_3
 }
 
-task Elixir_Storage_2_6 "Upgrade Elixir Storage 2 to Level 6 (12,000 Gold)" { 
+task Elixir_Storage_2_6 "Upgrade Elixir Storage 2 to Level 6 (12,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_2_5, !th_3
+  depends !Elixir_Storage_2_5, !th_1_3
 }
 
-task Elixir_Storage_2_7 "Upgrade Elixir Storage 2 to Level 7 (25,000 Gold)" { 
+task Elixir_Storage_2_7 "Upgrade Elixir Storage 2 to Level 7 (25,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_2_6, !th_4
+  depends !Elixir_Storage_2_6, !th_1_4
 }
 
-task Elixir_Storage_2_8 "Upgrade Elixir Storage 2 to Level 8 (50,000 Gold)" { 
+task Elixir_Storage_2_8 "Upgrade Elixir Storage 2 to Level 8 (50,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_2_7, !th_4
+  depends !Elixir_Storage_2_7, !th_1_4
 }
 
-task Elixir_Storage_2_9 "Upgrade Elixir Storage 2 to Level 9 (100,000 Gold)" { 
+task Elixir_Storage_2_9 "Upgrade Elixir Storage 2 to Level 9 (100,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_2_8, !th_5
+  depends !Elixir_Storage_2_8, !th_1_5
 }
 
-task Elixir_Storage_2_10 "Upgrade Elixir Storage 2 to Level 10 (250,000 Gold)" { 
+task Elixir_Storage_2_10 "Upgrade Elixir Storage 2 to Level 10 (250,000 Gold)" {
   priority 500
-  depends !Elixir_Storage_2_9, !th_6
+  depends !Elixir_Storage_2_9, !th_1_6
 }
 
-task Elixir_Storage_3_2 "Build Elixir Storage 3 as Level 2 (1050 Gold)" { 
+task Elixir_Storage_3_2 "Build Elixir Storage 3 as Level 2 (1050 Gold)" {
   ${builder_effort "30min"}
   priority 500
-  depends !th_8
+  depends !th_1_8
 }
 
-task Elixir_Storage_3_3 "Upgrade Elixir Storage 3 to Level 3 (1,500 Gold)" { 
+task Elixir_Storage_3_3 "Upgrade Elixir Storage 3 to Level 3 (1,500 Gold)" {
   ${builder_effort "1h"}
   priority 500
-  depends !Elixir_Storage_3_2, !th_8
+  depends !Elixir_Storage_3_2, !th_1_8
 }
 
-task Elixir_Storage_3_4 "Upgrade Elixir Storage 3 to Level 4 (3,000 Gold)" { 
+task Elixir_Storage_3_4 "Upgrade Elixir Storage 3 to Level 4 (3,000 Gold)" {
   ${builder_effort "2h"}
   priority 500
-  depends !Elixir_Storage_3_3, !th_8
+  depends !Elixir_Storage_3_3, !th_1_8
 }
 
-task Elixir_Storage_3_5 "Upgrade Elixir Storage 3 to Level 5 (6,000 Gold)" { 
+task Elixir_Storage_3_5 "Upgrade Elixir Storage 3 to Level 5 (6,000 Gold)" {
   ${builder_effort "3h"}
   priority 500
-  depends !Elixir_Storage_3_4, !th_8
+  depends !Elixir_Storage_3_4, !th_1_8
 }
 
-task Elixir_Storage_3_6 "Upgrade Elixir Storage 3 to Level 6 (12,000 Gold)" { 
+task Elixir_Storage_3_6 "Upgrade Elixir Storage 3 to Level 6 (12,000 Gold)" {
   ${builder_effort "4h"}
   priority 500
-  depends !Elixir_Storage_3_5, !th_8
+  depends !Elixir_Storage_3_5, !th_1_8
 }
 
-task Elixir_Storage_3_7 "Upgrade Elixir Storage 3 to Level 7 (25,000 Gold)" { 
+task Elixir_Storage_3_7 "Upgrade Elixir Storage 3 to Level 7 (25,000 Gold)" {
   ${builder_effort "6h"}
   priority 500
-  depends !Elixir_Storage_3_6, !th_8
+  depends !Elixir_Storage_3_6, !th_1_8
 }
 
-task Elixir_Storage_3_8 "Upgrade Elixir Storage 3 to Level 8 (50,000 Gold)" { 
+task Elixir_Storage_3_8 "Upgrade Elixir Storage 3 to Level 8 (50,000 Gold)" {
   ${builder_effort "8h"}
   priority 500
-  depends !Elixir_Storage_3_7, !th_8
+  depends !Elixir_Storage_3_7, !th_1_8
 }
 
-task Elixir_Storage_3_9 "Upgrade Elixir Storage 3 to Level 9 (100,000 Gold)" { 
+task Elixir_Storage_3_9 "Upgrade Elixir Storage 3 to Level 9 (100,000 Gold)" {
   ${builder_effort "12h"}
   priority 500
-  depends !Elixir_Storage_3_8, !th_8
+  depends !Elixir_Storage_3_8, !th_1_8
 }
 
-task Elixir_Storage_3_10 "Upgrade Elixir Storage 3 to Level 10 (250,000 Gold)" { 
+task Elixir_Storage_3_10 "Upgrade Elixir Storage 3 to Level 10 (250,000 Gold)" {
   ${builder_effort "1d"}
   priority 500
-  depends !Elixir_Storage_3_9, !th_8
+  depends !Elixir_Storage_3_9, !th_1_8
 }
 
-task Elixir_Storage_4_2 "Build Elixir Storage 4 as Level 2 (1050 Gold)" { 
+task Elixir_Storage_4_2 "Build Elixir Storage 4 as Level 2 (1050 Gold)" {
   ${builder_effort "30min"}
   priority 500
-  depends !th_9
+  depends !th_1_9
 }
 
-task Elixir_Storage_4_3 "Upgrade Elixir Storage 4 to Level 3 (1,500 Gold)" { 
+task Elixir_Storage_4_3 "Upgrade Elixir Storage 4 to Level 3 (1,500 Gold)" {
   ${builder_effort "1h"}
   priority 500
-  depends !Elixir_Storage_4_2, !th_9
+  depends !Elixir_Storage_4_2, !th_1_9
 }
 
-task Elixir_Storage_4_4 "Upgrade Elixir Storage 4 to Level 4 (3,000 Gold)" { 
+task Elixir_Storage_4_4 "Upgrade Elixir Storage 4 to Level 4 (3,000 Gold)" {
   ${builder_effort "2h"}
   priority 500
-  depends !Elixir_Storage_4_3, !th_9
+  depends !Elixir_Storage_4_3, !th_1_9
 }
 
-task Elixir_Storage_4_5 "Upgrade Elixir Storage 4 to Level 5 (6,000 Gold)" { 
+task Elixir_Storage_4_5 "Upgrade Elixir Storage 4 to Level 5 (6,000 Gold)" {
   ${builder_effort "3h"}
   priority 500
-  depends !Elixir_Storage_4_4, !th_9
+  depends !Elixir_Storage_4_4, !th_1_9
 }
 
-task Elixir_Storage_4_6 "Upgrade Elixir Storage 4 to Level 6 (12,000 Gold)" { 
+task Elixir_Storage_4_6 "Upgrade Elixir Storage 4 to Level 6 (12,000 Gold)" {
   ${builder_effort "4h"}
   priority 500
-  depends !Elixir_Storage_4_5, !th_9
+  depends !Elixir_Storage_4_5, !th_1_9
 }
 
-task Elixir_Storage_4_7 "Upgrade Elixir Storage 4 to Level 7 (25,000 Gold)" { 
+task Elixir_Storage_4_7 "Upgrade Elixir Storage 4 to Level 7 (25,000 Gold)" {
   ${builder_effort "6h"}
   priority 500
-  depends !Elixir_Storage_4_6, !th_9
+  depends !Elixir_Storage_4_6, !th_1_9
 }
 
-task Elixir_Storage_4_8 "Upgrade Elixir Storage 4 to Level 8 (50,000 Gold)" { 
+task Elixir_Storage_4_8 "Upgrade Elixir Storage 4 to Level 8 (50,000 Gold)" {
   ${builder_effort "8h"}
   priority 500
-  depends !Elixir_Storage_4_7, !th_9
+  depends !Elixir_Storage_4_7, !th_1_9
 }
 
-task Elixir_Storage_4_9 "Upgrade Elixir Storage 4 to Level 9 (100,000 Gold)" { 
+task Elixir_Storage_4_9 "Upgrade Elixir Storage 4 to Level 9 (100,000 Gold)" {
   ${builder_effort "12h"}
   priority 500
-  depends !Elixir_Storage_4_8, !th_9
+  depends !Elixir_Storage_4_8, !th_1_9
 }
 
-task Elixir_Storage_4_10 "Upgrade Elixir Storage 4 to Level 10 (250,000 Gold)" { 
+task Elixir_Storage_4_10 "Upgrade Elixir Storage 4 to Level 10 (250,000 Gold)" {
   ${builder_effort "1d"}
   priority 500
-  depends !Elixir_Storage_4_9, !th_9
+  depends !Elixir_Storage_4_9, !th_1_9
 }
 
-task Giant_Bomb_1_2 "Build Giant Bomb 1 as Level 2 (27,500 Gold)" { 
+task Giant_Bomb_1_2 "Build Giant Bomb 1 as Level 2 (27,500 Gold)" {
   priority 620
-  depends !th_6
+  depends !th_1_6
 }
 
-task Giant_Bomb_1_3 "Upgrade Giant Bomb 1 to Level 3 (17,500 Gold)" { 
+task Giant_Bomb_1_3 "Upgrade Giant Bomb 1 to Level 3 (17,500 Gold)" {
   ${builder_effort "1d"}
   priority 620
-  depends !Giant_Bomb_1_2, !th_8
+  depends !Giant_Bomb_1_2, !th_1_8
 }
 
-task Giant_Bomb_1_4 "Upgrade Giant Bomb 1 to Level 4 (20,000 Gold)" { 
+task Giant_Bomb_1_4 "Upgrade Giant Bomb 1 to Level 4 (20,000 Gold)" {
   ${builder_effort "3d"}
   priority 620
-  depends !Giant_Bomb_1_3, !th_10
+  depends !Giant_Bomb_1_3, !th_1_10
 }
 
-task Giant_Bomb_2_2 "Build Giant Bomb 2 as Level 2 (27,500 Gold)" { 
+task Giant_Bomb_2_2 "Build Giant Bomb 2 as Level 2 (27,500 Gold)" {
   ${builder_effort "6h"}
   priority 620
-  depends !th_7
+  depends !th_1_7
 }
 
-task Giant_Bomb_2_3 "Upgrade Giant Bomb 2 to Level 3 (17,500 Gold)" { 
+task Giant_Bomb_2_3 "Upgrade Giant Bomb 2 to Level 3 (17,500 Gold)" {
   ${builder_effort "1d"}
   priority 620
-  depends !Giant_Bomb_2_2, !th_8
+  depends !Giant_Bomb_2_2, !th_1_8
 }
 
-task Giant_Bomb_2_4 "Upgrade Giant Bomb 2 to Level 4 (20,000 Gold)" { 
+task Giant_Bomb_2_4 "Upgrade Giant Bomb 2 to Level 4 (20,000 Gold)" {
   ${builder_effort "3d"}
   priority 620
-  depends !Giant_Bomb_2_3, !th_10
+  depends !Giant_Bomb_2_3, !th_1_10
 }
 
-task Giant_Bomb_3_2 "Build Giant Bomb 3 as Level 2 (27,500 Gold)" { 
+task Giant_Bomb_3_2 "Build Giant Bomb 3 as Level 2 (27,500 Gold)" {
   ${builder_effort "6h"}
   priority 620
-  depends !th_8
+  depends !th_1_8
 }
 
-task Giant_Bomb_3_3 "Upgrade Giant Bomb 3 to Level 3 (17,500 Gold)" { 
+task Giant_Bomb_3_3 "Upgrade Giant Bomb 3 to Level 3 (17,500 Gold)" {
   ${builder_effort "1d"}
   priority 620
-  depends !Giant_Bomb_3_2, !th_8
+  depends !Giant_Bomb_3_2, !th_1_8
 }
 
-task Giant_Bomb_3_4 "Upgrade Giant Bomb 3 to Level 4 (20,000 Gold)" { 
+task Giant_Bomb_3_4 "Upgrade Giant Bomb 3 to Level 4 (20,000 Gold)" {
   ${builder_effort "3d"}
   priority 620
-  depends !Giant_Bomb_3_3, !th_10
+  depends !Giant_Bomb_3_3, !th_1_10
 }
 
-task Giant_Bomb_4_2 "Build Giant Bomb 4 as Level 2 (27,500 Gold)" { 
+task Giant_Bomb_4_2 "Build Giant Bomb 4 as Level 2 (27,500 Gold)" {
   ${builder_effort "6h"}
   priority 620
-  depends !th_9
+  depends !th_1_9
 }
 
-task Giant_Bomb_4_3 "Upgrade Giant Bomb 4 to Level 3 (17,500 Gold)" { 
+task Giant_Bomb_4_3 "Upgrade Giant Bomb 4 to Level 3 (17,500 Gold)" {
   ${builder_effort "1d"}
   priority 620
-  depends !Giant_Bomb_4_2, !th_9
+  depends !Giant_Bomb_4_2, !th_1_9
 }
 
-task Giant_Bomb_4_4 "Upgrade Giant Bomb 4 to Level 4 (20,000 Gold)" { 
+task Giant_Bomb_4_4 "Upgrade Giant Bomb 4 to Level 4 (20,000 Gold)" {
   ${builder_effort "3d"}
   priority 620
-  depends !Giant_Bomb_4_3, !th_10
+  depends !Giant_Bomb_4_3, !th_1_10
 }
 
-task Giant_Bomb_5_2 "Build Giant Bomb 5 as Level 2 (27,500 Gold)" { 
+task Giant_Bomb_5_2 "Build Giant Bomb 5 as Level 2 (27,500 Gold)" {
   ${builder_effort "6h"}
   priority 620
-  depends !th_10
+  depends !th_1_10
 }
 
-task Giant_Bomb_5_3 "Upgrade Giant Bomb 5 to Level 3 (17,500 Gold)" { 
+task Giant_Bomb_5_3 "Upgrade Giant Bomb 5 to Level 3 (17,500 Gold)" {
   ${builder_effort "1d"}
   priority 620
-  depends !Giant_Bomb_5_2, !th_10
+  depends !Giant_Bomb_5_2, !th_1_10
 }
 
-task Giant_Bomb_5_4 "Upgrade Giant Bomb 5 to Level 4 (20,000 Gold)" { 
+task Giant_Bomb_5_4 "Upgrade Giant Bomb 5 to Level 4 (20,000 Gold)" {
   ${builder_effort "3d"}
   priority 620
-  depends !Giant_Bomb_5_3, !th_10
+  depends !Giant_Bomb_5_3, !th_1_10
 }
 
-task Gold_Mine_1_2 "Build Gold Mine 1 as Level 2 (450 Elixir)" { 
+task Gold_Mine_1_2 "Build Gold Mine 1 as Level 2 (450 Elixir)" {
   priority 240
 }
 
-task Gold_Mine_1_3 "Upgrade Gold Mine 1 to Level 3 (700 Elixir)" { 
+task Gold_Mine_1_3 "Upgrade Gold Mine 1 to Level 3 (700 Elixir)" {
   priority 240
-  depends !Gold_Mine_1_2, !th_2
+  depends !Gold_Mine_1_2, !th_1_2
 }
 
-task Gold_Mine_1_4 "Upgrade Gold Mine 1 to Level 4 (1,400 Elixir)" { 
+task Gold_Mine_1_4 "Upgrade Gold Mine 1 to Level 4 (1,400 Elixir)" {
   priority 240
-  depends !Gold_Mine_1_3, !th_2
+  depends !Gold_Mine_1_3, !th_1_2
 }
 
-task Gold_Mine_1_5 "Upgrade Gold Mine 1 to Level 5 (3,000 Elixir)" { 
+task Gold_Mine_1_5 "Upgrade Gold Mine 1 to Level 5 (3,000 Elixir)" {
   ${builder_effort "2h"}
   priority 240
-  depends !Gold_Mine_1_4, !th_3
+  depends !Gold_Mine_1_4, !th_1_3
 }
 
-task Gold_Mine_1_6 "Upgrade Gold Mine 1 to Level 6 (7,000 Elixir)" { 
+task Gold_Mine_1_6 "Upgrade Gold Mine 1 to Level 6 (7,000 Elixir)" {
   ${builder_effort "6h"}
   priority 240
-  depends !Gold_Mine_1_5, !th_3
+  depends !Gold_Mine_1_5, !th_1_3
 }
 
-task Gold_Mine_1_7 "Upgrade Gold Mine 1 to Level 7 (14,000 Elixir)" { 
+task Gold_Mine_1_7 "Upgrade Gold Mine 1 to Level 7 (14,000 Elixir)" {
   ${builder_effort "12h"}
   priority 240
-  depends !Gold_Mine_1_6, !th_4
+  depends !Gold_Mine_1_6, !th_1_4
 }
 
-task Gold_Mine_1_8 "Upgrade Gold Mine 1 to Level 8 (28,000 Elixir)" { 
+task Gold_Mine_1_8 "Upgrade Gold Mine 1 to Level 8 (28,000 Elixir)" {
   ${builder_effort "1d"}
   priority 240
-  depends !Gold_Mine_1_7, !th_4
+  depends !Gold_Mine_1_7, !th_1_4
 }
 
-task Gold_Mine_1_9 "Upgrade Gold Mine 1 to Level 9 (56,000 Elixir)" { 
+task Gold_Mine_1_9 "Upgrade Gold Mine 1 to Level 9 (56,000 Elixir)" {
   ${builder_effort "2d"}
   priority 240
-  depends !Gold_Mine_1_8, !th_5
+  depends !Gold_Mine_1_8, !th_1_5
 }
 
-task Gold_Mine_1_10 "Upgrade Gold Mine 1 to Level 10 (84,000 Elixir)" { 
+task Gold_Mine_1_10 "Upgrade Gold Mine 1 to Level 10 (84,000 Elixir)" {
   ${builder_effort "3d"}
   priority 240
-  depends !Gold_Mine_1_9, !th_5
+  depends !Gold_Mine_1_9, !th_1_5
 }
 
-task Gold_Mine_1_11 "Upgrade Gold Mine 1 to Level 11 (168,000 Elixir)" { 
+task Gold_Mine_1_11 "Upgrade Gold Mine 1 to Level 11 (168,000 Elixir)" {
   ${builder_effort "4d"}
   priority 240
-  depends !Gold_Mine_1_10, !th_7
+  depends !Gold_Mine_1_10, !th_1_7
 }
 
-task Gold_Mine_2_2 "Build Gold Mine 2 as Level 2 (450 Elixir)" { 
+task Gold_Mine_2_2 "Build Gold Mine 2 as Level 2 (450 Elixir)" {
   priority 240
-  depends !th_2
+  depends !th_1_2
 }
 
-task Gold_Mine_2_3 "Upgrade Gold Mine 2 to Level 3 (700 Elixir)" { 
+task Gold_Mine_2_3 "Upgrade Gold Mine 2 to Level 3 (700 Elixir)" {
   priority 240
-  depends !Gold_Mine_2_2, !th_2
+  depends !Gold_Mine_2_2, !th_1_2
 }
 
-task Gold_Mine_2_4 "Upgrade Gold Mine 2 to Level 4 (1,400 Elixir)" { 
+task Gold_Mine_2_4 "Upgrade Gold Mine 2 to Level 4 (1,400 Elixir)" {
   priority 240
-  depends !Gold_Mine_2_3, !th_2
+  depends !Gold_Mine_2_3, !th_1_2
 }
 
-task Gold_Mine_2_5 "Upgrade Gold Mine 2 to Level 5 (3,000 Elixir)" { 
+task Gold_Mine_2_5 "Upgrade Gold Mine 2 to Level 5 (3,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_2_4, !th_3
+  depends !Gold_Mine_2_4, !th_1_3
 }
 
-task Gold_Mine_2_6 "Upgrade Gold Mine 2 to Level 6 (7,000 Elixir)" { 
+task Gold_Mine_2_6 "Upgrade Gold Mine 2 to Level 6 (7,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_2_5, !th_3
+  depends !Gold_Mine_2_5, !th_1_3
 }
 
-task Gold_Mine_2_7 "Upgrade Gold Mine 2 to Level 7 (14,000 Elixir)" { 
+task Gold_Mine_2_7 "Upgrade Gold Mine 2 to Level 7 (14,000 Elixir)" {
   ${builder_effort "12h"}
   priority 240
-  depends !Gold_Mine_2_6, !th_4
+  depends !Gold_Mine_2_6, !th_1_4
 }
 
-task Gold_Mine_2_8 "Upgrade Gold Mine 2 to Level 8 (28,000 Elixir)" { 
+task Gold_Mine_2_8 "Upgrade Gold Mine 2 to Level 8 (28,000 Elixir)" {
   ${builder_effort "1d"}
   priority 240
-  depends !Gold_Mine_2_7, !th_4
+  depends !Gold_Mine_2_7, !th_1_4
 }
 
-task Gold_Mine_2_9 "Upgrade Gold Mine 2 to Level 9 (56,000 Elixir)" { 
+task Gold_Mine_2_9 "Upgrade Gold Mine 2 to Level 9 (56,000 Elixir)" {
   ${builder_effort "2d"}
   priority 240
-  depends !Gold_Mine_2_8, !th_5
+  depends !Gold_Mine_2_8, !th_1_5
 }
 
-task Gold_Mine_2_10 "Upgrade Gold Mine 2 to Level 10 (84,000 Elixir)" { 
+task Gold_Mine_2_10 "Upgrade Gold Mine 2 to Level 10 (84,000 Elixir)" {
   ${builder_effort "3d"}
   priority 240
-  depends !Gold_Mine_2_9, !th_5
+  depends !Gold_Mine_2_9, !th_1_5
 }
 
-task Gold_Mine_2_11 "Upgrade Gold Mine 2 to Level 11 (168,000 Elixir)" { 
+task Gold_Mine_2_11 "Upgrade Gold Mine 2 to Level 11 (168,000 Elixir)" {
   ${builder_effort "4d"}
   priority 240
-  depends !Gold_Mine_2_10, !th_7
+  depends !Gold_Mine_2_10, !th_1_7
 }
 
-task Gold_Mine_3_2 "Build Gold Mine 3 as Level 2 (450 Elixir)" { 
+task Gold_Mine_3_2 "Build Gold Mine 3 as Level 2 (450 Elixir)" {
   priority 240
-  depends !th_3
+  depends !th_1_3
 }
 
-task Gold_Mine_3_3 "Upgrade Gold Mine 3 to Level 3 (700 Elixir)" { 
+task Gold_Mine_3_3 "Upgrade Gold Mine 3 to Level 3 (700 Elixir)" {
   priority 240
-  depends !Gold_Mine_3_2, !th_3
+  depends !Gold_Mine_3_2, !th_1_3
 }
 
-task Gold_Mine_3_4 "Upgrade Gold Mine 3 to Level 4 (1,400 Elixir)" { 
+task Gold_Mine_3_4 "Upgrade Gold Mine 3 to Level 4 (1,400 Elixir)" {
   priority 240
-  depends !Gold_Mine_3_3, !th_3
+  depends !Gold_Mine_3_3, !th_1_3
 }
 
-task Gold_Mine_3_5 "Upgrade Gold Mine 3 to Level 5 (3,000 Elixir)" { 
+task Gold_Mine_3_5 "Upgrade Gold Mine 3 to Level 5 (3,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_3_4, !th_3
+  depends !Gold_Mine_3_4, !th_1_3
 }
 
-task Gold_Mine_3_6 "Upgrade Gold Mine 3 to Level 6 (7,000 Elixir)" { 
+task Gold_Mine_3_6 "Upgrade Gold Mine 3 to Level 6 (7,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_3_5, !th_3
+  depends !Gold_Mine_3_5, !th_1_3
 }
 
-task Gold_Mine_3_7 "Upgrade Gold Mine 3 to Level 7 (14,000 Elixir)" { 
+task Gold_Mine_3_7 "Upgrade Gold Mine 3 to Level 7 (14,000 Elixir)" {
   ${builder_effort "12h"}
   priority 240
-  depends !Gold_Mine_3_6, !th_4
+  depends !Gold_Mine_3_6, !th_1_4
 }
 
-task Gold_Mine_3_8 "Upgrade Gold Mine 3 to Level 8 (28,000 Elixir)" { 
+task Gold_Mine_3_8 "Upgrade Gold Mine 3 to Level 8 (28,000 Elixir)" {
   ${builder_effort "1d"}
   priority 240
-  depends !Gold_Mine_3_7, !th_4
+  depends !Gold_Mine_3_7, !th_1_4
 }
 
-task Gold_Mine_3_9 "Upgrade Gold Mine 3 to Level 9 (56,000 Elixir)" { 
+task Gold_Mine_3_9 "Upgrade Gold Mine 3 to Level 9 (56,000 Elixir)" {
   ${builder_effort "2d"}
   priority 240
-  depends !Gold_Mine_3_8, !th_5
+  depends !Gold_Mine_3_8, !th_1_5
 }
 
-task Gold_Mine_3_10 "Upgrade Gold Mine 3 to Level 10 (84,000 Elixir)" { 
+task Gold_Mine_3_10 "Upgrade Gold Mine 3 to Level 10 (84,000 Elixir)" {
   ${builder_effort "3d"}
   priority 240
-  depends !Gold_Mine_3_9, !th_5
+  depends !Gold_Mine_3_9, !th_1_5
 }
 
-task Gold_Mine_3_11 "Upgrade Gold Mine 3 to Level 11 (168,000 Elixir)" { 
+task Gold_Mine_3_11 "Upgrade Gold Mine 3 to Level 11 (168,000 Elixir)" {
   ${builder_effort "4d"}
   priority 240
-  depends !Gold_Mine_3_10, !th_7
+  depends !Gold_Mine_3_10, !th_1_7
 }
 
-task Gold_Mine_4_2 "Build Gold Mine 4 as Level 2 (450 Elixir)" { 
+task Gold_Mine_4_2 "Build Gold Mine 4 as Level 2 (450 Elixir)" {
   priority 240
-  depends !th_4
+  depends !th_1_4
 }
 
-task Gold_Mine_4_3 "Upgrade Gold Mine 4 to Level 3 (700 Elixir)" { 
+task Gold_Mine_4_3 "Upgrade Gold Mine 4 to Level 3 (700 Elixir)" {
   priority 240
-  depends !Gold_Mine_4_2, !th_4
+  depends !Gold_Mine_4_2, !th_1_4
 }
 
-task Gold_Mine_4_4 "Upgrade Gold Mine 4 to Level 4 (1,400 Elixir)" { 
+task Gold_Mine_4_4 "Upgrade Gold Mine 4 to Level 4 (1,400 Elixir)" {
   priority 240
-  depends !Gold_Mine_4_3, !th_4
+  depends !Gold_Mine_4_3, !th_1_4
 }
 
-task Gold_Mine_4_5 "Upgrade Gold Mine 4 to Level 5 (3,000 Elixir)" { 
+task Gold_Mine_4_5 "Upgrade Gold Mine 4 to Level 5 (3,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_4_4, !th_4
+  depends !Gold_Mine_4_4, !th_1_4
 }
 
-task Gold_Mine_4_6 "Upgrade Gold Mine 4 to Level 6 (7,000 Elixir)" { 
+task Gold_Mine_4_6 "Upgrade Gold Mine 4 to Level 6 (7,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_4_5, !th_4
+  depends !Gold_Mine_4_5, !th_1_4
 }
 
-task Gold_Mine_4_7 "Upgrade Gold Mine 4 to Level 7 (14,000 Elixir)" { 
+task Gold_Mine_4_7 "Upgrade Gold Mine 4 to Level 7 (14,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_4_6, !th_4
+  depends !Gold_Mine_4_6, !th_1_4
 }
 
-task Gold_Mine_4_8 "Upgrade Gold Mine 4 to Level 8 (28,000 Elixir)" { 
+task Gold_Mine_4_8 "Upgrade Gold Mine 4 to Level 8 (28,000 Elixir)" {
   ${builder_effort "1d"}
   priority 240
-  depends !Gold_Mine_4_7, !th_4
+  depends !Gold_Mine_4_7, !th_1_4
 }
 
-task Gold_Mine_4_9 "Upgrade Gold Mine 4 to Level 9 (56,000 Elixir)" { 
+task Gold_Mine_4_9 "Upgrade Gold Mine 4 to Level 9 (56,000 Elixir)" {
   ${builder_effort "2d"}
   priority 240
-  depends !Gold_Mine_4_8, !th_5
+  depends !Gold_Mine_4_8, !th_1_5
 }
 
-task Gold_Mine_4_10 "Upgrade Gold Mine 4 to Level 10 (84,000 Elixir)" { 
+task Gold_Mine_4_10 "Upgrade Gold Mine 4 to Level 10 (84,000 Elixir)" {
   ${builder_effort "3d"}
   priority 240
-  depends !Gold_Mine_4_9, !th_5
+  depends !Gold_Mine_4_9, !th_1_5
 }
 
-task Gold_Mine_4_11 "Upgrade Gold Mine 4 to Level 11 (168,000 Elixir)" { 
+task Gold_Mine_4_11 "Upgrade Gold Mine 4 to Level 11 (168,000 Elixir)" {
   ${builder_effort "4d"}
   priority 240
-  depends !Gold_Mine_4_10, !th_7
+  depends !Gold_Mine_4_10, !th_1_7
 }
 
-task Gold_Mine_5_2 "Build Gold Mine 5 as Level 2 (450 Elixir)" { 
+task Gold_Mine_5_2 "Build Gold Mine 5 as Level 2 (450 Elixir)" {
   priority 240
-  depends !th_5
+  depends !th_1_5
 }
 
-task Gold_Mine_5_3 "Upgrade Gold Mine 5 to Level 3 (700 Elixir)" { 
+task Gold_Mine_5_3 "Upgrade Gold Mine 5 to Level 3 (700 Elixir)" {
   priority 240
-  depends !Gold_Mine_5_2, !th_5
+  depends !Gold_Mine_5_2, !th_1_5
 }
 
-task Gold_Mine_5_4 "Upgrade Gold Mine 5 to Level 4 (1,400 Elixir)" { 
+task Gold_Mine_5_4 "Upgrade Gold Mine 5 to Level 4 (1,400 Elixir)" {
   priority 240
-  depends !Gold_Mine_5_3, !th_5
+  depends !Gold_Mine_5_3, !th_1_5
 }
 
-task Gold_Mine_5_5 "Upgrade Gold Mine 5 to Level 5 (3,000 Elixir)" { 
+task Gold_Mine_5_5 "Upgrade Gold Mine 5 to Level 5 (3,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_5_4, !th_5
+  depends !Gold_Mine_5_4, !th_1_5
 }
 
-task Gold_Mine_5_6 "Upgrade Gold Mine 5 to Level 6 (7,000 Elixir)" { 
+task Gold_Mine_5_6 "Upgrade Gold Mine 5 to Level 6 (7,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_5_5, !th_5
+  depends !Gold_Mine_5_5, !th_1_5
 }
 
-task Gold_Mine_5_7 "Upgrade Gold Mine 5 to Level 7 (14,000 Elixir)" { 
+task Gold_Mine_5_7 "Upgrade Gold Mine 5 to Level 7 (14,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_5_6, !th_5
+  depends !Gold_Mine_5_6, !th_1_5
 }
 
-task Gold_Mine_5_8 "Upgrade Gold Mine 5 to Level 8 (28,000 Elixir)" { 
+task Gold_Mine_5_8 "Upgrade Gold Mine 5 to Level 8 (28,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_5_7, !th_5
+  depends !Gold_Mine_5_7, !th_1_5
 }
 
-task Gold_Mine_5_9 "Upgrade Gold Mine 5 to Level 9 (56,000 Elixir)" { 
+task Gold_Mine_5_9 "Upgrade Gold Mine 5 to Level 9 (56,000 Elixir)" {
   ${builder_effort "2d"}
   priority 240
-  depends !Gold_Mine_5_8, !th_5
+  depends !Gold_Mine_5_8, !th_1_5
 }
 
-task Gold_Mine_5_10 "Upgrade Gold Mine 5 to Level 10 (84,000 Elixir)" { 
+task Gold_Mine_5_10 "Upgrade Gold Mine 5 to Level 10 (84,000 Elixir)" {
   ${builder_effort "3d"}
   priority 240
-  depends !Gold_Mine_5_9, !th_5
+  depends !Gold_Mine_5_9, !th_1_5
 }
 
-task Gold_Mine_5_11 "Upgrade Gold Mine 5 to Level 11 (168,000 Elixir)" { 
+task Gold_Mine_5_11 "Upgrade Gold Mine 5 to Level 11 (168,000 Elixir)" {
   ${builder_effort "4d"}
   priority 240
-  depends !Gold_Mine_5_10, !th_7
+  depends !Gold_Mine_5_10, !th_1_7
 }
 
-task Gold_Mine_6_2 "Build Gold Mine 6 as Level 2 (450 Elixir)" { 
+task Gold_Mine_6_2 "Build Gold Mine 6 as Level 2 (450 Elixir)" {
   priority 240
-  depends !th_6
+  depends !th_1_6
 }
 
-task Gold_Mine_6_3 "Upgrade Gold Mine 6 to Level 3 (700 Elixir)" { 
+task Gold_Mine_6_3 "Upgrade Gold Mine 6 to Level 3 (700 Elixir)" {
   priority 240
-  depends !Gold_Mine_6_2, !th_6
+  depends !Gold_Mine_6_2, !th_1_6
 }
 
-task Gold_Mine_6_4 "Upgrade Gold Mine 6 to Level 4 (1,400 Elixir)" { 
+task Gold_Mine_6_4 "Upgrade Gold Mine 6 to Level 4 (1,400 Elixir)" {
   priority 240
-  depends !Gold_Mine_6_3, !th_6
+  depends !Gold_Mine_6_3, !th_1_6
 }
 
-task Gold_Mine_6_5 "Upgrade Gold Mine 6 to Level 5 (3,000 Elixir)" { 
+task Gold_Mine_6_5 "Upgrade Gold Mine 6 to Level 5 (3,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_6_4, !th_6
+  depends !Gold_Mine_6_4, !th_1_6
 }
 
-task Gold_Mine_6_6 "Upgrade Gold Mine 6 to Level 6 (7,000 Elixir)" { 
+task Gold_Mine_6_6 "Upgrade Gold Mine 6 to Level 6 (7,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_6_5, !th_6
+  depends !Gold_Mine_6_5, !th_1_6
 }
 
-task Gold_Mine_6_7 "Upgrade Gold Mine 6 to Level 7 (14,000 Elixir)" { 
+task Gold_Mine_6_7 "Upgrade Gold Mine 6 to Level 7 (14,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_6_6, !th_6
+  depends !Gold_Mine_6_6, !th_1_6
 }
 
-task Gold_Mine_6_8 "Upgrade Gold Mine 6 to Level 8 (28,000 Elixir)" { 
+task Gold_Mine_6_8 "Upgrade Gold Mine 6 to Level 8 (28,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_6_7, !th_6
+  depends !Gold_Mine_6_7, !th_1_6
 }
 
-task Gold_Mine_6_9 "Upgrade Gold Mine 6 to Level 9 (56,000 Elixir)" { 
+task Gold_Mine_6_9 "Upgrade Gold Mine 6 to Level 9 (56,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_6_8, !th_6
+  depends !Gold_Mine_6_8, !th_1_6
 }
 
-task Gold_Mine_6_10 "Upgrade Gold Mine 6 to Level 10 (84,000 Elixir)" { 
+task Gold_Mine_6_10 "Upgrade Gold Mine 6 to Level 10 (84,000 Elixir)" {
   priority 240
-  depends !Gold_Mine_6_9, !th_6
+  depends !Gold_Mine_6_9, !th_1_6
 }
 
-task Gold_Mine_6_11 "Upgrade Gold Mine 6 to Level 11 (168,000 Elixir)" { 
+task Gold_Mine_6_11 "Upgrade Gold Mine 6 to Level 11 (168,000 Elixir)" {
   ${builder_effort "4d"}
   priority 240
-  depends !Gold_Mine_6_10, !th_7
+  depends !Gold_Mine_6_10, !th_1_7
 }
 
-task Gold_Mine_7_2 "Build Gold Mine 7 as Level 2 (450 Elixir)" { 
+task Gold_Mine_7_2 "Build Gold Mine 7 as Level 2 (450 Elixir)" {
   ${builder_effort "15min"}
   priority 240
-  depends !th_10
+  depends !th_1_10
 }
 
-task Gold_Mine_7_3 "Upgrade Gold Mine 7 to Level 3 (700 Elixir)" { 
+task Gold_Mine_7_3 "Upgrade Gold Mine 7 to Level 3 (700 Elixir)" {
   ${builder_effort "15min"}
   priority 240
-  depends !Gold_Mine_7_2, !th_10
+  depends !Gold_Mine_7_2, !th_1_10
 }
 
-task Gold_Mine_7_4 "Upgrade Gold Mine 7 to Level 4 (1,400 Elixir)" { 
+task Gold_Mine_7_4 "Upgrade Gold Mine 7 to Level 4 (1,400 Elixir)" {
   ${builder_effort "1h"}
   priority 240
-  depends !Gold_Mine_7_3, !th_10
+  depends !Gold_Mine_7_3, !th_1_10
 }
 
-task Gold_Mine_7_5 "Upgrade Gold Mine 7 to Level 5 (3,000 Elixir)" { 
+task Gold_Mine_7_5 "Upgrade Gold Mine 7 to Level 5 (3,000 Elixir)" {
   ${builder_effort "2h"}
   priority 240
-  depends !Gold_Mine_7_4, !th_10
+  depends !Gold_Mine_7_4, !th_1_10
 }
 
-task Gold_Mine_7_6 "Upgrade Gold Mine 7 to Level 6 (7,000 Elixir)" { 
+task Gold_Mine_7_6 "Upgrade Gold Mine 7 to Level 6 (7,000 Elixir)" {
   ${builder_effort "6h"}
   priority 240
-  depends !Gold_Mine_7_5, !th_10
+  depends !Gold_Mine_7_5, !th_1_10
 }
 
-task Gold_Mine_7_7 "Upgrade Gold Mine 7 to Level 7 (14,000 Elixir)" { 
+task Gold_Mine_7_7 "Upgrade Gold Mine 7 to Level 7 (14,000 Elixir)" {
   ${builder_effort "12h"}
   priority 240
-  depends !Gold_Mine_7_6, !th_10
+  depends !Gold_Mine_7_6, !th_1_10
 }
 
-task Gold_Mine_7_8 "Upgrade Gold Mine 7 to Level 8 (28,000 Elixir)" { 
+task Gold_Mine_7_8 "Upgrade Gold Mine 7 to Level 8 (28,000 Elixir)" {
   ${builder_effort "1d"}
   priority 240
-  depends !Gold_Mine_7_7, !th_10
+  depends !Gold_Mine_7_7, !th_1_10
 }
 
-task Gold_Mine_7_9 "Upgrade Gold Mine 7 to Level 9 (56,000 Elixir)" { 
+task Gold_Mine_7_9 "Upgrade Gold Mine 7 to Level 9 (56,000 Elixir)" {
   ${builder_effort "2d"}
   priority 240
-  depends !Gold_Mine_7_8, !th_10
+  depends !Gold_Mine_7_8, !th_1_10
 }
 
-task Gold_Mine_7_10 "Upgrade Gold Mine 7 to Level 10 (84,000 Elixir)" { 
+task Gold_Mine_7_10 "Upgrade Gold Mine 7 to Level 10 (84,000 Elixir)" {
   ${builder_effort "3d"}
   priority 240
-  depends !Gold_Mine_7_9, !th_10
+  depends !Gold_Mine_7_9, !th_1_10
 }
 
-task Gold_Mine_7_11 "Upgrade Gold Mine 7 to Level 11 (168,000 Elixir)" { 
+task Gold_Mine_7_11 "Upgrade Gold Mine 7 to Level 11 (168,000 Elixir)" {
   ${builder_effort "4d"}
   priority 240
-  depends !Gold_Mine_7_10, !th_10
+  depends !Gold_Mine_7_10, !th_1_10
 }
 
-task Gold_Storage_1_2 "Build Gold Storage 1 as Level 2 (1050 Elixir)" { 
+task Gold_Storage_1_2 "Build Gold Storage 1 as Level 2 (1050 Elixir)" {
   priority 500
-  depends !th_2
+  depends !th_1_2
 }
 
-task Gold_Storage_1_3 "Upgrade Gold Storage 1 to Level 3 (1,500 Elixir)" { 
+task Gold_Storage_1_3 "Upgrade Gold Storage 1 to Level 3 (1,500 Elixir)" {
   priority 500
-  depends !Gold_Storage_1_2, !th_2
+  depends !Gold_Storage_1_2, !th_1_2
 }
 
-task Gold_Storage_1_4 "Upgrade Gold Storage 1 to Level 4 (3,000 Elixir)" { 
+task Gold_Storage_1_4 "Upgrade Gold Storage 1 to Level 4 (3,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_1_3, !th_3
+  depends !Gold_Storage_1_3, !th_1_3
 }
 
-task Gold_Storage_1_5 "Upgrade Gold Storage 1 to Level 5 (6,000 Elixir)" { 
+task Gold_Storage_1_5 "Upgrade Gold Storage 1 to Level 5 (6,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_1_4, !th_3
+  depends !Gold_Storage_1_4, !th_1_3
 }
 
-task Gold_Storage_1_6 "Upgrade Gold Storage 1 to Level 6 (12,000 Elixir)" { 
+task Gold_Storage_1_6 "Upgrade Gold Storage 1 to Level 6 (12,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_1_5, !th_3
+  depends !Gold_Storage_1_5, !th_1_3
 }
 
-task Gold_Storage_1_7 "Upgrade Gold Storage 1 to Level 7 (25,000 Elixir)" { 
+task Gold_Storage_1_7 "Upgrade Gold Storage 1 to Level 7 (25,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_1_6, !th_4
+  depends !Gold_Storage_1_6, !th_1_4
 }
 
-task Gold_Storage_1_8 "Upgrade Gold Storage 1 to Level 8 (50,000 Elixir)" { 
+task Gold_Storage_1_8 "Upgrade Gold Storage 1 to Level 8 (50,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_1_7, !th_4
+  depends !Gold_Storage_1_7, !th_1_4
 }
 
-task Gold_Storage_1_9 "Upgrade Gold Storage 1 to Level 9 (100,000 Elixir)" { 
+task Gold_Storage_1_9 "Upgrade Gold Storage 1 to Level 9 (100,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_1_8, !th_5
+  depends !Gold_Storage_1_8, !th_1_5
 }
 
-task Gold_Storage_1_10 "Upgrade Gold Storage 1 to Level 10 (250,000 Elixir)" { 
+task Gold_Storage_1_10 "Upgrade Gold Storage 1 to Level 10 (250,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_1_9, !th_6
+  depends !Gold_Storage_1_9, !th_1_6
 }
 
-task Gold_Storage_2_2 "Build Gold Storage 2 as Level 2 (1050 Elixir)" { 
+task Gold_Storage_2_2 "Build Gold Storage 2 as Level 2 (1050 Elixir)" {
   priority 500
-  depends !th_3
+  depends !th_1_3
 }
 
-task Gold_Storage_2_3 "Upgrade Gold Storage 2 to Level 3 (1,500 Elixir)" { 
+task Gold_Storage_2_3 "Upgrade Gold Storage 2 to Level 3 (1,500 Elixir)" {
   priority 500
-  depends !Gold_Storage_2_2, !th_3
+  depends !Gold_Storage_2_2, !th_1_3
 }
 
-task Gold_Storage_2_4 "Upgrade Gold Storage 2 to Level 4 (3,000 Elixir)" { 
+task Gold_Storage_2_4 "Upgrade Gold Storage 2 to Level 4 (3,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_2_3, !th_3
+  depends !Gold_Storage_2_3, !th_1_3
 }
 
-task Gold_Storage_2_5 "Upgrade Gold Storage 2 to Level 5 (6,000 Elixir)" { 
+task Gold_Storage_2_5 "Upgrade Gold Storage 2 to Level 5 (6,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_2_4, !th_3
+  depends !Gold_Storage_2_4, !th_1_3
 }
 
-task Gold_Storage_2_6 "Upgrade Gold Storage 2 to Level 6 (12,000 Elixir)" { 
+task Gold_Storage_2_6 "Upgrade Gold Storage 2 to Level 6 (12,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_2_5, !th_3
+  depends !Gold_Storage_2_5, !th_1_3
 }
 
-task Gold_Storage_2_7 "Upgrade Gold Storage 2 to Level 7 (25,000 Elixir)" { 
+task Gold_Storage_2_7 "Upgrade Gold Storage 2 to Level 7 (25,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_2_6, !th_4
+  depends !Gold_Storage_2_6, !th_1_4
 }
 
-task Gold_Storage_2_8 "Upgrade Gold Storage 2 to Level 8 (50,000 Elixir)" { 
+task Gold_Storage_2_8 "Upgrade Gold Storage 2 to Level 8 (50,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_2_7, !th_4
+  depends !Gold_Storage_2_7, !th_1_4
 }
 
-task Gold_Storage_2_9 "Upgrade Gold Storage 2 to Level 9 (100,000 Elixir)" { 
+task Gold_Storage_2_9 "Upgrade Gold Storage 2 to Level 9 (100,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_2_8, !th_5
+  depends !Gold_Storage_2_8, !th_1_5
 }
 
-task Gold_Storage_2_10 "Upgrade Gold Storage 2 to Level 10 (250,000 Elixir)" { 
+task Gold_Storage_2_10 "Upgrade Gold Storage 2 to Level 10 (250,000 Elixir)" {
   priority 500
-  depends !Gold_Storage_2_9, !th_6
+  depends !Gold_Storage_2_9, !th_1_6
 }
 
-task Gold_Storage_3_2 "Build Gold Storage 3 as Level 2 (1050 Elixir)" { 
+task Gold_Storage_3_2 "Build Gold Storage 3 as Level 2 (1050 Elixir)" {
   ${builder_effort "30min"}
   priority 500
-  depends !th_8
+  depends !th_1_8
 }
 
-task Gold_Storage_3_3 "Upgrade Gold Storage 3 to Level 3 (1,500 Elixir)" { 
+task Gold_Storage_3_3 "Upgrade Gold Storage 3 to Level 3 (1,500 Elixir)" {
   ${builder_effort "1h"}
   priority 500
-  depends !Gold_Storage_3_2, !th_8
+  depends !Gold_Storage_3_2, !th_1_8
 }
 
-task Gold_Storage_3_4 "Upgrade Gold Storage 3 to Level 4 (3,000 Elixir)" { 
+task Gold_Storage_3_4 "Upgrade Gold Storage 3 to Level 4 (3,000 Elixir)" {
   ${builder_effort "2h"}
   priority 500
-  depends !Gold_Storage_3_3, !th_8
+  depends !Gold_Storage_3_3, !th_1_8
 }
 
-task Gold_Storage_3_5 "Upgrade Gold Storage 3 to Level 5 (6,000 Elixir)" { 
+task Gold_Storage_3_5 "Upgrade Gold Storage 3 to Level 5 (6,000 Elixir)" {
   ${builder_effort "3h"}
   priority 500
-  depends !Gold_Storage_3_4, !th_8
+  depends !Gold_Storage_3_4, !th_1_8
 }
 
-task Gold_Storage_3_6 "Upgrade Gold Storage 3 to Level 6 (12,000 Elixir)" { 
+task Gold_Storage_3_6 "Upgrade Gold Storage 3 to Level 6 (12,000 Elixir)" {
   ${builder_effort "4h"}
   priority 500
-  depends !Gold_Storage_3_5, !th_8
+  depends !Gold_Storage_3_5, !th_1_8
 }
 
-task Gold_Storage_3_7 "Upgrade Gold Storage 3 to Level 7 (25,000 Elixir)" { 
+task Gold_Storage_3_7 "Upgrade Gold Storage 3 to Level 7 (25,000 Elixir)" {
   ${builder_effort "6h"}
   priority 500
-  depends !Gold_Storage_3_6, !th_8
+  depends !Gold_Storage_3_6, !th_1_8
 }
 
-task Gold_Storage_3_8 "Upgrade Gold Storage 3 to Level 8 (50,000 Elixir)" { 
+task Gold_Storage_3_8 "Upgrade Gold Storage 3 to Level 8 (50,000 Elixir)" {
   ${builder_effort "8h"}
   priority 500
-  depends !Gold_Storage_3_7, !th_8
+  depends !Gold_Storage_3_7, !th_1_8
 }
 
-task Gold_Storage_3_9 "Upgrade Gold Storage 3 to Level 9 (100,000 Elixir)" { 
+task Gold_Storage_3_9 "Upgrade Gold Storage 3 to Level 9 (100,000 Elixir)" {
   ${builder_effort "12h"}
   priority 500
-  depends !Gold_Storage_3_8, !th_8
+  depends !Gold_Storage_3_8, !th_1_8
 }
 
-task Gold_Storage_3_10 "Upgrade Gold Storage 3 to Level 10 (250,000 Elixir)" { 
+task Gold_Storage_3_10 "Upgrade Gold Storage 3 to Level 10 (250,000 Elixir)" {
   ${builder_effort "1d"}
   priority 500
-  depends !Gold_Storage_3_9, !th_8
+  depends !Gold_Storage_3_9, !th_1_8
 }
 
-task Gold_Storage_4_2 "Build Gold Storage 4 as Level 2 (1050 Elixir)" { 
+task Gold_Storage_4_2 "Build Gold Storage 4 as Level 2 (1050 Elixir)" {
   ${builder_effort "30min"}
   priority 500
-  depends !th_9
+  depends !th_1_9
 }
 
-task Gold_Storage_4_3 "Upgrade Gold Storage 4 to Level 3 (1,500 Elixir)" { 
+task Gold_Storage_4_3 "Upgrade Gold Storage 4 to Level 3 (1,500 Elixir)" {
   ${builder_effort "1h"}
   priority 500
-  depends !Gold_Storage_4_2, !th_9
+  depends !Gold_Storage_4_2, !th_1_9
 }
 
-task Gold_Storage_4_4 "Upgrade Gold Storage 4 to Level 4 (3,000 Elixir)" { 
+task Gold_Storage_4_4 "Upgrade Gold Storage 4 to Level 4 (3,000 Elixir)" {
   ${builder_effort "2h"}
   priority 500
-  depends !Gold_Storage_4_3, !th_9
+  depends !Gold_Storage_4_3, !th_1_9
 }
 
-task Gold_Storage_4_5 "Upgrade Gold Storage 4 to Level 5 (6,000 Elixir)" { 
+task Gold_Storage_4_5 "Upgrade Gold Storage 4 to Level 5 (6,000 Elixir)" {
   ${builder_effort "3h"}
   priority 500
-  depends !Gold_Storage_4_4, !th_9
+  depends !Gold_Storage_4_4, !th_1_9
 }
 
-task Gold_Storage_4_6 "Upgrade Gold Storage 4 to Level 6 (12,000 Elixir)" { 
+task Gold_Storage_4_6 "Upgrade Gold Storage 4 to Level 6 (12,000 Elixir)" {
   ${builder_effort "4h"}
   priority 500
-  depends !Gold_Storage_4_5, !th_9
+  depends !Gold_Storage_4_5, !th_1_9
 }
 
-task Gold_Storage_4_7 "Upgrade Gold Storage 4 to Level 7 (25,000 Elixir)" { 
+task Gold_Storage_4_7 "Upgrade Gold Storage 4 to Level 7 (25,000 Elixir)" {
   ${builder_effort "6h"}
   priority 500
-  depends !Gold_Storage_4_6, !th_9
+  depends !Gold_Storage_4_6, !th_1_9
 }
 
-task Gold_Storage_4_8 "Upgrade Gold Storage 4 to Level 8 (50,000 Elixir)" { 
+task Gold_Storage_4_8 "Upgrade Gold Storage 4 to Level 8 (50,000 Elixir)" {
   ${builder_effort "8h"}
   priority 500
-  depends !Gold_Storage_4_7, !th_9
+  depends !Gold_Storage_4_7, !th_1_9
 }
 
-task Gold_Storage_4_9 "Upgrade Gold Storage 4 to Level 9 (100,000 Elixir)" { 
+task Gold_Storage_4_9 "Upgrade Gold Storage 4 to Level 9 (100,000 Elixir)" {
   ${builder_effort "12h"}
   priority 500
-  depends !Gold_Storage_4_8, !th_9
+  depends !Gold_Storage_4_8, !th_1_9
 }
 
-task Gold_Storage_4_10 "Upgrade Gold Storage 4 to Level 10 (250,000 Elixir)" { 
+task Gold_Storage_4_10 "Upgrade Gold Storage 4 to Level 10 (250,000 Elixir)" {
   ${builder_effort "1d"}
   priority 500
-  depends !Gold_Storage_4_9, !th_9
+  depends !Gold_Storage_4_9, !th_1_9
 }
 
-task Hidden_Tesla_1_1 "Build Hidden Tesla 1 as Level 1 (1,000,000 Gold)" { 
+task Hidden_Tesla_1_1 "Build Hidden Tesla 1 as Level 1 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
-  depends !th_7
+  depends !th_1_7
 }
 
-task Hidden_Tesla_1_2 "Upgrade Hidden Tesla 1 to Level 2 (1,250,000 Gold)" { 
+task Hidden_Tesla_1_2 "Upgrade Hidden Tesla 1 to Level 2 (1,250,000 Gold)" {
   ${builder_effort "3d"}
   priority 650
-  depends !Hidden_Tesla_1_1, !th_7
+  depends !Hidden_Tesla_1_1, !th_1_7
 }
 
-task Hidden_Tesla_1_3 "Upgrade Hidden Tesla 1 to Level 3 (1,500,000 Gold)" { 
+task Hidden_Tesla_1_3 "Upgrade Hidden Tesla 1 to Level 3 (1,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 650
-  depends !Hidden_Tesla_1_2, !th_7
+  depends !Hidden_Tesla_1_2, !th_1_7
 }
 
-task Hidden_Tesla_1_4 "Upgrade Hidden Tesla 1 to Level 4 (2,000,000 Gold)" { 
+task Hidden_Tesla_1_4 "Upgrade Hidden Tesla 1 to Level 4 (2,000,000 Gold)" {
   ${builder_effort "6d"}
   priority 650
-  depends !Hidden_Tesla_1_3, !th_8
+  depends !Hidden_Tesla_1_3, !th_1_8
 }
 
-task Hidden_Tesla_1_5 "Upgrade Hidden Tesla 1 to Level 5 (2,500,000 Gold)" { 
+task Hidden_Tesla_1_5 "Upgrade Hidden Tesla 1 to Level 5 (2,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 650
-  depends !Hidden_Tesla_1_4, !th_8
+  depends !Hidden_Tesla_1_4, !th_1_8
 }
 
-task Hidden_Tesla_1_6 "Upgrade Hidden Tesla 1 to Level 6 (3,000,000 Gold)" { 
+task Hidden_Tesla_1_6 "Upgrade Hidden Tesla 1 to Level 6 (3,000,000 Gold)" {
   ${builder_effort "10d"}
   priority 650
-  depends !Hidden_Tesla_1_5, !th_8
+  depends !Hidden_Tesla_1_5, !th_1_8
 }
 
-task Hidden_Tesla_1_7 "Upgrade Hidden Tesla 1 to Level 7 (3,500,000 Gold)" { 
+task Hidden_Tesla_1_7 "Upgrade Hidden Tesla 1 to Level 7 (3,500,000 Gold)" {
   ${builder_effort "12d"}
   priority 650
-  depends !Hidden_Tesla_1_6, !th_9
+  depends !Hidden_Tesla_1_6, !th_1_9
 }
 
-task Hidden_Tesla_1_8 "Upgrade Hidden Tesla 1 to Level 8 (5,000,000 Gold)" { 
+task Hidden_Tesla_1_8 "Upgrade Hidden Tesla 1 to Level 8 (5,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !Hidden_Tesla_1_7, !th_10
+  depends !Hidden_Tesla_1_7, !th_1_10
 }
 
-task Hidden_Tesla_2_1 "Build Hidden Tesla 2 as Level 1 (1,000,000 Gold)" { 
+task Hidden_Tesla_2_1 "Build Hidden Tesla 2 as Level 1 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
-  depends !th_7
+  depends !th_1_7
 }
 
-task Hidden_Tesla_2_2 "Upgrade Hidden Tesla 2 to Level 2 (1,250,000 Gold)" { 
+task Hidden_Tesla_2_2 "Upgrade Hidden Tesla 2 to Level 2 (1,250,000 Gold)" {
   ${builder_effort "3d"}
   priority 650
-  depends !Hidden_Tesla_2_1, !th_7
+  depends !Hidden_Tesla_2_1, !th_1_7
 }
 
-task Hidden_Tesla_2_3 "Upgrade Hidden Tesla 2 to Level 3 (1,500,000 Gold)" { 
+task Hidden_Tesla_2_3 "Upgrade Hidden Tesla 2 to Level 3 (1,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 650
-  depends !Hidden_Tesla_2_2, !th_7
+  depends !Hidden_Tesla_2_2, !th_1_7
 }
 
-task Hidden_Tesla_2_4 "Upgrade Hidden Tesla 2 to Level 4 (2,000,000 Gold)" { 
+task Hidden_Tesla_2_4 "Upgrade Hidden Tesla 2 to Level 4 (2,000,000 Gold)" {
   ${builder_effort "6d"}
   priority 650
-  depends !Hidden_Tesla_2_3, !th_8
+  depends !Hidden_Tesla_2_3, !th_1_8
 }
 
-task Hidden_Tesla_2_5 "Upgrade Hidden Tesla 2 to Level 5 (2,500,000 Gold)" { 
+task Hidden_Tesla_2_5 "Upgrade Hidden Tesla 2 to Level 5 (2,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 650
-  depends !Hidden_Tesla_2_4, !th_8
+  depends !Hidden_Tesla_2_4, !th_1_8
 }
 
-task Hidden_Tesla_2_6 "Upgrade Hidden Tesla 2 to Level 6 (3,000,000 Gold)" { 
+task Hidden_Tesla_2_6 "Upgrade Hidden Tesla 2 to Level 6 (3,000,000 Gold)" {
   ${builder_effort "10d"}
   priority 650
-  depends !Hidden_Tesla_2_5, !th_8
+  depends !Hidden_Tesla_2_5, !th_1_8
 }
 
-task Hidden_Tesla_2_7 "Upgrade Hidden Tesla 2 to Level 7 (3,500,000 Gold)" { 
+task Hidden_Tesla_2_7 "Upgrade Hidden Tesla 2 to Level 7 (3,500,000 Gold)" {
   ${builder_effort "12d"}
   priority 650
-  depends !Hidden_Tesla_2_6, !th_9
+  depends !Hidden_Tesla_2_6, !th_1_9
 }
 
-task Hidden_Tesla_2_8 "Upgrade Hidden Tesla 2 to Level 8 (5,000,000 Gold)" { 
+task Hidden_Tesla_2_8 "Upgrade Hidden Tesla 2 to Level 8 (5,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !Hidden_Tesla_2_7, !th_10
+  depends !Hidden_Tesla_2_7, !th_1_10
 }
 
-task Hidden_Tesla_3_1 "Build Hidden Tesla 3 as Level 1 (1,000,000 Gold)" { 
+task Hidden_Tesla_3_1 "Build Hidden Tesla 3 as Level 1 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
-  depends !th_8
+  depends !th_1_8
 }
 
-task Hidden_Tesla_3_2 "Upgrade Hidden Tesla 3 to Level 2 (1,250,000 Gold)" { 
+task Hidden_Tesla_3_2 "Upgrade Hidden Tesla 3 to Level 2 (1,250,000 Gold)" {
   ${builder_effort "3d"}
   priority 650
-  depends !Hidden_Tesla_3_1, !th_8
+  depends !Hidden_Tesla_3_1, !th_1_8
 }
 
-task Hidden_Tesla_3_3 "Upgrade Hidden Tesla 3 to Level 3 (1,500,000 Gold)" { 
+task Hidden_Tesla_3_3 "Upgrade Hidden Tesla 3 to Level 3 (1,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 650
-  depends !Hidden_Tesla_3_2, !th_8
+  depends !Hidden_Tesla_3_2, !th_1_8
 }
 
-task Hidden_Tesla_3_4 "Upgrade Hidden Tesla 3 to Level 4 (2,000,000 Gold)" { 
+task Hidden_Tesla_3_4 "Upgrade Hidden Tesla 3 to Level 4 (2,000,000 Gold)" {
   ${builder_effort "6d"}
   priority 650
-  depends !Hidden_Tesla_3_3, !th_8
+  depends !Hidden_Tesla_3_3, !th_1_8
 }
 
-task Hidden_Tesla_3_5 "Upgrade Hidden Tesla 3 to Level 5 (2,500,000 Gold)" { 
+task Hidden_Tesla_3_5 "Upgrade Hidden Tesla 3 to Level 5 (2,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 650
-  depends !Hidden_Tesla_3_4, !th_8
+  depends !Hidden_Tesla_3_4, !th_1_8
 }
 
-task Hidden_Tesla_3_6 "Upgrade Hidden Tesla 3 to Level 6 (3,000,000 Gold)" { 
+task Hidden_Tesla_3_6 "Upgrade Hidden Tesla 3 to Level 6 (3,000,000 Gold)" {
   ${builder_effort "10d"}
   priority 650
-  depends !Hidden_Tesla_3_5, !th_8
+  depends !Hidden_Tesla_3_5, !th_1_8
 }
 
-task Hidden_Tesla_3_7 "Upgrade Hidden Tesla 3 to Level 7 (3,500,000 Gold)" { 
+task Hidden_Tesla_3_7 "Upgrade Hidden Tesla 3 to Level 7 (3,500,000 Gold)" {
   ${builder_effort "12d"}
   priority 650
-  depends !Hidden_Tesla_3_6, !th_9
+  depends !Hidden_Tesla_3_6, !th_1_9
 }
 
-task Hidden_Tesla_3_8 "Upgrade Hidden Tesla 3 to Level 8 (5,000,000 Gold)" { 
+task Hidden_Tesla_3_8 "Upgrade Hidden Tesla 3 to Level 8 (5,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !Hidden_Tesla_3_7, !th_10
+  depends !Hidden_Tesla_3_7, !th_1_10
 }
 
-task Hidden_Tesla_4_1 "Build Hidden Tesla 4 as Level 1 (1,000,000 Gold)" { 
+task Hidden_Tesla_4_1 "Build Hidden Tesla 4 as Level 1 (1,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
-  depends !th_9
+  depends !th_1_9
 }
 
-task Hidden_Tesla_4_2 "Upgrade Hidden Tesla 4 to Level 2 (1,250,000 Gold)" { 
+task Hidden_Tesla_4_2 "Upgrade Hidden Tesla 4 to Level 2 (1,250,000 Gold)" {
   ${builder_effort "3d"}
   priority 650
-  depends !Hidden_Tesla_4_1, !th_9
+  depends !Hidden_Tesla_4_1, !th_1_9
 }
 
-task Hidden_Tesla_4_3 "Upgrade Hidden Tesla 4 to Level 3 (1,500,000 Gold)" { 
+task Hidden_Tesla_4_3 "Upgrade Hidden Tesla 4 to Level 3 (1,500,000 Gold)" {
   ${builder_effort "5d"}
   priority 650
-  depends !Hidden_Tesla_4_2, !th_9
+  depends !Hidden_Tesla_4_2, !th_1_9
 }
 
-task Hidden_Tesla_4_4 "Upgrade Hidden Tesla 4 to Level 4 (2,000,000 Gold)" { 
+task Hidden_Tesla_4_4 "Upgrade Hidden Tesla 4 to Level 4 (2,000,000 Gold)" {
   ${builder_effort "6d"}
   priority 650
-  depends !Hidden_Tesla_4_3, !th_9
+  depends !Hidden_Tesla_4_3, !th_1_9
 }
 
-task Hidden_Tesla_4_5 "Upgrade Hidden Tesla 4 to Level 5 (2,500,000 Gold)" { 
+task Hidden_Tesla_4_5 "Upgrade Hidden Tesla 4 to Level 5 (2,500,000 Gold)" {
   ${builder_effort "8d"}
   priority 650
-  depends !Hidden_Tesla_4_4, !th_9
+  depends !Hidden_Tesla_4_4, !th_1_9
 }
 
-task Hidden_Tesla_4_6 "Upgrade Hidden Tesla 4 to Level 6 (3,000,000 Gold)" { 
+task Hidden_Tesla_4_6 "Upgrade Hidden Tesla 4 to Level 6 (3,000,000 Gold)" {
   ${builder_effort "10d"}
   priority 650
-  depends !Hidden_Tesla_4_5, !th_9
+  depends !Hidden_Tesla_4_5, !th_1_9
 }
 
-task Hidden_Tesla_4_7 "Upgrade Hidden Tesla 4 to Level 7 (3,500,000 Gold)" { 
+task Hidden_Tesla_4_7 "Upgrade Hidden Tesla 4 to Level 7 (3,500,000 Gold)" {
   ${builder_effort "12d"}
   priority 650
-  depends !Hidden_Tesla_4_6, !th_9
+  depends !Hidden_Tesla_4_6, !th_1_9
 }
 
-task Hidden_Tesla_4_8 "Upgrade Hidden Tesla 4 to Level 8 (5,000,000 Gold)" { 
+task Hidden_Tesla_4_8 "Upgrade Hidden Tesla 4 to Level 8 (5,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !Hidden_Tesla_4_7, !th_10
+  depends !Hidden_Tesla_4_7, !th_1_10
 }
 
-task Inferno_Tower_1_1 "Build Inferno Tower 1 as Level 1 (5,000,000 Gold)" { 
+task Inferno_Tower_1_1 "Build Inferno Tower 1 as Level 1 (5,000,000 Gold)" {
   ${builder_effort "7d"}
   priority 700
-  depends !th_10
+  depends !th_1_10
 }
 
-task Inferno_Tower_1_2 "Upgrade Inferno Tower 1 to Level 2 (6,500,000 Gold)" { 
+task Inferno_Tower_1_2 "Upgrade Inferno Tower 1 to Level 2 (6,500,000 Gold)" {
   ${builder_effort "10d"}
   priority 700
-  depends !Inferno_Tower_1_1, !th_10
+  depends !Inferno_Tower_1_1, !th_1_10
 }
 
-task Inferno_Tower_1_3 "Upgrade Inferno Tower 1 to Level 3 (8,000,000 Gold)" { 
+task Inferno_Tower_1_3 "Upgrade Inferno Tower 1 to Level 3 (8,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 700
-  depends !Inferno_Tower_1_2, !th_10
+  depends !Inferno_Tower_1_2, !th_1_10
 }
 
-task Inferno_Tower_2_1 "Build Inferno Tower 2 as Level 1 (5,000,000 Gold)" { 
+task Inferno_Tower_2_1 "Build Inferno Tower 2 as Level 1 (5,000,000 Gold)" {
   ${builder_effort "7d"}
   priority 700
-  depends !th_10
+  depends !th_1_10
 }
 
-task Inferno_Tower_2_2 "Upgrade Inferno Tower 2 to Level 2 (6,500,000 Gold)" { 
+task Inferno_Tower_2_2 "Upgrade Inferno Tower 2 to Level 2 (6,500,000 Gold)" {
   ${builder_effort "10d"}
   priority 700
-  depends !Inferno_Tower_2_1, !th_10
+  depends !Inferno_Tower_2_1, !th_1_10
 }
 
-task Inferno_Tower_2_3 "Upgrade Inferno Tower 2 to Level 3 (8,000,000 Gold)" { 
+task Inferno_Tower_2_3 "Upgrade Inferno Tower 2 to Level 3 (8,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 700
-  depends !Inferno_Tower_2_2, !th_10
+  depends !Inferno_Tower_2_2, !th_1_10
 }
 
-task Laboratory_1_1 "Build Laboratory 1 as Level 1 (25,000 Elixir)" { 
+task Laboratory_1_1 "Build Laboratory 1 as Level 1 (25,000 Elixir)" {
   priority 950
-  depends !th_3
+  depends !th_1_3
 }
 
-task Laboratory_1_2 "Upgrade Laboratory 1 to Level 2 (50,000 Elixir)" { 
+task Laboratory_1_2 "Upgrade Laboratory 1 to Level 2 (50,000 Elixir)" {
   priority 950
-  depends !Laboratory_1_1, !th_4
+  depends !Laboratory_1_1, !th_1_4
 }
 
-task Laboratory_1_3 "Upgrade Laboratory 1 to Level 3 (90,000 Elixir)" { 
+task Laboratory_1_3 "Upgrade Laboratory 1 to Level 3 (90,000 Elixir)" {
   priority 950
-  depends !Laboratory_1_2, !th_5
+  depends !Laboratory_1_2, !th_1_5
 }
 
-task Laboratory_1_4 "Upgrade Laboratory 1 to Level 4 (270,000 Elixir)" { 
+task Laboratory_1_4 "Upgrade Laboratory 1 to Level 4 (270,000 Elixir)" {
   priority 950
-  depends !Laboratory_1_3, !th_6
+  depends !Laboratory_1_3, !th_1_6
 }
 
-task Laboratory_1_5 "Upgrade Laboratory 1 to Level 5 (500,000 Elixir)" { 
+task Laboratory_1_5 "Upgrade Laboratory 1 to Level 5 (500,000 Elixir)" {
   ${builder_effort "2d"}
   priority 950
-  depends !Laboratory_1_4, !th_7
+  depends !Laboratory_1_4, !th_1_7
 }
 
-task Laboratory_1_6 "Upgrade Laboratory 1 to Level 6 (1,000,000 Elixir)" { 
+task Laboratory_1_6 "Upgrade Laboratory 1 to Level 6 (1,000,000 Elixir)" {
   ${builder_effort "4d"}
   priority 950
-  depends !Laboratory_1_5, !th_8
+  depends !Laboratory_1_5, !th_1_8
 }
 
-task Laboratory_1_7 "Upgrade Laboratory 1 to Level 7 (2,500,000 Elixir)" { 
+task Laboratory_1_7 "Upgrade Laboratory 1 to Level 7 (2,500,000 Elixir)" {
   ${builder_effort "5d"}
   priority 950
-  depends !Laboratory_1_6, !th_9
+  depends !Laboratory_1_6, !th_1_9
 }
 
-task Laboratory_1_8 "Upgrade Laboratory 1 to Level 8 (4,000,000 Elixir)" { 
+task Laboratory_1_8 "Upgrade Laboratory 1 to Level 8 (4,000,000 Elixir)" {
   ${builder_effort "6d"}
   priority 950
-  depends !Laboratory_1_7, !th_10
+  depends !Laboratory_1_7, !th_1_10
 }
 
-task Mortar_1_1 "Build Mortar 1 as Level 1 (8,000 Gold)" { 
+task Mortar_1_1 "Build Mortar 1 as Level 1 (8,000 Gold)" {
   priority 600
-  depends !th_3
+  depends !th_1_3
 }
 
-task Mortar_1_2 "Upgrade Mortar 1 to Level 2 (32,000 Gold)" { 
+task Mortar_1_2 "Upgrade Mortar 1 to Level 2 (32,000 Gold)" {
   priority 600
-  depends !Mortar_1_1, !th_4
+  depends !Mortar_1_1, !th_1_4
 }
 
-task Mortar_1_3 "Upgrade Mortar 1 to Level 3 (120,000 Gold)" { 
-  ${builder_effort "1d"}
+task Mortar_1_3 "Upgrade Mortar 1 to Level 3 (120,000 Gold)" {
   priority 600
-  depends !Mortar_1_2, !th_5
+  depends !Mortar_1_2, !th_1_5
 }
 
-task Mortar_1_4 "Upgrade Mortar 1 to Level 4 (400,000 Gold)" { 
+task Mortar_1_4 "Upgrade Mortar 1 to Level 4 (400,000 Gold)" {
   ${builder_effort "2d"}
   priority 600
-  depends !Mortar_1_3, !th_6
+  depends !Mortar_1_3, !th_1_6
 }
 
-task Mortar_1_5 "Upgrade Mortar 1 to Level 5 (800,000 Gold)" { 
+task Mortar_1_5 "Upgrade Mortar 1 to Level 5 (800,000 Gold)" {
   ${builder_effort "4d"}
   priority 600
-  depends !Mortar_1_4, !th_7
+  depends !Mortar_1_4, !th_1_7
 }
 
-task Mortar_1_6 "Upgrade Mortar 1 to Level 6 (1,600,000 Gold)" { 
+task Mortar_1_6 "Upgrade Mortar 1 to Level 6 (1,600,000 Gold)" {
   ${builder_effort "5d"}
   priority 600
-  depends !Mortar_1_5, !th_8
+  depends !Mortar_1_5, !th_1_8
 }
 
-task Mortar_1_7 "Upgrade Mortar 1 to Level 7 (3,200,000 Gold)" { 
+task Mortar_1_7 "Upgrade Mortar 1 to Level 7 (3,200,000 Gold)" {
   ${builder_effort "7d"}
   priority 600
-  depends !Mortar_1_6, !th_9
+  depends !Mortar_1_6, !th_1_9
 }
 
-task Mortar_1_8 "Upgrade Mortar 1 to Level 8 (6,400,000 Gold)" { 
+task Mortar_1_8 "Upgrade Mortar 1 to Level 8 (6,400,000 Gold)" {
   ${builder_effort "10d"}
   priority 600
-  depends !Mortar_1_7, !th_10
+  depends !Mortar_1_7, !th_1_10
 }
 
-task Mortar_2_1 "Build Mortar 2 as Level 1 (8,000 Gold)" { 
+task Mortar_2_1 "Build Mortar 2 as Level 1 (8,000 Gold)" {
   priority 600
-  depends !th_6
+  depends !th_1_6
 }
 
-task Mortar_2_2 "Upgrade Mortar 2 to Level 2 (32,000 Gold)" { 
+task Mortar_2_2 "Upgrade Mortar 2 to Level 2 (32,000 Gold)" {
   priority 600
-  depends !Mortar_2_1, !th_6
+  depends !Mortar_2_1, !th_1_6
 }
 
-task Mortar_2_3 "Upgrade Mortar 2 to Level 3 (120,000 Gold)" { 
+task Mortar_2_3 "Upgrade Mortar 2 to Level 3 (120,000 Gold)" {
   priority 600
-  depends !Mortar_2_2, !th_6
+  depends !Mortar_2_2, !th_1_6
 }
 
-task Mortar_2_4 "Upgrade Mortar 2 to Level 4 (400,000 Gold)" { 
+task Mortar_2_4 "Upgrade Mortar 2 to Level 4 (400,000 Gold)" {
   priority 600
-  depends !Mortar_2_3, !th_6
+  depends !Mortar_2_3, !th_1_6
 }
 
-task Mortar_2_5 "Upgrade Mortar 2 to Level 5 (800,000 Gold)" { 
+task Mortar_2_5 "Upgrade Mortar 2 to Level 5 (800,000 Gold)" {
   ${builder_effort "4d"}
   priority 600
-  depends !Mortar_2_4, !th_7
+  depends !Mortar_2_4, !th_1_7
 }
 
-task Mortar_2_6 "Upgrade Mortar 2 to Level 6 (1,600,000 Gold)" { 
+task Mortar_2_6 "Upgrade Mortar 2 to Level 6 (1,600,000 Gold)" {
   ${builder_effort "5d"}
   priority 600
-  depends !Mortar_2_5, !th_8
+  depends !Mortar_2_5, !th_1_8
 }
 
-task Mortar_2_7 "Upgrade Mortar 2 to Level 7 (3,200,000 Gold)" { 
+task Mortar_2_7 "Upgrade Mortar 2 to Level 7 (3,200,000 Gold)" {
   ${builder_effort "7d"}
   priority 600
-  depends !Mortar_2_6, !th_9
+  depends !Mortar_2_6, !th_1_9
 }
 
-task Mortar_2_8 "Upgrade Mortar 2 to Level 8 (6,400,000 Gold)" { 
+task Mortar_2_8 "Upgrade Mortar 2 to Level 8 (6,400,000 Gold)" {
   ${builder_effort "10d"}
   priority 600
-  depends !Mortar_2_7, !th_10
+  depends !Mortar_2_7, !th_1_10
 }
 
-task Mortar_3_1 "Build Mortar 3 as Level 1 (8,000 Gold)" { 
+task Mortar_3_1 "Build Mortar 3 as Level 1 (8,000 Gold)" {
   ${builder_effort "8h"}
   priority 600
-  depends !th_7
+  depends !th_1_7
 }
 
-task Mortar_3_2 "Upgrade Mortar 3 to Level 2 (32,000 Gold)" { 
+task Mortar_3_2 "Upgrade Mortar 3 to Level 2 (32,000 Gold)" {
   ${builder_effort "12h"}
   priority 600
-  depends !Mortar_3_1, !th_7
+  depends !Mortar_3_1, !th_1_7
 }
 
-task Mortar_3_3 "Upgrade Mortar 3 to Level 3 (120,000 Gold)" { 
+task Mortar_3_3 "Upgrade Mortar 3 to Level 3 (120,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Mortar_3_2, !th_7
+  depends !Mortar_3_2, !th_1_7
 }
 
-task Mortar_3_4 "Upgrade Mortar 3 to Level 4 (400,000 Gold)" { 
+task Mortar_3_4 "Upgrade Mortar 3 to Level 4 (400,000 Gold)" {
   ${builder_effort "2d"}
   priority 600
-  depends !Mortar_3_3, !th_7
+  depends !Mortar_3_3, !th_1_7
 }
 
-task Mortar_3_5 "Upgrade Mortar 3 to Level 5 (800,000 Gold)" { 
+task Mortar_3_5 "Upgrade Mortar 3 to Level 5 (800,000 Gold)" {
   ${builder_effort "4d"}
   priority 600
-  depends !Mortar_3_4, !th_7
+  depends !Mortar_3_4, !th_1_7
 }
 
-task Mortar_3_6 "Upgrade Mortar 3 to Level 6 (1,600,000 Gold)" { 
+task Mortar_3_6 "Upgrade Mortar 3 to Level 6 (1,600,000 Gold)" {
   ${builder_effort "5d"}
   priority 600
-  depends !Mortar_3_5, !th_8
+  depends !Mortar_3_5, !th_1_8
 }
 
-task Mortar_3_7 "Upgrade Mortar 3 to Level 7 (3,200,000 Gold)" { 
+task Mortar_3_7 "Upgrade Mortar 3 to Level 7 (3,200,000 Gold)" {
   ${builder_effort "7d"}
   priority 600
-  depends !Mortar_3_6, !th_9
+  depends !Mortar_3_6, !th_1_9
 }
 
-task Mortar_3_8 "Upgrade Mortar 3 to Level 8 (6,400,000 Gold)" { 
+task Mortar_3_8 "Upgrade Mortar 3 to Level 8 (6,400,000 Gold)" {
   ${builder_effort "10d"}
   priority 600
-  depends !Mortar_3_7, !th_10
+  depends !Mortar_3_7, !th_1_10
 }
 
-task Mortar_4_1 "Build Mortar 4 as Level 1 (8,000 Gold)" { 
+task Mortar_4_1 "Build Mortar 4 as Level 1 (8,000 Gold)" {
   ${builder_effort "8h"}
   priority 600
-  depends !th_8
+  depends !th_1_8
 }
 
-task Mortar_4_2 "Upgrade Mortar 4 to Level 2 (32,000 Gold)" { 
+task Mortar_4_2 "Upgrade Mortar 4 to Level 2 (32,000 Gold)" {
   ${builder_effort "12h"}
   priority 600
-  depends !Mortar_4_1, !th_8
+  depends !Mortar_4_1, !th_1_8
 }
 
-task Mortar_4_3 "Upgrade Mortar 4 to Level 3 (120,000 Gold)" { 
+task Mortar_4_3 "Upgrade Mortar 4 to Level 3 (120,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Mortar_4_2, !th_8
+  depends !Mortar_4_2, !th_1_8
 }
 
-task Mortar_4_4 "Upgrade Mortar 4 to Level 4 (400,000 Gold)" { 
+task Mortar_4_4 "Upgrade Mortar 4 to Level 4 (400,000 Gold)" {
   ${builder_effort "2d"}
   priority 600
-  depends !Mortar_4_3, !th_8
+  depends !Mortar_4_3, !th_1_8
 }
 
-task Mortar_4_5 "Upgrade Mortar 4 to Level 5 (800,000 Gold)" { 
+task Mortar_4_5 "Upgrade Mortar 4 to Level 5 (800,000 Gold)" {
   ${builder_effort "4d"}
   priority 600
-  depends !Mortar_4_4, !th_8
+  depends !Mortar_4_4, !th_1_8
 }
 
-task Mortar_4_6 "Upgrade Mortar 4 to Level 6 (1,600,000 Gold)" { 
+task Mortar_4_6 "Upgrade Mortar 4 to Level 6 (1,600,000 Gold)" {
   ${builder_effort "5d"}
   priority 600
-  depends !Mortar_4_5, !th_8
+  depends !Mortar_4_5, !th_1_8
 }
 
-task Mortar_4_7 "Upgrade Mortar 4 to Level 7 (3,200,000 Gold)" { 
+task Mortar_4_7 "Upgrade Mortar 4 to Level 7 (3,200,000 Gold)" {
   ${builder_effort "7d"}
   priority 600
-  depends !Mortar_4_6, !th_9
+  depends !Mortar_4_6, !th_1_9
 }
 
-task Mortar_4_8 "Upgrade Mortar 4 to Level 8 (6,400,000 Gold)" { 
+task Mortar_4_8 "Upgrade Mortar 4 to Level 8 (6,400,000 Gold)" {
   ${builder_effort "10d"}
   priority 600
-  depends !Mortar_4_7, !th_10
+  depends !Mortar_4_7, !th_1_10
 }
 
-task Seeking_Air_Mine_1_1 "Build Seeking Air Mine 1 as Level 1 (15,000 Gold)" { 
+task Seeking_Air_Mine_1_1 "Build Seeking Air Mine 1 as Level 1 (15,000 Gold)" {
   ${builder_effort "15min"}
   priority 600
-  depends !th_7
+  depends !th_1_7
 }
 
-task Seeking_Air_Mine_1_2 "Upgrade Seeking Air Mine 1 to Level 2 (2,000,000 Gold)" { 
+task Seeking_Air_Mine_1_2 "Upgrade Seeking Air Mine 1 to Level 2 (2,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Seeking_Air_Mine_1_1, !th_9
+  depends !Seeking_Air_Mine_1_1, !th_1_9
 }
 
-task Seeking_Air_Mine_1_3 "Upgrade Seeking Air Mine 1 to Level 3 (4,000,000 Gold)" { 
+task Seeking_Air_Mine_1_3 "Upgrade Seeking Air Mine 1 to Level 3 (4,000,000 Gold)" {
   ${builder_effort "3d"}
   priority 600
-  depends !Seeking_Air_Mine_1_2, !th_10
+  depends !Seeking_Air_Mine_1_2, !th_1_10
 }
 
-task Seeking_Air_Mine_2_1 "Build Seeking Air Mine 2 as Level 1 (15,000 Gold)" { 
+task Seeking_Air_Mine_2_1 "Build Seeking Air Mine 2 as Level 1 (15,000 Gold)" {
   ${builder_effort "15min"}
   priority 600
-  depends !th_8
+  depends !th_1_8
 }
 
-task Seeking_Air_Mine_2_2 "Upgrade Seeking Air Mine 2 to Level 2 (2,000,000 Gold)" { 
+task Seeking_Air_Mine_2_2 "Upgrade Seeking Air Mine 2 to Level 2 (2,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Seeking_Air_Mine_2_1, !th_9
+  depends !Seeking_Air_Mine_2_1, !th_1_9
 }
 
-task Seeking_Air_Mine_2_3 "Upgrade Seeking Air Mine 2 to Level 3 (4,000,000 Gold)" { 
+task Seeking_Air_Mine_2_3 "Upgrade Seeking Air Mine 2 to Level 3 (4,000,000 Gold)" {
   ${builder_effort "3d"}
   priority 600
-  depends !Seeking_Air_Mine_2_2, !th_10
+  depends !Seeking_Air_Mine_2_2, !th_1_10
 }
 
-task Seeking_Air_Mine_3_1 "Build Seeking Air Mine 3 as Level 1 (15,000 Gold)" { 
+task Seeking_Air_Mine_3_1 "Build Seeking Air Mine 3 as Level 1 (15,000 Gold)" {
   ${builder_effort "15min"}
   priority 600
-  depends !th_9
+  depends !th_1_9
 }
 
-task Seeking_Air_Mine_3_2 "Upgrade Seeking Air Mine 3 to Level 2 (2,000,000 Gold)" { 
+task Seeking_Air_Mine_3_2 "Upgrade Seeking Air Mine 3 to Level 2 (2,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Seeking_Air_Mine_3_1, !th_9
+  depends !Seeking_Air_Mine_3_1, !th_1_9
 }
 
-task Seeking_Air_Mine_3_3 "Upgrade Seeking Air Mine 3 to Level 3 (4,000,000 Gold)" { 
+task Seeking_Air_Mine_3_3 "Upgrade Seeking Air Mine 3 to Level 3 (4,000,000 Gold)" {
   ${builder_effort "3d"}
   priority 600
-  depends !Seeking_Air_Mine_3_2, !th_10
+  depends !Seeking_Air_Mine_3_2, !th_1_10
 }
 
-task Seeking_Air_Mine_4_1 "Build Seeking Air Mine 4 as Level 1 (15,000 Gold)" { 
+task Seeking_Air_Mine_4_1 "Build Seeking Air Mine 4 as Level 1 (15,000 Gold)" {
   ${builder_effort "15min"}
   priority 600
-  depends !th_9
+  depends !th_1_9
 }
 
-task Seeking_Air_Mine_4_2 "Upgrade Seeking Air Mine 4 to Level 2 (2,000,000 Gold)" { 
+task Seeking_Air_Mine_4_2 "Upgrade Seeking Air Mine 4 to Level 2 (2,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Seeking_Air_Mine_4_1, !th_9
+  depends !Seeking_Air_Mine_4_1, !th_1_9
 }
 
-task Seeking_Air_Mine_4_3 "Upgrade Seeking Air Mine 4 to Level 3 (4,000,000 Gold)" { 
+task Seeking_Air_Mine_4_3 "Upgrade Seeking Air Mine 4 to Level 3 (4,000,000 Gold)" {
   ${builder_effort "3d"}
   priority 600
-  depends !Seeking_Air_Mine_4_2, !th_10
+  depends !Seeking_Air_Mine_4_2, !th_1_10
 }
 
-task Seeking_Air_Mine_5_1 "Build Seeking Air Mine 5 as Level 1 (15,000 Gold)" { 
+task Seeking_Air_Mine_5_1 "Build Seeking Air Mine 5 as Level 1 (15,000 Gold)" {
   ${builder_effort "15min"}
   priority 600
-  depends !th_10
+  depends !th_1_10
 }
 
-task Seeking_Air_Mine_5_2 "Upgrade Seeking Air Mine 5 to Level 2 (2,000,000 Gold)" { 
+task Seeking_Air_Mine_5_2 "Upgrade Seeking Air Mine 5 to Level 2 (2,000,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Seeking_Air_Mine_5_1, !th_10
+  depends !Seeking_Air_Mine_5_1, !th_1_10
 }
 
-task Seeking_Air_Mine_5_3 "Upgrade Seeking Air Mine 5 to Level 3 (4,000,000 Gold)" { 
+task Seeking_Air_Mine_5_3 "Upgrade Seeking Air Mine 5 to Level 3 (4,000,000 Gold)" {
   ${builder_effort "3d"}
   priority 600
-  depends !Seeking_Air_Mine_5_2, !th_10
+  depends !Seeking_Air_Mine_5_2, !th_1_10
 }
 
-task Skeleton_Trap_1_1 "Build Skeleton Trap 1 as Level 1 (6,000 Gold)" { 
+task Skeleton_Trap_1_1 "Build Skeleton Trap 1 as Level 1 (6,000 Gold)" {
   ${builder_effort "15min"}
   priority 600
-  depends !th_8
+  depends !th_1_8
 }
 
-task Skeleton_Trap_1_2 "Upgrade Skeleton Trap 1 to Level 2 (600,000 Gold)" { 
+task Skeleton_Trap_1_2 "Upgrade Skeleton Trap 1 to Level 2 (600,000 Gold)" {
   ${builder_effort "6h"}
   priority 600
-  depends !Skeleton_Trap_1_1, !th_8
+  depends !Skeleton_Trap_1_1, !th_1_8
 }
 
-task Skeleton_Trap_1_3 "Upgrade Skeleton Trap 1 to Level 3 (1,300,000 Gold)" { 
+task Skeleton_Trap_1_3 "Upgrade Skeleton Trap 1 to Level 3 (1,300,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Skeleton_Trap_1_2, !th_9
+  depends !Skeleton_Trap_1_2, !th_1_9
 }
 
-task Skeleton_Trap_2_1 "Build Skeleton Trap 2 as Level 1 (6,000 Gold)" { 
+task Skeleton_Trap_2_1 "Build Skeleton Trap 2 as Level 1 (6,000 Gold)" {
   ${builder_effort "15min"}
   priority 600
-  depends !th_8
+  depends !th_1_8
 }
 
-task Skeleton_Trap_2_2 "Upgrade Skeleton Trap 2 to Level 2 (600,000 Gold)" { 
+task Skeleton_Trap_2_2 "Upgrade Skeleton Trap 2 to Level 2 (600,000 Gold)" {
   ${builder_effort "6h"}
   priority 600
-  depends !Skeleton_Trap_2_1, !th_8
+  depends !Skeleton_Trap_2_1, !th_1_8
 }
 
-task Skeleton_Trap_2_3 "Upgrade Skeleton Trap 2 to Level 3 (1,300,000 Gold)" { 
+task Skeleton_Trap_2_3 "Upgrade Skeleton Trap 2 to Level 3 (1,300,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Skeleton_Trap_2_2, !th_9
+  depends !Skeleton_Trap_2_2, !th_1_9
 }
 
-task Skeleton_Trap_3_1 "Build Skeleton Trap 3 as Level 1 (6,000 Gold)" { 
+task Skeleton_Trap_3_1 "Build Skeleton Trap 3 as Level 1 (6,000 Gold)" {
   ${builder_effort "15min"}
   priority 600
-  depends !th_10
+  depends !th_1_10
 }
 
-task Skeleton_Trap_3_2 "Upgrade Skeleton Trap 3 to Level 2 (600,000 Gold)" { 
+task Skeleton_Trap_3_2 "Upgrade Skeleton Trap 3 to Level 2 (600,000 Gold)" {
   ${builder_effort "6h"}
   priority 600
-  depends !Skeleton_Trap_3_1, !th_10
+  depends !Skeleton_Trap_3_1, !th_1_10
 }
 
-task Skeleton_Trap_3_3 "Upgrade Skeleton Trap 3 to Level 3 (1,300,000 Gold)" { 
+task Skeleton_Trap_3_3 "Upgrade Skeleton Trap 3 to Level 3 (1,300,000 Gold)" {
   ${builder_effort "1d"}
   priority 600
-  depends !Skeleton_Trap_3_2, !th_10
+  depends !Skeleton_Trap_3_2, !th_1_10
 }
 
-task Spell_Factory_1_1 "Build Spell Factory 1 as Level 1 (200,000 Elixir)" { 
+task Spell_Factory_1_1 "Build Spell Factory 1 as Level 1 (200,000 Elixir)" {
   priority 750
-  depends !th_5
+  depends !th_1_5
 }
 
-task Spell_Factory_1_2 "Upgrade Spell Factory 1 to Level 2 (400,000 Elixir)" { 
+task Spell_Factory_1_2 "Upgrade Spell Factory 1 to Level 2 (400,000 Elixir)" {
   priority 750
-  depends !Spell_Factory_1_1, !th_6
+  depends !Spell_Factory_1_1, !th_1_6
 }
 
-task Spell_Factory_1_3 "Upgrade Spell Factory 1 to Level 3 (800,000 Elixir)" { 
+task Spell_Factory_1_3 "Upgrade Spell Factory 1 to Level 3 (800,000 Elixir)" {
   ${builder_effort "4d"}
   priority 750
-  depends !Spell_Factory_1_2, !th_7
+  depends !Spell_Factory_1_2, !th_1_7
 }
 
-task Spell_Factory_1_4 "Upgrade Spell Factory 1 to Level 4 (1,600,000 Elixir)" { 
+task Spell_Factory_1_4 "Upgrade Spell Factory 1 to Level 4 (1,600,000 Elixir)" {
   ${builder_effort "5d"}
   priority 750
-  depends !Spell_Factory_1_3, !th_9
+  depends !Spell_Factory_1_3, !th_1_9
 }
 
-task Spell_Factory_1_5 "Upgrade Spell Factory 1 to Level 5 (3,200,000 Elixir)" { 
+task Spell_Factory_1_5 "Upgrade Spell Factory 1 to Level 5 (3,200,000 Elixir)" {
   ${builder_effort "6d"}
   priority 750
-  depends !Spell_Factory_1_4, !th_10
+  depends !Spell_Factory_1_4, !th_1_10
 }
 
-task Wizard_Tower_1_1 "Build Wizard Tower 1 as Level 1 (180,000 gold)" { 
+task Wizard_Tower_1_1 "Build Wizard Tower 1 as Level 1 (180,000 gold)" {
   priority 630
-  depends !th_5
+  depends !th_1_5
 }
 
-task Wizard_Tower_1_2 "Upgrade Wizard Tower 1 to Level 2 (360,000 gold)" { 
-  ${builder_effort "1d"}
+task Wizard_Tower_1_2 "Upgrade Wizard Tower 1 to Level 2 (360,000 gold)" {
   priority 630
-  depends !Wizard_Tower_1_1, !th_5
+  depends !Wizard_Tower_1_1, !th_1_5
 }
 
-task Wizard_Tower_1_3 "Upgrade Wizard Tower 1 to Level 3 (720,000 gold)" { 
+task Wizard_Tower_1_3 "Upgrade Wizard Tower 1 to Level 3 (720,000 gold)" {
   ${builder_effort "2d"}
   priority 630
-  depends !Wizard_Tower_1_2, !th_6
+  depends !Wizard_Tower_1_2, !th_1_6
 }
 
-task Wizard_Tower_1_4 "Upgrade Wizard Tower 1 to Level 4 (1,280,000 gold)" { 
+task Wizard_Tower_1_4 "Upgrade Wizard Tower 1 to Level 4 (1,280,000 gold)" {
   ${builder_effort "3d"}
   priority 630
-  depends !Wizard_Tower_1_3, !th_7
+  depends !Wizard_Tower_1_3, !th_1_7
 }
 
-task Wizard_Tower_1_5 "Upgrade Wizard Tower 1 to Level 5 (1,960,000 gold)" { 
+task Wizard_Tower_1_5 "Upgrade Wizard Tower 1 to Level 5 (1,960,000 gold)" {
   ${builder_effort "4d"}
   priority 630
-  depends !Wizard_Tower_1_4, !th_8
+  depends !Wizard_Tower_1_4, !th_1_8
 }
 
-task Wizard_Tower_1_6 "Upgrade Wizard Tower 1 to Level 6 (2,680,000 gold)" { 
+task Wizard_Tower_1_6 "Upgrade Wizard Tower 1 to Level 6 (2,680,000 gold)" {
   ${builder_effort "5d"}
   priority 630
-  depends !Wizard_Tower_1_5, !th_8
+  depends !Wizard_Tower_1_5, !th_1_8
 }
 
-task Wizard_Tower_1_7 "Upgrade Wizard Tower 1 to Level 7 (5,360,000 gold)" { 
+task Wizard_Tower_1_7 "Upgrade Wizard Tower 1 to Level 7 (5,360,000 gold)" {
   ${builder_effort "7d"}
   priority 630
-  depends !Wizard_Tower_1_6, !th_9
+  depends !Wizard_Tower_1_6, !th_1_9
 }
 
-task Wizard_Tower_1_8 "Upgrade Wizard Tower 1 to Level 8 (6,480,000 gold)" { 
+task Wizard_Tower_1_8 "Upgrade Wizard Tower 1 to Level 8 (6,480,000 gold)" {
   ${builder_effort "10d"}
   priority 630
-  depends !Wizard_Tower_1_7, !th_10
+  depends !Wizard_Tower_1_7, !th_1_10
 }
 
-task Wizard_Tower_2_1 "Build Wizard Tower 2 as Level 1 (180,000 gold)" { 
+task Wizard_Tower_2_1 "Build Wizard Tower 2 as Level 1 (180,000 gold)" {
   priority 630
-  depends !th_6
+  depends !th_1_6
 }
 
-task Wizard_Tower_2_2 "Upgrade Wizard Tower 2 to Level 2 (360,000 gold)" { 
+task Wizard_Tower_2_2 "Upgrade Wizard Tower 2 to Level 2 (360,000 gold)" {
   priority 630
-  depends !Wizard_Tower_2_1, !th_6
+  depends !Wizard_Tower_2_1, !th_1_6
 }
 
-task Wizard_Tower_2_3 "Upgrade Wizard Tower 2 to Level 3 (720,000 gold)" { 
+task Wizard_Tower_2_3 "Upgrade Wizard Tower 2 to Level 3 (720,000 gold)" {
   priority 630
-  depends !Wizard_Tower_2_2, !th_6
+  depends !Wizard_Tower_2_2, !th_1_6
 }
 
-task Wizard_Tower_2_4 "Upgrade Wizard Tower 2 to Level 4 (1,280,000 gold)" { 
+task Wizard_Tower_2_4 "Upgrade Wizard Tower 2 to Level 4 (1,280,000 gold)" {
   ${builder_effort "3d"}
   priority 630
-  depends !Wizard_Tower_2_3, !th_7
+  depends !Wizard_Tower_2_3, !th_1_7
 }
 
-task Wizard_Tower_2_5 "Upgrade Wizard Tower 2 to Level 5 (1,960,000 gold)" { 
+task Wizard_Tower_2_5 "Upgrade Wizard Tower 2 to Level 5 (1,960,000 gold)" {
   ${builder_effort "4d"}
   priority 630
-  depends !Wizard_Tower_2_4, !th_8
+  depends !Wizard_Tower_2_4, !th_1_8
 }
 
-task Wizard_Tower_2_6 "Upgrade Wizard Tower 2 to Level 6 (2,680,000 gold)" { 
+task Wizard_Tower_2_6 "Upgrade Wizard Tower 2 to Level 6 (2,680,000 gold)" {
   ${builder_effort "5d"}
   priority 630
-  depends !Wizard_Tower_2_5, !th_8
+  depends !Wizard_Tower_2_5, !th_1_8
 }
 
-task Wizard_Tower_2_7 "Upgrade Wizard Tower 2 to Level 7 (5,360,000 gold)" { 
+task Wizard_Tower_2_7 "Upgrade Wizard Tower 2 to Level 7 (5,360,000 gold)" {
   ${builder_effort "7d"}
   priority 630
-  depends !Wizard_Tower_2_6, !th_9
+  depends !Wizard_Tower_2_6, !th_1_9
 }
 
-task Wizard_Tower_2_8 "Upgrade Wizard Tower 2 to Level 8 (6,480,000 gold)" { 
+task Wizard_Tower_2_8 "Upgrade Wizard Tower 2 to Level 8 (6,480,000 gold)" {
   ${builder_effort "10d"}
   priority 630
-  depends !Wizard_Tower_2_7, !th_10
+  depends !Wizard_Tower_2_7, !th_1_10
 }
 
-task Wizard_Tower_3_1 "Build Wizard Tower 3 as Level 1 (180,000 gold)" { 
+task Wizard_Tower_3_1 "Build Wizard Tower 3 as Level 1 (180,000 gold)" {
   ${builder_effort "12h"}
   priority 630
-  depends !th_8
+  depends !th_1_8
 }
 
-task Wizard_Tower_3_2 "Upgrade Wizard Tower 3 to Level 2 (360,000 gold)" { 
+task Wizard_Tower_3_2 "Upgrade Wizard Tower 3 to Level 2 (360,000 gold)" {
   ${builder_effort "1d"}
   priority 630
-  depends !Wizard_Tower_3_1, !th_8
+  depends !Wizard_Tower_3_1, !th_1_8
 }
 
-task Wizard_Tower_3_3 "Upgrade Wizard Tower 3 to Level 3 (720,000 gold)" { 
+task Wizard_Tower_3_3 "Upgrade Wizard Tower 3 to Level 3 (720,000 gold)" {
   ${builder_effort "2d"}
   priority 630
-  depends !Wizard_Tower_3_2, !th_8
+  depends !Wizard_Tower_3_2, !th_1_8
 }
 
-task Wizard_Tower_3_4 "Upgrade Wizard Tower 3 to Level 4 (1,280,000 gold)" { 
+task Wizard_Tower_3_4 "Upgrade Wizard Tower 3 to Level 4 (1,280,000 gold)" {
   ${builder_effort "3d"}
   priority 630
-  depends !Wizard_Tower_3_3, !th_8
+  depends !Wizard_Tower_3_3, !th_1_8
 }
 
-task Wizard_Tower_3_5 "Upgrade Wizard Tower 3 to Level 5 (1,960,000 gold)" { 
+task Wizard_Tower_3_5 "Upgrade Wizard Tower 3 to Level 5 (1,960,000 gold)" {
   ${builder_effort "4d"}
   priority 630
-  depends !Wizard_Tower_3_4, !th_8
+  depends !Wizard_Tower_3_4, !th_1_8
 }
 
-task Wizard_Tower_3_6 "Upgrade Wizard Tower 3 to Level 6 (2,680,000 gold)" { 
+task Wizard_Tower_3_6 "Upgrade Wizard Tower 3 to Level 6 (2,680,000 gold)" {
   ${builder_effort "5d"}
   priority 630
-  depends !Wizard_Tower_3_5, !th_8
+  depends !Wizard_Tower_3_5, !th_1_8
 }
 
-task Wizard_Tower_3_7 "Upgrade Wizard Tower 3 to Level 7 (5,360,000 gold)" { 
+task Wizard_Tower_3_7 "Upgrade Wizard Tower 3 to Level 7 (5,360,000 gold)" {
   ${builder_effort "7d"}
   priority 630
-  depends !Wizard_Tower_3_6, !th_9
+  depends !Wizard_Tower_3_6, !th_1_9
 }
 
-task Wizard_Tower_3_8 "Upgrade Wizard Tower 3 to Level 8 (6,480,000 gold)" { 
+task Wizard_Tower_3_8 "Upgrade Wizard Tower 3 to Level 8 (6,480,000 gold)" {
   ${builder_effort "10d"}
   priority 630
-  depends !Wizard_Tower_3_7, !th_10
+  depends !Wizard_Tower_3_7, !th_1_10
 }
 
-task Wizard_Tower_4_1 "Build Wizard Tower 4 as Level 1 (180,000 gold)" { 
+task Wizard_Tower_4_1 "Build Wizard Tower 4 as Level 1 (180,000 gold)" {
   ${builder_effort "12h"}
   priority 630
-  depends !th_9
+  depends !th_1_9
 }
 
-task Wizard_Tower_4_2 "Upgrade Wizard Tower 4 to Level 2 (360,000 gold)" { 
+task Wizard_Tower_4_2 "Upgrade Wizard Tower 4 to Level 2 (360,000 gold)" {
   ${builder_effort "1d"}
   priority 630
-  depends !Wizard_Tower_4_1, !th_9
+  depends !Wizard_Tower_4_1, !th_1_9
 }
 
-task Wizard_Tower_4_3 "Upgrade Wizard Tower 4 to Level 3 (720,000 gold)" { 
+task Wizard_Tower_4_3 "Upgrade Wizard Tower 4 to Level 3 (720,000 gold)" {
   ${builder_effort "2d"}
   priority 630
-  depends !Wizard_Tower_4_2, !th_9
+  depends !Wizard_Tower_4_2, !th_1_9
 }
 
-task Wizard_Tower_4_4 "Upgrade Wizard Tower 4 to Level 4 (1,280,000 gold)" { 
+task Wizard_Tower_4_4 "Upgrade Wizard Tower 4 to Level 4 (1,280,000 gold)" {
   ${builder_effort "3d"}
   priority 630
-  depends !Wizard_Tower_4_3, !th_9
+  depends !Wizard_Tower_4_3, !th_1_9
 }
 
-task Wizard_Tower_4_5 "Upgrade Wizard Tower 4 to Level 5 (1,960,000 gold)" { 
+task Wizard_Tower_4_5 "Upgrade Wizard Tower 4 to Level 5 (1,960,000 gold)" {
   ${builder_effort "4d"}
   priority 630
-  depends !Wizard_Tower_4_4, !th_9
+  depends !Wizard_Tower_4_4, !th_1_9
 }
 
-task Wizard_Tower_4_6 "Upgrade Wizard Tower 4 to Level 6 (2,680,000 gold)" { 
+task Wizard_Tower_4_6 "Upgrade Wizard Tower 4 to Level 6 (2,680,000 gold)" {
   ${builder_effort "5d"}
   priority 630
-  depends !Wizard_Tower_4_5, !th_9
+  depends !Wizard_Tower_4_5, !th_1_9
 }
 
-task Wizard_Tower_4_7 "Upgrade Wizard Tower 4 to Level 7 (5,360,000 gold)" { 
+task Wizard_Tower_4_7 "Upgrade Wizard Tower 4 to Level 7 (5,360,000 gold)" {
   ${builder_effort "7d"}
   priority 630
-  depends !Wizard_Tower_4_6, !th_9
+  depends !Wizard_Tower_4_6, !th_1_9
 }
 
-task Wizard_Tower_4_8 "Upgrade Wizard Tower 4 to Level 8 (6,480,000 gold)" { 
+task Wizard_Tower_4_8 "Upgrade Wizard Tower 4 to Level 8 (6,480,000 gold)" {
   ${builder_effort "10d"}
   priority 630
-  depends !Wizard_Tower_4_7, !th_10
+  depends !Wizard_Tower_4_7, !th_1_10
 }
 
-task X_Bow_1_1 "Build X-Bow 1 as Level 1 (3,000,000 Gold)" { 
+task X_Bow_1_1 "Build X-Bow 1 as Level 1 (3,000,000 Gold)" {
   ${builder_effort "7d"}
   priority 650
-  depends !th_9
+  depends !th_1_9
 }
 
-task X_Bow_1_2 "Upgrade X-Bow 1 to Level 2 (5,000,000 Gold)" { 
+task X_Bow_1_2 "Upgrade X-Bow 1 to Level 2 (5,000,000 Gold)" {
   ${builder_effort "10d"}
   priority 650
-  depends !X_Bow_1_1, !th_9
+  depends !X_Bow_1_1, !th_1_9
 }
 
-task X_Bow_1_3 "Upgrade X-Bow 1 to Level 3 (7,000,000 Gold)" { 
+task X_Bow_1_3 "Upgrade X-Bow 1 to Level 3 (7,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !X_Bow_1_2, !th_9
+  depends !X_Bow_1_2, !th_1_9
 }
 
-task X_Bow_1_4 "Upgrade X-Bow 1 to Level 4 (8,000,000 Gold)" { 
+task X_Bow_1_4 "Upgrade X-Bow 1 to Level 4 (8,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !X_Bow_1_3, !th_10
+  depends !X_Bow_1_3, !th_1_10
 }
 
-task X_Bow_2_1 "Build X-Bow 2 as Level 1 (3,000,000 Gold)" { 
+task X_Bow_2_1 "Build X-Bow 2 as Level 1 (3,000,000 Gold)" {
   ${builder_effort "7d"}
   priority 650
-  depends !th_9
+  depends !th_1_9
 }
 
-task X_Bow_2_2 "Upgrade X-Bow 2 to Level 2 (5,000,000 Gold)" { 
+task X_Bow_2_2 "Upgrade X-Bow 2 to Level 2 (5,000,000 Gold)" {
   ${builder_effort "10d"}
   priority 650
-  depends !X_Bow_2_1, !th_9
+  depends !X_Bow_2_1, !th_1_9
 }
 
-task X_Bow_2_3 "Upgrade X-Bow 2 to Level 3 (7,000,000 Gold)" { 
+task X_Bow_2_3 "Upgrade X-Bow 2 to Level 3 (7,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !X_Bow_2_2, !th_9
+  depends !X_Bow_2_2, !th_1_9
 }
 
-task X_Bow_2_4 "Upgrade X-Bow 2 to Level 4 (8,000,000 Gold)" { 
+task X_Bow_2_4 "Upgrade X-Bow 2 to Level 4 (8,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !X_Bow_2_3, !th_10
+  depends !X_Bow_2_3, !th_1_10
 }
 
-task X_Bow_3_1 "Build X-Bow 3 as Level 1 (3,000,000 Gold)" { 
+task X_Bow_3_1 "Build X-Bow 3 as Level 1 (3,000,000 Gold)" {
   ${builder_effort "7d"}
   priority 650
-  depends !th_10
+  depends !th_1_10
 }
 
-task X_Bow_3_2 "Upgrade X-Bow 3 to Level 2 (5,000,000 Gold)" { 
+task X_Bow_3_2 "Upgrade X-Bow 3 to Level 2 (5,000,000 Gold)" {
   ${builder_effort "10d"}
   priority 650
-  depends !X_Bow_3_1, !th_10
+  depends !X_Bow_3_1, !th_1_10
 }
 
-task X_Bow_3_3 "Upgrade X-Bow 3 to Level 3 (7,000,000 Gold)" { 
+task X_Bow_3_3 "Upgrade X-Bow 3 to Level 3 (7,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !X_Bow_3_2, !th_10
+  depends !X_Bow_3_2, !th_1_10
 }
 
-task X_Bow_3_4 "Upgrade X-Bow 3 to Level 4 (8,000,000 Gold)" { 
+task X_Bow_3_4 "Upgrade X-Bow 3 to Level 4 (8,000,000 Gold)" {
   ${builder_effort "14d"}
   priority 650
-  depends !X_Bow_3_3, !th_10
+  depends !X_Bow_3_3, !th_1_10
+}
+
+task th_1_2 "Build Town Hall 1 as Level 2 (1,000 Gold)" {
+  priority 300
+}
+
+task th_1_3 "Upgrade Town Hall 1 to Level 3 (4,000 Gold)" {
+  priority 300
+  depends !th_1_2
+}
+
+task th_1_4 "Upgrade Town Hall 1 to Level 4 (25,000 Gold)" {
+  priority 300
+  depends !th_1_3
+}
+
+task th_1_5 "Upgrade Town Hall 1 to Level 5 (150,000 Gold)" {
+  priority 300
+  depends !th_1_4
+}
+
+task th_1_6 "Upgrade Town Hall 1 to Level 6 (750,000 Gold)" {
+  priority 300
+  depends !th_1_5
+}
+
+task th_1_7 "Upgrade Town Hall 1 to Level 7 (1,200,000 Gold)" {
+  ${builder_effort "6d"}
+  priority 300
+  depends !th_1_6
+}
+
+task th_1_8 "Upgrade Town Hall 1 to Level 8 (2,000,000 Gold)" {
+  ${builder_effort "8d"}
+  priority 300
+  depends !th_1_7
+}
+
+task th_1_9 "Upgrade Town Hall 1 to Level 9 (3,000,000 Gold)" {
+  ${builder_effort "10d"}
+  priority 300
+  depends !th_1_8
+}
+
+task th_1_10 "Upgrade Town Hall 1 to Level 10 (4,000,000 Gold)" {
+  ${builder_effort "14d"}
+  priority 300
+  depends !th_1_9
 }
 
