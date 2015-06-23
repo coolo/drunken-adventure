@@ -3,6 +3,10 @@
 use Data::Dumper;
 use strict;
 use warnings;
+use DateTime;
+use Date::ICal;
+use Data::ICal;
+use Data::ICal::Entry::Event;
 
 my %buildings;
 
@@ -356,7 +360,7 @@ set_complete('Clan_Castle', 3);
 
 # Defenses
 add_building('Wizard_Tower', 'Wizard Tower', 630);
-set_complete('Wizard_Tower', 2, 3);
+set_complete('Wizard_Tower', 3, 3);
 add_building('Cannon', 'Cannon', 550);
 set_complete('Cannon', 5, 7, 7);
 add_building('Archer_Tower', 'Archer Tower', 660);
@@ -373,7 +377,7 @@ add_building('X_Bow', 'X-Bow', 650);
 set_complete('X_Bow');
 add_building('Inferno_Tower', 'Inferno Tower', 700);
 set_complete('Inferno_Tower');
-add_building('Air_Bomb', 'Air_Bomb', 650);
+add_building('Air_Bomb', 'Air Bomb', 650);
 set_complete('Air_Bomb', 2, 2);
 add_building('Giant_Bomb', 'Giant Bomb', 620);
 set_complete('Giant_Bomb', 2);
@@ -428,6 +432,7 @@ for my $nick (sort keys %buildings) {
 
 	for my $lvl ($firstlvl..$buildings{$nick}->{maxlvl}) {
 	    my $taskname = "$nick\_$num\_$lvl";
+	    $tasks{$taskname}->{nick} = $taskname;
 	    my $descr;
 	    my @deps;
 	    my $costs = $buildings{$nick}->{costs}->{$lvl};
@@ -442,21 +447,167 @@ for my $nick (sort keys %buildings) {
 	    print TASKS "task $taskname \"$descr\" {\n";
 	    $tasks{$taskname}->{descr} = $descr;
 	    if (($buildings{$nick}->{complete}->{$num} // 0) < $lvl) {
-		printf TASKS "  \${builder_effort \"%s\"}\n", $buildings{$nick}->{effort}->{$lvl};
-		$tasks{$taskname}->{effort} = $buildings{$nick}->{effort}->{$lvl};
+		my $effort = $buildings{$nick}->{effort}->{$lvl};
+		printf TASKS "  \${builder_effort \"$effort\"}\n";
+		if ($effort =~ m/^(\d+)d$/) {
+		    $tasks{$taskname}->{effort} = $1 * 24 * 60;
+		} elsif ($effort =~ m/^(\d+)h$/) {
+		    $tasks{$taskname}->{effort} = $1 * 60;
+		} elsif ($effort =~ m/^(\d+)min$/) {
+		    $tasks{$taskname}->{effort} = $1;
+		} else {
+		    print STDERR "unknown effort mapping: $effort\n";
+		}
 	    }
 	    my $thlvl = $buildings{$nick}->{required}->{$lvl};
 	    while ($num > $buildings{$nick}->{numbers}->{$thlvl}) {
 		$thlvl++;
 	    }
 	    push(@deps, "th_1_$thlvl") if ($thlvl > 1);
-	    $tasks{$taskname}->{priority} = $buildings{$nick}->{priority} // 500;
-	    print TASKS "  priority " . ($buildings{$nick}->{priority} // 500) . "\n";
+	    $tasks{$taskname}->{priority} = $buildings{$nick}->{priority} * $buildings{$nick}->{priority};
+	    print TASKS "  priority " . $buildings{$nick}->{priority} . "\n";
 	    print TASKS "  depends " . join(', ', map { "!$_" } @deps) . "\n" if (@deps);
-	    $tasks{$taskname}->{deps} = \@deps;
+	    for my $d (@deps) {
+		$tasks{$taskname}->{needs}->{$d} = 1;
+	    }
 	    print TASKS "}\n\n";
 	}
     }
 }
 
-#print Dumper(\%tasks);
+my @best_history;
+my @history;
+
+sub shuffle_order {
+
+    @history = ();
+    
+my $now = DateTime->new(year => 2015,
+			month => 6,
+			day        => 22,
+			hour       => 22,
+			minute     => 34);
+    
+    $now->set_time_zone( 'Europe/Berlin' );
+    
+our %ready = ();
+our %wip = ();
+
+$wip{b1} = $now + DateTime::Duration->new( hours => 16, minutes => 1 );
+$wip{b2} = $now + DateTime::Duration->new( hours => 47, minutes => 47 );
+$wip{b3} = $now + DateTime::Duration->new( hours => 12, minutes => 58 );
+$wip{b4} = $now + DateTime::Duration->new( hours => 18, minutes => 10 );
+#$wip{b5} = $now;
+
+for my $nick (sort keys %tasks) {
+    if (!defined $tasks{$nick}->{effort}) {
+	$ready{$nick} = $now;
+    }
+}
+#print Dumper(\%ready);
+
+sub pick() {
+    my @picks;
+    my $totalprio = 0;
+
+    for my $nick (sort keys %tasks) {
+	next if $ready{$nick};
+	next if $wip{$nick};
+	my $is_ready = 1;
+	for my $d (keys %{$tasks{$nick}->{needs}}) {
+	    if (!$ready{$d}) {
+		$is_ready = 0;
+		last;
+	    }
+	}
+	if ($is_ready) {
+	    push(@picks, $tasks{$nick});
+	    $totalprio += $tasks{$nick}->{priority}
+	}
+    }
+    @picks = sort { $b->{priority} <=> $a->{priority} } @picks;
+    my $pick = int(rand($totalprio));
+    for my $p (@picks) {
+	if ($pick < $p->{priority}) {
+	    return $p;
+	} else {
+	    $pick -= $p->{priority};
+	}
+    }
+}
+
+sub round_shift {
+    my ($dt) = @_;
+    while ($dt->hour > 22) {
+	$dt->add_duration(DateTime::Duration->new(hours => 1));
+    }
+    while ($dt->hour < 7) {
+	$dt->add_duration(DateTime::Duration->new(hours => 1));
+    }
+    return $dt;
+}
+
+
+
+while (1) {
+    my @builder = sort { DateTime->compare($wip{$a}, $wip{$b}) } keys %wip;
+    my $next_builder = $builder[0];
+    $ready{$next_builder} = $now;
+    $now = delete $wip{$next_builder};
+    my $next_item = pick();
+    if (!$next_item) {
+	my $free_builder = 1;
+	while ($wip{"b_$free_builder"}) {
+	    $free_builder++;
+	}
+	last if $free_builder > scalar(keys %wip);
+	my $next_real = 1;
+	while ($builder[$next_real] =~ m/^b_/) {
+	    $next_real++;
+	}
+	$wip{"b_$free_builder"} = round_shift($wip{$builder[$next_real]} + DateTime::Duration->new( minutes => $free_builder ));
+    } else {
+	#print "Start $next_item->{nick} at $now\n";
+	push(@history, [$next_item->{descr}, $now]);
+	$wip{$next_item->{nick}} = round_shift($now + DateTime::Duration->new( minutes => $next_item->{effort} ));
+    }
+    next;
+    my $counter = 1;
+    for my $w (sort keys %wip) {
+	printf "$counter: WIP $w %s\n", $wip{$w};
+	$counter++;
+    }
+    print "\n";
+}
+
+my @builder = sort { DateTime->compare($wip{$a}, $wip{$b}) } keys %wip;
+return $wip{$builder[0]};
+
+}
+
+my $best = DateTime->now + DateTime::Duration->new(years => 7);
+
+while (1) {
+    my $time = shuffle_order;
+    if ($time < $best) {
+	print "Current: $time\n";
+	@best_history = @history;
+	open(ICAL, ">coc.ics");
+	my $calendar = Data::ICal->new( calname => "CoC TODO", rfc_strict => 1, auto_uid => 1);
+	for my $i (@history) {
+	    my $vtodo = Data::ICal::Entry::Event->new();
+	    $vtodo->add_properties(
+				   summary => $i->[0],
+				   dtend => Date::ICal->new ( epoch => $i->[1]->epoch + 300 )->ical,
+				   dtstart => Date::ICal->new ( epoch => $i->[1]->epoch )->ical
+				  );
+	    print "$i->[0] $i->[1]\n";
+	    $calendar->add_entry($vtodo);
+	}
+	print ICAL $calendar->as_string();
+	close(ICAL);
+	$best = $time;
+    } else {
+	print "worse\n";
+    }
+}

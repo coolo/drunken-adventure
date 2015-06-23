@@ -1,86 +1,86 @@
-task Air_Bomb_1_2 "Build Air_Bomb 1 as Level 2 (24,000 Gold)" {
+task Air_Bomb_1_2 "Build Air Bomb 1 as Level 2 (24,000 Gold)" {
   priority 650
   depends !th_1_5
 }
 
-task Air_Bomb_1_3 "Upgrade Air_Bomb 1 to Level 3 (200,000 Gold)" {
+task Air_Bomb_1_3 "Upgrade Air Bomb 1 to Level 3 (200,000 Gold)" {
   ${builder_effort "12h"}
   priority 650
   depends !Air_Bomb_1_2, !th_1_7
 }
 
-task Air_Bomb_1_4 "Upgrade Air_Bomb 1 to Level 4 (1,500,000 Gold)" {
+task Air_Bomb_1_4 "Upgrade Air Bomb 1 to Level 4 (1,500,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
   depends !Air_Bomb_1_3, !th_1_9
 }
 
-task Air_Bomb_2_2 "Build Air_Bomb 2 as Level 2 (24,000 Gold)" {
+task Air_Bomb_2_2 "Build Air Bomb 2 as Level 2 (24,000 Gold)" {
   priority 650
   depends !th_1_5
 }
 
-task Air_Bomb_2_3 "Upgrade Air_Bomb 2 to Level 3 (200,000 Gold)" {
+task Air_Bomb_2_3 "Upgrade Air Bomb 2 to Level 3 (200,000 Gold)" {
   ${builder_effort "12h"}
   priority 650
   depends !Air_Bomb_2_2, !th_1_7
 }
 
-task Air_Bomb_2_4 "Upgrade Air_Bomb 2 to Level 4 (1,500,000 Gold)" {
+task Air_Bomb_2_4 "Upgrade Air Bomb 2 to Level 4 (1,500,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
   depends !Air_Bomb_2_3, !th_1_9
 }
 
-task Air_Bomb_3_2 "Build Air_Bomb 3 as Level 2 (24,000 Gold)" {
+task Air_Bomb_3_2 "Build Air Bomb 3 as Level 2 (24,000 Gold)" {
   ${builder_effort "4h"}
   priority 650
   depends !th_1_8
 }
 
-task Air_Bomb_3_3 "Upgrade Air_Bomb 3 to Level 3 (200,000 Gold)" {
+task Air_Bomb_3_3 "Upgrade Air Bomb 3 to Level 3 (200,000 Gold)" {
   ${builder_effort "12h"}
   priority 650
   depends !Air_Bomb_3_2, !th_1_8
 }
 
-task Air_Bomb_3_4 "Upgrade Air_Bomb 3 to Level 4 (1,500,000 Gold)" {
+task Air_Bomb_3_4 "Upgrade Air Bomb 3 to Level 4 (1,500,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
   depends !Air_Bomb_3_3, !th_1_9
 }
 
-task Air_Bomb_4_2 "Build Air_Bomb 4 as Level 2 (24,000 Gold)" {
+task Air_Bomb_4_2 "Build Air Bomb 4 as Level 2 (24,000 Gold)" {
   ${builder_effort "4h"}
   priority 650
   depends !th_1_8
 }
 
-task Air_Bomb_4_3 "Upgrade Air_Bomb 4 to Level 3 (200,000 Gold)" {
+task Air_Bomb_4_3 "Upgrade Air Bomb 4 to Level 3 (200,000 Gold)" {
   ${builder_effort "12h"}
   priority 650
   depends !Air_Bomb_4_2, !th_1_8
 }
 
-task Air_Bomb_4_4 "Upgrade Air_Bomb 4 to Level 4 (1,500,000 Gold)" {
+task Air_Bomb_4_4 "Upgrade Air Bomb 4 to Level 4 (1,500,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
   depends !Air_Bomb_4_3, !th_1_9
 }
 
-task Air_Bomb_5_2 "Build Air_Bomb 5 as Level 2 (24,000 Gold)" {
+task Air_Bomb_5_2 "Build Air Bomb 5 as Level 2 (24,000 Gold)" {
   ${builder_effort "4h"}
   priority 650
   depends !th_1_10
 }
 
-task Air_Bomb_5_3 "Upgrade Air_Bomb 5 to Level 3 (200,000 Gold)" {
+task Air_Bomb_5_3 "Upgrade Air Bomb 5 to Level 3 (200,000 Gold)" {
   ${builder_effort "12h"}
   priority 650
   depends !Air_Bomb_5_2, !th_1_10
 }
 
-task Air_Bomb_5_4 "Upgrade Air_Bomb 5 to Level 4 (1,500,000 Gold)" {
+task Air_Bomb_5_4 "Upgrade Air Bomb 5 to Level 4 (1,500,000 Gold)" {
   ${builder_effort "1d"}
   priority 650
   depends !Air_Bomb_5_3, !th_1_10
@@ -3802,7 +3802,6 @@ task Wizard_Tower_1_2 "Upgrade Wizard Tower 1 to Level 2 (360,000 gold)" {
 }
 
 task Wizard_Tower_1_3 "Upgrade Wizard Tower 1 to Level 3 (720,000 gold)" {
-  ${builder_effort "2d"}
   priority 630
   depends !Wizard_Tower_1_2, !th_1_6
 }
@@ -3936,165 +3935,4 @@ task Wizard_Tower_4_1 "Build Wizard Tower 4 as Level 1 (180,000 gold)" {
   depends !th_1_9
 }
 
-task Wizard_Tower_4_2 "Upgrade Wizard Tower 4 to Level 2 (360,000 gold)" {
-  ${builder_effort "1d"}
-  priority 630
-  depends !Wizard_Tower_4_1, !th_1_9
-}
-
-task Wizard_Tower_4_3 "Upgrade Wizard Tower 4 to Level 3 (720,000 gold)" {
-  ${builder_effort "2d"}
-  priority 630
-  depends !Wizard_Tower_4_2, !th_1_9
-}
-
-task Wizard_Tower_4_4 "Upgrade Wizard Tower 4 to Level 4 (1,280,000 gold)" {
-  ${builder_effort "3d"}
-  priority 630
-  depends !Wizard_Tower_4_3, !th_1_9
-}
-
-task Wizard_Tower_4_5 "Upgrade Wizard Tower 4 to Level 5 (1,960,000 gold)" {
-  ${builder_effort "4d"}
-  priority 630
-  depends !Wizard_Tower_4_4, !th_1_9
-}
-
-task Wizard_Tower_4_6 "Upgrade Wizard Tower 4 to Level 6 (2,680,000 gold)" {
-  ${builder_effort "5d"}
-  priority 630
-  depends !Wizard_Tower_4_5, !th_1_9
-}
-
-task Wizard_Tower_4_7 "Upgrade Wizard Tower 4 to Level 7 (5,360,000 gold)" {
-  ${builder_effort "7d"}
-  priority 630
-  depends !Wizard_Tower_4_6, !th_1_9
-}
-
-task Wizard_Tower_4_8 "Upgrade Wizard Tower 4 to Level 8 (6,480,000 gold)" {
-  ${builder_effort "10d"}
-  priority 630
-  depends !Wizard_Tower_4_7, !th_1_10
-}
-
-task X_Bow_1_1 "Build X-Bow 1 as Level 1 (3,000,000 Gold)" {
-  ${builder_effort "7d"}
-  priority 650
-  depends !th_1_9
-}
-
-task X_Bow_1_2 "Upgrade X-Bow 1 to Level 2 (5,000,000 Gold)" {
-  ${builder_effort "10d"}
-  priority 650
-  depends !X_Bow_1_1, !th_1_9
-}
-
-task X_Bow_1_3 "Upgrade X-Bow 1 to Level 3 (7,000,000 Gold)" {
-  ${builder_effort "14d"}
-  priority 650
-  depends !X_Bow_1_2, !th_1_9
-}
-
-task X_Bow_1_4 "Upgrade X-Bow 1 to Level 4 (8,000,000 Gold)" {
-  ${builder_effort "14d"}
-  priority 650
-  depends !X_Bow_1_3, !th_1_10
-}
-
-task X_Bow_2_1 "Build X-Bow 2 as Level 1 (3,000,000 Gold)" {
-  ${builder_effort "7d"}
-  priority 650
-  depends !th_1_9
-}
-
-task X_Bow_2_2 "Upgrade X-Bow 2 to Level 2 (5,000,000 Gold)" {
-  ${builder_effort "10d"}
-  priority 650
-  depends !X_Bow_2_1, !th_1_9
-}
-
-task X_Bow_2_3 "Upgrade X-Bow 2 to Level 3 (7,000,000 Gold)" {
-  ${builder_effort "14d"}
-  priority 650
-  depends !X_Bow_2_2, !th_1_9
-}
-
-task X_Bow_2_4 "Upgrade X-Bow 2 to Level 4 (8,000,000 Gold)" {
-  ${builder_effort "14d"}
-  priority 650
-  depends !X_Bow_2_3, !th_1_10
-}
-
-task X_Bow_3_1 "Build X-Bow 3 as Level 1 (3,000,000 Gold)" {
-  ${builder_effort "7d"}
-  priority 650
-  depends !th_1_10
-}
-
-task X_Bow_3_2 "Upgrade X-Bow 3 to Level 2 (5,000,000 Gold)" {
-  ${builder_effort "10d"}
-  priority 650
-  depends !X_Bow_3_1, !th_1_10
-}
-
-task X_Bow_3_3 "Upgrade X-Bow 3 to Level 3 (7,000,000 Gold)" {
-  ${builder_effort "14d"}
-  priority 650
-  depends !X_Bow_3_2, !th_1_10
-}
-
-task X_Bow_3_4 "Upgrade X-Bow 3 to Level 4 (8,000,000 Gold)" {
-  ${builder_effort "14d"}
-  priority 650
-  depends !X_Bow_3_3, !th_1_10
-}
-
-task th_1_2 "Build Town Hall 1 as Level 2 (1,000 Gold)" {
-  priority 300
-}
-
-task th_1_3 "Upgrade Town Hall 1 to Level 3 (4,000 Gold)" {
-  priority 300
-  depends !th_1_2
-}
-
-task th_1_4 "Upgrade Town Hall 1 to Level 4 (25,000 Gold)" {
-  priority 300
-  depends !th_1_3
-}
-
-task th_1_5 "Upgrade Town Hall 1 to Level 5 (150,000 Gold)" {
-  priority 300
-  depends !th_1_4
-}
-
-task th_1_6 "Upgrade Town Hall 1 to Level 6 (750,000 Gold)" {
-  priority 300
-  depends !th_1_5
-}
-
-task th_1_7 "Upgrade Town Hall 1 to Level 7 (1,200,000 Gold)" {
-  ${builder_effort "6d"}
-  priority 300
-  depends !th_1_6
-}
-
-task th_1_8 "Upgrade Town Hall 1 to Level 8 (2,000,000 Gold)" {
-  ${builder_effort "8d"}
-  priority 300
-  depends !th_1_7
-}
-
-task th_1_9 "Upgrade Town Hall 1 to Level 9 (3,000,000 Gold)" {
-  ${builder_effort "10d"}
-  priority 300
-  depends !th_1_8
-}
-
-task th_1_10 "Upgrade Town Hall 1 to Level 10 (4,000,000 Gold)" {
-  ${builder_effort "14d"}
-  priority 300
-  depends !th_1_9
-}
-
+task Wizard_Tower_4_2 "Upgrade Wizard Tower 4 to Level 2
