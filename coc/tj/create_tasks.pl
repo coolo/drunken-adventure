@@ -362,11 +362,11 @@ set_complete('Clan_Castle', 3);
 add_building('Wizard_Tower', 'Wizard Tower', 630);
 set_complete('Wizard_Tower', 3, 3);
 add_building('Cannon', 'Cannon', 550);
-set_complete('Cannon', 5, 7, 7);
+set_complete('Cannon', 7, 7, 7);
 add_building('Archer_Tower', 'Archer Tower', 660);
 set_complete('Archer_Tower', 7, 7, 7);
 add_building('Mortar', 'Mortar', 600);
-set_complete('Mortar', 3, 4);
+set_complete('Mortar', 4, 4);
 add_building('Air_Defense', 'Air Defense', 690);
 set_complete('Air_Defense', 4);
 add_building('Air_Sweeper', 'Air Sweeper', 690);
@@ -404,11 +404,11 @@ set_complete('Spell_Factory', 2);
 
 # Resources
 add_building('Elixir_Collector', 'Elixir Collector', 250);
-set_complete('Elixir_Collector', 6, 5, 6, 6, 9, 8);
+set_complete('Elixir_Collector', 7, 6, 6, 7, 9, 8);
 add_building('Elixir_Storage', 'Elixir Storage', 500);
-set_complete('Elixir_Storage', 9, 10);
+set_complete('Elixir_Storage', 10, 10);
 add_building('Gold_Mine', 'Gold Mine', 240);
-set_complete('Gold_Mine', 4, 6, 6, 7, 8, 10);
+set_complete('Gold_Mine', 7, 5, 8, 7, 6, 10);
 add_building('Gold_Storage', 'Gold Storage', 500);
 set_complete('Gold_Storage', 10, 10);
 add_building('Dark_Elixir_Drill', 'Dark Elixir Drill', 500);
@@ -475,28 +475,30 @@ for my $nick (sort keys %buildings) {
     }
 }
 
+delete $tasks{th_1_8};
+
 my @best_history;
 my @history;
 
 sub shuffle_order {
 
-    @history = ();
+@history = ();
     
-my $now = DateTime->new(year => 2015,
-			month => 6,
-			day        => 22,
-			hour       => 22,
-			minute     => 34);
+my $now = DateTime->new(year   => 2015,
+			month  => 6,
+			day    => 25,
+			hour   => 7,
+			minute => 2);
     
-    $now->set_time_zone( 'Europe/Berlin' );
+$now->set_time_zone( 'Europe/Berlin' );
     
 our %ready = ();
 our %wip = ();
 
-$wip{b1} = $now + DateTime::Duration->new( hours => 16, minutes => 1 );
-$wip{b2} = $now + DateTime::Duration->new( hours => 47, minutes => 47 );
-$wip{b3} = $now + DateTime::Duration->new( hours => 12, minutes => 58 );
-$wip{b4} = $now + DateTime::Duration->new( hours => 18, minutes => 10 );
+$wip{th_1_7} = $now + DateTime::Duration->new( days => 4, hours => 8, minutes => 58 );
+$wip{b2} = $now + DateTime::Duration->new( hours => 12, minutes => 33 );
+$wip{b3} = $now + DateTime::Duration->new( hours => 31, minutes => 10 );
+$wip{b4} = $now + DateTime::Duration->new( hours => 3, minutes => 18 );
 #$wip{b5} = $now;
 
 for my $nick (sort keys %tasks) {
@@ -508,7 +510,6 @@ for my $nick (sort keys %tasks) {
 
 sub pick() {
     my @picks;
-    my $totalprio = 0;
 
     for my $nick (sort keys %tasks) {
 	next if $ready{$nick};
@@ -522,10 +523,16 @@ sub pick() {
 	}
 	if ($is_ready) {
 	    push(@picks, $tasks{$nick});
-	    $totalprio += $tasks{$nick}->{priority}
 	}
     }
     @picks = sort { $b->{priority} <=> $a->{priority} } @picks;
+    my $totalprio = 0;
+    my $topprio;
+    for my $p (@picks) {
+      $topprio //= $p->{priority};
+      last if ($p->{priority} + 100 < $topprio);
+      $totalprio += $p->{priority};
+    }
     my $pick = int(rand($totalprio));
     for my $p (@picks) {
 	if ($pick < $p->{priority}) {
