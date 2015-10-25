@@ -1,0 +1,18 @@
+%h1
+  Plan für Krieg
+  = @war.title
+
+%table.table
+  %thead
+    %td Name
+    - @war.count.times do |i|
+      %td= i +1
+  %tbody
+    - @warriors.each_with_index do |w,index|
+      %tr
+        %td.bg-success= "#{index+1}. #{w.user.name}"
+        - w.averages.each_with_index do |e,base|
+          - marked = ''
+          - if @plan.include? "#{index+1}_#{base+1}"
+            - marked = 'bg-info'
+          %td{class: marked}= e.to_s.gsub('.0','')

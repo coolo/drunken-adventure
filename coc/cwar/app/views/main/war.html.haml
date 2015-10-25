@@ -1,0 +1,56 @@
+%h1
+  Hallo
+  = @user.name
+
+%div{class: 'alert alert-success'}
+  %h3
+    Bitte setze Deine Erwartungen für den Krieg
+    = @war.title
+
+  %p
+    Ich brauche die Information, was ihr für welchen Angreifer erwartet.
+    Dazu tragt die Zahlen der Gegner ein, bei denen 3 oder 2 Sterne zu erwarten sind bei einem Angriff ohne vorherigen Scout.
+
+  %p
+    Das Format ist pro Feld eine durch Komma getrennte Liste von Zahlen aus der Karte. Wenn ihr alle unterhalb der 1 meint, schreibt ihr <em>2-</em>. Wenn ihr alle ungeraden unter 10 meint, screibt ihr <em>11,13,15,17,19</em>. Ihr könnt Zahlen auch doppelt aufführen, es zählt dann die höchste Sternzahl. Zum Beispiel 11- für 3* und 5-* für 2*. Alle nicht aufgeführten Zahlen (auch innerhalb von Bereichen) gelten als 0*.
+
+  %p Beispiele:
+  %dl
+    %dt
+      3*: 5-, 2*: 4
+    %dd
+      Kein Stern auf 1 bis 3, auf 4 zwei und bei allen darunter 3 Sterne.
+    %dt
+      3*: 20, 2*: 19
+    %dd
+      1 bis 18 sind zu schwer, 19 ergeben zwei Sterne und 20 sogar drei.
+    %dt
+      3*: leer, 2*: leer
+    %dd
+      Es wird keine Aussage getroffen
+      
+  %p
+    Tragt bitte nur Daten ein, wo ihr wirklich eine Abschätzung machen könnt. Wenn ihr Bases auslasst, ist es besser als Falschaussagen. Es ist OK, wenn ihr zB nur bei eins, zwei unserer Accounts was eintragt oder keine Daten zu den TH10.
+
+%p
+  Plan für den aktuellen Krieg findest Du 
+  = link_to "hier", plan_war_path(@war)
+  
+= form_for @war, url: { action: :estimate }  do |f|
+  - @war.warriors.order(:order).each do |w|
+    %div{class: 'row'}
+      = hidden_field_tag(:war_id, @war.id)
+      %h4{class: 'col-xs-2'}
+        = "#{w.order}. #{w.user.name}"
+      %div{class: 'col-xs-10'}
+        = label_tag "threes[#{w.id}]", "3*"
+        = text_field_tag "threes[#{w.id}]", @estimates[w][3].join(',')
+        = label_tag "twos[#{w.id}]", "2*"
+        = text_field_tag "twos[#{w.id}]", @estimates[w][2].join(',')
+      /
+        = label_tag "ones[#{w.id}]", "1*"
+        = text_field_tag "ones[#{w.id}]", @estimates[w][1].join(',')
+        = label_tag "zeros[#{w.id}]", "0*"
+        = text_field_tag "zeros[#{w.id}]", @estimates[w][0].join(',')
+      
+  = f.submit "Fertig"

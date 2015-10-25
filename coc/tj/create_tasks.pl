@@ -545,8 +545,10 @@ sub pick() {
 
 sub round_shift {
     my ($dt) = @_;
-    while ($dt->hour > 22) {
-	$dt->add_duration(DateTime::Duration->new(hours => 1));
+    if ($dt->hour > 23 || ($dt->hour == 22 && $dt->minute > 30)) {
+	$dt->add_duration(DateTime::Duration->new(hours => 4));
+	# no other way to around?
+	$dt->subtract_duration(DateTime::Duration->new(minutes => $dt->minute));
     }
     while ($dt->hour < 7) {
 	$dt->add_duration(DateTime::Duration->new(hours => 1));

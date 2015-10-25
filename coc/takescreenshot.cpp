@@ -102,7 +102,8 @@ int main(int argc, char**argv)
       reexec();
     }
     saveScreen("current");
-	kill(adb_pid, SIGTERM);
+    continue;
+    kill(adb_pid, SIGTERM);
     exit(0);
     //imshow( "Display window", frame );       
     waitKey(1);   

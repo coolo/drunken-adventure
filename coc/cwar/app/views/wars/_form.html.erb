@@ -1,0 +1,34 @@
+
+<%= form_for(@war) do |f| %>
+  <% if @war.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@war.errors.count, "error") %> prohibited this war from being saved:</h2>
+
+      <ul>
+      <% @war.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.label(:title, "Titel des Krieges:") %>
+  <%= f.text_field(:title) %>
+
+  <div>
+  Teilnehmer:
+  </div>
+  
+  <select multiple="multiple" id="warriors" name="war[order][]">
+    <% User.order(:name).each do |u| %>
+       <% selected = u.warrior_in?(@war) ? ' selected' : '' %>
+       <option value='<%= u.id %>'<%= selected %>><%= u.name %></option>
+    <% end %>
+  </select>
+
+  <%= javascript_tag "setupWarriors();" %>
+  
+  <div class="actions">
+    <%= f.submit "Fertig" %>
+  </div>
+<% end %>
