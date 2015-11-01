@@ -11,6 +11,13 @@ class Warrior < ActiveRecord::Base
    def average(base)
      averages[base]
    end
+
+   def each_estimate(base)
+     estimates.each do |e|
+       next if e.base != base
+       yield e
+     end
+   end
    
    private
    

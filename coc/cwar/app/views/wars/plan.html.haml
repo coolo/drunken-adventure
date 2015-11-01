@@ -13,6 +13,14 @@
         %td.bg-success= "#{index+1}. #{w.user.name}"
         - w.averages.each_with_index do |e,base|
           - marked = ''
-          - if @plan.include? "#{index+1}_#{base+1}"
+          - id = "#{index+1}_#{base+1}"
+          - if @plan.include? id
             - marked = 'bg-info'
-          %td{class: marked}= e.to_s.gsub('.0','')
+          %td{class: marked, id: "T_#{id}"}
+            .avg= e.to_s.gsub('.0','')
+          - tt = "<ul class='estimate-list'>"
+          - w.each_estimate(base+1) do |b|
+            - tt << "<li>#{b.stars} #{b.user.name}</li>"
+          - tt << "</ul>"
+          %script
+            $("#T_#{id} div.avg").tooltip({'title': "#{tt.html_safe}", html: true });
