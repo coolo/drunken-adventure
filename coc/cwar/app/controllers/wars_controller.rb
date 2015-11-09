@@ -66,13 +66,20 @@ class WarsController < ApplicationController
 
   def plan
     @warriors = @war.warriors
-    @plan = [ '2_1', '1_2', '3_3', '5_4', '4_5', '6_6', '4_7', '7_8', '9_9', '10_10', '8_11', '16_12', '11_13','12_14', '15_15', '18_20', '19_19', '19_18', '17_17', '13_16']
+    @warriors.each_with_index do |w,i|
+      w.index = i + 1
+    end
+    sorted = @warriors.sort { |a,b| b.index_avg <=> a.index_avg }
+    @plan = []
+    @war.count.times do |i|
+      @plan.append("#{sorted[i].index}_#{i+1}")
+    end
   end
   
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_war
-      @war = War.find(params[:id])
+      @war = War.includes(:warriors, warriors: :estimates).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -3,7 +3,7 @@ class War < ActiveRecord::Base
   has_many :estimates
 
   def count
-    @count || @count = warriors.count
+    @count || @count = self.warriors.size
   end
   
   def set_order(order)

@@ -8,19 +8,19 @@
     - @war.count.times do |i|
       %td= i +1
   %tbody
-    - @warriors.each_with_index do |w,index|
+    - @warriors.each do |w|
       %tr
-        %td.bg-success= "#{index+1}. #{w.user.name}"
+        %td.bg-success= "#{w.index}. #{w.user_name}"
         - w.averages.each_with_index do |e,base|
           - marked = ''
-          - id = "#{index+1}_#{base+1}"
+          - id = "#{w.index}_#{base+1}"
           - if @plan.include? id
             - marked = 'bg-info'
           %td{class: marked, id: "T_#{id}"}
             .avg= e.to_s.gsub('.0','')
           - tt = "<ul class='estimate-list'>"
           - w.each_estimate(base+1) do |b|
-            - tt << "<li>#{b.stars} #{b.user.name}</li>"
+            - tt << "<li>#{b.stars} #{User.name_for(b.user_id)}</li>"
           - tt << "</ul>"
           %script
             $("#T_#{id} div.avg").tooltip({'title': "#{tt.html_safe}", html: true });

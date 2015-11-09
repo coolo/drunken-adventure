@@ -3,7 +3,20 @@ class Warrior < ActiveRecord::Base
    belongs_to :war
 
    has_many :estimates
+   attr_reader :user_name
 
+   def index
+     @index
+   end
+
+   def index=(i)
+     @index = i
+   end
+   
+   def user_name
+     User.name_for(self.user_id)
+   end
+   
    def averages
      @averages || calc_averages
    end
@@ -18,6 +31,18 @@ class Warrior < ActiveRecord::Base
        yield e
      end
    end
+
+   def index_avg
+     @index_avg || calc_index_avg
+   end
+   
+   def calc_index_avg
+     sum = 0
+     averages.each do |a|
+       sum += a
+     end
+     @index_avg = Integer((sum / averages.size) * 100 + 1)
+   end
    
    private
    
@@ -25,7 +50,6 @@ class Warrior < ActiveRecord::Base
      @averages = []
      sums = Array.new(war.count, 0.0)
      count = Array.new(war.count, 0)
-     Rails.logger.debug "#{user.name}: #{estimates.map { |e| [e.user_id, e.base, e.stars] }.inspect}"
      estimates.each do |e|
        sums[e.base-1] += e.stars
        count[e.base-1] += 1
