@@ -352,69 +352,69 @@ set_level('th', 9, '3,000,000 Gold', '10d', 8);
 set_level('th', 10, '4,000,000 Gold', '14d', 9);
 
 # Base
-add_building('th', 'Town Hall', 300);
-set_complete('th', 6);
+add_building('th', 'Town Hall', 100);
+set_complete('th', 9);
 
 add_building('Clan_Castle', 'Clan Castle', 800);
-set_complete('Clan_Castle', 3);
+set_complete('Clan_Castle', 5);
 
 # Defenses
 add_building('Wizard_Tower', 'Wizard Tower', 630);
-set_complete('Wizard_Tower', 3, 3);
+set_complete('Wizard_Tower', 6, 6, 6, 2);
 add_building('Cannon', 'Cannon', 550);
-set_complete('Cannon', 7, 7, 7);
+set_complete('Cannon', 10, 10, 9, 9, 9);
 add_building('Archer_Tower', 'Archer Tower', 660);
-set_complete('Archer_Tower', 7, 7, 7);
+set_complete('Archer_Tower', 10, 9, 8, 8, 9, 4);
 add_building('Mortar', 'Mortar', 600);
-set_complete('Mortar', 4, 4);
+set_complete('Mortar', 6, 6, 6, 6);
 add_building('Air_Defense', 'Air Defense', 690);
-set_complete('Air_Defense', 4);
-add_building('Air_Sweeper', 'Air Sweeper', 690);
-set_complete('Air_Sweeper', 2);
+set_complete('Air_Defense', 6, 6, 6, 4);
+add_building('Air_Sweeper', 'Air Sweeper', 610);
+set_complete('Air_Sweeper', 4, 2);
 add_building('Hidden_Tesla', 'Hidden Tesla', 650);
-set_complete('Hidden_Tesla');
+set_complete('Hidden_Tesla', 5, 3, 2, 1);
 add_building('X_Bow', 'X-Bow', 650);
-set_complete('X_Bow');
+set_complete('X_Bow', 1, 1);
 add_building('Inferno_Tower', 'Inferno Tower', 700);
 set_complete('Inferno_Tower');
 add_building('Air_Bomb', 'Air Bomb', 650);
-set_complete('Air_Bomb', 2, 2);
+set_complete('Air_Bomb', 4, 4, 3, 3);
 add_building('Giant_Bomb', 'Giant Bomb', 620);
-set_complete('Giant_Bomb', 2);
+set_complete('Giant_Bomb', 3, 3, 3, 3);
 add_building('Seeking_Air_Mine', 'Seeking Air Mine', 600);
-set_complete('Seeking_Air_Mine');
+set_complete('Seeking_Air_Mine', 2, 2, 2, 2);
 add_building('Skeleton_Trap', 'Skeleton Trap', 600);
-set_complete('Skeleton_Trap');
+set_complete('Skeleton_Trap', 2, 2);
 add_building('Spring_Trap', 'Spring Trap', 600);
-set_complete('Spring_Trap', 1, 1, 1, 1);
-add_building('Bomb', 'Bomb', 910);
-set_complete('Bomb', 3, 3, 3, 3);
+set_complete('Spring_Trap', 1, 1, 1, 1, 1, 1);
+add_building('Bomb', 'Bomb', 710);
+set_complete('Bomb', 5, 5, 5, 5, 5, 5);
 
 # Offense
 add_building('Army_Camp', 'Army Camp', 830);
-set_complete('Army_Camp', 6, 6, 6);
+set_complete('Army_Camp', 7, 7, 7, 7);
 add_building('Barracks', 'Barracks', 800);
-set_complete('Barracks', 8, 8, 8);
+set_complete('Barracks', 10, 10, 10, 10);
 add_building('Dark_Barracks', 'Dark Barracks', 800);
-set_complete('Dark_Barracks');
+set_complete('Dark_Barracks', 6, 5);
 add_building('Laboratory', 'Laboratory', 950);
-set_complete('Laboratory', 4);
+set_complete('Laboratory', 7);
 add_building('Spell_Factory', 'Spell Factory', 750);
-set_complete('Spell_Factory', 2);
+set_complete('Spell_Factory', 4);
 
 # Resources
 add_building('Elixir_Collector', 'Elixir Collector', 250);
-set_complete('Elixir_Collector', 7, 6, 6, 7, 9, 8);
+set_complete('Elixir_Collector', 12, 11, 11, 11, 11, 11);
 add_building('Elixir_Storage', 'Elixir Storage', 500);
-set_complete('Elixir_Storage', 10, 10);
+set_complete('Elixir_Storage', 11, 11, 11, 11);
 add_building('Gold_Mine', 'Gold Mine', 240);
-set_complete('Gold_Mine', 7, 5, 8, 7, 6, 10);
+set_complete('Gold_Mine', 10, 10, 8, 10, 10, 9);
 add_building('Gold_Storage', 'Gold Storage', 500);
-set_complete('Gold_Storage', 10, 10);
-add_building('Dark_Elixir_Drill', 'Dark Elixir Drill', 500);
-set_complete('Dark_Elixir_Drill');
-add_building('Dark_Elixir_Storage', 'Dark Elixir Storage', 500);
-set_complete('Dark_Elixir_Storage');
+set_complete('Gold_Storage', 11, 11, 11, 11);
+add_building('Dark_Elixir_Drill', 'Dark Elixir Drill', 630);
+set_complete('Dark_Elixir_Drill', 3, 3);
+add_building('Dark_Elixir_Storage', 'Dark Elixir Storage', 610);
+set_complete('Dark_Elixir_Storage', 4);
 
 #print Dumper(\%buildings);
 
@@ -465,6 +465,7 @@ for my $nick (sort keys %buildings) {
 	    }
 	    push(@deps, "th_1_$thlvl") if ($thlvl > 1);
 	    $tasks{$taskname}->{priority} = $buildings{$nick}->{priority} * $buildings{$nick}->{priority};
+            $tasks{$taskname}->{cost} = $buildings{$nick}->{costs}->{$lvl};
 	    print TASKS "  priority " . $buildings{$nick}->{priority} . "\n";
 	    print TASKS "  depends " . join(', ', map { "!$_" } @deps) . "\n" if (@deps);
 	    for my $d (@deps) {
@@ -475,7 +476,7 @@ for my $nick (sort keys %buildings) {
     }
 }
 
-delete $tasks{th_1_8};
+delete $tasks{th_1_10};
 
 my @best_history;
 my @history;
@@ -483,23 +484,22 @@ my @history;
 sub shuffle_order {
 
 @history = ();
-    
 my $now = DateTime->new(year   => 2015,
-			month  => 6,
-			day    => 25,
-			hour   => 7,
-			minute => 2);
-    
+			month  => 10,
+			day    => 22,
+			hour   => 8,
+			minute => 36);
+
 $now->set_time_zone( 'Europe/Berlin' );
-    
+
 our %ready = ();
 our %wip = ();
 
-$wip{th_1_7} = $now + DateTime::Duration->new( days => 4, hours => 8, minutes => 58 );
-$wip{b2} = $now + DateTime::Duration->new( hours => 12, minutes => 33 );
-$wip{b3} = $now + DateTime::Duration->new( hours => 31, minutes => 10 );
-$wip{b4} = $now + DateTime::Duration->new( hours => 3, minutes => 18 );
-#$wip{b5} = $now;
+$wip{b1} = $now + DateTime::Duration->new( hours => 2*24+13, minutes => 0 );
+$wip{Laboratory_1_7} = $now + DateTime::Duration->new( hours => 2*24+4, minutes => 0 );
+$wip{b3} = $now + DateTime::Duration->new( hours => 0*24+22, minutes => 13 );
+$wip{b4} = $now + DateTime::Duration->new( hours => 4*24+12, minutes => 0 );
+$wip{b5} = $now + DateTime::Duration->new( hours => 4*24+22, minutes => 0 );
 
 for my $nick (sort keys %tasks) {
     if (!defined $tasks{$nick}->{effort}) {
@@ -514,6 +514,15 @@ sub pick() {
     for my $nick (sort keys %tasks) {
 	next if $ready{$nick};
 	next if $wip{$nick};
+        my $base = $nick;
+        $base =~ s,_.*,,;
+	my $base_wip;
+        for my $busy (keys %wip) {
+            my $busybase = $busy;
+            $busybase =~ s,_.*,,;
+	    $base_wip = 1 if ($busybase eq $base);
+	}
+	last if $base_wip;
 	my $is_ready = 1;
 	for my $d (keys %{$tasks{$nick}->{needs}}) {
 	    if (!$ready{$d}) {
@@ -530,7 +539,7 @@ sub pick() {
     my $topprio;
     for my $p (@picks) {
       $topprio //= $p->{priority};
-      last if ($p->{priority} + 100 < $topprio);
+      last if ($p->{priority} + 200 < $topprio);
       $totalprio += $p->{priority};
     }
     my $pick = int(rand($totalprio));
@@ -555,7 +564,6 @@ sub round_shift {
     }
     return $dt;
 }
-
 
 
 while (1) {
