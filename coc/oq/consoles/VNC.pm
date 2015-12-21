@@ -11,6 +11,7 @@ use tinycv;
 use List::Util qw(min);
 
 use Crypt::DES;
+use Compress::Raw::Zlib;
 
 use Carp qw(confess cluck carp croak);
 use Data::Dumper qw(Dumper);
@@ -30,7 +31,7 @@ my $client_is_big_endian = unpack('h*', pack('s', 1)) =~ /01/ ? 1 : 0;
 
 # The numbers in the hashes below were acquired from the VNC source code
 my %supported_depths = (
-	32 => {
+    32 => { # same as 24 actually
         bpp         => 32,
         true_colour => 1,
         red_max     => 255,
@@ -70,10 +71,15 @@ my @encodings = (
         name      => 'Raw',
         supported => 1,
     },
-		 {
-        num       => 7,
-        name      => 'ZRLE',
+    {
+        num       => 2,
+        name      => 'RRE',
         supported => 1,
+    },
+    {
+        num       => 16,
+        name      => 'ZRLE',
+        supported => 0,
     },
 
     {
@@ -804,7 +810,7 @@ sub _receive_update {
     my $hlen                 = $socket->read(my $header, 3) || die 'unexpected end of data';
     my $number_of_rectangles = unpack('xn', $header);
 
-    #bmwqemu::diag "NOR $number_of_rectangles";
+    bmwqemu::diag "NOR $number_of_rectangles";
 
     my $depth = $self->depth;
 
@@ -817,14 +823,14 @@ sub _receive_update {
         # unsigned -> signed conversion
         $encoding_type = unpack 'l', pack 'L', $encoding_type;
 
-        #bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
+        bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
 
+	my $bytes_per_pixel = $self->_bpp / 8;
+	
         ### Raw encoding ###
         if ($encoding_type == 0 && !$self->ikvm) {
 
-            my $bytes_per_pixel = $self->_bpp / 8;
-
-            $socket->read(my $data, $w * $h * $bytes_per_pixel) || die 'unexpected end of data';
+	    $socket->read(my $data, $w * $h * $bytes_per_pixel) || die 'unexpected end of data';
 
             # splat raw pixels into the image
             my $img = tinycv::new($w, $h);
@@ -841,6 +847,17 @@ sub _receive_update {
             }
             $image->blend($img, $x, $y);
         }
+	elsif ($encoding_type == 2) {
+	    $socket->read( my $num_sub_rects, 4 )
+                || die 'unexpected end of data';
+            $num_sub_rects = unpack 'N', $num_sub_rects;
+	    $socket->read(my $data, $bytes_per_pixel + $num_sub_rects * ($bytes_per_pixel + 8));
+	    my $pi = $self->_pixinfo;
+	    $image->map_raw_data_rre($x, $y, $w, $h, $data, $num_sub_rects, $do_endian_conversion, $bytes_per_pixel, $pi->{red_max}, $pi->{red_shift}, $pi->{green_max}, $pi->{green_shift}, $pi->{blue_max}, $pi->{blue_shift});
+	}
+	elsif ($encoding_type == 16) {
+	    $self->_receive_zlre_encoding($x, $y, $w, $h);
+	}
         elsif ($encoding_type == -223) {
             $self->width($w);
             $self->height($h);
@@ -884,6 +901,60 @@ sub _discard_ikvm_message {
     #     bytes "mouse-get-info", 2
     #   when 0x3c
     #     bytes "get-viewer-lang", 8
+}
+
+sub _read_color {
+    my ($self) = @_;
+    return 0;
+}
+
+sub _read_cpixel {
+    my ($bytes, $bytes_per_pixel) = @_;
+    printf "%02x %02x %02x %02x\n", shift @$bytes, shift @$bytes, shift @$bytes, shift @$bytes;
+    return 0;
+}
+
+sub _receive_zlre_encoding {
+    my ($self, $x, $y, $w, $h) = @_;
+
+    my $socket = $self->socket;
+    my $image  = $self->_framebuffer;
+
+    $socket->read(my $data, 4)
+      or die "short read for length";
+    my ($data_len) = unpack('N', $data);
+
+    $socket->read($data, $data_len)
+      or die "short read for zlre data";
+    my $d = new Compress::Raw::Zlib::Deflate( -AppendOutput => 1 )
+      or die "Cannot create a deflation stream\n" ;
+    my $out;
+    $d->deflate($data, $out) == Z_OK
+      or die "deflation failed\n" ;
+    $d->flush($out) == Z_OK
+      or die "deflation flush failed\n" ;
+    printf "DATA %d->%d\n", $d->total_in, $d->total_out;
+    my $bytes_per_pixel = $self->_bpp / 8;
+    # TODO: can be reduced to 3
+    my @bytes = unpack('C*', $out);
+    while ($w > 0) {
+	my ($sub_encoding) = shift @bytes;
+	printf "SE %d \n", $sub_encoding;
+	if ($sub_encoding == 1) {
+	    my $full_color = _read_cpixel(\@bytes, $bytes_per_pixel);
+	} elsif ($sub_encoding >= 130) {
+	    my $palette_size = $sub_encoding - 128;
+	    print "Palette $palette_size\n";
+	    for my $i (0..$palette_size) {
+		my $color = _read_cpixel(\@bytes, $bytes_per_pixel);
+	    }
+	} else {
+	    die "unsupported $sub_encoding";
+	}
+	$w -= 64;
+	$x += 64;
+    }
+    exit(1);
 }
 
 sub _receive_ikvm_encoding {

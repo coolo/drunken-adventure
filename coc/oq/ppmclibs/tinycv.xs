@@ -76,10 +76,19 @@ void map_raw_data_rgb555(tinycv::Image self, unsigned char *data)
   CODE:
     image_map_raw_data_rgb555(self, data);
 
-void map_raw_data_full(tinycv::Image self, unsigned char *data, bool big_endian, unsigned int bytes_per_pixel, unsigned int red_mask, unsigned int red_shift, unsigned int green_mask, unsigned int green_shift, unsigned int blue_mask, unsigned int blue_shift)
+void map_raw_data_rre(tinycv::Image self, long x, long y, long w, long h, unsigned char *data, unsigned int num_of_rects,  bool do_endian_conversion, unsigned int bytes_per_pixel, unsigned int red_mask,   unsigned int red_shift, unsigned int green_mask, unsigned int green_shift, unsigned int blue_mask,  unsigned int blue_shift)
+  CODE:
+   image_map_raw_data_rre(self, x, y, w, h, data, num_of_rects,
+			  do_endian_conversion,
+			  bytes_per_pixel,
+			  red_mask, red_shift,
+			  green_mask, green_shift,
+			  blue_mask, blue_shift);
+
+void map_raw_data_full(tinycv::Image self, unsigned char *data, bool do_endian_conversion, unsigned int bytes_per_pixel, unsigned int red_mask, unsigned int red_shift, unsigned int green_mask, unsigned int green_shift, unsigned int blue_mask, unsigned int blue_shift)
   CODE:
     image_map_raw_data_full(self, data,
-			    big_endian,
+			    do_endian_conversion,
 			    bytes_per_pixel,
 			    red_mask, red_shift,
 			    green_mask, green_shift,

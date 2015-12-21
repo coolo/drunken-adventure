@@ -16,7 +16,7 @@ my $password = <$pf>;
 close($pf);
 my $vnc = consoles::VNC->new({ hostname => $ARGV[0],
 			       password => $password,
-			       port => 5900 });
+			       port => $ARGV[1] || 5900 });
 
 $vnc->login();
 $vnc->send_update_request;
@@ -25,7 +25,7 @@ $s->add($vnc->socket);
 while (IO::Select->select($s, $s, undef, 20)) {
     next unless $vnc->update_framebuffer;
     $vnc->send_update_request;
-    $vnc->_framebuffer->write("hallo-" . time . ".png");
+    $vnc->_framebuffer->write("last.png");
     last;
 }
 

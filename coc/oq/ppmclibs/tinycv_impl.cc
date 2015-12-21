@@ -4,6 +4,7 @@
 #include <exception>
 #include <cerrno>
 #include <sys/time.h>
+#include <stdint.h>
 
 #include <vector>
 #include <algorithm>    // std::min
@@ -466,6 +467,60 @@ void image_map_raw_data_rgb555(Image *a, const unsigned char *data)
   }
 }
 
+static uint16_t read_u16(unsigned char * &data, bool do_endian_conversion ) {
+  uint16_t pixel;
+  if (do_endian_conversion) {
+    pixel = *data++ * 256;
+    pixel += *data++;
+  }
+  else {
+    pixel = *data++;
+    pixel += *data++ * 256;
+  };
+  return pixel;
+}
+
+cv::Scalar read_pixel(unsigned char* &data, bool do_endian_conversion,
+		      unsigned int bytes_per_pixel,
+		      unsigned int red_mask,   unsigned int red_shift,
+		      unsigned int green_mask, unsigned int green_shift,
+		      unsigned int blue_mask,  unsigned int blue_shift)
+{
+  unsigned char blue_skale  = 256 / (blue_mask  + 1);
+  unsigned char green_skale = 256 / (green_mask + 1);
+  unsigned char red_skale   = 256 / (red_mask   + 1);
+
+  long pixel;
+  if (bytes_per_pixel == 2) {
+    pixel = read_u16(data, do_endian_conversion);
+  }
+  else if (bytes_per_pixel == 4) {
+    if (do_endian_conversion) {
+      pixel = *data++;
+      pixel <<=8;
+      pixel |= *data++;
+      pixel <<=8;
+      pixel |= *data++;
+      pixel <<=8;
+      pixel |= *data++;
+    }
+    else {
+      pixel = *(uint32_t*)data;
+      data += 4;
+    }
+  }
+  else {
+    // just fail miserably for unsupported bytes per pixel
+    abort();
+  };
+  
+  
+  unsigned char blue = (pixel >> blue_shift  & blue_mask ) * blue_skale;
+  unsigned char green = (pixel >> green_shift & green_mask) * green_skale;
+  unsigned char red = (pixel >> red_shift   & red_mask  ) * red_skale;
+  return Scalar(blue, green, red);
+}
+
 void image_map_raw_data_full(Image* a, unsigned char *data,
 			     bool do_endian_conversion,
 			     unsigned int bytes_per_pixel,
@@ -473,48 +528,13 @@ void image_map_raw_data_full(Image* a, unsigned char *data,
 			     unsigned int green_mask, unsigned int green_shift,
 			     unsigned int blue_mask,  unsigned int blue_shift)
 {
-  unsigned char blue_skale  = 256 / (blue_mask  + 1);
-  unsigned char green_skale = 256 / (green_mask + 1);
-  unsigned char red_skale   = 256 / (red_mask   + 1);
   for (int y = 0; y < a->img.rows; y++) {
     for (int x = 0; x < a->img.cols; x++) {
-      long pixel;
-      if (bytes_per_pixel == 2) {
-	if (do_endian_conversion) {
-	  pixel = *data++ * 256;
-	  pixel += *data++;
-	}
-	else {
-	  pixel = *data++;
-	  pixel += *data++ * 256;
-	};
-      }
-      else if (bytes_per_pixel == 4) {
-	if (do_endian_conversion) {
-	  pixel = *data++;
-	  pixel <<=8;
-	  pixel |= *data++;
-	  pixel <<=8;
-	  pixel |= *data++;
-	  pixel <<=8;
-	  pixel |= *data++;
-	}
-	else {
-	  pixel = *(long*)data;
-	  data += 4;
-	}
-      }
-      else {
-	// just fail miserably for unsupported bytes per pixel
-	abort();
-      };
-      unsigned char blue  = (pixel >> blue_shift  & blue_mask ) * blue_skale;
-      unsigned char green = (pixel >> green_shift & green_mask) * green_skale;
-      unsigned char red   = (pixel >> red_shift   & red_mask  ) * red_skale;
-      // MSB ignored
-      a->img.at<cv::Vec3b>(y, x)[0] = blue;
-      a->img.at<cv::Vec3b>(y, x)[1] = green;
-      a->img.at<cv::Vec3b>(y, x)[2] = red;
+      cv::Scalar pixel = read_pixel(data, do_endian_conversion, bytes_per_pixel,
+				    red_mask, red_shift,
+				    green_mask, green_shift,
+				    blue_mask, blue_shift);
+      a->img.at<cv::Scalar>(y, x) = pixel;
     }
   }
 }
@@ -523,4 +543,31 @@ void image_blend_image(Image *a, Image *s, long x, long y)
 {
   cv::Rect roi( cv::Point( x, y ), s->img.size() );
   s->img.copyTo( a->img( roi ) );
+}
+
+void image_map_raw_data_rre(Image* a, long x, long y, long w, long h,
+			    unsigned char *data,
+			    unsigned int num_of_rects,
+			    bool do_endian_conversion,
+			    unsigned int bytes_per_pixel,
+			    unsigned int red_mask,   unsigned int red_shift,
+			    unsigned int green_mask, unsigned int green_shift,
+			    unsigned int blue_mask,  unsigned int blue_shift)
+{
+  cv::Scalar pixel = read_pixel(data, do_endian_conversion, bytes_per_pixel,
+			       red_mask, red_shift,
+			       green_mask, green_shift,
+			       blue_mask, blue_shift);
+  cv::rectangle( a->img, cv::Rect( x, y, w, h), pixel, CV_FILLED );
+  for (unsigned int i = 0; i < num_of_rects; ++i) {
+    pixel = read_pixel(data, do_endian_conversion, bytes_per_pixel,
+		       red_mask, red_shift,
+		       green_mask, green_shift,
+		       blue_mask, blue_shift);
+    uint16_t r_x = read_u16(data, true);
+    uint16_t r_y = read_u16(data, true);
+    uint16_t r_w = read_u16(data, true);
+    uint16_t r_h = read_u16(data, true);
+    cv::rectangle( a->img, cv::Rect( x+r_x, y+r_y, r_w, r_h), pixel, CV_FILLED );
+  }
 }

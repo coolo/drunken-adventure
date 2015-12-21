@@ -43,5 +43,15 @@ void image_map_raw_data_full(Image* a, unsigned char *data,
 			     unsigned int green_mask, unsigned int green_shift,
 			     unsigned int blue_mask,  unsigned int blue_shift);
 
+// RRE encoding for VNC
+void image_map_raw_data_rre(Image* a, long x, long y, long w, long h,
+			    unsigned char *data,
+			    unsigned int num_of_rects,
+			    bool do_endian_conversion,
+			    unsigned int bytes_per_pixel,
+			    unsigned int red_mask,   unsigned int red_shift,
+			    unsigned int green_mask, unsigned int green_shift,
+			    unsigned int blue_mask,  unsigned int blue_shift);
+
 // copy the s image into a at x,y
 void image_blend_image(Image *a, Image *s, long x, long y);
