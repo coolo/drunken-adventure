@@ -129,7 +129,7 @@ sub login {
     $self->width(0);
     $self->height(0);
     $self->screen_on(1);
-
+    
     eval {
         $self->_handshake_protocol_version();
         $self->_handshake_security();
@@ -914,17 +914,6 @@ sub _read_color {
     return 0;
 }
 
-sub _read_cpixel {
-    my ($bytes, $bytes_per_pixel) = @_;
-
-    my $red = shift @$bytes;
-    my $blue = shift @$bytes;
-    my $green = shift @$bytes;
-    my $pixel = $red << 8;
-    $pixel = (($pixel + $blue) << 8) + $green;
-    return $pixel;
-}
-
 sub _receive_zlre_encoding {
     my ($self, $x, $y, $w, $h) = @_;
 
@@ -938,37 +927,43 @@ sub _receive_zlre_encoding {
     print "ZLRE READ $data_len\n";
     $socket->read($data, $data_len) == $data_len
       or die "short read for zlre data $data_len";
-    my $d = new Compress::Raw::Zlib::Inflate( )
-      or die "Cannot create a inflation stream\n" ;
+    open(my $fh, '>', 'test.data');
+    print $fh $data;
+    close($fh);
+    $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();
     my $out;
-    $d->inflate($data, $out) == Z_STREAM_END
-      or die "inflation failed\n" ;
+    my $status = $self->{_inflater}->inflate($data, $out, 1);
+    if ($status != Z_OK) {
+	die "inflation failed $status";
+    }
     my $bytes_per_pixel = 3;
     my $offset = 0;
-    while ($w > 0) {
-	my ($sub_encoding) = unpack("\@${offset}C", $out);
-	$offset += 1;
-	printf "SE %d \n", $sub_encoding;
-	if ($sub_encoding == 1) {
-	    my $full_color = _read_cpixel(unpack("\@${offset}C${bytes_per_pixel}", $out), $bytes_per_pixel);
-	    $offset += $bytes_per_pixel;
-	} elsif ($sub_encoding <= 16) {
-	    # packed palette
-	    my $palette_size = $sub_encoding;
-	    my $bpp=($sub_encoding>4?($sub_encoding>16?8:4):($sub_encoding>2?2:1));
-	    $offset += $image->map_raw_data_zrle($x, $y, 64, 64, $out, $offset, $palette_size, $bpp);
-	} elsif ($sub_encoding >= 130) {
-	    my $palette_size = $sub_encoding - 128;
-	    print "Palette $palette_size\n";
-	    # TODO for my $i (1..$palette_size) {
-		#my $color = _read_cpixel(\@bytes, $bytes_per_pixel);
-	    #}
-	} else {
-	    die "unsupported $sub_encoding";
+    my $orig_w = $w;
+    my $orig_x = $x;
+    while ($h > 0) {
+	$w = $orig_w;
+	$x = $orig_x;
+	while ($w > 0) {
+	    my ($sub_encoding) = unpack("\@${offset}C", $out);
+	    $offset += 1;
+	    printf "SE $x $y %d\n", $sub_encoding;
+	    if ($sub_encoding == 0 || $sub_encoding == 1 || ($sub_encoding >= 2 && $sub_encoding <= 16) || $sub_encoding >= 130 || $sub_encoding == 128) {
+		my $tile_width = $w;
+		$tile_width = 64 if $tile_width > 64;
+		my $tile_heigth = $h;
+		$tile_heigth = 64 if $tile_heigth > 64;
+		$offset += $image->map_raw_data_zrle($x, $y, $tile_width, $tile_heigth, $out, $offset, $sub_encoding);
+		$image->write('last-t.png');
+	    } else {
+		die "unsupported $sub_encoding";
+	    }
+	    $w -= 64;
+	    $x += 64;
 	}
-	$w -= 64;
-	$x += 64;
+	$h -= 64;
+	$y += 64;
     }
+    
 }
 
 sub _receive_ikvm_encoding {

@@ -572,39 +572,114 @@ void image_map_raw_data_rre(Image* a, long x, long y, long w, long h,
   }
 }
 
-cv::Scalar read_cpixel(unsigned char *&data) {
+cv::Vec3b read_cpixel(unsigned char *&data) {
   char red = *data++;
   char green = *data++;
   char blue = *data++;
-  return cv::Scalar(red, green, blue);
+  return cv::Vec3b(red, green, blue);
 }
 
 long image_map_raw_data_zlre(Image* a, long x, long y, long w, long h,
 			     unsigned char *data,
-			     int palette_size,
-			     int bpp)
+			     int sub_encoding)
 {
   unsigned char *original_data = data;
-  cv::Scalar palette[128]; // max size
-  for (int i = 0; i < palette_size; ++i) {
-    palette[i] = read_cpixel(data);
-    printf("COLORS %02x%02x%02x\n", uint8_t(palette[i][0]), uint8_t(palette[i][1]),uint8_t(palette[i][2]));
-  }
-  int mask = (1<<bpp)-1;
-  for (int j = 0; j < h; j++) {
-    int shift=8-bpp;
-    for (int i = 0; i < w; i++) {
-      cv::Scalar farbe = palette[((*data)>>shift)&mask];
-      //printf("COLORS %dx%d %02x%02x%02x\n", i+x, y+j, uint8_t(farbe[0]), uint8_t(farbe[1]),uint8_t(farbe[2]));
-      a->img.at<cv::Scalar>(y+j, x+i) = farbe;
-      shift -= bpp;
-      if (shift<0) {
-	shift=8-bpp;
-	data++;
+  
+  if (sub_encoding == 1) {
+    cv::Vec3b farbe = read_cpixel(data);
+    for (int j = 0; j < h; j++) {
+      for (int i = 0; i < w; i++) {
+	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
       }
     }
-    if (shift<8-bpp)
+    return data - original_data;
+  }
+  if (sub_encoding == 0) {
+    for (int j = 0; j < h; j++) {
+      for (int i = 0; i < w; i++) {
+	cv::Vec3b farbe = read_cpixel(data);
+	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+      }
+    }
+    return data - original_data;
+  }
+  if (sub_encoding == 128) {
+    int j = 0, i = 0;
+    while (j < h) {
+      cv::Vec3b farbe = read_cpixel(data);
+      int length = 1;
+      /* run length */
+      while(*data==0xff) {
+	length+=*data;
+	data++;
+      }
+      length+=*data;
       data++;
+      while (j<h && length>0) {
+	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+	length--;
+	if (++i>=w) {
+	  i=0;
+	  j++;
+	}
+      }
+    }
+    return data - original_data;
+  }
+  int palette_size = sub_encoding;
+  int bpp = 8;
+  if (sub_encoding >= 130) {
+    palette_size = sub_encoding - 128;
+  } else {
+    bpp=(sub_encoding>4?4:(sub_encoding>2?2:1));
+  }
+
+  cv::Vec3b palette[128]; // max size
+  for (int i = 0; i < palette_size; ++i) {
+    palette[i] = read_cpixel(data);
+  }
+  if (bpp == 8) { // unpacked palette
+    int j = 0, i = 0;
+    while (j < h) {
+      int palette_index = *data&0x7f;
+      cv::Vec3b farbe = palette[palette_index];
+      int length = 1;
+      if (*data&0x80) { // run
+	data++;
+	/* run length */
+	while(*data==0xff) {
+	  length+=*data;
+	  data++;
+	}
+	length+=*data;
+      }
+      data++;
+      while (j<h && length>0) {
+	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+	length--;
+	if (++i>=w) {
+	  i=0;
+	  j++;
+	}
+      }
+    }
+  } else {
+    int mask = (1<<bpp)-1;
+    for (int j = 0; j < h; j++) {
+      int shift=8-bpp;
+      for (int i = 0; i < w; i++) {
+	cv::Vec3b farbe = palette[((*data)>>shift)&mask];
+	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+	
+	shift -= bpp;
+	if (shift<0) {
+	  shift=8-bpp;
+	  data++;
+	}
+      }
+      if (shift<8-bpp)
+	data++;
+    }
   }
   return data - original_data;
 }

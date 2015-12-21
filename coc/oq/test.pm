@@ -26,7 +26,7 @@ while (IO::Select->select($s, $s, undef, 20)) {
     next unless $vnc->update_framebuffer;
     $vnc->send_update_request;
     $vnc->_framebuffer->write("last.png");
-    last;
+#    last;
 }
 
 my $nimg = tinycv::read('spiel-neu-laden.png');

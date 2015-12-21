@@ -56,8 +56,7 @@ void image_map_raw_data_rre(Image* a, long x, long y, long w, long h,
 // ZLRE encoding for VNC
 long image_map_raw_data_zlre(Image* a, long x, long y, long w, long h,
 			     unsigned char *data,
-			     int palette_size,
-			     int bpp);
+			     int sub_encoding);
 
 // copy the s image into a at x,y
 void image_blend_image(Image *a, Image *s, long x, long y);
