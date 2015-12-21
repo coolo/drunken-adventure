@@ -77,9 +77,15 @@ my @encodings = (
         supported => 1,
     },
     {
+        num       => 6,
+        name      => 'Zlib',
+        supported => 0, # would be easy though
+    },
+
+    {
         num       => 16,
         name      => 'ZRLE',
-        supported => 0,
+        supported => 1,
     },
 
     {
@@ -910,8 +916,13 @@ sub _read_color {
 
 sub _read_cpixel {
     my ($bytes, $bytes_per_pixel) = @_;
-    printf "%02x %02x %02x %02x\n", shift @$bytes, shift @$bytes, shift @$bytes, shift @$bytes;
-    return 0;
+
+    my $red = shift @$bytes;
+    my $blue = shift @$bytes;
+    my $green = shift @$bytes;
+    my $pixel = $red << 8;
+    $pixel = (($pixel + $blue) << 8) + $green;
+    return $pixel;
 }
 
 sub _receive_zlre_encoding {
@@ -924,37 +935,40 @@ sub _receive_zlre_encoding {
       or die "short read for length";
     my ($data_len) = unpack('N', $data);
 
-    $socket->read($data, $data_len)
-      or die "short read for zlre data";
-    my $d = new Compress::Raw::Zlib::Deflate( -AppendOutput => 1 )
-      or die "Cannot create a deflation stream\n" ;
+    print "ZLRE READ $data_len\n";
+    $socket->read($data, $data_len) == $data_len
+      or die "short read for zlre data $data_len";
+    my $d = new Compress::Raw::Zlib::Inflate( )
+      or die "Cannot create a inflation stream\n" ;
     my $out;
-    $d->deflate($data, $out) == Z_OK
-      or die "deflation failed\n" ;
-    $d->flush($out) == Z_OK
-      or die "deflation flush failed\n" ;
-    printf "DATA %d->%d\n", $d->total_in, $d->total_out;
-    my $bytes_per_pixel = $self->_bpp / 8;
-    # TODO: can be reduced to 3
-    my @bytes = unpack('C*', $out);
+    $d->inflate($data, $out) == Z_STREAM_END
+      or die "inflation failed\n" ;
+    my $bytes_per_pixel = 3;
+    my $offset = 0;
     while ($w > 0) {
-	my ($sub_encoding) = shift @bytes;
+	my ($sub_encoding) = unpack("\@${offset}C", $out);
+	$offset += 1;
 	printf "SE %d \n", $sub_encoding;
 	if ($sub_encoding == 1) {
-	    my $full_color = _read_cpixel(\@bytes, $bytes_per_pixel);
+	    my $full_color = _read_cpixel(unpack("\@${offset}C${bytes_per_pixel}", $out), $bytes_per_pixel);
+	    $offset += $bytes_per_pixel;
+	} elsif ($sub_encoding <= 16) {
+	    # packed palette
+	    my $palette_size = $sub_encoding;
+	    my $bpp=($sub_encoding>4?($sub_encoding>16?8:4):($sub_encoding>2?2:1));
+	    $offset += $image->map_raw_data_zrle($x, $y, 64, 64, $out, $offset, $palette_size, $bpp);
 	} elsif ($sub_encoding >= 130) {
 	    my $palette_size = $sub_encoding - 128;
 	    print "Palette $palette_size\n";
-	    for my $i (0..$palette_size) {
-		my $color = _read_cpixel(\@bytes, $bytes_per_pixel);
-	    }
+	    # TODO for my $i (1..$palette_size) {
+		#my $color = _read_cpixel(\@bytes, $bytes_per_pixel);
+	    #}
 	} else {
 	    die "unsupported $sub_encoding";
 	}
 	$w -= 64;
 	$x += 64;
     }
-    exit(1);
 }
 
 sub _receive_ikvm_encoding {

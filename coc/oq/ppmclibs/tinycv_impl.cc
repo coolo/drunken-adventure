@@ -571,3 +571,40 @@ void image_map_raw_data_rre(Image* a, long x, long y, long w, long h,
     cv::rectangle( a->img, cv::Rect( x+r_x, y+r_y, r_w, r_h), pixel, CV_FILLED );
   }
 }
+
+cv::Scalar read_cpixel(unsigned char *&data) {
+  char red = *data++;
+  char green = *data++;
+  char blue = *data++;
+  return cv::Scalar(red, green, blue);
+}
+
+long image_map_raw_data_zlre(Image* a, long x, long y, long w, long h,
+			     unsigned char *data,
+			     int palette_size,
+			     int bpp)
+{
+  unsigned char *original_data = data;
+  cv::Scalar palette[128]; // max size
+  for (int i = 0; i < palette_size; ++i) {
+    palette[i] = read_cpixel(data);
+    printf("COLORS %02x%02x%02x\n", uint8_t(palette[i][0]), uint8_t(palette[i][1]),uint8_t(palette[i][2]));
+  }
+  int mask = (1<<bpp)-1;
+  for (int j = 0; j < h; j++) {
+    int shift=8-bpp;
+    for (int i = 0; i < w; i++) {
+      cv::Scalar farbe = palette[((*data)>>shift)&mask];
+      //printf("COLORS %dx%d %02x%02x%02x\n", i+x, y+j, uint8_t(farbe[0]), uint8_t(farbe[1]),uint8_t(farbe[2]));
+      a->img.at<cv::Scalar>(y+j, x+i) = farbe;
+      shift -= bpp;
+      if (shift<0) {
+	shift=8-bpp;
+	data++;
+      }
+    }
+    if (shift<8-bpp)
+      data++;
+  }
+  return data - original_data;
+}
