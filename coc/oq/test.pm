@@ -19,7 +19,6 @@ my $vnc = consoles::VNC->new({ hostname => $ARGV[0],
 			       port => $ARGV[1] || 5900 });
 
 $vnc->login();
-
 sub update_screen {
     $vnc->send_update_request;
     my $s = IO::Select->new();
@@ -97,27 +96,50 @@ if (on_main_screen) {
 	}
 
     }
+} else {
+    print "OBSTACLE in the way!\n";
+    my ($sim, $xmatch, $ymatch) = find_needle_coords('chat-close.png');
+    if ($sim > 30) {
+	$vnc->mouse_click($xmatch + 5, $ymatch + 5);
+    }
+}
+
+sub collect_resources {
+    while (1) {
+	my $found = 0;
+	for my $n (qw/resource_de.png resource_elex.png resource_gold.png/) {
+	    my $nn = tinycv::read($n);
+	    my ($sim, $xm, $ym) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1000);
+	    $sim = $vnc->_framebuffer->copyrect($xm, $ym, $nn->xres, $nn->yres)->similarity($nn);
+	    if ($sim > 14) {
+		$found = 1;
+		print "FOUND $n\n";
+		$vnc->mouse_click($xm + 10, $ym + 10);
+		update_screen;
+	    }
+	}
+	last unless $found;
+    }
 }
 
 while (1) {
-    my $found = 0;
-    for my $n (qw/resource_de.png resource_elex.png resource_gold.png/) {
-	my $nn = tinycv::read($n);
-	my ($sim, $xm, $ym) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1000);
-	$sim = $vnc->_framebuffer->copyrect($xm, $ym, $nn->xres, $nn->yres)->similarity($nn);
-	if ($sim > 14) {
-	    $found = 1;
-	    $vnc->mouse_click($xm + 10, $ym + 10);
+    my $nn = tinycv::read('chat.png');
+    my $sim = $vnc->_framebuffer->copyrect(4, 290, $nn->xres, $nn->yres)->similarity($nn);
+    print "SIM chat $sim\n";
+    if ($sim > 40) {
+	$vnc->mouse_click(8, 300);
+	while (1) {
 	    update_screen;
+	    my ($sim, $xmatch, $ymatch) = find_needle_coords('chat-close.png');
+	    if ($sim > 30) {
+		$vnc->_framebuffer->write("chat-" . time . ".png");
+		$vnc->mouse_click($xmatch + 5, $ymatch + 5);
+		last;
+	    }
 	}
+    } else {
+	sleep(1);
+	update_screen;
+	collect_resources;
     }
-    last unless $found;
-}
-
-my $nn = tinycv::read('chat.png');
-my $sim = $vnc->_framebuffer->copyrect(4, 290, $nn->xres, $nn->yres)->similarity($nn);
-print "CHAT $sim\n";
-if ($sim > 25) {
-    $vnc->mouse_click(8, 300);
-    update_screen;
 }
