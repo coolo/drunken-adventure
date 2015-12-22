@@ -360,9 +360,9 @@ sub _server_initialization {
     ) = unpack 'nnCCCCnnnCCCxxxN', $server_init;
     #>>> tidy on
 
-    bmwqemu::diag "FW $framebuffer_width x $framebuffer_height";
+    # bmwqemu::diag "FW $framebuffer_width x $framebuffer_height";
 
-    bmwqemu::diag "$bits_per_pixel bpp / depth $depth be / $true_colour_flag tc / $pixinfo{red_max},$pixinfo{green_max},$pixinfo{blue_max} / $pixinfo{red_shift},$pixinfo{green_shift},$pixinfo{blue_shift}";
+    # bmwqemu::diag "$bits_per_pixel bpp / depth $depth be / $true_colour_flag tc / $pixinfo{red_max},$pixinfo{green_max},$pixinfo{blue_max} / $pixinfo{red_shift},$pixinfo{green_shift},$pixinfo{blue_shift}";
 
     bmwqemu::diag $name_length;
 
@@ -750,7 +750,6 @@ sub send_update_request {
     my $socket = $self->socket;
     my $incremental = $self->_framebuffer ? 1 : 0;
 
-    print "inc $incremental\n";
     $socket->print(
         pack(
             'CCnnnn',
@@ -816,7 +815,7 @@ sub _receive_update {
     my $hlen                 = $socket->read(my $header, 3) || die 'unexpected end of data';
     my $number_of_rectangles = unpack('xn', $header);
 
-    bmwqemu::diag "NOR $number_of_rectangles";
+    #bmwqemu::diag "NOR $number_of_rectangles";
 
     my $depth = $self->depth;
 
@@ -829,7 +828,7 @@ sub _receive_update {
         # unsigned -> signed conversion
         $encoding_type = unpack 'l', pack 'L', $encoding_type;
 
-        bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
+        # bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
 
 	my $bytes_per_pixel = $self->_bpp / 8;
 	
@@ -924,12 +923,8 @@ sub _receive_zlre_encoding {
       or die "short read for length";
     my ($data_len) = unpack('N', $data);
 
-    print "ZLRE READ $data_len\n";
     $socket->read($data, $data_len) == $data_len
       or die "short read for zlre data $data_len";
-    open(my $fh, '>', 'test.data');
-    print $fh $data;
-    close($fh);
     $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();
     my $out;
     my $status = $self->{_inflater}->inflate($data, $out, 1);
@@ -946,14 +941,12 @@ sub _receive_zlre_encoding {
 	while ($w > 0) {
 	    my ($sub_encoding) = unpack("\@${offset}C", $out);
 	    $offset += 1;
-	    printf "SE $x $y %d\n", $sub_encoding;
 	    if ($sub_encoding == 0 || $sub_encoding == 1 || ($sub_encoding >= 2 && $sub_encoding <= 16) || $sub_encoding >= 130 || $sub_encoding == 128) {
 		my $tile_width = $w;
 		$tile_width = 64 if $tile_width > 64;
 		my $tile_heigth = $h;
 		$tile_heigth = 64 if $tile_heigth > 64;
 		$offset += $image->map_raw_data_zrle($x, $y, $tile_width, $tile_heigth, $out, $offset, $sub_encoding);
-		$image->write('last-t.png');
 	    } else {
 		die "unsupported $sub_encoding";
 	    }
@@ -963,7 +956,6 @@ sub _receive_zlre_encoding {
 	$h -= 64;
 	$y += 64;
     }
-    
 }
 
 sub _receive_ikvm_encoding {

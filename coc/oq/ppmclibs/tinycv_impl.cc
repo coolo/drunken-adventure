@@ -31,7 +31,7 @@ struct Image {
   mutable cv::Mat _preped;
 
   cv::Mat prep() const {
-    if (!_preped.empty())
+    if (!_preped.empty() && false)
       return _preped;
 
     _preped = img.clone();
@@ -149,7 +149,6 @@ std::vector<int> search_TEMPLATE(const Image *scene, const Image *object, long x
   Mat object_copy = object->prep();
   
   Mat scene_roi(scene_copy, Rect(scene_x, scene_y, scene_width, scene_height));
-  std::cout << "object_roi " << x << " " << y << " " << width << " " << height << " " << object_copy.size() << endl;
   Mat object_roi(object_copy, Rect(x, y, width, height));
 
   // Calculate size of result matrix and create it. If scene is W x H
@@ -293,27 +292,6 @@ bool image_write(Image *s, const char *filename)
   return true;
 }
 
-static std::vector<uchar> convert_to_ppm(const Mat &s, int &header_length)
-{
-  vector<uchar> buf;
-  if (!imencode(".ppm", s, buf)) {
-    fprintf(stderr, "convert_to_ppm failed\n");
-    header_length = 0;
-    return buf;
-  }
-  
-  const char *cbuf = reinterpret_cast<const char*> (&buf[0]);
-  const char *cbuf_start = cbuf;
-  // the perl code removed the header before md5, 
-  // so we need to do the same
-  cbuf = strchr(cbuf, '\n') + 1; // "P6\n";
-  cbuf = strchr(cbuf, '\n') + 1; // "800 600\n";
-  cbuf = strchr(cbuf, '\n') + 1; // "255\n";
-
-  header_length = cbuf - cbuf_start;
-  return buf;
-}
-
 Image *image_copy(Image *s)
 {
   Image *ni = new Image();
@@ -361,16 +339,18 @@ Image *image_copyrect(Image *s, long x, long y, long width, long height)
 }
 
 // in-place op: change all values to 0 (if below threshold) or 255 otherwise
-void image_threshold(Image *s, int level)
+void image_threshold(Image *a, int level)
 {
-  int header_length;
-  vector<uchar> buf = convert_to_ppm(s->img, header_length);
-
-  vector<uchar>::iterator it = buf.begin() + header_length;
-  for (; it != buf.end(); ++it) {
-    *it = (*it < level) ? 0 : 0xff;
+  for (int y = 0; y < a->img.rows; y++) {
+    for (int x = 0; x < a->img.cols; x++) {
+      cv::Vec3b farbe = a->img.at<cv::Vec3b>(y, x);
+      if ((farbe[0] + farbe[1] + farbe[2]) / 3 > level)
+	farbe = cv::Vec3b(255, 255, 255);
+      else
+	farbe = cv::Vec3b(0, 0, 0);
+      a->img.at<cv::Vec3b>(y, x) = farbe;
+    }
   }
-  s->img = imdecode(buf, 1);
 }
 
 std::vector<float> image_avgcolor(Image *s)
