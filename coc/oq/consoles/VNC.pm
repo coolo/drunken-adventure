@@ -151,7 +151,7 @@ sub _handshake_protocol_version {
     my $socket = $self->socket;
     $socket->read(my $protocol_version, 12) || die 'unexpected end of data';
 
-    bmwqemu::diag "prot: $protocol_version";
+    # bmwqemu::diag "prot: $protocol_version";
 
     my $protocol_pattern = qr/\A RFB [ ] (\d{3}\.\d{3}) \s* \z/xms;
     if ($protocol_version !~ m/$protocol_pattern/xms) {
@@ -364,7 +364,7 @@ sub _server_initialization {
 
     # bmwqemu::diag "$bits_per_pixel bpp / depth $depth be / $true_colour_flag tc / $pixinfo{red_max},$pixinfo{green_max},$pixinfo{blue_max} / $pixinfo{red_shift},$pixinfo{green_shift},$pixinfo{blue_shift}";
 
-    bmwqemu::diag $name_length;
+    # bmwqemu::diag $name_length;
 
     if (!$self->depth) {
 

@@ -42,14 +42,6 @@ sub on_main_screen {
     return $sim > 19;
 }
 
-my $nimg = tinycv::read('spiel-neu-laden.png');
-if ($vnc->_framebuffer->copyrect(556, 486, $nimg->xres, $nimg->yres)->similarity($nimg) > 80) {
-    $vnc->mouse_click(int(556 + $nimg->xres / 2), int(486 + $nimg->yres / 2));
-    while (!on_main_screen) {
-	update_screen;
-    }
-}
-
 sub find_needle_coords {
     my ($nf) = @_;
     my $nn = tinycv::read($nf);
@@ -59,10 +51,14 @@ sub find_needle_coords {
     return ($sim, $xmatch, $ymatch);
 }
 
+sub park_cursor {
+    $vnc->mouse_click( 10, 10 );
+    update_screen;
+}
+
 #find_needle_coords('chat.png');
 
-
-if (on_main_screen) {
+sub zoom_out {
     my $nimg = tinycv::read('bushes.png');
     my $target_y = 100;
     my $target_x = 899;
@@ -74,7 +70,7 @@ if (on_main_screen) {
 	    if ($sim > 19) {
 		my $factor = -1;
 		$factor = 1 if ($ym < $target_y);
-		last if (abs($ym - $target_y) < 5);
+		last if (abs($ym - $target_y) < 8);
 		$vnc->send_pointer_event(0, 150, $ym );
 		update_screen;
 		for (my $i = 0; $i < abs($ym - $target_y); $i++) {
@@ -89,22 +85,53 @@ if (on_main_screen) {
 		update_screen;
 		$vnc->send_pointer_event(0, 10, 10 );
 		$vnc->send_key_event_up($vnc->keymap->{ctrl});
-		$vnc->send_pointer_event(1, 10, 10 );
-		$vnc->send_pointer_event(0, 10, 10 );
-		update_screen;
+		park_cursor;
 	    }
 	}
-
     }
-} else {
-    print "OBSTACLE in the way!\n";
-    my ($sim, $xmatch, $ymatch) = find_needle_coords('chat-close.png');
-    if ($sim > 30) {
-	$vnc->mouse_click($xmatch + 5, $ymatch + 5);
+}
+
+sub fix_main_screen {
+    if (on_main_screen) {
+	zoom_out;
+    } else {
+	print "OBSTACLE in the way!\n";
+	my ($sim, $xmatch, $ymatch) = find_needle_coords('chat-close.png');
+	if ($sim > 30) {
+	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+	    park_cursor;
+	    return;
+	}
+	($sim, $xmatch, $ymatch) = find_needle_coords('other-device.png');
+	if ($sim > 30) {
+	    print "waiting for other device\n";
+	    sleep(120);
+	    ($sim, $xmatch, $ymatch) = find_needle_coords('reload-app.png');
+	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+	    while (!on_main_screen) {
+		update_screen;
+	    }
+	    zoom_out;
+	    return;
+	}
+	my $nimg = tinycv::read('spiel-neu-laden.png');
+	if ($vnc->_framebuffer->copyrect(556, 486, $nimg->xres, $nimg->yres)->similarity($nimg) > 80) {
+	    $vnc->mouse_click(int(556 + $nimg->xres / 2), int(486 + $nimg->yres / 2));
+	    while (!on_main_screen) {
+		update_screen;
+	    }
+	    zoom_out;
+	    return;
+	}
+
+	print "unknown obstacle\n";
+	sleep(10);
+	fix_main_screen;
     }
 }
 
 sub collect_resources {
+    my $done = 0;
     while (1) {
 	my $found = 0;
 	for my $n (qw/resource_de.png resource_elex.png resource_gold.png/) {
@@ -115,17 +142,21 @@ sub collect_resources {
 		$found = 1;
 		print "FOUND $n\n";
 		$vnc->mouse_click($xm + 10, $ym + 10);
-		update_screen;
+		park_cursor;
 	    }
 	}
-	last unless $found;
+	if ($found) {
+	    $done = 1;
+	} else {
+	    last;
+	}
     }
+    return $done;
 }
 
-while (1) {
+sub check_chat {
     my $nn = tinycv::read('chat.png');
     my $sim = $vnc->_framebuffer->copyrect(4, 290, $nn->xres, $nn->yres)->similarity($nn);
-    print "SIM chat $sim\n";
     if ($sim > 40) {
 	$vnc->mouse_click(8, 300);
 	while (1) {
@@ -134,12 +165,22 @@ while (1) {
 	    if ($sim > 30) {
 		$vnc->_framebuffer->write("chat-" . time . ".png");
 		$vnc->mouse_click($xmatch + 5, $ymatch + 5);
-		last;
+		return 1;
 	    }
 	}
-    } else {
+    }
+    return;
+}
+
+while (1) {
+    fix_main_screen;
+    while (on_main_screen) {
 	sleep(1);
 	update_screen;
-	collect_resources;
+	next if check_chat;
+	next if collect_resources;
+	print "nothing los\n";
     }
 }
+
+print "done with main screen\n";
