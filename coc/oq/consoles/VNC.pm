@@ -923,6 +923,7 @@ sub _receive_zlre_encoding {
       or die "short read for length";
     my ($data_len) = unpack('N', $data);
 
+    print "ZLRE $data_len\n";
     $socket->read($data, $data_len) == $data_len
       or die "short read for zlre data $data_len";
     $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();

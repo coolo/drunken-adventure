@@ -20,6 +20,8 @@ my $vnc = consoles::VNC->new({ hostname => $ARGV[0],
 
 $vnc->login();
 sub update_screen {
+    #$vnc->_framebuffer(tinycv::read('last.png'));
+    #return;
     $vnc->send_update_request;
     my $s = IO::Select->new();
     $s->add($vnc->socket);
@@ -39,6 +41,7 @@ sub on_main_screen {
     $nimg->threshold(220);
     $roi->threshold(220);
     my $sim = $roi->similarity($nimg);
+    print "OMS $sim\n";
     return $sim > 19;
 }
 
@@ -52,11 +55,11 @@ sub find_needle_coords {
 }
 
 sub park_cursor {
-    $vnc->mouse_click( 10, 10 );
+    $vnc->mouse_click( $vnc->_framebuffer->xres - 20, 20 );
     update_screen;
 }
 
-#find_needle_coords('chat.png');
+#find_needle_coords('chat-close.png');
 
 sub zoom_out {
     my $nimg = tinycv::read('bushes.png');
@@ -64,6 +67,13 @@ sub zoom_out {
     my $target_x = 899;
     my $sim = $vnc->_framebuffer->copyrect($target_x, $target_y, $nimg->xres, $nimg->yres)->similarity($nimg);
     if ($sim < 30) {
+	my ($sim, $xmatch, $ymatch) = find_needle_coords('lower-bushes.png');
+	if ($sim > 30) { # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
+	    for (my $i = 0; $i < 400; $i++) {
+		$vnc->send_pointer_event(1, 150, 420 - $i );
+		update_screen if ($i % 10 == 0);
+	    }
+	}
 	$vnc->init_x11_keymap;
 	for (my $counter=1; $counter < 18; $counter++) {
 	    my ($sim, $xm, $ym) = find_needle_coords('bushes.png');
@@ -83,7 +93,6 @@ sub zoom_out {
 		$vnc->send_key_event_down($vnc->keymap->{ctrl});
 		$vnc->send_pointer_event(0x10, int($vnc->_framebuffer->xres * 2 / 10), int($vnc->_framebuffer->yres * 5 / 10));
 		update_screen;
-		$vnc->send_pointer_event(0, 10, 10 );
 		$vnc->send_key_event_up($vnc->keymap->{ctrl});
 		park_cursor;
 	    }
@@ -91,18 +100,31 @@ sub zoom_out {
     }
 }
 
+sub check_chat_close {
+    my $nimg = tinycv::read('chat-close.png');
+    my $roi = $vnc->_framebuffer->copyrect(527, 293, $nimg->xres, $nimg->yres);
+    my $sim = $roi->similarity($nimg);
+    print "SIM chat-close $sim\n";
+    if ($sim > 30) {
+	$vnc->_framebuffer->write("chat-" . time . ".png");
+	$vnc->mouse_click(530, 295);
+	park_cursor;
+	return 1;
+    } else {
+	$roi->write("chat-close-" . time . ".png");
+    }
+    return;
+}
+
+sub fix_main_screen;
+
 sub fix_main_screen {
     if (on_main_screen) {
 	zoom_out;
     } else {
 	print "OBSTACLE in the way!\n";
-	my ($sim, $xmatch, $ymatch) = find_needle_coords('chat-close.png');
-	if ($sim > 30) {
-	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-	    park_cursor;
-	    return;
-	}
-	($sim, $xmatch, $ymatch) = find_needle_coords('other-device.png');
+	return if check_chat_close;
+	my ($sim, $xmatch, $ymatch) = find_needle_coords('other-device.png');
 	if ($sim > 30) {
 	    print "waiting for other device\n";
 	    sleep(120);
@@ -123,9 +145,20 @@ sub fix_main_screen {
 	    zoom_out;
 	    return;
 	}
-
+	($sim, $xmatch, $ymatch) = find_needle_coords('red-X.png');
+	print "RX $sim\n";
+	if ($sim > 25) {
+	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+	    while (!on_main_screen) {
+		update_screen;
+	    }
+	    zoom_out;
+	    return;
+	}
+       
 	print "unknown obstacle\n";
 	sleep(10);
+	update_screen;
 	fix_main_screen;
     }
 }
@@ -159,14 +192,10 @@ sub check_chat {
     my $sim = $vnc->_framebuffer->copyrect(4, 290, $nn->xres, $nn->yres)->similarity($nn);
     if ($sim > 40) {
 	$vnc->mouse_click(8, 300);
+	park_cursor;
 	while (1) {
 	    update_screen;
-	    my ($sim, $xmatch, $ymatch) = find_needle_coords('chat-close.png');
-	    if ($sim > 30) {
-		$vnc->_framebuffer->write("chat-" . time . ".png");
-		$vnc->mouse_click($xmatch + 5, $ymatch + 5);
-		return 1;
-	    }
+	    return 1 if check_chat_close;
 	}
     }
     return;
