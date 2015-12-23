@@ -4,36 +4,19 @@ use warnings;
 BEGIN {
     unshift(@INC, "ppmclibs/blib/arch");
     unshift(@INC, "ppmclibs/blib/lib");
+    unshift(@INC, "ocrlibs/blib/arch");
+    unshift(@INC, "ocrlibs/blib/lib")
 }
 use tinycv;
+use ocr;
 use consoles::VNC;
 use IO::Select;
 use Time::HiRes qw(sleep gettimeofday time);
 use Data::Dumper;
 
-open(my $pf, '<', $ENV{HOME} . '/.vnc/passwd');
-my $password = <$pf>;
-close($pf);
-my $vnc = consoles::VNC->new({ hostname => $ARGV[0],
-			       password => $password,
-			       port => $ARGV[1] || 5900 });
+my $vnc;
 
-$vnc->login();
-sub update_screen {
-    #$vnc->_framebuffer(tinycv::read('last.png'));
-    #return;
-    $vnc->send_update_request;
-    my $s = IO::Select->new();
-    $s->add($vnc->socket);
-
-    while ($s->can_read(20)) {
-	next unless $vnc->update_framebuffer;
-	$vnc->_framebuffer->write("last.png");
-	return;
-    }
-}
-
-update_screen;
+sub update_screen;
 
 sub on_main_screen {
     my $nimg = tinycv::read('bauarbeiter.png');
@@ -68,13 +51,11 @@ sub zoom_out {
     my $sim = $vnc->_framebuffer->copyrect($target_x, $target_y, $nimg->xres, $nimg->yres)->similarity($nimg);
     if ($sim < 30) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords('lower-bushes.png');
-	if ($sim > 27) { # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
+	if ($sim > 30) { # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
 	    for (my $i = 0; $i < 400; $i++) {
-		$vnc->send_pointer_event(1, 150, 20 + $i );
+		$vnc->send_pointer_event(1, 150, 420 - $i );
 		update_screen if ($i % 10 == 0);
 	    }
-	    update_screen;
-	    park_cursor;
 	}
 	$vnc->init_x11_keymap;
 	for (my $counter=1; $counter < 18; $counter++) {
@@ -148,6 +129,7 @@ sub fix_main_screen {
 	    return;
 	}
 	($sim, $xmatch, $ymatch) = find_needle_coords('red-X.png');
+	print "RX $sim\n";
 	if ($sim > 25) {
 	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
 	    while (!on_main_screen) {
@@ -156,25 +138,7 @@ sub fix_main_screen {
 	    zoom_out;
 	    return;
 	}
-	($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png');
-	if ($sim > 25) {
-	    print "Personal Break - waiting 2 minutes\n";
-	    sleep(30);
-	    ($sim, $xmatch, $ymatch) = find_needle_coords('reload-app.png');
-	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-	    park_cursor;
-	    fix_main_screen;
-	    return;
-	}
-	($sim, $xmatch, $ymatch) = find_needle_coords('retry.png');
-	if ($sim > 25) {
-	    sleep(30);
-	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-	    park_cursor;
-	    fix_main_screen;
-	    return;
-	}
-
+       
 	print "unknown obstacle\n";
 	sleep(10);
 	update_screen;
@@ -220,15 +184,7 @@ sub check_chat {
     return;
 }
 
-while (1) {
-    fix_main_screen;
-    while (on_main_screen) {
-	sleep(10);
-	update_screen;
-	next if check_chat;
-	next if collect_resources;
-	print "nothing los\n";
-    }
-}
+my $img = tinycv::read $ARGV[0];
+my $roi = $img->copyrect(46, 210, 460, $img->yres - 210);
+$roi->ocr;
 
-print "done with main screen\n";
