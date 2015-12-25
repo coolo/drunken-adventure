@@ -4,8 +4,11 @@ use warnings;
 BEGIN {
     unshift(@INC, "ppmclibs/blib/arch");
     unshift(@INC, "ppmclibs/blib/lib");
+    unshift(@INC, "ocrlibs/blib/arch");
+    unshift(@INC, "ocrlibs/blib/lib");
 }
 use tinycv;
+use ocr;
 use consoles::VNC;
 use IO::Select;
 use Time::HiRes qw(sleep gettimeofday time);
@@ -48,7 +51,7 @@ sub on_main_screen {
 sub find_needle_coords {
     my ($nf) = @_;
     my $nn = tinycv::read($nf);
-    my ($sim, $xmatch, $ymatch) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1000);
+    my ($sim, $xmatch, $ymatch) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1400);
     $sim = $vnc->_framebuffer->copyrect($xmatch, $ymatch, $nn->xres, $nn->yres)->similarity($nn);
     print "SIM $nf - $sim X $xmatch Y $ymatch\n";
     return ($sim, $xmatch, $ymatch);
@@ -68,26 +71,27 @@ sub zoom_out {
     my $sim = $vnc->_framebuffer->copyrect($target_x, $target_y, $nimg->xres, $nimg->yres)->similarity($nimg);
     if ($sim < 30) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords('lower-bushes.png');
-	if ($sim > 27) { # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
-	    for (my $i = 0; $i < 400; $i++) {
-		$vnc->send_pointer_event(1, 150, 20 + $i );
+	if ($sim > 25) { # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
+	    for (my $i = 0; $i < 100; $i++) {
+		$vnc->send_pointer_event(1, 150, 20 + $i * 4 );
 		update_screen if ($i % 10 == 0);
 	    }
+	    $vnc->send_pointer_event(0, 150, 20 + 100 * 4 );
 	    update_screen;
-	    park_cursor;
+	    zoom_out();
 	}
 	$vnc->init_x11_keymap;
 	for (my $counter=1; $counter < 18; $counter++) {
 	    my ($sim, $xm, $ym) = find_needle_coords('bushes.png');
 	    if ($sim > 19) {
-		my $factor = -1;
-		$factor = 1 if ($ym < $target_y);
+		my $factor = -4;
+		$factor = 4 if ($ym < $target_y);
 		last if (abs($ym - $target_y) < 8);
 		$vnc->send_pointer_event(0, 150, $ym );
 		update_screen;
-		for (my $i = 0; $i < abs($ym - $target_y); $i++) {
+		for (my $i = 0; $i < abs($ym - $target_y) / abs($factor); $i++) {
 		    $vnc->send_pointer_event(1, 150, $ym + $i*$factor );
-		    update_screen if ($i % 10 == 0);
+		    update_screen;
 		}
 		$vnc->send_pointer_event(0, 150, $target_y );
 		update_screen;
@@ -108,7 +112,9 @@ sub check_chat_close {
     my $sim = $roi->similarity($nimg);
     print "SIM chat-close $sim\n";
     if ($sim > 16) {
-	$vnc->_framebuffer->write("chat-" . time . ".png");
+	my $roi = $vnc->_framebuffer->copyrect(46, 210, 460, $vnc->_framebuffer->yres - 210);
+	$roi->chat_ocr;
+	$vnc->_framebuffer->write("chats/chat-" . time . ".png");
 	$vnc->mouse_click(530, 295);
 	park_cursor;
 	return 1;
@@ -148,7 +154,7 @@ sub fix_main_screen {
 	    return;
 	}
 	($sim, $xmatch, $ymatch) = find_needle_coords('red-X.png');
-	if ($sim > 25) {
+	if ($sim > 15) {
 	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
 	    while (!on_main_screen) {
 		update_screen;
@@ -174,7 +180,38 @@ sub fix_main_screen {
 	    fix_main_screen;
 	    return;
 	}
-
+	($sim, $xmatch, $ymatch) = find_needle_coords('coc-icon.png');
+	if ($sim > 18) {
+	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+	    sleep(3);
+	    park_cursor;
+	    fix_main_screen;
+	    return;
+	}
+	($sim, $xmatch, $ymatch) = find_needle_coords('droid-fullscreen.png');
+	if ($sim > 18) {
+	    $vnc->mouse_click($xmatch + 20, $ymatch + 20);
+	    park_cursor;
+	    fix_main_screen;
+	    return;
+	}
+	($sim, $xmatch, $ymatch) = find_needle_coords('droidx.png');
+	if ($sim > 25) {
+	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+	    sleep(0.4);
+	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+	    park_cursor;
+	    while (1) {
+		($sim, $xmatch, $ymatch) = find_needle_coords('droidx-yes.png');
+		if ($sim > 18) {
+		    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+		    last;
+		}
+		update_screen;
+	    }
+	    fix_main_screen;
+	    return;
+	}
 	print "unknown obstacle\n";
 	sleep(10);
 	update_screen;
@@ -206,6 +243,53 @@ sub collect_resources {
     return $done;
 }
 
+sub open_army_menu {
+    my $nn = tinycv::read('armymenu.png');
+    my $sim = $vnc->_framebuffer->copyrect(27, 528, $nn->xres, $nn->yres)->similarity($nn);
+    if ($sim > 17) {
+	$vnc->mouse_click(35, 540);
+	while (1) {
+	    update_screen;
+	    my ($sim, $xmatch, $ymatch) = find_needle_coords('armyoverview.png');
+	    return 1 if ($sim > 20);
+	    $vnc->mouse_click(35, 540);
+	}
+    }
+    return;
+}
+
+sub check_troop {
+    my ($nn) = @_;
+    for my $t (qw(archer barb cobold dragon giant healer hog minion wallbreaker wizard golem pekka)) {
+	my $ref = tinycv::read("troops/$t.png");
+	if ($nn->similarity($ref) > 20) {
+	    return $t;
+	}
+    }
+    return;
+}
+
+sub read_army_state {
+    find_needle_coords('armyoverviewTL.png');
+    my $nn = tinycv::read('armyoverviewTL.png');
+    my $img = $vnc->_framebuffer;
+
+    for (my $i = 0; $i < 1300; $i++) {
+	my $sim = $img->copyrect($i, 123, $nn->xres, $nn->yres)->similarity($nn);
+	if ($sim > 23) {
+	    my $t = check_troop($img->copyrect($i + 40, 123 + 30, 40, 84));
+	    if (!$t) {
+		$img->copyrect($i + 40, 123 + 30, 40, 84)->write("troop-$i.png");
+	    }
+	    my $count = $img->copyrect($i + 10, 123 + 5, 70, 22);
+	    $count = $count->troop_count;
+	    print "I $i $t $count\n";
+	    $i += 85;
+	}
+    }
+    exit(1);
+}
+
 sub check_chat {
     my $nn = tinycv::read('chat.png');
     my $sim = $vnc->_framebuffer->copyrect(4, 290, $nn->xres, $nn->yres)->similarity($nn);
@@ -223,6 +307,10 @@ sub check_chat {
 while (1) {
     fix_main_screen;
     while (on_main_screen) {
+	if (open_army_menu) {
+	    read_army_state;
+	}
+	next;
 	sleep(10);
 	update_screen;
 	next if check_chat;

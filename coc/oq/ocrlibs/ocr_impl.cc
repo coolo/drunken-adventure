@@ -191,7 +191,7 @@ void display_mat(FILE *f, const Mat &m)
     }
   }
 
-  for (int index = 0; index < m.cols / 100; ++index) {
+  for (int index = 0; index < int(m.cols / 100 + 1); ++index) {
     for (int y = 0; y < m.rows; y++) {
       for (int x = start_x + index * 100; x < m.cols; x++) {
 	unsigned char p = m.at<uchar>(y, x);
@@ -205,9 +205,6 @@ void display_mat(FILE *f, const Mat &m)
   }
 }
 
-static string debug_letter;
-
-  
 class OCRLetter {
 public:
   string letter;
@@ -484,6 +481,7 @@ string map_letters(vector<OCRLetter> &letters, Mat &m) {
   
   findings.sort(compare_mse);
   int counter = 0;
+  (void)counter;
   Mat found(m.size(), CV_8UC1);
   found = Scalar(0);
 #if 0
@@ -534,15 +532,11 @@ string map_letters(vector<OCRLetter> &letters, Mat &m) {
   return result;
 }
 
-void image_ocr(Image *s)
+void image_chat_ocr(Image *s)
 {
   int counter = 0;
   cv::Mat m = s->img;
 
-  if (getenv("DEBUGLETTER")) {
-    debug_letter = getenv("DEBUGLETTER");
-  }
-  
   vector<OCRLetter> nick_letters = read_letters("chars_nick");
   vector<OCRLetter> text_letters = read_letters("chars_text");
 
@@ -568,7 +562,7 @@ void image_ocr(Image *s)
       break;
     Mat text = reduce_text(Mat(m, Range(y + 32, next_y), Range(0, m.cols)));
     char buffer[100] = "";
-#if 1
+#if 0
     sprintf(buffer, "text-%d.png", counter);
     imwrite(buffer, text);
 #endif
@@ -585,3 +579,25 @@ void image_ocr(Image *s)
   }
 }
 
+int image_troop_count(Image *s) {
+  cv::Mat m = s->img;
+
+  vector<OCRLetter> letters = read_letters("chars_troop_count");
+
+  processColors(m);
+
+  cvtColor(m, m, CV_BGR2GRAY);
+  m.convertTo(m, CV_8UC1);
+  for (int y = 0; y < m.rows; y++) {
+    for (int x = 0; x < m.cols; x++) {
+      uchar value = m.at<uchar>(y, x) / 51;
+      m.at<uchar>(y, x) = value;
+    }
+  }
+  string tl = map_letters(letters, m);
+  while (tl.length() && tl[0] == ' ')
+    tl.erase(0, 1);
+  if (tl.length() && tl[0] == 'x')
+    tl.erase(0, 1);
+  return atoi(tl.c_str());
+}

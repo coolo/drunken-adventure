@@ -12,6 +12,13 @@ typedef Image *tinycv__Image;
 
 MODULE = ocr     PACKAGE = tinycv::Image  PREFIX = Image
 
-void ocr(tinycv::Image self)
+void chat_ocr(tinycv::Image self)
   CODE:
-    image_ocr(self);
+    image_chat_ocr(self);
+
+int troop_count(tinycv::Image self)
+  CODE:
+    RETVAL = image_troop_count(self);
+
+  OUTPUT:
+    RETVAL
