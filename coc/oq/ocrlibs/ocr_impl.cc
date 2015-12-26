@@ -541,7 +541,7 @@ void image_chat_ocr(Image *s)
   vector<OCRLetter> text_letters = read_letters("chars_text");
 
   processColors(m);
-  imwrite("reduced.png", m);
+  //imwrite("reduced.png", m);
   int y = find_next_gray_row(m, 5) + 1;
   for (;;) {
     int x;

@@ -236,13 +236,13 @@ sub collect_resources {
 	my $found = 0;
 	for my $n (qw/resource_de.png resource_elex.png resource_gold.png/) {
 	    my $nn = tinycv::read($n);
-	    my ($sim, $xm, $ym) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1000);
+	    my ($sim, $xm, $ym) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1300);
 	    $sim = $vnc->_framebuffer->copyrect($xm, $ym, $nn->xres, $nn->yres)->similarity($nn);
 	    if ($sim > 14) {
 		$found = 1;
 		print "FOUND $n\n";
 		$vnc->mouse_click($xm + 10, $ym + 10);
-		park_cursor;
+		park_cursor(1);
 	    }
 	}
 	if ($found) {
@@ -257,7 +257,7 @@ sub collect_resources {
 sub open_army_menu {
     my $nn = tinycv::read('armymenu.png');
     my $sim = $vnc->_framebuffer->copyrect(27, 528, $nn->xres, $nn->yres)->similarity($nn);
-    if ($sim > 17) {
+    if ($sim > 20) {
 	$vnc->mouse_click(35, 540);
 	while (1) {
 	    update_screen;
@@ -272,15 +272,10 @@ sub open_army_menu {
 sub check_troop {
     my ($nn, $barrack) = @_;
     my $prefix = $barrack ? 'b-' : '';
-    for my $t (qw(archer barb cobold dragon giant healer hog minion wallbreaker wizard golem pekka lava witch vali)) {
+    for my $t (qw(archer barb balloon cobold dragon giant healer hog minion wallbreaker wizard golem pekka lava witch vali)) {
 	my $ref = tinycv::read("troops/$prefix$t.png");
 	my $sim = $nn->similarity($ref);
 	if ($sim > 20) {
-	    my $ref = tinycv::read("troops/$t.png");
-	    my $sim1 = $nn->similarity($ref);
-	    $ref = tinycv::read("troops/b-$t.png");
-	    my $sim2 = $nn->similarity($ref);
-	    print "TROP $t $sim1 $sim2\n";
 	    return $t;
 	}
     }
@@ -305,7 +300,6 @@ sub read_army_state {
 	    $i += 85;
 	}
     }
-    print Dumper($hash);
     return $hash;
 }
 
@@ -334,7 +328,7 @@ sub select_barrack {
 	update_screen;
 	my $sim = $vnc->_framebuffer->copyrect($coords[$b-1], 644, $sb->xres, $sb->yres)->similarity($sb);
 	if ($sim > 30) {
-	    sleep 0.3;
+	    sleep 0.1;
 	    update_screen;
 	    return;
 	}
@@ -358,8 +352,195 @@ sub check_barrack {
 	    $i += 90;
 	}
     }
-    print Dumper($hash);
     return $hash;
+}
+
+sub room_for_troop {
+    my ($t) = @_;
+    
+    my %rooms = ( giant => 5,
+		  archer => 1,
+		  barb => 1,
+		  wallbreaker => 2,
+		  vali => 8,
+		  minion => 2,
+		  hog => 5,
+		  golem => 30,
+		  witch => 12,
+		  lava => 30,
+		  cobold => 1,
+		  balloon => 5,
+		  wizard => 4,
+		  healer => 14,
+		  dragon => 20,
+		  pekka => 25 );
+    
+    die "no room for $t" unless $rooms{$t};
+    return $rooms{$t};
+}
+
+sub time_for_troop {
+    my ($t) = @_;
+    
+    my %times = ( giant => 2*60,
+		  archer => 20,
+		  barb => 20,
+		  wallbreaker => 2*60,
+		  vali => 8*60,
+		  minion => 45,
+		  hog => 2*60,
+		  golem => 45*60,
+		  witch => 20*60,
+		  lava => 45*60,
+		  cobold => 30,
+		  balloon => 8*60,
+		  wizard => 8*60,
+		  healer => 15*60,
+		  dragon => 30*60,
+		  pekka => 45*60 );
+    
+    die "no time for $t" unless $times{$t};
+    return $times{$t};
+}
+
+sub time_for_troops {
+    my ($building) = @_;
+    my $time = 0;
+
+    for my $t (keys %$building) {
+	$time += $building->{$t} * time_for_troop($t);
+    }
+    return $time;
+}
+
+sub select_troop {
+    my ($t) = @_;
+    
+    if ($t eq 'barb') {
+	$vnc->mouse_click(355, 405);
+    } elsif ($t eq 'archer') {
+	$vnc->mouse_click(526, 405);
+    } elsif ($t eq 'giant') {
+	$vnc->mouse_click(690, 405);
+    } elsif ($t eq 'cobold') {
+	$vnc->mouse_click(845, 405);
+    } elsif ($t eq 'wallbreaker') {
+	$vnc->mouse_click(1012, 405);
+    } elsif ($t eq 'balloon') {
+	$vnc->mouse_click(355, 560);
+    } elsif ($t eq 'wizard') {
+	$vnc->mouse_click(526, 560);
+    } elsif ($t eq 'healer') {
+	$vnc->mouse_click(690, 560);
+    } elsif ($t eq 'dragon') {
+	$vnc->mouse_click(845, 560);
+    } elsif ($t eq 'pekka') {
+	$vnc->mouse_click(1012, 560);
+    } else {
+	die "no coordinates for $t";
+    }
+    sleep 0.05;
+    update_screen;
+}
+
+sub select_troops {
+    my ($troops) = @_;
+    for my $t (keys %$troops) {
+	my $number = $troops->{$t};
+	for (my $number = $troops->{$t}; $number; $number--) {
+	    select_troop($t);
+	}
+    }
+    return;
+}
+
+sub train_troops {
+    return if (!open_army_menu);
+    
+    my $army = read_army_state;
+    my $total = 0;
+    for my $t (keys %$army) {
+	$total += $army->{$t} * room_for_troop($t);
+    }
+    my $building = {};
+    for (my $i = 1; $i <= 6; $i++) {
+	select_barrack($i);
+	my $b = check_barrack;
+	for my $t (keys %$b) {
+	    $building->{$t} += $b->{$t};
+	}
+    }
+    print "ARMY\n";
+    print Dumper($army);
+    print "BUILDING\n";
+    print Dumper($building);
+    my $soll = { giant => 12,
+		 wallbreaker => 8 };
+    my $rest = 220;
+    if ($total == 220) {
+	$rest *= 2;
+    }
+    for my $t (keys %$soll) {
+	my $c = ($building->{$t} || 0) + ($army->{$t} || 0);
+	$soll->{$t} *= 2 if ($total == 220);
+	if ($soll->{$t} < $c) {
+	    $soll->{$t} = $c;
+	}
+	$rest -= $soll->{$t} * room_for_troop($t);
+    }
+    print "TOTAL $total REST $rest\n";
+    # align 35% to 4
+    $soll->{barb} = int(int($rest * 35 / 100) / 4 + 0.5) * 4;
+    $rest -= $soll->{barb} * room_for_troop('barb');
+    $soll->{archer} = int($rest / room_for_troop('archer'));
+    my $diff;
+    print Dumper($soll);
+    for my $t (keys %$soll) {
+	$diff->{$t} = $soll->{$t} - ($army->{$t} || 0) - ($building->{$t} || 0);
+    }
+    print "DIFF\n";
+    print Dumper($diff);
+    my @ba_elex;
+    for my $t (keys %$soll) {
+	$ba_elex[0]->{$t} = int($diff->{$t} / 4);
+	$diff->{$t} -= 4 * $ba_elex[0]->{$t};
+    }
+    for (my $i = 1; $i < 4; $i++) {
+	for my $t (keys %$soll) {
+	    $ba_elex[$i]->{$t} = $ba_elex[0]->{$t};
+	}
+    }
+    while (%$diff) {
+	my @troops = sort { time_for_troop($a) <=> time_for_troop($b) } keys %$diff;
+	my $t = shift @troops;
+	print "FIND spot for $t - $diff->{$t}\n";
+	if ($diff->{$t} <= 0) {
+	    delete $diff->{$t};
+	    next;
+	}
+	my $min_time = time_for_troops($ba_elex[0]);
+	my $min = 0;
+	for (my $i = 1; $i < 4; $i++) {
+	    my $time = time_for_troops($ba_elex[$i]);
+	    if ($time < $min_time) {
+		$min = $i;
+		$min_time = $time;
+	    }
+	}
+	$ba_elex[$min]->{$t} += 1;
+	$diff->{$t} -= 1;
+    }
+    print "BARCKS\n";
+    print Dumper($ba_elex[0]);
+    print Dumper($ba_elex[1]);
+    print Dumper($ba_elex[2]);
+    print Dumper($ba_elex[3]);
+    for (my $i = 0; $i < 4; $i++) {
+	select_barrack($i+1);
+	select_troops($ba_elex[$i]);
+    }
+    park_cursor(1);
+    return $total == 220;
 }
 
 while (1) {
@@ -368,12 +549,8 @@ while (1) {
 	update_screen;
 	next if check_chat;
 	next if collect_resources;
-	if (open_army_menu) {
-	    read_army_state;
-
-	    select_barrack(5);
-	    print "SELECTED\n";
-	    check_barrack;
+	if (train_troops) {
+	    print "ATTACK!\n";
 	    exit(1);
 	}
 	print "nothing los\n";
