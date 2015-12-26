@@ -749,7 +749,7 @@ sub send_update_request {
 
     my $socket = $self->socket;
     my $incremental = $self->_framebuffer ? 1 : 0;
-
+    
     $socket->print(
         pack(
             'CCnnnn',
@@ -922,9 +922,12 @@ sub _receive_zlre_encoding {
     $socket->read(my $data, 4)
       or die "short read for length";
     my ($data_len) = unpack('N', $data);
-
-    $socket->read($data, $data_len) == $data_len
-      or die "short read for zlre data $data_len";
+    my $read_len = 0;
+    while ($read_len < $data_len) {
+	my $len = read($socket, $data, $data_len - $read_len, $read_len);
+	die "short read for zlre data $read_len - $data_len" unless $len;
+	$read_len += $len;
+    }
     $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();
     my $out;
     my $status = $self->{_inflater}->inflate($data, $out, 1);

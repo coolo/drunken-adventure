@@ -22,3 +22,10 @@ int troop_count(tinycv::Image self, const char *filename)
 
   OUTPUT:
     RETVAL
+
+int base_count(tinycv::Image self, const char *filename)
+  CODE:
+    RETVAL = image_base_count(self, filename);
+
+  OUTPUT:
+    RETVAL

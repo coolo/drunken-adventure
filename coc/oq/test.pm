@@ -23,42 +23,43 @@ my $vnc = consoles::VNC->new({ hostname => $ARGV[0],
 
 $vnc->login();
 sub update_screen {
-    #$vnc->_framebuffer(tinycv::read('last.png'));
-    #return;
     $vnc->send_update_request;
     my $s = IO::Select->new();
     $s->add($vnc->socket);
 
     #print "can_read\n";
-    while ($s->can_read(20)) {
-	#print "select says yes\n";
-	if (!$vnc->update_framebuffer) {
-	    $vnc->send_update_request;
-	    next;
+    for (my $i = 0; $i < 20; $i++) {
+	if ($s->can_read(1)) {
+	    #print "select says yes\n";
+	    if (!$vnc->update_framebuffer) {
+		$vnc->send_update_request;
+		next;
+	    }
+	    #print "updated\n";
+	    $vnc->_framebuffer->write("last.png");
+	    return;
 	}
-	#print "updated\n";
-	$vnc->_framebuffer->write("last.png");
-	return;
     }
 }
 
 sub on_main_screen {
     update_screen if (!$vnc->_framebuffer);
+    #find_needle_coords('bauarbeiter.png');
     my $nimg = tinycv::read('bauarbeiter.png');
-    my $roi = $vnc->_framebuffer->copyrect(453, 6, $nimg->xres, $nimg->yres);
-    $nimg->threshold(220);
-    $roi->threshold(220);
+    my $roi = $vnc->_framebuffer->copyrect(465, 22, $nimg->xres, $nimg->yres);
     my $sim = $roi->similarity($nimg);
     print "OMS $sim\n";
-    return $sim > 20;
+    return $sim > 30;
 }
 
 sub find_needle_coords {
-    my ($nf) = @_;
+    my ($nf, $silent) = @_;
     my $nn = tinycv::read($nf);
     my ($sim, $xmatch, $ymatch) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1400);
     $sim = $vnc->_framebuffer->copyrect($xmatch, $ymatch, $nn->xres, $nn->yres)->similarity($nn);
-    print "SIM $nf - $sim X $xmatch Y $ymatch\n";
+    if (!$silent) {
+	print "SIM $nf - $sim X $xmatch Y $ymatch\n";
+    }
     return ($sim, $xmatch, $ymatch);
 }
 
@@ -97,18 +98,21 @@ sub zoom_out {
 	    if ($sim > 19) {
 		my $factor = -4;
 		$factor = 4 if ($ym < $target_y);
-		last if (abs($ym - $target_y) < 8);
+		last if (abs($ym - $target_y) < abs($factor) * 2);
 		$vnc->send_pointer_event(0, 150, $ym );
 		update_screen;
-		for (my $i = 0; $i < abs($ym - $target_y) / abs($factor); $i++) {
-		    $vnc->send_pointer_event(1, 150, $ym + $i*$factor );
-		    update_screen;
-		}
+		$vnc->send_pointer_event(1, 150, $ym );
+		update_screen;
+		$vnc->send_pointer_event(1, 150, $target_y );
+		update_screen;
 		$vnc->send_pointer_event(0, 150, $target_y );
 		update_screen;
 	    } else {
 		$vnc->send_key_event_down($vnc->keymap->{ctrl});
-		$vnc->send_pointer_event(0x10, int($vnc->_framebuffer->xres * 2 / 10), int($vnc->_framebuffer->yres * 5 / 10));
+		for (my $i = 0; $i < 10; $i++) {
+		    $vnc->send_pointer_event(0x10, int($vnc->_framebuffer->xres * 2 / 10), int($vnc->_framebuffer->yres * 5 / 10));
+		    $vnc->send_update_request;
+		}
 		update_screen;
 		$vnc->send_key_event_up($vnc->keymap->{ctrl});
 		park_cursor(1);
@@ -164,15 +168,17 @@ sub fix_main_screen {
 	    zoom_out;
 	    return;
 	}
-	($sim, $xmatch, $ymatch) = find_needle_coords('red-X.png');
-	if ($sim > 15) {
-	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-	    $vnc->send_update_request;
-	    while (!on_main_screen) {
-		update_screen;
+	for my $rx (qw/red-X.png red-X2.png end-fight.png home.png/) {
+	    ($sim, $xmatch, $ymatch) = find_needle_coords($rx);
+	    if ($sim > 15) {
+		$vnc->mouse_click($xmatch + 5, $ymatch + 5);
+		$vnc->send_update_request;
+		while (!on_main_screen) {
+		    update_screen;
+		}
+		zoom_out;
+		return;
 	    }
-	    zoom_out;
-	    return;
 	}
 	($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png');
 	if ($sim > 25) {
@@ -243,6 +249,8 @@ sub collect_resources {
 		print "FOUND $n\n";
 		$vnc->mouse_click($xm + 10, $ym + 10);
 		park_cursor(1);
+		sleep .1;
+		update_screen;
 	    }
 	}
 	if ($found) {
@@ -283,11 +291,14 @@ sub check_troop {
 }
 
 sub read_army_state {
-    find_needle_coords('armyoverviewTL.png');
     my $nn = tinycv::read('armyoverviewTL.png');
     my $img = $vnc->_framebuffer;
 
+    $vnc->mouse_click(260, 694);
+    wait_for_screen('armyoverview.png', 541, 21, 5);
+
     my $hash;
+    $vnc->_framebuffer->write('army-22.png');
     for (my $i = 0; $i < 1300; $i++) {
 	my $sim = $img->copyrect($i, 123, $nn->xres, $nn->yres)->similarity($nn);
 	if ($sim > 23) {
@@ -457,11 +468,6 @@ sub select_troops {
 sub train_troops {
     return if (!open_army_menu);
     
-    my $army = read_army_state;
-    my $total = 0;
-    for my $t (keys %$army) {
-	$total += $army->{$t} * room_for_troop($t);
-    }
     my $building = {};
     for (my $i = 1; $i <= 6; $i++) {
 	select_barrack($i);
@@ -469,6 +475,11 @@ sub train_troops {
 	for my $t (keys %$b) {
 	    $building->{$t} += $b->{$t};
 	}
+    }
+    my $army = read_army_state;
+    my $total = 0;
+    for my $t (keys %$army) {
+	$total += $army->{$t} * room_for_troop($t);
     }
     print "ARMY\n";
     print Dumper($army);
@@ -497,6 +508,7 @@ sub train_troops {
     print Dumper($soll);
     for my $t (keys %$soll) {
 	$diff->{$t} = $soll->{$t} - ($army->{$t} || 0) - ($building->{$t} || 0);
+	$diff->{$t} = 0 if ($diff->{$t} < 0);
     }
     print "DIFF\n";
     print Dumper($diff);
@@ -536,6 +548,11 @@ sub train_troops {
     print Dumper($ba_elex[2]);
     print Dumper($ba_elex[3]);
     for (my $i = 0; $i < 4; $i++) {
+	my $sum = 0;
+	for my $v (values %{$ba_elex[$i]}) {
+	    $sum += $v;
+	}
+	next unless $sum;
 	select_barrack($i+1);
 	select_troops($ba_elex[$i]);
     }
@@ -543,18 +560,119 @@ sub train_troops {
     return $total == 220;
 }
 
+sub wait_for_screen {
+    my ($fn, $x, $y, $timeout) = @_;
+    $timeout ||= 5;
+    my $nn = tinycv::read($fn);
+    for (my $i = 0; $i < $timeout; $i++) {
+	my $sim = $vnc->_framebuffer->copyrect($x, $y, $nn->xres, $nn->yres)->similarity($nn);
+	print "SIM $sim\n";
+	return 1 if ($sim > 30);
+	update_screen;
+    }
+    return;
+}
+
+sub check_base_resources {
+    my $nn = tinycv::read('base-gold.png');
+    my $gold = 0;
+    my $elex = 0;
+    my $de = 0;
+
+    my $sim = $vnc->_framebuffer->copyrect(33, 96, $nn->xres, $nn->yres)->similarity($nn);
+    if ($sim > 23) {
+	$gold = $vnc->_framebuffer->copyrect(66, 95, 110, 30)->base_count('chars_base_count');
+    }
+    $nn = tinycv::read('base-elex.png');
+    $sim = $vnc->_framebuffer->copyrect(32, 136, $nn->xres, $nn->yres)->similarity($nn);
+    if ($sim > 23) {
+	$elex =  $vnc->_framebuffer->copyrect(66, 135, 110, 30)->base_count('chars_base_count');
+    }
+    $nn = tinycv::read('base-de.png');
+    $sim = $vnc->_framebuffer->copyrect(31, 176, $nn->xres, $nn->yres)->similarity($nn);
+    if ($sim > 23) {
+	$de =  $vnc->_framebuffer->copyrect(66, 176, 110, 30)->base_count('chars_base_count');
+    }
+    print "BASE $gold gold $elex elex $de DE\n";
+    return if ($gold + $elex < 350000 || $de < 800);
+    for my $th (glob("ths/*.png")) {
+	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
+	if ($sim > 20) {
+	    print "TH $th\n";
+	    return $th =~ /th-8/;
+	    last;
+	}
+    }
+    print "UNKNOWN TH\n";
+    return;
+}
+
+sub attack {
+    fix_main_screen;
+    return if !on_main_screen;
+    $vnc->mouse_click(60, 650);
+    # there are 2 different places - with or without shield
+    if (wait_for_screen('find-fight.png', 207, 572, 5)) {
+	$vnc->mouse_click(220, 590);
+    } else {
+	wait_for_screen('find-fight.png', 207, 521, 5) || die "no find-fight";
+	$vnc->mouse_click(220, 540);
+    }
+    my $time_to_next = time;
+    my $next = tinycv::read('next.png');
+    while (1) {
+	update_screen;
+	my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
+	print "NEXT $sim\n";
+	if ($sim > 30) {
+	    my $cb = check_base_resources || 0;
+	    if ($cb) {
+		system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
+		sleep(300);
+		return;
+	    }
+	    $vnc->_framebuffer->write("bases/base-" . time . ".png");
+	    $time_to_next = time;
+	    $vnc->mouse_click(1250, 550);
+	    sleep 1;
+	    park_cursor;
+	    next;
+	}
+	if (time - $time_to_next < 8) {
+	    print "TIME " . (time - $time_to_next) . "\n";
+	    update_screen;
+	    next;
+	}
+	my $nn = tinycv::read('end-fight.png');
+	$sim = $vnc->_framebuffer->copyrect(36, 551, $nn->xres, $nn->yres)->similarity($nn);
+	if ($sim > 30) {
+	    return;
+	}
+	update_screen;
+    }
+}
+
+#for my $base (glob("bases/base*.png")) {
+#    print "BASE $base\n";
+#    $vnc->_framebuffer(tinycv::read($base));
+#    check_base_resources;
+#    
+#}
+#exit(1);
+
 while (1) {
     fix_main_screen;
     while (on_main_screen) {
+	#attack;
+	#exit(1);
 	update_screen;
 	next if check_chat;
-	next if collect_resources;
 	if (train_troops) {
-	    print "ATTACK!\n";
-	    exit(1);
+	    attack;
+	    collect_resources;
 	}
 	print "nothing los\n";
-	sleep(10);
+	sleep(60);
     }
 }
 

@@ -603,3 +603,31 @@ int image_troop_count(Image *s, const char *fn) {
     tl.erase(0, 1);
   return atoi(tl.c_str());
 }
+
+int image_base_count(Image *s, const char *fn) {
+  cv::Mat m = s->img;
+
+  vector<OCRLetter> letters = read_letters(fn);
+
+  processColors(m);
+
+  cvtColor(m, m, CV_BGR2GRAY);
+  m.convertTo(m, CV_8UC1);
+  for (int y = 0; y < m.rows; y++) {
+    for (int x = 0; x < m.cols; x++) {
+      uchar value = m.at<uchar>(y, x) / 51;
+      m.at<uchar>(y, x) = value;
+    }
+  }
+  //display_mat(stdout, m);
+  string tl = map_letters(letters, m);
+  int index = tl.find(' ');
+  while (index!=std::string::npos) {
+    tl.erase(index, 1);
+    index = tl.find(' ');
+  }
+  if (tl.length() && tl[0] == 'x')
+    tl.erase(0, 1);
+  //cout << "TL " << tl << " " << atol(tl.c_str()) << endl;
+  return atol(tl.c_str());
+}
