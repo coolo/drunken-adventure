@@ -579,10 +579,10 @@ void image_chat_ocr(Image *s)
   }
 }
 
-int image_troop_count(Image *s) {
+int image_troop_count(Image *s, const char *fn) {
   cv::Mat m = s->img;
 
-  vector<OCRLetter> letters = read_letters("chars_troop_count");
+  vector<OCRLetter> letters = read_letters(fn);
 
   processColors(m);
 
@@ -594,7 +594,9 @@ int image_troop_count(Image *s) {
       m.at<uchar>(y, x) = value;
     }
   }
+  //display_mat(stdout, m);
   string tl = map_letters(letters, m);
+  //cout << "TL " << tl << endl;
   while (tl.length() && tl[0] == ' ')
     tl.erase(0, 1);
   if (tl.length() && tl[0] == 'x')

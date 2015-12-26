@@ -16,9 +16,9 @@ void chat_ocr(tinycv::Image self)
   CODE:
     image_chat_ocr(self);
 
-int troop_count(tinycv::Image self)
+int troop_count(tinycv::Image self, const char *filename)
   CODE:
-    RETVAL = image_troop_count(self);
+    RETVAL = image_troop_count(self, filename);
 
   OUTPUT:
     RETVAL
