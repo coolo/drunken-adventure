@@ -466,13 +466,16 @@ sub select_troops {
     return;
 }
 
+my @barracks;
+our $min_train_time;
+
 sub train_troops {
     return if (!open_army_menu);
-    
+
     my $building = {};
-    for (my $i = 1; $i <= 6; $i++) {
-	select_barrack($i);
-	my $b = check_barrack;
+    for (my $i = 0; $i < 6; $i++) {
+	select_barrack($i+1);
+	my $b = $barracks[$i] = check_barrack;
 	for my $t (keys %$b) {
 	    $building->{$t} += $b->{$t};
 	}
@@ -514,49 +517,45 @@ sub train_troops {
     }
     print "DIFF\n";
     print Dumper($diff);
-    my @ba_elex;
-    for my $t (keys %$soll) {
-	$ba_elex[0]->{$t} = int($diff->{$t} / 4);
-	$diff->{$t} -= 4 * $ba_elex[0]->{$t};
-    }
-    for (my $i = 1; $i < 4; $i++) {
-	for my $t (keys %$soll) {
-	    $ba_elex[$i]->{$t} = $ba_elex[0]->{$t};
-	}
-    }
+
+    my @newbuilds;
+    
     while (%$diff) {
-	my @troops = sort { time_for_troop($a) <=> time_for_troop($b) } keys %$diff;
+	my @troops = sort { time_for_troop($b) <=> time_for_troop($a) } keys %$diff;
 	my $t = shift @troops;
-	print "FIND spot for $t - $diff->{$t}\n";
 	if ($diff->{$t} <= 0) {
 	    delete $diff->{$t};
 	    next;
 	}
-	my $min_time = time_for_troops($ba_elex[0]);
+	print "FIND spot for $t - $diff->{$t}\n";
+	$min_train_time = time_for_troops($barracks[0]);
 	my $min = 0;
 	for (my $i = 1; $i < 4; $i++) {
-	    my $time = time_for_troops($ba_elex[$i]);
-	    if ($time < $min_time) {
+	    my $time = time_for_troops($barracks[$i]);
+	    if ($time < $min_train_time) {
 		$min = $i;
-		$min_time = $time;
+		$min_train_time = $time;
 	    }
 	}
-	$ba_elex[$min]->{$t} += 1;
+	print "FOUND $min\n";
+	$newbuilds[$min]->{$t} ||= 0;
+	$newbuilds[$min]->{$t} += 1;
+	$barracks[$min]->{$t} += 1;
 	$diff->{$t} -= 1;
     }
     print "BARCKS\n";
-    print Dumper($ba_elex[0]);
-    print Dumper($ba_elex[1]);
-    print Dumper($ba_elex[2]);
-    print Dumper($ba_elex[3]);
+    print Dumper($newbuilds[0]);
+    print Dumper($newbuilds[1]);
+    print Dumper($newbuilds[2]);
+    print Dumper($newbuilds[3]);
     for (my $i = 0; $i < 4; $i++) {
 	my $sum = 0;
-	for my $v (values %{$ba_elex[$i]}) {
+	for my $v (values %{$newbuilds[$i]}) {
 	    $sum += $v;
 	}
 	next unless $sum;
 	select_barrack($i+1);
-	select_troops($ba_elex[$i]);
+	select_troops($newbuilds[$i]);
     }
     park_cursor(1);
     return $total == 220;
@@ -601,7 +600,7 @@ sub check_base_resources {
     for my $th (glob("ths/*-th-*.png")) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
 	if ($sim > 20) {
-	    return ($1, $gold, $elex, $de) if $th =~ /*-th-(\d*).png/;
+	    return ($1, $gold, $elex, $de) if $th =~ /.*-th-(\d*).png/;
 	}
     }
     print "UNKNOWN TH";
@@ -635,11 +634,10 @@ sub attack {
     while (1) {
 	update_screen;
 	my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
-	print "NEXT $sim\n";
 	if ($sim > 30) {
 	    $vnc->_framebuffer->write("bases/base-" . time . ".png");
 	    my ($th, $gold, $elex, $de) = check_base_resources;
-	    if (worth_it($th, $gold, $elex, $de)) {
+	    if ($th && worth_it($th, $gold, $elex, $de)) {
 		system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
 		sleep(300);
 		return;
@@ -682,16 +680,16 @@ while (!$vnc->_framebuffer) {
 while (1) {
     fix_main_screen;
     while (on_main_screen) {
-	#attack;
-	#exit(1);
 	update_screen;
 	next if check_chat;
 	if (train_troops) {
 	    attack;
 	    collect_resources;
 	}
-	print "nothing los\n";
-	sleep(60);
+	$min_train_time = 120 if ($min_train_time > 120);
+	print "nothing los - waiting $min_train_time seconds\n";
+	sleep($min_train_time);
+	$min_train_time = 0;
     }
 }
 
