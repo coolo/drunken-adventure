@@ -352,7 +352,8 @@ sub check_barrack {
 		$img->copyrect($i - 71, 162, 84, 32)->write("troop-$i-B.png");
 	    }
 	    my $tc = $img->copyrect($i - 71, 135, 60, 24)->troop_count('chars_barrack_count');
-	    $hash->{$t} = $tc;
+	    $hash->{$t} ||= 0;
+	    $hash->{$t} += $tc;
 	    $i += 90;
 	}
     }
@@ -511,7 +512,7 @@ sub train_troops {
     print Dumper($diff);
 
     my @newbuilds;
-    
+
     while (%$diff) {
 	my @troops = sort { time_for_troop($b) <=> time_for_troop($a) } keys %$diff;
 	my $t = shift @troops;
@@ -540,10 +541,15 @@ sub train_troops {
     print Dumper($newbuilds[1]);
     print Dumper($newbuilds[2]);
     print Dumper($newbuilds[3]);
+    $min_train_time = 10000;
     for (my $i = 0; $i < 4; $i++) {
 	my $sum = 0;
 	for my $v (values %{$newbuilds[$i]}) {
 	    $sum += $v;
+	}
+	my $time = time_for_troops($barracks[$i]);
+	if ($time < $min_train_time) {
+	    $min_train_time = $time;
 	}
 	next unless $sum;
 	select_barrack($i+1);
@@ -588,7 +594,7 @@ sub check_base_resources {
     }
     print "BASE $gold gold $elex elex $de DE\n";
     # not worth the TH check
-    return if ($gold + $elex < 300000 || $de < 100);
+    return if ($gold + $elex < 250000 || $de < 100);
     for my $th (glob("ths/*-th-*.png")) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
 	if ($sim > 20) {
@@ -602,9 +608,9 @@ sub check_base_resources {
 sub worth_it {
     my ($th, $gold, $elex, $de) = @_;
     if ($th == 8) {
-	return ($gold + $elex > 320000 && $de > 500);
+	return ($gold + $elex + $de * 100 > 420000)
     }
-    if ($th == 9) {
+    if ($th == 19) {
 	return ($gold + $elex > 600000 && $de > 2000);
     }
     return;
@@ -671,9 +677,11 @@ for my $base (glob("bases/base-*.png")) {
     $vnc->_framebuffer(undef);
 }
 
-while (!$vnc->_framebuffer) {
+my $stime = time;
+while (time - $stime < 3 && !$vnc->_framebuffer) {
     update_screen;
 }
+die "still no screen" unless $vnc->_framebuffer;
 
 while (1) {
     fix_main_screen;
