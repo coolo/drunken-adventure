@@ -400,10 +400,8 @@ void remove_letter(const FoundLetter &letter, Mat &m)
 	m.at<uchar>(letter.y + y1, letter.x + x1) = 0;
 }
 		   
-void find_letter(vector<OCRLetter> &letters, Mat &m, list<FoundLetter> &findings) {
-   float match_limit = 12;
-
-   FoundLetter last;
+void find_letter(vector<OCRLetter> &letters, Mat &m, list<FoundLetter> &findings, float match_limit = 12) {
+  FoundLetter last;
    
    for (int y = 0; y < m.rows; y++) {
     for (int x = 0; x < m.cols; x++) {
@@ -471,12 +469,12 @@ void save_letters(const vector<OCRLetter> &letters, const char *filename) {
   printf("saved %s\n", filename);
 }
 
-string map_letters(vector<OCRLetter> &letters, Mat &m) {
+string map_letters(vector<OCRLetter> &letters, Mat &m, float match_limit = 12) {
   list<FoundLetter> findings;
   vector<OCRLetter>::iterator it = letters.begin();
   if (getenv("DISPLAYNEW"))
     display_mat(stdout, m);
-  find_letter(letters, m, findings);
+  find_letter(letters, m, findings, match_limit);
   list<FoundLetter> confirmed;
   
   findings.sort(compare_mse);
@@ -491,10 +489,7 @@ string map_letters(vector<OCRLetter> &letters, Mat &m) {
 #endif
   while (!findings.empty()) {
     FoundLetter best = *findings.begin();
-    if (best.letter.letter == ",") {
-      //display_mat(stdout, m);
-    }
-    if (best.mse > 15 || best.mse * 3 > max_value(best.letter))
+    if (best.mse > match_limit)
       break;
     confirmed.push_back(best);
     findings.pop_front();
@@ -621,7 +616,7 @@ int image_base_count(Image *s, const char *fn) {
   }
   //display_mat(stdout, m);
   string tl = map_letters(letters, m);
-  int index = tl.find(' ');
+  size_t index = tl.find(' ');
   while (index!=std::string::npos) {
     tl.erase(index, 1);
     index = tl.find(' ');
@@ -631,3 +626,4 @@ int image_base_count(Image *s, const char *fn) {
   //cout << "TL " << tl << " " << atol(tl.c_str()) << endl;
   return atol(tl.c_str());
 }
+

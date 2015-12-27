@@ -13,6 +13,7 @@ use consoles::VNC;
 use IO::Select;
 use Time::HiRes qw(sleep gettimeofday time);
 use Data::Dumper;
+use File::Basename;
 
 open(my $pf, '<', $ENV{HOME} . '/.vnc/passwd');
 my $password = <$pf>;
@@ -28,7 +29,7 @@ sub update_screen {
     $s->add($vnc->socket);
 
     #print "can_read\n";
-    for (my $i = 0; $i < 20; $i++) {
+    for (my $i = 0; $i < 5; $i++) {
 	if ($s->can_read(1)) {
 	    #print "select says yes\n";
 	    if (!$vnc->update_framebuffer) {
@@ -43,7 +44,6 @@ sub update_screen {
 }
 
 sub on_main_screen {
-    update_screen if (!$vnc->_framebuffer);
     #find_needle_coords('bauarbeiter.png');
     my $nimg = tinycv::read('bauarbeiter.png');
     my $roi = $vnc->_framebuffer->copyrect(465, 22, $nimg->xres, $nimg->yres);
@@ -267,12 +267,8 @@ sub open_army_menu {
     my $sim = $vnc->_framebuffer->copyrect(27, 528, $nn->xres, $nn->yres)->similarity($nn);
     if ($sim > 20) {
 	$vnc->mouse_click(35, 540);
-	while (1) {
-	    update_screen;
-	    my ($sim, $xmatch, $ymatch) = find_needle_coords('armyoverview.png');
-	    return 1 if ($sim > 20);
-	    #$vnc->mouse_click(35, 540);
-	}
+	wait_for_screen('armyoverview.png', 541, 21, 5);
+	return 1;
     }
     return;
 }
@@ -296,6 +292,11 @@ sub read_army_state {
 
     $vnc->mouse_click(260, 694);
     wait_for_screen('armyoverview.png', 541, 21, 5);
+
+    my $fa = tinycv::read('troops-label.png');
+    my $tc = $img->copyrect(245, 84, $fa->xres, $fa->yres)->similarity($fa);
+    print "TC $tc\n";
+    return if $tc < 30;
 
     my $hash;
     $vnc->_framebuffer->write('army-22.png');
@@ -477,6 +478,7 @@ sub train_troops {
 	}
     }
     my $army = read_army_state;
+    return unless $army;
     my $total = 0;
     for my $t (keys %$army) {
 	$total += $army->{$t} * room_for_troop($t);
@@ -594,16 +596,26 @@ sub check_base_resources {
 	$de =  $vnc->_framebuffer->copyrect(66, 176, 110, 30)->base_count('chars_base_count');
     }
     print "BASE $gold gold $elex elex $de DE\n";
-    return if ($gold + $elex < 350000 || $de < 800);
-    for my $th (glob("ths/*.png")) {
+    # not worth the TH check
+    return if ($gold + $elex < 300000 || $de < 100);
+    for my $th (glob("ths/*-th-*.png")) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
 	if ($sim > 20) {
-	    print "TH $th\n";
-	    return $th =~ /th-8/;
-	    last;
+	    return ($1, $gold, $elex, $de) if $th =~ /*-th-(\d*).png/;
 	}
     }
-    print "UNKNOWN TH\n";
+    print "UNKNOWN TH";
+    return 20;
+}
+
+sub worth_it {
+    my ($th, $gold, $elex, $de) = @_;
+    if ($th == 8) {
+	return ($gold + $elex > 400000 && $de > 700);
+    }
+    if ($th == 9) {
+	return ($gold + $elex > 600000 && $de > 2000);
+    }
     return;
 }
 
@@ -625,13 +637,13 @@ sub attack {
 	my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
 	print "NEXT $sim\n";
 	if ($sim > 30) {
-	    my $cb = check_base_resources || 0;
-	    if ($cb) {
+	    $vnc->_framebuffer->write("bases/base-" . time . ".png");
+	    my ($th, $gold, $elex, $de) = check_base_resources;
+	    if (worth_it($th, $gold, $elex, $de)) {
 		system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
 		sleep(300);
 		return;
 	    }
-	    $vnc->_framebuffer->write("bases/base-" . time . ".png");
 	    $time_to_next = time;
 	    $vnc->mouse_click(1250, 550);
 	    sleep 1;
@@ -652,13 +664,20 @@ sub attack {
     }
 }
 
-#for my $base (glob("bases/base*.png")) {
+#for my $base (glob("bases/th*-base*.png")) {
 #    print "BASE $base\n";
 #    $vnc->_framebuffer(tinycv::read($base));
-#    check_base_resources;
-#    
+#
+#    for my $th (glob("ths/th-*.png")) {
+#	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
+#	print "$th $sim\n";
+#    }
 #}
 #exit(1);
+
+while (!$vnc->_framebuffer) {
+    update_screen;
+}
 
 while (1) {
     fix_main_screen;
