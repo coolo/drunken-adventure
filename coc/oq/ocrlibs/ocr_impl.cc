@@ -30,10 +30,39 @@
 using namespace cv;
 using namespace std;
 
-void processColors(Mat& m)
+void processColorsWithPalette(Mat& m, const Mat &palette)
 {
   m.convertTo(m, CV_8U);
 
+  Mat lab;
+  Mat lab_palette;
+  cvtColor(palette, lab_palette, CV_BGR2Lab);
+  cvtColor(m, lab, CV_BGR2Lab);
+
+  lab.convertTo(lab, CV_32F);
+  lab_palette.convertTo(lab_palette, CV_32F);
+
+  for (int y = 0; y < m.rows; y++) {
+    for (int x = 0; x < m.cols; x++) {
+      Vec3f f = lab.at<Vec3f>(y, x);
+      double min_distance = INFINITY;
+      int best_match = 0;
+      for (int p = 0; p < lab_palette.cols; ++p) {
+	Vec3f pc = lab_palette.at<Vec3f>(0, p);
+	double distance = norm(f - pc);
+	if (distance < min_distance) {
+	  min_distance = distance;
+	  best_match = p;
+	}
+      }
+      m.at<Vec3b>(y, x) = palette.at<Vec3b>(0, best_match);
+    }
+  }
+}
+
+// default palette for OCR
+void processColors(Mat &m)
+{
   Vec3b white = Vec3b(255, 255, 255);
   Vec3b nick_color = Vec3b(143, 188, 191);
   
@@ -51,32 +80,15 @@ void processColors(Mat& m)
   palette.at<Vec3b>(0, 6) = Vec3b(44, 208, 230);
   palette.at<Vec3b>(0, 7) = Vec3b(0, 0, 255);
   palette.at<Vec3b>(0, 8) = Vec3b(176, 104, 16);
-    
-  Mat lab;
-  Mat lab_palette;
-  cvtColor(palette, lab_palette, CV_BGR2Lab);
-  cvtColor(m, lab, CV_BGR2Lab);
 
-  lab.convertTo(lab, CV_32F);
-  lab_palette.convertTo(lab_palette, CV_32F);
+  processColorsWithPalette(m, palette);
 
   for (int y = 0; y < m.rows; y++) {
     for (int x = 0; x < m.cols; x++) {
-      Vec3f f = lab.at<Vec3f>(y, x);
-      double min_distance = INFINITY;
-      int best_match = 0;
-      for (int p = 0; p < palette.cols; ++p) {
-	Vec3f pc = lab_palette.at<Vec3f>(0, p);
-	double distance = norm(f - pc);
-	if (distance < min_distance) {
-	  min_distance = distance;
-	  best_match = p;
-	}
+      Vec3b nc = m.at<Vec3b>(y, x);
+      if (nc == nick_color) {
+	m.at<Vec3b>(y, x) = white;
       }
-      Vec3b nc = palette.at<Vec3b>(0, best_match);
-      if (nc == nick_color)
-	nc = white;
-      m.at<Vec3b>(y, x) = nc;
     }
   }
 }
@@ -627,3 +639,80 @@ int image_base_count(Image *s, const char *fn) {
   return atol(tl.c_str());
 }
 
+std::vector<int> image_find_red_line(Image *s)
+{
+  Mat m, hsv;
+
+  cvtColor(s->img, hsv, CV_BGR2HSV);
+  s->img.convertTo(m, CV_8UC3);
+
+  cv::Mat palette(1, 3, CV_8UC3);
+  Vec3b green = Vec3b(73, 186, 166);
+  palette.at<Vec3b>(0, 0) = green;
+  palette.at<Vec3b>(0, 1) =  Vec3b(59, 152, 179);
+  palette.at<Vec3b>(0, 2) =  Vec3b(72, 180, 185);
+  
+  Mat reduced = m.clone();
+  processColorsWithPalette(reduced, palette);
+
+  bool first_green = true;
+  int last_min = 0;
+  Point last_green_p1(373, 253), last_green_p2(309,205);
+  
+  for (int i = 0; i < 200; i++) {
+    int delta = i * (373.-309) / (253.-205);
+    Point ps1(207+delta, 282+i);
+    Point ps2(524+delta, 50+i);
+    float dX = (float(ps2.x) - ps1.x) / (float(ps2.y) - ps1.y);
+    uchar min = 255;
+    vector<uchar> values;
+    int greens = 0;
+    for (int x = ps1.x; x < ps2.x; x++) {
+      int y = (x - ps1.x) / dX + ps1.y;
+      if (y < 0)
+	continue;
+      if (reduced.at<Vec3b>(y, x) == green)
+	greens++;
+      // calculate sliding average
+      values.push_back(hsv.at<Vec3b>(y, x)[0]);
+      if (values.size() > 10) {
+	values.erase(values.begin());
+	float sum = 0;
+	vector<uchar>::const_iterator it = values.begin();
+	for (; it != values.end(); ++it)
+	  sum += *it;
+	uchar nv = sum / 10;
+	if (min > nv)
+	  min = nv;
+      }
+    }
+    const int green_limit = 280;
+    if (greens <= green_limit && !first_green && float(last_min) / min > 1.2)
+      break;
+   
+    if (greens > green_limit) {
+      first_green = false;
+      last_green_p1 = ps1;
+      last_green_p2 = ps2;
+    }
+    last_min = min;
+  }
+#if 0  
+  float dX = (float(last_green_p2.x) - last_green_p1.x) / (float(last_green_p2.y) - last_green_p1.y);
+  for (int x = last_green_p1.x; x < last_green_p2.x; x++) {
+    int y = (x - last_green_p1.x) / dX + last_green_p1.y;
+    if (y < 0)
+      continue;
+    m.at<Vec3b>(y, x) = Vec3b(255, 0, 0);
+  }
+  
+  imwrite("line.png", m);
+#endif
+  
+  vector<int> res;
+  res.push_back(last_green_p1.x);
+  res.push_back(last_green_p1.y);
+  res.push_back(last_green_p2.x);
+  res.push_back(last_green_p2.y);
+  return res;
+}

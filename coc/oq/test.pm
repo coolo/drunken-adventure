@@ -168,7 +168,7 @@ sub fix_main_screen {
 	    zoom_out;
 	    return;
 	}
-	for my $rx (qw/red-X.png red-X2.png end-fight.png home.png/) {
+	for my $rx (qw/red-X.png red-X2.png end-fight.png home.png okay.png/) {
 	    ($sim, $xmatch, $ymatch) = find_needle_coords($rx);
 	    if ($sim > 15) {
 		$vnc->mouse_click($xmatch + 5, $ymatch + 5);
@@ -290,13 +290,14 @@ sub read_army_state {
     return if $tc < 30;
 
     my $hash;
-    $vnc->_framebuffer->write('army-22.png');
+    #$vnc->_framebuffer->write('army-22.png');
     for (my $i = 0; $i < 1300; $i++) {
 	my $sim = $img->copyrect($i, 123, $nn->xres, $nn->yres)->similarity($nn);
 	if ($sim > 23) {
 	    my $t = check_troop($img->copyrect($i + 2, 123 + 56, 84, 32));
 	    if (!$t) {
 		$img->copyrect($i + 2, 123 + 56, 84, 32)->write("troop-$i-A.png");
+		die "unrecognized troops";
 	    }
 	    my $count = $img->copyrect($i + 10, 123 + 5, 70, 22);
 	    $hash->{$t} = $count->troop_count('chars_troop_count');
@@ -636,6 +637,8 @@ sub attack {
 	    $vnc->_framebuffer->write("bases/base-" . time . ".png");
 	    my ($th, $gold, $elex, $de) = check_base_resources;
 	    if ($th && worth_it($th, $gold, $elex, $de)) {
+		my ($x1, $y1, $x2, $y2) = $vnc->_framebuffer->find_red_line;
+		print "RES $x1+$y1 - $x2+$y2\n";
 		system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
 		sleep(300);
 		return;
@@ -651,8 +654,19 @@ sub attack {
 	    update_screen;
 	    next;
 	}
-	find_needle_coords('reload-game.png');
-	my $nn = tinycv::read('end-fight.png');
+	my $nn = tinycv::read('reload-game.png');
+	$sim = $vnc->_framebuffer->copyrect(561, 488, $nn->xres, $nn->yres)->similarity($nn);
+	if ($sim > 30) {
+	    $vnc->mouse_click(590, 570);
+	    return;
+	}
+	$nn = tinycv::read('retry.png');
+	$sim = $vnc->_framebuffer->copyrect(549, 510, $nn->xres, $nn->yres)->similarity($nn);
+	if ($sim > 30) {
+	    $vnc->mouse_click(590, 530);
+	    return;
+	}
+	$nn = tinycv::read('end-fight.png');
 	$sim = $vnc->_framebuffer->copyrect(36, 551, $nn->xres, $nn->yres)->similarity($nn);
 	if ($sim > 30) {
 	    return;
@@ -664,15 +678,20 @@ for my $base (glob("bases/base-*.png")) {
     print "BASE $base\n";
     $vnc->_framebuffer(tinycv::read($base));
 
+    my $found;
     for my $th (glob("ths/*.png")) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
 	print "$th $sim\n";
 	if ($sim > 14) {
 	    if ($th =~ /-th-(\d+).png/) {
 		rename($base, "bases/th$1-" . basename($base));
+		$found = 1;
 		last;
 	    }
 	}
+    }
+    if (!$found) {
+	rename($base, "bases/thX-" . basename($base));
     }
     $vnc->_framebuffer(undef);
 }
@@ -692,6 +711,7 @@ while (1) {
 	    attack;
 	}
 	$min_train_time = 120 if ($min_train_time > 120);
+	$min_train_time = 10 if ($min_train_time < 10);
 	print "nothing los - waiting $min_train_time seconds\n";
 	sleep($min_train_time);
 	$min_train_time = 0;
