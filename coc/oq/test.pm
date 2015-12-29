@@ -610,8 +610,7 @@ sub check_base_resources {
     return if ($gold + $elex < 150000 || $de < 100);
     for my $th (glob("ths/*-th-*.png")) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
-	print "TH $th $sim\n";
-	if ($sim > 20) {
+	if ($sim > 14) {
 	    return ($1, $gold, $elex, $de) if $th =~ /.*-th-(\d*).png/;
 	}
     }
@@ -677,6 +676,7 @@ sub spots_on_red_line {
     for (my $x = $x1 + $delta; $x <= $x2 - $delta; $x += $delta) {
 	my $y = int(($x - $x1) / $dX + $y1 + 0.5);
 	$vnc->mouse_click($x, $y);
+	next;
 	$clicks++;
 	if ($clicks > 6) {
 	    update_screen;
@@ -755,15 +755,18 @@ sub find_worthy_base {
     while (1) {
 	update_screen;
 	my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
+	print "NEXT $sim\n";
 	if ($sim > 30) {
-	    $vnc->_framebuffer->write("bases/base-" . time . ".png");
+	    my $bfn = "bases/base-" . time . ".png";
+	    print "BASE $bfn\n";
+	    $vnc->_framebuffer->write($bfn);
 	    my ($th, $gold, $elex, $de) = check_base_resources;
 	    if ($th && worth_it($th, $gold, $elex, $de)) {
 		return 1;
 	    }
 	    $time_to_next = time;
 	    $vnc->mouse_click(1250, 550);
-	    sleep 1;
+	    sleep .3;
 	    park_cursor;
 	    next;
 	}
