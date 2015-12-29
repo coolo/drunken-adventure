@@ -617,7 +617,41 @@ sub worth_it {
     return;
 }
 
-sub attack {
+sub find_attack_troops {
+    my $res;
+    my @troops = qw(barb archer cobold giant wallbreaker wizard minion 
+		    hog CB king queen spell-heal spell-poison spell-haste );
+    for (my $spot = 7; $spot < 1250; $spot++) {
+	# NOT YET: vali golem witch lava balloon pekka dragon healer
+	for my $t (@troops) {
+	    my $ref = tinycv::read("attack/$t.png") || next;
+	    my $img = $vnc->_framebuffer->copyrect($spot, 658, 100, 52);
+	    my ($sim, $xmatch, $ymatch) = $img->search_needle($ref, 0, 0, $ref->xres, $ref->yres, 70);
+	    my $f = $img->copyrect($xmatch, $ymatch, $ref->xres, $ref->yres);
+	    $sim = $f->similarity($ref);
+	    #$img->write("img-$spot.png");
+	    #print "I $t $spot $sim\n";
+	    if ($sim > 15) {
+		my $c = $vnc->_framebuffer->copyrect($spot + 4, 629, 88, 27);
+		$c = $c->troop_count('chars_barrack_count');
+		push(@$res, [$t, $spot, $c ]);
+		$spot += 100;
+		do {
+		    my $f = shift @troops;
+		    if ($f =~ /spell-/) {
+			unshift @troops, $f;
+			last;
+		    }
+		    last if $f eq $t;
+		} while ($f);
+		last;
+	    }
+	}
+    }
+    return $res;
+}
+
+sub find_worthy_base {
     fix_main_screen;
     return if !on_main_screen;
     $vnc->mouse_click(60, 650);
@@ -641,7 +675,7 @@ sub attack {
 		print "RES $x1+$y1 - $x2+$y2\n";
 		system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
 		sleep(300);
-		return;
+		return 1;
 	    }
 	    $time_to_next = time;
 	    $vnc->mouse_click(1250, 550);
@@ -672,6 +706,7 @@ sub attack {
 	    return;
 	}
     }
+    return;
 }
 
 for my $base (glob("bases/base-*.png")) {
@@ -708,6 +743,8 @@ while (1) {
 	update_screen;
 	next if check_chat;
 	if (train_troops) {
+	    next unless find_worthy_base;
+	    my $troops = find_attack_troops;
 	    attack;
 	}
 	$min_train_time = 120 if ($min_train_time > 120);

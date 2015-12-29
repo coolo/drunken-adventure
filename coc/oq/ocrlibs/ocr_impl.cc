@@ -657,7 +657,7 @@ std::vector<int> image_find_red_line(Image *s)
 
   bool first_green = true;
   int last_min = 0;
-  Point last_green_p1(373, 253), last_green_p2(309,205);
+  Point last_green_p1(207, 282), last_green_p2(524,50);
   
   for (int i = 0; i < 200; i++) {
     int delta = i * (373.-309) / (253.-205);
@@ -697,7 +697,7 @@ std::vector<int> image_find_red_line(Image *s)
     }
     last_min = min;
   }
-#if 0  
+#if 0
   float dX = (float(last_green_p2.x) - last_green_p1.x) / (float(last_green_p2.y) - last_green_p1.y);
   for (int x = last_green_p1.x; x < last_green_p2.x; x++) {
     int y = (x - last_green_p1.x) / dX + last_green_p1.y;
