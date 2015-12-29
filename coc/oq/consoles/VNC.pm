@@ -5,7 +5,7 @@ use base qw(Class::Accessor::Fast);
 use IO::Socket::INET;
 use bytes;
 use bmwqemu qw(diag);
-use Time::HiRes qw( usleep gettimeofday );
+use Time::HiRes qw( usleep gettimeofday time );
 use Carp;
 use tinycv;
 use List::Util qw(min);
@@ -749,7 +749,7 @@ sub send_update_request {
 
     my $socket = $self->socket;
     my $incremental = $self->_framebuffer ? 1 : 0;
-    
+
     $socket->print(
         pack(
             'CCnnnn',
@@ -919,6 +919,7 @@ sub _receive_zlre_encoding {
     my $socket = $self->socket;
     my $image  = $self->_framebuffer;
 
+    my $stime = time;
     $socket->read(my $data, 4)
       or die "short read for length";
     my ($data_len) = unpack('N', $data);
@@ -927,6 +928,9 @@ sub _receive_zlre_encoding {
 	my $len = read($socket, $data, $data_len - $read_len, $read_len);
 	die "short read for zlre data $read_len - $data_len" unless $len;
 	$read_len += $len;
+    }
+    if (time - $stime > 0.1) {
+	printf "read $data_len in %fs\n", time - $stime;
     }
     $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();
     my $out;

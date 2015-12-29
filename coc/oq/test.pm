@@ -80,9 +80,10 @@ sub zoom_out {
     my $nimg = tinycv::read('bushes.png');
     my $target_y = 100;
     my $target_x = 899;
-    my $sim = $vnc->_framebuffer->copyrect($target_x, $target_y, $nimg->xres, $nimg->yres)->similarity($nimg);
-    if ($sim < 30) {
-	my ($sim, $xmatch, $ymatch) = find_needle_coords('lower-bushes.png');
+    for (my $counter=1; $counter < 18; $counter++) {
+	my $tsim = $vnc->_framebuffer->copyrect($target_x, $target_y, $nimg->xres, $nimg->yres)->similarity($nimg);
+	return if ($tsim >= 30);
+	my ($sim, $xm, $ym) = find_needle_coords('lower-bushes.png');
 	if ($sim > 25) { # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
 	    for (my $i = 0; $i < 100; $i++) {
 		$vnc->send_pointer_event(1, 150, 20 + $i * 4 );
@@ -90,33 +91,32 @@ sub zoom_out {
 	    }
 	    $vnc->send_pointer_event(0, 150, 20 + 100 * 4 );
 	    update_screen;
-	    zoom_out();
+	    next;
 	}
 	$vnc->init_x11_keymap;
-	for (my $counter=1; $counter < 18; $counter++) {
-	    my ($sim, $xm, $ym) = find_needle_coords('bushes.png');
-	    if ($sim > 19) {
-		my $factor = -4;
-		$factor = 4 if ($ym < $target_y);
-		last if (abs($ym - $target_y) < abs($factor) * 2);
-		$vnc->send_pointer_event(0, 150, $ym );
-		update_screen;
-		$vnc->send_pointer_event(1, 150, $ym );
-		update_screen;
-		$vnc->send_pointer_event(1, 150, $target_y );
-		update_screen;
-		$vnc->send_pointer_event(0, 150, $target_y );
-		update_screen;
-	    } else {
-		$vnc->send_key_event_down($vnc->keymap->{ctrl});
-		for (my $i = 0; $i < 10; $i++) {
-		    $vnc->send_pointer_event(0x10, int($vnc->_framebuffer->xres * 2 / 10), int($vnc->_framebuffer->yres * 5 / 10));
-		    $vnc->send_update_request;
-		}
-		update_screen;
-		$vnc->send_key_event_up($vnc->keymap->{ctrl});
-		park_cursor(1);
+	
+	($sim, $xm, $ym) = find_needle_coords('bushes.png');
+	if ($sim > 19) {
+	    my $factor = -4;
+	    $factor = 4 if ($ym < $target_y);
+	    last if (abs($ym - $target_y) < abs($factor) * 2);
+	    $vnc->send_pointer_event(0, 150, $ym );
+	    update_screen;
+	    $vnc->send_pointer_event(1, 150, $ym );
+	    update_screen;
+	    $vnc->send_pointer_event(1, 150, $target_y );
+	    update_screen;
+	    $vnc->send_pointer_event(0, 150, $target_y );
+	    update_screen;
+	} else {
+	    $vnc->send_key_event_down($vnc->keymap->{ctrl});
+	    for (my $i = 0; $i < 10; $i++) {
+		$vnc->send_pointer_event(0x10, int($vnc->_framebuffer->xres * 2 / 10), int($vnc->_framebuffer->yres * 5 / 10));
+		$vnc->send_update_request;
 	    }
+	    update_screen;
+	    $vnc->send_key_event_up($vnc->keymap->{ctrl});
+	    park_cursor(1);
 	}
     }
 }
@@ -328,16 +328,19 @@ sub select_barrack {
     $vnc->mouse_click($coords[$b-1] + 20, 694);
     park_cursor;
     my $sb = tinycv::read('selected-barrack.png');
+    my $sb2 = tinycv::read('selected-barrack-boost.png');
     my $stime = time;
     while (time - $stime < 5) {
 	update_screen;
 	my $sim = $vnc->_framebuffer->copyrect($coords[$b-1], 644, $sb->xres, $sb->yres)->similarity($sb);
-	if ($sim > 30) {
+	my $sim2 = $vnc->_framebuffer->copyrect($coords[$b-1], 644, $sb->xres, $sb->yres)->similarity($sb2);
+	if ($sim > 17 || $sim2 > 17) {
 	    sleep 0.1;
 	    update_screen;
 	    return;
 	}
     }
+    #$vnc->_framebuffer->copyrect($coords[$b-1], 644, $sb->xres, $sb->yres)->write("failed.png");
     die "failed to select barrack $b";
 }
 
@@ -485,7 +488,7 @@ sub train_troops {
     print "BUILDING\n";
     print Dumper($building);
     my $soll = { giant => 12,
-		 wallbreaker => 8 };
+		 wallbreaker => 12 };
     my $rest = 220;
     if ($total == 220) {
 	$rest *= 2;
@@ -499,8 +502,8 @@ sub train_troops {
 	$rest -= $soll->{$t} * room_for_troop($t);
     }
     print "TOTAL $total REST $rest\n";
-    # align 35% to 4
-    $soll->{barb} = int(int($rest * 35 / 100) / 4 + 0.5) * 4;
+    # align to 4
+    $soll->{barb} = int(int($rest * 30 / 100) / 4 + 0.5) * 4;
     $rest -= $soll->{barb} * room_for_troop('barb');
     $soll->{archer} = int($rest / room_for_troop('archer'));
     my $diff;
@@ -595,7 +598,7 @@ sub check_base_resources {
     }
     print "BASE $gold gold $elex elex $de DE\n";
     # not worth the TH check
-    return if ($gold + $elex < 250000 || $de < 100);
+    return if ($gold + $elex < 150000 || $de < 100);
     for my $th (glob("ths/*-th-*.png")) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
 	if ($sim > 20) {
@@ -609,7 +612,7 @@ sub check_base_resources {
 sub worth_it {
     my ($th, $gold, $elex, $de) = @_;
     if ($th == 8) {
-	return ($gold + $elex + $de * 100 > 420000)
+	return ($gold + $elex + $de * 100 > 220000)
     }
     if ($th == 19) {
 	return ($gold + $elex > 600000 && $de > 2000);
@@ -633,7 +636,11 @@ sub find_attack_troops {
 	    #print "I $t $spot $sim\n";
 	    if ($sim > 15) {
 		my $c = $vnc->_framebuffer->copyrect($spot + 4, 629, 88, 27);
-		$c = $c->troop_count('chars_barrack_count');
+		if ($t eq 'CB' || $t eq 'king' || $t eq 'queen') {
+		    $c = 1;
+		} else {
+		    $c = $c->troop_count('chars_barrack_count');
+		}
 		push(@$res, [$t, $spot, $c ]);
 		$spot += 100;
 		do {
@@ -649,6 +656,77 @@ sub find_attack_troops {
 	}
     }
     return $res;
+}
+
+sub spots_on_red_line {
+    my ($x1, $y1, $x2, $y2, $count) = @_;
+    print "select $count between $x1+$y1 and $x2+$y2\n";
+    my $clicks = 0;
+    my $delta = int(($x2 - $x1) / ($count + 1));
+    my $dX = ($x2 - $x1) / ($y2 - $y1);
+    for (my $x = $x1 + $delta; $x <= $x2 - $delta; $x += $delta) {
+	my $y = int(($x - $x1) / $dX + $y1 + 0.5);
+	$vnc->mouse_click($x, $y);
+	$clicks++;
+	if ($clicks > 6) {
+	    update_screen;
+	    $clicks = 0;
+	} else {
+	    $vnc->send_update_request;
+	}
+    }
+    update_screen;
+}
+
+sub select_attack_troop {
+    my ($kind) = @_;
+
+    my $troops = find_attack_troops;
+    print Dumper($troops);
+    for my $ti (@$troops) {
+	my ($t, $spot, $count) = @$ti;
+	if ($t eq $kind) {
+	    $vnc->mouse_click($spot + 20, 670);
+	    $vnc->send_update_request;
+	    return $count;
+	}
+    }
+    return 0;
+}
+
+sub attack {
+    my ($x1, $y1, $x2, $y2) = $vnc->_framebuffer->find_red_line;
+    print "RES $x1+$y1 - $x2+$y2\n";
+    system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
+    my $giants = select_attack_troop('giant');
+    my $cc = $giants / 2;
+    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
+    update_screen;
+    $giants -= $cc;
+    sleep 1;
+    my $archers = select_attack_troop('archer');
+    $cc = $archers / 3;
+    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
+    update_screen;
+    $archers -= $cc;
+    my $cb = select_attack_troop('CB');
+    if ($cb) {
+	spots_on_red_line($x1, $y1, $x2, $y2, 1);
+    }
+    my $wbs = select_attack_troop('wallbreaker');
+    $cc = $wbs / 4;
+    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
+    update_screen;
+    $wbs -= $cc;
+    $cc = $giants / 2;
+    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
+    update_screen;
+    $giants -= $cc;
+    my $barbs = select_attack_troop('barb');
+    $cc = $barbs / 3;
+    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
+    update_screen;
+    $archers -= $cc;
 }
 
 sub find_worthy_base {
@@ -671,10 +749,6 @@ sub find_worthy_base {
 	    $vnc->_framebuffer->write("bases/base-" . time . ".png");
 	    my ($th, $gold, $elex, $de) = check_base_resources;
 	    if ($th && worth_it($th, $gold, $elex, $de)) {
-		my ($x1, $y1, $x2, $y2) = $vnc->_framebuffer->find_red_line;
-		print "RES $x1+$y1 - $x2+$y2\n";
-		system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
-		sleep(300);
 		return 1;
 	    }
 	    $time_to_next = time;
@@ -744,7 +818,6 @@ while (1) {
 	next if check_chat;
 	if (train_troops) {
 	    next unless find_worthy_base;
-	    my $troops = find_attack_troops;
 	    attack;
 	}
 	$min_train_time = 120 if ($min_train_time > 120);
