@@ -714,7 +714,7 @@ sub map_and_send_key {
 
 sub send_pointer_event {
     my ($self, $button_mask, $x, $y) = @_;
-    bmwqemu::diag "send_pointer_event $button_mask, $x, $y, " . $self->absolute;
+    #bmwqemu::diag "send_pointer_event $button_mask, $x, $y, " . $self->absolute;
 
     my $template = 'CCnn';
     $template = 'CxCnnx11' if ($self->ikvm);
@@ -930,7 +930,7 @@ sub _receive_zlre_encoding {
 	$read_len += $len;
     }
     if (time - $stime > 0.1) {
-	printf "read $data_len in %fs\n", time - $stime;
+	diag sprintf("read $data_len in %fs\n", time - $stime);
     }
     $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();
     my $out;
@@ -1091,6 +1091,7 @@ sub mouse_move_to {
 sub mouse_click {
     my ($self, $x, $y) = @_;
 
+    bmwqemu::diag "mouse_click $x, $y";
     $self->send_pointer_event(1, $x, $y);
     $self->send_pointer_event(0, $x, $y);
 }

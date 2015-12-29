@@ -14,6 +14,7 @@ use IO::Select;
 use Time::HiRes qw(sleep gettimeofday time);
 use Data::Dumper;
 use File::Basename;
+use bmwqemu qw(diag);
 
 open(my $pf, '<', $ENV{HOME} . '/.vnc/passwd');
 my $password = <$pf>;
@@ -33,20 +34,21 @@ sub read_png {
 }
 
 sub update_screen {
+    diag "update_screen";
     $vnc->send_update_request;
     my $s = IO::Select->new();
     $s->add($vnc->socket);
 
-    #print "can_read\n";
     for (my $i = 0; $i < 5; $i++) {
+	diag "select";
 	if ($s->can_read(1)) {
-	    #print "select says yes\n";
+	    diag "can_read";
 	    if (!$vnc->update_framebuffer) {
 		$vnc->send_update_request;
 		next;
 	    }
-	    #print "updated\n";
-	    $vnc->_framebuffer->write("last.png");
+	    diag "updated";
+	    #$vnc->_framebuffer->write("last.png");
 	    return;
 	}
     }
@@ -57,7 +59,7 @@ sub on_main_screen {
     my $nimg = read_png('bauarbeiter.png');
     my $roi = $vnc->_framebuffer->copyrect(465, 22, $nimg->xres, $nimg->yres);
     my $sim = $roi->similarity($nimg);
-    print "OMS $sim\n";
+    diag "OMS $sim";
     return $sim > 30;
 }
 
@@ -67,7 +69,7 @@ sub find_needle_coords {
     my ($sim, $xmatch, $ymatch) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1400);
     $sim = $vnc->_framebuffer->copyrect($xmatch, $ymatch, $nn->xres, $nn->yres)->similarity($nn);
     if (!$silent) {
-	print "SIM $nf - $sim X $xmatch Y $ymatch\n";
+	diag "FNC $nf - $sim X $xmatch Y $ymatch";
     }
     return ($sim, $xmatch, $ymatch);
 }
@@ -134,7 +136,7 @@ sub check_chat_close {
     my $nimg = read_png('chat-close.png');
     my $roi = $vnc->_framebuffer->copyrect(527, 293, $nimg->xres, $nimg->yres);
     my $sim = $roi->similarity($nimg);
-    print "SIM chat-close $sim\n";
+    diag "SIM chat-close $sim";
     if ($sim > 16) {
 	my $roi = $vnc->_framebuffer->copyrect(46, 210, 460, $vnc->_framebuffer->yres - 210);
 	$roi->chat_ocr;
@@ -152,11 +154,11 @@ sub fix_main_screen {
     if (on_main_screen) {
 	zoom_out;
     } else {
-	print "OBSTACLE in the way!\n";
+	diag "OBSTACLE in the way!";
 	return if check_chat_close;
 	my ($sim, $xmatch, $ymatch) = find_needle_coords('other-device.png');
 	if ($sim > 30) {
-	    print "waiting for other device\n";
+	    diag "waiting for other device";
 	    sleep(120);
 	    ($sim, $xmatch, $ymatch) = find_needle_coords('reload-app.png');
 	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
@@ -187,7 +189,7 @@ sub fix_main_screen {
 	}
 	($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png');
 	if ($sim > 25) {
-	    print "Personal Break - waiting 2 minutes\n";
+	    diag "Personal Break - waiting 2 minutes";
 	    sleep(30);
 	    ($sim, $xmatch, $ymatch) = find_needle_coords('reload-app.png');
 	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
@@ -229,7 +231,7 @@ sub fix_main_screen {
 	    }
 	    return fix_main_screen();
 	}
-	print "unknown obstacle\n";
+	diag "unknown obstacle";
 	update_screen;
 	sleep(2);
 	fix_main_screen();
@@ -246,7 +248,7 @@ sub collect_resources {
 	    $sim = $vnc->_framebuffer->copyrect($xm, $ym, $nn->xres, $nn->yres)->similarity($nn);
 	    if ($sim > 14) {
 		$found = 1;
-		print "FOUND $n\n";
+		diag "FOUND $n";
 		$vnc->mouse_click($xm + 10, $ym + 10);
 		park_cursor(1);
 		sleep .1;
@@ -295,7 +297,7 @@ sub read_army_state {
 
     my $fa = read_png('troops-label.png');
     my $tc = $img->copyrect(245, 84, $fa->xres, $fa->yres)->similarity($fa);
-    print "TC $tc\n";
+    diag "TC $tc";
     return if $tc < 30;
 
     my $hash;
@@ -458,7 +460,7 @@ sub select_troop {
 	die "no coordinates for $t";
     }
     sleep 0.05;
-    update_screen;
+    #update_screen;
 }
 
 sub select_troops {
@@ -492,10 +494,10 @@ sub train_troops {
     for my $t (keys %$army) {
 	$total += $army->{$t} * room_for_troop($t);
     }
-    print "ARMY\n";
-    print Dumper($army);
-    print "BUILDING\n";
-    print Dumper($building);
+    diag "ARMY";
+    diag Dumper($army);
+    diag "BUILDING";
+    diag Dumper($building);
     my $soll = { giant => 12,
 		 wallbreaker => 12 };
     my $rest = 220;
@@ -510,19 +512,19 @@ sub train_troops {
 	}
 	$rest -= $soll->{$t} * room_for_troop($t);
     }
-    print "TOTAL $total REST $rest\n";
+    diag "TOTAL $total REST $rest";
     # align to 4
     $soll->{barb} = int(int($rest * 30 / 100) / 4 + 0.5) * 4;
     $rest -= $soll->{barb} * room_for_troop('barb');
     $soll->{archer} = int($rest / room_for_troop('archer'));
     my $diff;
-    print Dumper($soll);
+    diag Dumper($soll);
     for my $t (keys %$soll) {
 	$diff->{$t} = $soll->{$t} - ($army->{$t} || 0) - ($building->{$t} || 0);
 	$diff->{$t} = 0 if ($diff->{$t} < 0);
     }
-    print "DIFF\n";
-    print Dumper($diff);
+    diag "DIFF";
+    diag Dumper($diff);
 
     my @newbuilds;
 
@@ -533,7 +535,7 @@ sub train_troops {
 	    delete $diff->{$t};
 	    next;
 	}
-	print "FIND spot for $t - $diff->{$t}\n";
+	diag "FIND spot for $t - $diff->{$t}";
 	$min_train_time = time_for_troops($barracks[0]);
 	my $min = 0;
 	for (my $i = 1; $i < 4; $i++) {
@@ -543,17 +545,17 @@ sub train_troops {
 		$min_train_time = $time;
 	    }
 	}
-	print "FOUND $min\n";
+	diag "FOUND $min";
 	$newbuilds[$min]->{$t} ||= 0;
 	$newbuilds[$min]->{$t} += 1;
 	$barracks[$min]->{$t} += 1;
 	$diff->{$t} -= 1;
     }
-    print "BARCKS\n";
-    print Dumper($newbuilds[0]);
-    print Dumper($newbuilds[1]);
-    print Dumper($newbuilds[2]);
-    print Dumper($newbuilds[3]);
+    diag "BARCKS";
+    diag Dumper($newbuilds[0]);
+    diag Dumper($newbuilds[1]);
+    diag Dumper($newbuilds[2]);
+    diag Dumper($newbuilds[3]);
     $min_train_time = 10000;
     for (my $i = 0; $i < 4; $i++) {
 	my $sum = 0;
@@ -567,6 +569,7 @@ sub train_troops {
 	next unless $sum;
 	select_barrack($i+1);
 	select_troops($newbuilds[$i]);
+	update_screen;
     }
     park_cursor(1);
     return $total == 220;
@@ -578,7 +581,7 @@ sub wait_for_screen {
     my $nn = read_png($fn);
     for (my $i = 0; $i < $timeout; $i++) {
 	my $sim = $vnc->_framebuffer->copyrect($x, $y, $nn->xres, $nn->yres)->similarity($nn);
-	print "SIM $sim\n";
+	diag "SIM $sim";
 	return 1 if ($sim > 30);
 	update_screen;
     }
@@ -605,7 +608,7 @@ sub check_base_resources {
     if ($sim > 23) {
 	$de =  $vnc->_framebuffer->copyrect(66, 176, 110, 30)->base_count('chars_base_count');
     }
-    print "BASE $gold gold $elex elex $de DE\n";
+    diag "BASE $gold gold $elex elex $de DE";
     # not worth the TH check
     return if ($gold + $elex < 150000 || $de < 100);
     for my $th (glob("ths/*-th-*.png")) {
@@ -614,14 +617,14 @@ sub check_base_resources {
 	    return ($1, $gold, $elex, $de) if $th =~ /.*-th-(\d*).png/;
 	}
     }
-    print "UNKNOWN TH";
+    diag "UNKNOWN TH";
     return 20;
 }
 
 sub worth_it {
     my ($th, $gold, $elex, $de) = @_;
     if ($th == 8) {
-	return ($gold + $elex + $de * 100 > 220000)
+	return ($gold + $elex + $de * 100 > 420000)
     }
     if ($th == 19) {
 	return ($gold + $elex > 600000 && $de > 2000);
@@ -634,15 +637,14 @@ sub find_attack_troops {
     my @troops = qw(barb archer cobold giant wallbreaker wizard minion 
 		    hog CB king queen spell-heal spell-poison spell-haste );
     for (my $spot = 7; $spot < 1250; $spot++) {
+	#$vnc->_framebuffer->copyrect($spot + 11, 659, 4, 4)->write("img-$spot.png");
+	my ($r, $g, $b) = $vnc->_framebuffer->copyrect($spot + 9, 658, 4, 4)->avgcolor;
+	# ignore everything not really blue
+	next if ($b < .5);
 	# NOT YET: vali golem witch lava balloon pekka dragon healer
 	for my $t (@troops) {
 	    my $ref = read_png("attack/$t.png") || next;
-	    my $img = $vnc->_framebuffer->copyrect($spot, 658, 100, 52);
-	    my ($sim, $xmatch, $ymatch) = $img->search_needle($ref, 0, 0, $ref->xres, $ref->yres, 70);
-	    my $f = $img->copyrect($xmatch, $ymatch, $ref->xres, $ref->yres);
-	    $sim = $f->similarity($ref);
-	    #$img->write("img-$spot.png");
-	    #print "I $t $spot $sim\n";
+	    my $sim = $vnc->_framebuffer->copyrect($spot + 9, 658, 91, 52)->similarity($ref);
 	    if ($sim > 15) {
 		my $c = $vnc->_framebuffer->copyrect($spot + 4, 629, 88, 27);
 		if ($t eq 'CB' || $t eq 'king' || $t eq 'queen') {
@@ -652,14 +654,15 @@ sub find_attack_troops {
 		}
 		push(@$res, [$t, $spot, $c ]);
 		$spot += 100;
-		do {
+		while (1) {
 		    my $f = shift @troops;
 		    if ($f =~ /spell-/) {
 			unshift @troops, $f;
 			last;
 		    }
+		    last unless $f;
 		    last if $f eq $t;
-		} while ($f);
+		};
 		last;
 	    }
 	}
@@ -669,74 +672,154 @@ sub find_attack_troops {
 
 sub spots_on_red_line {
     my ($x1, $y1, $x2, $y2, $count) = @_;
-    print "select $count between $x1+$y1 and $x2+$y2\n";
+    diag "select $count between $x1+$y1 and $x2+$y2";
     my $clicks = 0;
-    my $delta = int(($x2 - $x1) / ($count + 1));
+    my $delta = int(($x2 - $x1) / ($count + 1) + .5);
+    $delta = 1 if ($delta < 1);
     my $dX = ($x2 - $x1) / ($y2 - $y1);
     for (my $x = $x1 + $delta; $x <= $x2 - $delta; $x += $delta) {
 	my $y = int(($x - $x1) / $dX + $y1 + 0.5);
 	$vnc->mouse_click($x, $y);
-	next;
+	sleep 0.02;
+	#next;
 	$clicks++;
-	if ($clicks > 6) {
+	if ($clicks > 20) {
 	    update_screen;
 	    $clicks = 0;
-	} else {
-	    $vnc->send_update_request;
 	}
     }
+    diag "done with clicking";
     update_screen;
 }
 
 sub select_attack_troop {
-    my ($kind) = @_;
+    my ($troops, $kind) = @_;
 
-    my $troops = find_attack_troops;
-    print Dumper($troops);
     for my $ti (@$troops) {
 	my ($t, $spot, $count) = @$ti;
 	if ($t eq $kind) {
 	    $vnc->mouse_click($spot + 20, 670);
-	    $vnc->send_update_request;
 	    return $count;
 	}
     }
     return 0;
 }
 
+sub _sleep {
+    my ($time) = @_;
+
+    return if $time <= 0;
+    sleep($time);
+    return;
+}
+
 sub attack {
     my ($x1, $y1, $x2, $y2) = $vnc->_framebuffer->find_red_line;
-    print "RES $x1+$y1 - $x2+$y2\n";
+    diag "RES $x1+$y1 - $x2+$y2";
     system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
-    my $giants = select_attack_troop('giant');
-    my $cc = $giants / 2;
-    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
-    update_screen;
-    $giants -= $cc;
-    sleep 1;
-    my $archers = select_attack_troop('archer');
-    $cc = $archers / 3;
-    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
-    update_screen;
-    $archers -= $cc;
-    my $cb = select_attack_troop('CB');
+    my $troops = find_attack_troops;
+    diag Dumper($troops);
+
+    my $stime = time;
+
+    # GIANT 1
+    my $giants = select_attack_troop($troops, 'giant');
+    my $giant_wave = int($giants / 2);
+    spots_on_red_line($x1, $y1, $x2, $y2, $giant_wave);
+
+    _sleep($stime + 1 - time);
+    
+    # ARCHER 1
+    my $archers = select_attack_troop($troops, 'archer');
+    my $archer_wave = int($archers / 3);
+    spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
+
+    _sleep($stime + 3 - time);
+    
+    my $cb = select_attack_troop($troops, 'CB');
     if ($cb) {
 	spots_on_red_line($x1, $y1, $x2, $y2, 1);
     }
-    my $wbs = select_attack_troop('wallbreaker');
-    $cc = $wbs / 4;
-    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
-    update_screen;
-    $wbs -= $cc;
-    $cc = $giants / 2;
-    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
-    update_screen;
-    $giants -= $cc;
-    my $barbs = select_attack_troop('barb');
-    $cc = $barbs / 3;
-    spots_on_red_line($x1, $y1, $x2, $y2, $cc);
-    update_screen;
-    $archers -= $cc;
+    _sleep($stime + 4 - time);
+    
+    # WB 1
+    my $wbs = select_attack_troop($troops, 'wallbreaker');
+    my $wb_wave = int($wbs / 4);
+    spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
+
+    # GIANT 2
+    select_attack_troop($troops, 'giant');
+    spots_on_red_line($x1, $y1, $x2, $y2, $giants - $giant_wave);
+
+    # need to reparse to get the right barb count
+    $troops = find_attack_troops;
+    diag Dumper($troops);
+
+    _sleep($stime + 7 - time);
+    
+    my $barbs = select_attack_troop($troops, 'barb');
+    my $barb_wave = int($barbs / 3);
+    # WB 2
+    select_attack_troop($troops, 'wallbreaker');
+    spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
+
+    _sleep($stime + 8 - time);
+    
+    # BARB 1
+    select_attack_troop($troops, 'barb');
+    spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
+
+    _sleep($stime + 10 - time);
+    
+    # WB 3
+    select_attack_troop($troops, 'wallbreaker');
+    spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
+
+    _sleep($stime + 11 - time);
+    
+    # ARCHER 2
+    select_attack_troop($troops, 'archer');
+    spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
+
+    _sleep($stime + 13 - time);
+
+    # WB 4
+    select_attack_troop($troops, 'wallbreaker');
+    spots_on_red_line($x1, $y1, $x2, $y2, $wbs - 3 * $wb_wave);
+
+    _sleep($stime + 15 - time);
+    
+    # BARB 2
+    select_attack_troop($troops, 'barb');
+    spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
+
+    _sleep($stime + 17 - time);
+    
+    # HEROES
+    my $hero = select_attack_troop($troops, 'king');
+    if ($hero) {
+	spots_on_red_line($x1, $y1, $x2, $y2, 1);
+    }
+    $hero = select_attack_troop($troops, 'queen');
+    if ($hero) {
+	spots_on_red_line($x1, $y1, $x2, $y2, 1);
+    }
+
+    $troops = find_attack_troops;
+
+    _sleep($stime + 20 - time);
+
+    # BARB 3
+    $barbs = select_attack_troop($troops, 'barb');
+    spots_on_red_line($x1, $y1, $x2, $y2, $barbs);
+
+    _sleep($stime + 23 - time);
+
+    # ARCHER 3
+    $archers = select_attack_troop($troops, 'archer');
+    spots_on_red_line($x1, $y1, $x2, $y2, $archers);
+
+    sleep(300);
 }
 
 sub find_worthy_base {
@@ -755,10 +838,10 @@ sub find_worthy_base {
     while (1) {
 	update_screen;
 	my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
-	print "NEXT $sim\n";
+	diag "NEXT $sim\n";
 	if ($sim > 30) {
 	    my $bfn = "bases/base-" . time . ".png";
-	    print "BASE $bfn\n";
+	    diag "BASE $bfn\n";
 	    $vnc->_framebuffer->write($bfn);
 	    my ($th, $gold, $elex, $de) = check_base_resources;
 	    if ($th && worth_it($th, $gold, $elex, $de)) {
@@ -771,7 +854,7 @@ sub find_worthy_base {
 	    next;
 	}
 	if (time - $time_to_next < 8) {
-	    print "TIME " . (time - $time_to_next) . "\n";
+	    diag "TIME " . (time - $time_to_next) . "\n";
 	    update_screen;
 	    next;
 	}
@@ -797,13 +880,15 @@ sub find_worthy_base {
 }
 
 for my $base (glob("bases/base-*.png")) {
-    print "BASE $base\n";
+    diag "BASE $base";
     $vnc->_framebuffer(tinycv::read($base));
+
+    print Dumper(find_attack_troops);
 
     my $found;
     for my $th (glob("ths/*.png")) {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
-	print "$th $sim\n";
+	diag "$th $sim\n";
 	if ($sim > 14) {
 	    if ($th =~ /-th-(\d+).png/) {
 		rename($base, "bases/th$1-" . basename($base));
@@ -835,11 +920,10 @@ while (1) {
 	}
 	$min_train_time = 120 if ($min_train_time > 120);
 	$min_train_time = 10 if ($min_train_time < 10);
-	print "nothing los - waiting $min_train_time seconds\n";
+	diag "nothing los - waiting $min_train_time seconds";
 	sleep($min_train_time);
 	$min_train_time = 0;
 	collect_resources;
     }
 }
 
-print "done with main screen\n";
