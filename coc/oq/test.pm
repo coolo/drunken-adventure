@@ -34,24 +34,23 @@ sub read_png {
 }
 
 sub update_screen {
-    diag "update_screen";
+    my $stime = time;
     $vnc->send_update_request;
     my $s = IO::Select->new();
     $s->add($vnc->socket);
 
     for (my $i = 0; $i < 5; $i++) {
-	diag "select";
 	if ($s->can_read(1)) {
-	    diag "can_read";
 	    if (!$vnc->update_framebuffer) {
 		$vnc->send_update_request;
 		next;
 	    }
-	    diag "updated";
-	    #$vnc->_framebuffer->write("last.png");
-	    return;
+	    $vnc->_framebuffer->write("last.png");
+	    last;
 	}
     }
+    $stime = time - $stime;
+    diag "update_screen done $stime";
 }
 
 sub on_main_screen {
@@ -159,7 +158,7 @@ sub fix_main_screen {
 	my ($sim, $xmatch, $ymatch) = find_needle_coords('other-device.png');
 	if ($sim > 30) {
 	    diag "waiting for other device";
-	    sleep(120);
+	    sleep(12);
 	    ($sim, $xmatch, $ymatch) = find_needle_coords('reload-app.png');
 	    $vnc->mouse_click($xmatch + 5, $ymatch + 5);
 	    $vnc->send_update_request;
@@ -501,12 +500,12 @@ sub train_troops {
     my $soll = { giant => 12,
 		 wallbreaker => 12 };
     my $rest = 220;
-    if ($total == 220) {
+    if ($total > 215 ) {
 	$rest *= 2;
     }
     for my $t (keys %$soll) {
 	my $c = ($building->{$t} || 0) + ($army->{$t} || 0);
-	$soll->{$t} *= 2 if ($total == 220);
+	$soll->{$t} *= 2 if ($total > 215);
 	if ($soll->{$t} < $c) {
 	    $soll->{$t} = $c;
 	}
@@ -572,7 +571,7 @@ sub train_troops {
 	update_screen;
     }
     park_cursor(1);
-    return $total == 220;
+    return $total > 215;
 }
 
 sub wait_for_screen {
@@ -672,17 +671,18 @@ sub find_attack_troops {
 
 sub spots_on_red_line {
     my ($x1, $y1, $x2, $y2, $count) = @_;
-    diag "select $count between $x1+$y1 and $x2+$y2";
+    my $maxcount = $count > 20 ? 20 : $count;
+    diag "select $maxcount between $x1+$y1 and $x2+$y2";
     my $clicks = 0;
-    my $delta = ($x2 - $x1) / ($count + 1);
+    my $delta = ($x2 - $x1) / ($maxcount + 1);
     $delta = 1 if ($delta < 1);
     my $dX = ($x2 - $x1) / ($y2 - $y1);
     for (my $x = $x1 + $delta; $x <= $x2 - $delta; $x += $delta) {
-	my $xi = int($x1 + .5);
+	my $xi = int($x + .5);
 	my $y = int(($x - $x1) / $dX + $y1 + 0.5);
 	$vnc->mouse_click($xi, $y);
-	sleep 0.02;
-	#next;
+	sleep 0.03;
+	next;
 	$clicks++;
 	if ($clicks > 20) {
 	    update_screen;
@@ -691,6 +691,11 @@ sub spots_on_red_line {
     }
     diag "done with clicking";
     update_screen;
+    $count -= $maxcount;
+    if ($count > 0) {
+       return spots_on_red_line($x1, $y1, $x2, $y2, $count);
+    }
+    return;
 }
 
 sub select_attack_troop {
@@ -701,7 +706,11 @@ sub select_attack_troop {
 	if ($t eq $kind) {
 	    $vnc->mouse_click($spot + 20, 670);
 	    update_screen;
+             if ($t eq 'king' || $t eq 'queen') {
+				return $spot;
+		} else {
 	    return $count;
+                }
 	}
     }
     return 0;
@@ -713,8 +722,8 @@ sub _sleep {
     my ($time) = @_;
 
     # first time
-    $last_check_time ||= time;
     my $diff = $last_check_time + $time - time;
+    $last_check_time = time + $time;
     diag "_sleep $time -> $diff s";
     return if $diff <= 0;
     sleep($diff);
@@ -737,8 +746,8 @@ sub attack {
     $troops = find_attack_troops;
     diag Dumper($troops);
 
-    _sleep(0);
-
+    $last_check_time = time;
+ 
     # GIANT 1
     my $giants = select_attack_troop($troops, 'giant');
     my $giant_wave = int($giants / 2);
@@ -811,12 +820,12 @@ sub attack {
     _sleep(5);
 
     # HEROES
-    my $hero = select_attack_troop($troops, 'king');
-    if ($hero) {
+    my $king = select_attack_troop($troops, 'king');
+    if ($king) {
 	spots_on_red_line($x1, $y1, $x2, $y2, 1);
     }
-    $hero = select_attack_troop($troops, 'queen');
-    if ($hero) {
+    my $queen = select_attack_troop($troops, 'queen');
+    if ($queen) {
 	spots_on_red_line($x1, $y1, $x2, $y2, 1);
     }
 
@@ -835,7 +844,38 @@ sub attack {
     $archers = select_attack_troop($troops, 'archer');
     spots_on_red_line($x1, $y1, $x2, $y2, $archers);
 
-    sleep(300);
+    _sleep(10);
+
+    if ($king) {
+        $vnc->mouse_click($king + 20, 670);
+    }
+    if ($queen) {
+     $vnc->mouse_click($king + 20, 670);
+    }
+
+    while (1) {
+    $troops = find_attack_troops;
+     my $drop;
+    for my $ti (@$troops) {
+     my ($t, $spot, $count) = @$ti;
+      if ($t ne 'spell-heal') {
+                  $drop = 1;
+            $vnc->mouse_click($spot + 20, 670);
+		sleep .05;
+            update_screen;
+		if ($t =~ /spell/) {
+			$vnc->mouse_click(700, 370);
+			next;
+		}
+		spots_on_red_line($x1, $y1, $x2, $y2, $count);
+      }
+   }
+	last unless $drop;
+     }
+    diag "WAITING 2 MIN";
+
+    sleep(120);
+  
 }
 
 sub find_worthy_base {
@@ -854,11 +894,10 @@ sub find_worthy_base {
     while (1) {
 	update_screen;
 	my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
-	diag "NEXT $sim\n";
 	if ($sim > 30) {
 	    my $bfn = "bases/base-" . time . ".png";
 	    diag "BASE $bfn\n";
-	    $vnc->_framebuffer->write($bfn);
+	    #$vnc->_framebuffer->write($bfn);
 	    my ($th, $gold, $elex, $de) = check_base_resources;
 	    if ($th && worth_it($th, $gold, $elex, $de)) {
 		return 1;
@@ -871,7 +910,6 @@ sub find_worthy_base {
 	}
 	if (time - $time_to_next < 8) {
 	    diag "TIME " . (time - $time_to_next) . "\n";
-	    update_screen;
 	    next;
 	}
 	my $nn = read_png('reload-game.png');
@@ -929,10 +967,11 @@ while (1) {
     fix_main_screen;
     while (on_main_screen) {
 	update_screen;
-	next if check_chat;
+	#next if check_chat;
 	if (train_troops) {
 	    next unless find_worthy_base;
 	    attack;
+	    next;
 	}
 	$min_train_time = 120 if ($min_train_time > 120);
 	$min_train_time = 10 if ($min_train_time < 10);
