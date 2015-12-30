@@ -674,12 +674,13 @@ sub spots_on_red_line {
     my ($x1, $y1, $x2, $y2, $count) = @_;
     diag "select $count between $x1+$y1 and $x2+$y2";
     my $clicks = 0;
-    my $delta = int(($x2 - $x1) / ($count + 1) + .5);
+    my $delta = ($x2 - $x1) / ($count + 1);
     $delta = 1 if ($delta < 1);
     my $dX = ($x2 - $x1) / ($y2 - $y1);
     for (my $x = $x1 + $delta; $x <= $x2 - $delta; $x += $delta) {
+	my $xi = int($x1 + .5);
 	my $y = int(($x - $x1) / $dX + $y1 + 0.5);
-	$vnc->mouse_click($x, $y);
+	$vnc->mouse_click($xi, $y);
 	sleep 0.02;
 	#next;
 	$clicks++;
@@ -699,17 +700,24 @@ sub select_attack_troop {
 	my ($t, $spot, $count) = @$ti;
 	if ($t eq $kind) {
 	    $vnc->mouse_click($spot + 20, 670);
+	    update_screen;
 	    return $count;
 	}
     }
     return 0;
 }
 
+our $last_check_time;
+
 sub _sleep {
     my ($time) = @_;
 
-    return if $time <= 0;
-    sleep($time);
+    # first time
+    $last_check_time ||= time;
+    my $diff = $last_check_time + $time - time;
+    diag "_sleep $time -> $diff s";
+    return if $diff <= 0;
+    sleep($diff);
     return;
 }
 
@@ -717,84 +725,91 @@ sub attack {
     my ($x1, $y1, $x2, $y2) = $vnc->_framebuffer->find_red_line;
     diag "RES $x1+$y1 - $x2+$y2";
     system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
+
+    # first we select the last spot, so we have reliable base troops
     my $troops = find_attack_troops;
+    my $last_spot;
+    for my $ti (@$troops) {
+	$last_spot = $ti->[1];
+    }
+    $vnc->mouse_click($last_spot + 20, 670);
+    update_screen;
+    $troops = find_attack_troops;
     diag Dumper($troops);
 
-    my $stime = time;
+    _sleep(0);
 
     # GIANT 1
     my $giants = select_attack_troop($troops, 'giant');
     my $giant_wave = int($giants / 2);
     spots_on_red_line($x1, $y1, $x2, $y2, $giant_wave);
 
-    _sleep($stime + 1 - time);
-    
+    _sleep(1.3);
+
     # ARCHER 1
     my $archers = select_attack_troop($troops, 'archer');
     my $archer_wave = int($archers / 3);
     spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
 
-    _sleep($stime + 3 - time);
-    
+    _sleep(2);
+
     my $cb = select_attack_troop($troops, 'CB');
     if ($cb) {
 	spots_on_red_line($x1, $y1, $x2, $y2, 1);
     }
-    _sleep($stime + 4 - time);
-    
+    _sleep(1);
+
     # WB 1
     my $wbs = select_attack_troop($troops, 'wallbreaker');
     my $wb_wave = int($wbs / 4);
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
 
+    _sleep(0.1);
+
     # GIANT 2
     select_attack_troop($troops, 'giant');
     spots_on_red_line($x1, $y1, $x2, $y2, $giants - $giant_wave);
 
-    # need to reparse to get the right barb count
-    $troops = find_attack_troops;
-    diag Dumper($troops);
+    _sleep(7);
 
-    _sleep($stime + 7 - time);
-    
-    my $barbs = select_attack_troop($troops, 'barb');
-    my $barb_wave = int($barbs / 3);
     # WB 2
     select_attack_troop($troops, 'wallbreaker');
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
 
-    _sleep($stime + 8 - time);
-    
+    _sleep(1);
+
     # BARB 1
+    my $barbs = select_attack_troop($troops, 'barb');
+    my $barb_wave = int($barbs / 3);
     select_attack_troop($troops, 'barb');
     spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
 
-    _sleep($stime + 10 - time);
-    
+    _sleep(.2);
+
     # WB 3
     select_attack_troop($troops, 'wallbreaker');
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
 
-    _sleep($stime + 11 - time);
-    
+    _sleep(2);
+
     # ARCHER 2
     select_attack_troop($troops, 'archer');
     spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
 
-    _sleep($stime + 13 - time);
+    _sleep(3);
 
     # WB 4
     select_attack_troop($troops, 'wallbreaker');
     spots_on_red_line($x1, $y1, $x2, $y2, $wbs - 3 * $wb_wave);
 
-    _sleep($stime + 15 - time);
-    
+    _sleep(.2);
+
     # BARB 2
     select_attack_troop($troops, 'barb');
     spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
 
-    _sleep($stime + 17 - time);
-    
+    _sleep(5);
+
     # HEROES
     my $hero = select_attack_troop($troops, 'king');
     if ($hero) {
@@ -805,15 +820,16 @@ sub attack {
 	spots_on_red_line($x1, $y1, $x2, $y2, 1);
     }
 
+    # time for the last wave
     $troops = find_attack_troops;
 
-    _sleep($stime + 20 - time);
+    _sleep(10);
 
     # BARB 3
     $barbs = select_attack_troop($troops, 'barb');
     spots_on_red_line($x1, $y1, $x2, $y2, $barbs);
 
-    _sleep($stime + 23 - time);
+    _sleep(1);
 
     # ARCHER 3
     $archers = select_attack_troop($troops, 'archer');
