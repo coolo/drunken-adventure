@@ -31,7 +31,7 @@ my $client_is_big_endian = unpack('h*', pack('s', 1)) =~ /01/ ? 1 : 0;
 
 # The numbers in the hashes below were acquired from the VNC source code
 my %supported_depths = (
-    32 => { # same as 24 actually
+    32 => {                                              # same as 24 actually
         bpp         => 32,
         true_colour => 1,
         red_max     => 255,
@@ -79,7 +79,7 @@ my @encodings = (
     {
         num       => 6,
         name      => 'Zlib',
-        supported => 0, # would be easy though
+        supported => 0,        # would be easy though
     },
 
     {
@@ -129,7 +129,7 @@ sub login {
     $self->width(0);
     $self->height(0);
     $self->screen_on(1);
-    
+
     eval {
         $self->_handshake_protocol_version();
         $self->_handshake_security();
@@ -830,12 +830,12 @@ sub _receive_update {
 
         # bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
 
-	my $bytes_per_pixel = $self->_bpp / 8;
-	
+        my $bytes_per_pixel = $self->_bpp / 8;
+
         ### Raw encoding ###
         if ($encoding_type == 0 && !$self->ikvm) {
 
-	    $socket->read(my $data, $w * $h * $bytes_per_pixel) || die 'unexpected end of data';
+            $socket->read(my $data, $w * $h * $bytes_per_pixel) || die 'unexpected end of data';
 
             # splat raw pixels into the image
             my $img = tinycv::new($w, $h);
@@ -852,17 +852,17 @@ sub _receive_update {
             }
             $image->blend($img, $x, $y);
         }
-	elsif ($encoding_type == 2) {
-	    $socket->read( my $num_sub_rects, 4 )
-                || die 'unexpected end of data';
+        elsif ($encoding_type == 2) {
+            $socket->read(my $num_sub_rects, 4)
+              || die 'unexpected end of data';
             $num_sub_rects = unpack 'N', $num_sub_rects;
-	    $socket->read(my $data, $bytes_per_pixel + $num_sub_rects * ($bytes_per_pixel + 8));
-	    my $pi = $self->_pixinfo;
-	    $image->map_raw_data_rre($x, $y, $w, $h, $data, $num_sub_rects, $do_endian_conversion, $bytes_per_pixel, $pi->{red_max}, $pi->{red_shift}, $pi->{green_max}, $pi->{green_shift}, $pi->{blue_max}, $pi->{blue_shift});
-	}
-	elsif ($encoding_type == 16) {
-	    $self->_receive_zlre_encoding($x, $y, $w, $h);
-	}
+            $socket->read(my $data, $bytes_per_pixel + $num_sub_rects * ($bytes_per_pixel + 8));
+            my $pi = $self->_pixinfo;
+            $image->map_raw_data_rre($x, $y, $w, $h, $data, $num_sub_rects, $do_endian_conversion, $bytes_per_pixel, $pi->{red_max}, $pi->{red_shift}, $pi->{green_max}, $pi->{green_shift}, $pi->{blue_max}, $pi->{blue_shift});
+        }
+        elsif ($encoding_type == 16) {
+            $self->_receive_zlre_encoding($x, $y, $w, $h);
+        }
         elsif ($encoding_type == -223) {
             $self->width($w);
             $self->height($h);
@@ -925,43 +925,44 @@ sub _receive_zlre_encoding {
     my ($data_len) = unpack('N', $data);
     my $read_len = 0;
     while ($read_len < $data_len) {
-	my $len = read($socket, $data, $data_len - $read_len, $read_len);
-	die "short read for zlre data $read_len - $data_len" unless $len;
-	$read_len += $len;
+        my $len = read($socket, $data, $data_len - $read_len, $read_len);
+        die "short read for zlre data $read_len - $data_len" unless $len;
+        $read_len += $len;
     }
     if (time - $stime > 0.1) {
-	diag sprintf("read $data_len in %fs\n", time - $stime);
+        diag sprintf("read $data_len in %fs\n", time - $stime);
     }
     $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();
     my $out;
     my $status = $self->{_inflater}->inflate($data, $out, 1);
     if ($status != Z_OK) {
-	die "inflation failed $status";
+        die "inflation failed $status";
     }
     my $bytes_per_pixel = 3;
-    my $offset = 0;
-    my $orig_w = $w;
-    my $orig_x = $x;
+    my $offset          = 0;
+    my $orig_w          = $w;
+    my $orig_x          = $x;
     while ($h > 0) {
-	$w = $orig_w;
-	$x = $orig_x;
-	while ($w > 0) {
-	    my ($sub_encoding) = unpack("\@${offset}C", $out);
-	    $offset += 1;
-	    if ($sub_encoding == 0 || $sub_encoding == 1 || ($sub_encoding >= 2 && $sub_encoding <= 16) || $sub_encoding >= 130 || $sub_encoding == 128) {
-		my $tile_width = $w;
-		$tile_width = 64 if $tile_width > 64;
-		my $tile_heigth = $h;
-		$tile_heigth = 64 if $tile_heigth > 64;
-		$offset += $image->map_raw_data_zrle($x, $y, $tile_width, $tile_heigth, $out, $offset, $sub_encoding);
-	    } else {
-		die "unsupported $sub_encoding";
-	    }
-	    $w -= 64;
-	    $x += 64;
-	}
-	$h -= 64;
-	$y += 64;
+        $w = $orig_w;
+        $x = $orig_x;
+        while ($w > 0) {
+            my ($sub_encoding) = unpack("\@${offset}C", $out);
+            $offset += 1;
+            if ($sub_encoding == 0 || $sub_encoding == 1 || ($sub_encoding >= 2 && $sub_encoding <= 16) || $sub_encoding >= 130 || $sub_encoding == 128) {
+                my $tile_width = $w;
+                $tile_width = 64 if $tile_width > 64;
+                my $tile_heigth = $h;
+                $tile_heigth = 64 if $tile_heigth > 64;
+                $offset += $image->map_raw_data_zrle($x, $y, $tile_width, $tile_heigth, $out, $offset, $sub_encoding);
+            }
+            else {
+                die "unsupported $sub_encoding";
+            }
+            $w -= 64;
+            $x += 64;
+        }
+        $h -= 64;
+        $y += 64;
     }
 }
 
