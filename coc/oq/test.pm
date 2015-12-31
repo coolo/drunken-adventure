@@ -185,7 +185,7 @@ sub fix_main_screen {
             zoom_out;
             return;
         }
-        for my $rx (qw/red-X.png red-X2.png end-fight.png home.png okay.png/) {
+        for my $rx (qw/red-X.png red-X2.png end-fight.png home.png okay.png gohome.png/) {
             ($sim, $xmatch, $ymatch) = find_needle_coords($rx);
             if ($sim > 15) {
                 $vnc->mouse_click($xmatch + 5, $ymatch + 5);
@@ -951,10 +951,8 @@ sub find_worthy_base {
             $vnc->mouse_click(590, 530);
             return;
         }
-        $nn = read_png('end-fight.png');
-        $sim = $vnc->_framebuffer->copyrect(36, 551, $nn->xres, $nn->yres)->similarity($nn);
-        if ($sim > 30) {
-            return;
+        if (time - $time_to_next < 25) {
+            die "failed to find the next base in 25 seconds";
         }
     }
     return;
