@@ -916,6 +916,9 @@ sub attack {
         update_screen;
         my ($sim, $xmatch, $ymatch) = find_needle_coords('home.png', 0);
         if ($sim > 30) {
+            # wait for the resources to show up
+            sleep 5;
+            update_screen;
             $vnc->_framebuffer->write('telegram.png');
             $botapi->sendPhoto(
                 {
