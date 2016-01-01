@@ -266,7 +266,7 @@ sub collect_resources {
             my $nn = read_png($n);
             my ($sim, $xm, $ym) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1300);
             $sim = $vnc->_framebuffer->copyrect($xm, $ym, $nn->xres, $nn->yres)->similarity($nn);
-            print "Resource $fn $sim\n";
+            print "Resource $n $sim\n";
             if ($sim > 14) {
                 $found = 1;
                 diag "FOUND $n";
