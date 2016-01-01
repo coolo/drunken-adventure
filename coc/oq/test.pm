@@ -912,7 +912,7 @@ sub attack {
     }
     diag "waiting for home";
 
-    for (my $i = 0; $i < 120; $i++) {
+    for (my $i = 0; $i < 200; $i++) {
         update_screen;
         my ($sim, $xmatch, $ymatch) = find_needle_coords('home.png', 0);
         if ($sim > 30) {
@@ -921,7 +921,7 @@ sub attack {
                 {
                     chat_id => $bot_chatid,
                     photo   => {file => "telegram.png"},
-                    caption => "Look at my cool photo!"
+                    caption => "took $i seconds"
                 });
             $vnc->mouse_click($xmatch + 30, $ymatch + 30);
             return;

@@ -1,4 +1,4 @@
-package WWW::Telegram::BotAPI;
+package Telegram::BotAPI;
 use strict;
 use warnings;
 use warnings::register;
