@@ -15,6 +15,7 @@ use Time::HiRes qw(sleep gettimeofday time);
 use Data::Dumper;
 use File::Basename;
 use bmwqemu qw(diag);
+use Telegram::BotAPI;
 
 open(my $pf, '<', $ENV{HOME} . '/.vnc/passwd');
 my $password = <$pf>;
@@ -26,6 +27,14 @@ my $vnc = consoles::VNC->new(
         port     => $ARGV[1] || 5900
     });
 
+open(my $fh, '<', $ENV{HOME} . '/.botkey');
+my $bot_token  = <$fh>;
+my $bot_chatid = <$fh>;
+chomp $bot_token;
+chomp $bot_chatid;
+close($fh);
+
+my $botapi = Telegram::BotAPI->new(token => $bot_token);
 $vnc->login();
 
 my %pngs;
@@ -195,8 +204,13 @@ sub fix_main_screen {
         }
         ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png');
         if ($sim > 25) {
-            diag "Personal Break - waiting 2 minutes";
-            sleep(30);
+            $botapi->sendMessage(
+                {
+                    chat_id => $bot_chatid,
+                    text    => 'Personal Break'
+                });
+            diag "Personal Break - waiting a minute";
+            sleep(60);
             ($sim, $xmatch, $ymatch) = find_needle_coords('reload-app.png');
             $vnc->mouse_click($xmatch + 5, $ymatch + 5);
             park_cursor;
@@ -252,6 +266,7 @@ sub collect_resources {
             my $nn = read_png($n);
             my ($sim, $xm, $ym) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1300);
             $sim = $vnc->_framebuffer->copyrect($xm, $ym, $nn->xres, $nn->yres)->similarity($nn);
+            print "Resource $fn $sim\n";
             if ($sim > 14) {
                 $found = 1;
                 diag "FOUND $n";
@@ -604,7 +619,7 @@ sub wait_for_screen {
     my $nn = read_png($fn);
     for (my $i = 0; $i < $timeout; $i++) {
         my $sim = $vnc->_framebuffer->copyrect($x, $y, $nn->xres, $nn->yres)->similarity($nn);
-        diag "SIM $sim";
+        diag "Wait for $fn $sim";
         return 1 if ($sim > 30);
         update_screen;
     }
@@ -697,26 +712,22 @@ sub find_attack_troops {
 sub spots_on_red_line {
     my ($x1, $y1, $x2, $y2, $count) = @_;
     my $maxcount = $count > 20 ? 20 : $count;
+    $count -= $maxcount;
     diag "select $maxcount between $x1+$y1 and $x2+$y2";
-    my $clicks = 0;
     my $delta = ($x2 - $x1) / ($maxcount + 1);
     $delta = 1 if ($delta < 1);
     my $dX = ($x2 - $x1) / ($y2 - $y1);
-    for (my $x = $x1 + $delta; $x <= $x2 - $delta; $x += $delta) {
+    diag sprintf("delta $delta - from %f to %f", $x1 + $delta, $x2 - $delta);
+    my $x = $x1 + $delta;
+    for (; $maxcount > 0; $maxcount--) {
         my $xi = int($x + .5);
         my $y  = int(($x - $x1) / $dX + $y1 + 0.5);
         $vnc->mouse_click($xi, $y);
         sleep 0.03;
-        next;
-        $clicks++;
-        if ($clicks > 20) {
-            update_screen;
-            $clicks = 0;
-        }
+        $x += $delta;
     }
     diag "done with clicking";
     update_screen;
-    $count -= $maxcount;
     if ($count > 0) {
         return spots_on_red_line($x1, $y1, $x2, $y2, $count);
     }
@@ -729,6 +740,7 @@ sub select_attack_troop {
     for my $ti (@$troops) {
         my ($t, $spot, $count) = @$ti;
         if ($t eq $kind) {
+            diag "selecting $kind - at $count now";
             $vnc->mouse_click($spot + 20, 670);
             update_screen;
             if ($t eq 'king' || $t eq 'queen') {
@@ -759,7 +771,7 @@ sub _sleep {
 sub attack {
     my ($x1, $y1, $x2, $y2) = $vnc->_framebuffer->find_red_line;
     diag "RES $x1+$y1 - $x2+$y2";
-    system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
+    #system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
 
     # first we select the last spot, so we have reliable base troops
     my $troops = find_attack_troops;
@@ -791,15 +803,15 @@ sub attack {
     my $cb = select_attack_troop($troops, 'CB');
     if ($cb) {
         spots_on_red_line($x1, $y1, $x2, $y2, 1);
+        _sleep(1);
     }
-    _sleep(1);
 
     # WB 1
     my $wbs = select_attack_troop($troops, 'wallbreaker');
     my $wb_wave = int($wbs / 4);
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
 
-    _sleep(0.1);
+    _sleep(0.3);
 
     # GIANT 2
     select_attack_troop($troops, 'giant');
@@ -898,10 +910,23 @@ sub attack {
         }
         last unless $drop;
     }
-    diag "WAITING 2 MIN";
+    diag "waiting for home";
 
-    sleep(120);
-
+    for (my $i = 0; $i < 120; $i++) {
+        update_screen;
+        my ($sim, $xmatch, $ymatch) = find_needle_coords('home.png', 0);
+        if ($sim > 30) {
+            $vnc->_framebuffer->write('telegram.png');
+            $botapi->sendPhoto(
+                {
+                    chat_id => $bot_chatid,
+                    photo   => {file => "telegram.png"},
+                    caption => "Look at my cool photo!"
+                });
+            $vnc->mouse_click($xmatch + 30, $ymatch + 30);
+            return;
+        }
+    }
 }
 
 sub find_worthy_base {
@@ -927,6 +952,11 @@ sub find_worthy_base {
             #$vnc->_framebuffer->write($bfn);
             my ($th, $gold, $elex, $de) = check_base_resources;
             if ($th && worth_it($th, $gold, $elex, $de)) {
+                $botapi->sendMessage(
+                    {
+                        chat_id => $bot_chatid,
+                        text    => "Found worthy base $th $gold $elex $de"
+                    });
                 return 1;
             }
             $time_to_next = time;

@@ -163,8 +163,8 @@ sub api_request {
     # If we (or the server) f****d up... die horribly.
     unless (($is_lwp ? $tx->is_success : $tx->success) && $response && $response->{ok}) {
         # Print either the error returned by the API or the HTTP status line.
-        Carp::confess "ERROR: ", $response && $response->{description} ?
-          $response->{description}
+        Carp::confess "ERROR: ",
+            $response && $response->{description} ? $response->{description}
           : $is_lwp ? $tx->status_line
           :           $tx->error->{message};
     }
