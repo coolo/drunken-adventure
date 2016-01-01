@@ -609,6 +609,7 @@ sub train_troops {
         select_troops($newbuilds[$i]);
         update_screen;
     }
+    $vnc->mouse_click(35, 540);
     park_cursor(1);
     return $total > 215;
 }
@@ -798,7 +799,7 @@ sub attack {
     my $archer_wave = int($archers / 3);
     spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
 
-    _sleep(2);
+    _sleep(1);
 
     my $cb = select_attack_troop($troops, 'CB');
     if ($cb) {
@@ -817,7 +818,7 @@ sub attack {
     select_attack_troop($troops, 'giant');
     spots_on_red_line($x1, $y1, $x2, $y2, $giants - $giant_wave);
 
-    _sleep(7);
+    _sleep(.7);
 
     # WB 2
     select_attack_troop($troops, 'wallbreaker');
@@ -831,7 +832,7 @@ sub attack {
     select_attack_troop($troops, 'barb');
     spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
 
-    _sleep(.2);
+    _sleep(.3);
 
     # WB 3
     select_attack_troop($troops, 'wallbreaker');
@@ -843,13 +844,13 @@ sub attack {
     select_attack_troop($troops, 'archer');
     spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
 
-    _sleep(3);
+    _sleep(1);
 
     # WB 4
     select_attack_troop($troops, 'wallbreaker');
     spots_on_red_line($x1, $y1, $x2, $y2, $wbs - 3 * $wb_wave);
 
-    _sleep(.2);
+    _sleep(.3);
 
     # BARB 2
     select_attack_troop($troops, 'barb');
@@ -870,7 +871,9 @@ sub attack {
     # time for the last wave
     $troops = find_attack_troops;
 
-    _sleep(10);
+    if ($king || $queen) {
+        _sleep(7);
+    }
 
     # BARB 3
     $barbs = select_attack_troop($troops, 'barb');
@@ -882,7 +885,9 @@ sub attack {
     $archers = select_attack_troop($troops, 'archer');
     spots_on_red_line($x1, $y1, $x2, $y2, $archers);
 
-    _sleep(10);
+    if ($king || $queen) {
+        _sleep(10);
+    }
 
     if ($king) {
         $vnc->mouse_click($king + 20, 670);
