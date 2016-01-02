@@ -535,8 +535,8 @@ sub train_troops {
     diag "BUILDING";
     diag Dumper($building);
     my $soll = {
-        giant       => 12,
-        wallbreaker => 12
+        giant       => 20,
+        wallbreaker => 8
     };
     my $rest = 220;
     if ($total > 215) {
@@ -552,7 +552,8 @@ sub train_troops {
     }
     diag "TOTAL $total REST $rest";
     # align to 4
-    $soll->{barb} = int(int($rest * 30 / 100) / 4 + 0.5) * 4;
+    $soll->{barb} = int(int($rest * 0 / 100) / 4 + 0.5) * 4;
+     $soll->{barb} = 4;
     $rest -= $soll->{barb} * room_for_troop('barb');
     $soll->{archer} = int($rest / room_for_troop('archer'));
     my $diff;
@@ -649,7 +650,7 @@ sub check_base_resources {
     }
     diag "BASE $gold gold $elex elex $de DE";
     # not worth the TH check
-    return if ($gold + $elex < 150000 || $de < 100);
+    return if ($gold + $elex < 50000 || $de < 100);
     for my $th (glob("ths/*-th-*.png")) {
         my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
         if ($sim > 14) {
@@ -662,8 +663,9 @@ sub check_base_resources {
 
 sub worth_it {
     my ($th, $gold, $elex, $de) = @_;
+#return      if ($th < 8);
     if ($th == 8) {
-        return ($gold + $elex + $de * 100 > 420000);
+        return ($gold + $elex + $de * 100 > 520000);
     }
     if ($th == 19) {
         return ($gold + $elex > 600000 && $de > 2000);
@@ -792,14 +794,14 @@ sub attack {
     my $giant_wave = int($giants / 2);
     spots_on_red_line($x1, $y1, $x2, $y2, $giant_wave);
 
-    _sleep(1.3);
+    _sleep(.3);
 
     # ARCHER 1
     my $archers = select_attack_troop($troops, 'archer');
     my $archer_wave = int($archers / 3);
     spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
 
-    _sleep(1);
+    _sleep(.3);
 
     my $cb = select_attack_troop($troops, 'CB');
     if ($cb) {
