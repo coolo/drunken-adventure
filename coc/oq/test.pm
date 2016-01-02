@@ -553,7 +553,7 @@ sub train_troops {
     diag "TOTAL $total REST $rest";
     # align to 4
     $soll->{barb} = int(int($rest * 0 / 100) / 4 + 0.5) * 4;
-     $soll->{barb} = 4;
+    $soll->{barb} = 4;
     $rest -= $soll->{barb} * room_for_troop('barb');
     $soll->{archer} = int($rest / room_for_troop('archer'));
     my $diff;
@@ -663,7 +663,7 @@ sub check_base_resources {
 
 sub worth_it {
     my ($th, $gold, $elex, $de) = @_;
-#return      if ($th < 8);
+    #return      if ($th < 8);
     if ($th == 8) {
         return ($gold + $elex + $de * 100 > 520000);
     }
@@ -796,25 +796,37 @@ sub attack {
 
     _sleep(.3);
 
-    # ARCHER 1
-    my $archers = select_attack_troop($troops, 'archer');
-    my $archer_wave = int($archers / 3);
-    spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
-
-    _sleep(.3);
-
-    my $cb = select_attack_troop($troops, 'CB');
-    if ($cb) {
-        spots_on_red_line($x1, $y1, $x2, $y2, 1);
-        _sleep(1);
-    }
-
     # WB 1
     my $wbs = select_attack_troop($troops, 'wallbreaker');
     my $wb_wave = int($wbs / 4);
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
 
     _sleep(0.3);
+
+    # ARCHER 1
+    my $archers = select_attack_troop($troops, 'archer');
+    my $archer_wave = int($archers / 4);
+    spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
+
+    _sleep(1);
+
+    my $cb = select_attack_troop($troops, 'CB');
+    if ($cb) {
+        spots_on_red_line($x1, $y1, $x2, $y2, 1);
+        _sleep(.5);
+    }
+
+    # WB 2
+    select_attack_troop($troops, 'wallbreaker');
+    spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
+
+    _sleep(.3);
+
+    # ARCHER 2
+    select_attack_troop($troops, 'archer');
+    spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
+
+    sleep(1);
 
     # GIANT 2
     select_attack_troop($troops, 'giant');
@@ -826,15 +838,23 @@ sub attack {
     select_attack_troop($troops, 'wallbreaker');
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
 
+    _sleep(.3);
+
+    # ARCHER 2
+    select_attack_troop($troops, 'archer');
+    spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
+
     _sleep(1);
 
-    # BARB 1
-    my $barbs = select_attack_troop($troops, 'barb');
-    my $barb_wave = int($barbs / 3);
-    select_attack_troop($troops, 'barb');
-    spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
+    if (0) {
+        # BARB 1
+        my $barbs = select_attack_troop($troops, 'barb');
+        my $barb_wave = int($barbs / 3);
+        select_attack_troop($troops, 'barb');
+        spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
 
-    _sleep(.3);
+        _sleep(.3);
+    }
 
     # WB 3
     select_attack_troop($troops, 'wallbreaker');
@@ -842,9 +862,6 @@ sub attack {
 
     _sleep(2);
 
-    # ARCHER 2
-    select_attack_troop($troops, 'archer');
-    spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
 
     _sleep(1);
 
@@ -854,11 +871,13 @@ sub attack {
 
     _sleep(.3);
 
-    # BARB 2
-    select_attack_troop($troops, 'barb');
-    spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
+    if (0) {
+        # BARB 2
+        select_attack_troop($troops, 'barb');
+        spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
 
-    _sleep(5);
+        _sleep(5);
+    }
 
     # HEROES
     my $king = select_attack_troop($troops, 'king');
@@ -877,11 +896,13 @@ sub attack {
         _sleep(7);
     }
 
-    # BARB 3
-    $barbs = select_attack_troop($troops, 'barb');
-    spots_on_red_line($x1, $y1, $x2, $y2, $barbs);
+    if (0) {
+        # BARB 3
+        $barbs = select_attack_troop($troops, 'barb');
+        spots_on_red_line($x1, $y1, $x2, $y2, $barbs);
 
-    _sleep(1);
+        _sleep(1);
+    }
 
     # ARCHER 3
     $archers = select_attack_troop($troops, 'archer');
