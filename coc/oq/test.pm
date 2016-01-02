@@ -846,10 +846,12 @@ sub attack {
 
     _sleep(1);
 
+    my $barb_wave = 0;
+    my $barbs = 0;
     if (0) {
         # BARB 1
-        my $barbs = select_attack_troop($troops, 'barb');
-        my $barb_wave = int($barbs / 3);
+        $barbs = select_attack_troop($troops, 'barb');
+        $barb_wave = int($barbs / 3);
         select_attack_troop($troops, 'barb');
         spots_on_red_line($x1, $y1, $x2, $y2, $barb_wave);
 
