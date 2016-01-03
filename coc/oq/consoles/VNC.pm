@@ -919,6 +919,13 @@ sub _receive_zlre_encoding {
     my $socket = $self->socket;
     my $image  = $self->_framebuffer;
 
+    my $pi = $self->_pixinfo;
+    # TODO: find out how to define static functions in .xs
+    my $info = $image->new_vncinfo($self->_do_endian_conversion, $self->_bpp,
+				   $pi->{red_max}, $pi->{red_shift},
+				   $pi->{green_max}, $pi->{green_shift},
+				   $pi->{blue_max}, $pi->{blue_shift});
+
     my $stime = time;
     $socket->read(my $data, 4)
       or die "short read for length";
@@ -934,36 +941,13 @@ sub _receive_zlre_encoding {
     }
     $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();
     my $out;
+    my $old_total_out = $self->{_inflater}->total_out;
     my $status = $self->{_inflater}->inflate($data, $out, 1);
     if ($status != Z_OK) {
         die "inflation failed $status";
     }
-    my $bytes_per_pixel = 3;
-    my $offset          = 0;
-    my $orig_w          = $w;
-    my $orig_x          = $x;
-    while ($h > 0) {
-        $w = $orig_w;
-        $x = $orig_x;
-        while ($w > 0) {
-            my ($sub_encoding) = unpack("\@${offset}C", $out);
-            $offset += 1;
-            if ($sub_encoding == 0 || $sub_encoding == 1 || ($sub_encoding >= 2 && $sub_encoding <= 16) || $sub_encoding >= 130 || $sub_encoding == 128) {
-                my $tile_width = $w;
-                $tile_width = 64 if $tile_width > 64;
-                my $tile_heigth = $h;
-                $tile_heigth = 64 if $tile_heigth > 64;
-                $offset += $image->map_raw_data_zrle($x, $y, $tile_width, $tile_heigth, $out, $offset, $sub_encoding);
-            }
-            else {
-                die "unsupported $sub_encoding";
-            }
-            $w -= 64;
-            $x += 64;
-        }
-        $h -= 64;
-        $y += 64;
-    }
+    my $res = $image->map_raw_data_zrle($x, $y, $w, $h, $info, $out, $self->{_inflater}->total_out - $old_total_out);
+    die "not read enough data" unless $old_total_out + $res == $self->{_inflater}->total_out;
 }
 
 sub _receive_ikvm_encoding {

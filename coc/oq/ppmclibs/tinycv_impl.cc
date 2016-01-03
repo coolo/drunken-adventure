@@ -44,16 +44,6 @@ struct Image {
   }
 };
 
-// make box lines eq 0° or 90°
-inline Point2f normalize_aspect(Point2f in, Point2f x, Point2f y) {
-	Point2f out(in);
-	out.y += y.y;
-	out.y /= 2;
-	out.x += x.x;
-	out.x /= 2;
-	return out;
-}
-
 /* the purpose of this function is to calculate the error between two images
   (scene area and object) ignoring slight colour changes */
 double enhancedMSE(const Mat& _I1, const Mat& _I2) {
@@ -427,6 +417,56 @@ void image_map_raw_data(Image *a, const unsigned char *data)
   }
 }
 
+class VNCInfo {
+  bool do_endian_conversion;
+  unsigned int bytes_per_pixel;
+  unsigned int red_mask;
+  unsigned int red_shift;
+  unsigned int green_mask;
+  unsigned int green_shift;
+  unsigned int blue_mask;
+  unsigned int blue_shift;
+
+  // calculated
+  unsigned char blue_skale;
+  unsigned char green_skale;
+  unsigned char red_skale;
+
+public:
+  VNCInfo(bool do_endian_conversion,
+	  unsigned int bytes_per_pixel,
+	  unsigned int red_mask,   unsigned int red_shift,
+	  unsigned int green_mask, unsigned int green_shift,
+	  unsigned int blue_mask,  unsigned int blue_shift)
+  {
+    this->do_endian_conversion = do_endian_conversion;
+    this->bytes_per_pixel = bytes_per_pixel;
+    this->red_mask = red_mask;
+    this->red_shift = red_shift;
+    this->green_mask = green_mask;
+    this->green_shift = green_shift;
+    this->blue_mask = blue_mask;
+    this->blue_shift = blue_shift;
+    this->blue_skale  = 256 / (blue_mask  + 1);
+    this->green_skale = 256 / (green_mask + 1);
+    this->red_skale   = 256 / (red_mask   + 1);
+  }
+
+  cv::Vec3b read_cpixel(unsigned char *data, size_t &offset);
+};
+  
+VNCInfo *image_vncinfo(bool do_endian_conversion,
+		       unsigned int bytes_per_pixel,
+		       unsigned int red_mask,   unsigned int red_shift,
+		       unsigned int green_mask, unsigned int green_shift,
+		       unsigned int blue_mask,  unsigned int blue_shift)
+{
+  return new VNCInfo( do_endian_conversion,
+		      bytes_per_pixel,
+		      red_mask, red_shift,
+		      green_mask, green_shift,
+		      blue_mask, blue_shift);
+}
 
 void image_map_raw_data_rgb555(Image *a, const unsigned char *data)
 {
@@ -518,6 +558,7 @@ void image_map_raw_data_full(Image* a, unsigned char *data,
     }
   }
 }
+
 // copy the s image into a at x,y
 void image_blend_image(Image *a, Image *s, long x, long y)
 {
@@ -552,114 +593,141 @@ void image_map_raw_data_rre(Image* a, long x, long y, long w, long h,
   }
 }
 
-cv::Vec3b read_cpixel(unsigned char *&data) {
-  char red = *data++;
-  char green = *data++;
-  char blue = *data++;
+cv::Vec3b VNCInfo::read_cpixel(unsigned char *data, size_t &offset) {
+  unsigned char red, green, blue;
+  
+  if (bytes_per_pixel == 16) {
+    data += offset;
+    long pixel = read_u16(data, this->do_endian_conversion);
+    offset += 2;
+    blue = (pixel >> blue_shift  & blue_mask ) * blue_skale;
+    green = (pixel >> green_shift & green_mask) * green_skale;
+    red = (pixel >> red_shift   & red_mask  ) * red_skale;
+  } else {
+    red = data[offset++];
+    green = data[offset++];
+    blue = data[offset++];
+  }
   return cv::Vec3b(red, green, blue);
 }
 
 long image_map_raw_data_zlre(Image* a, long x, long y, long w, long h,
+			     VNCInfo *info,
 			     unsigned char *data,
-			     int sub_encoding)
+			     size_t bytes)
 {
-  unsigned char *original_data = data;
-  
-  if (sub_encoding == 1) {
-    cv::Vec3b farbe = read_cpixel(data);
-    for (int j = 0; j < h; j++) {
-      for (int i = 0; i < w; i++) {
-	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+  size_t offset          = 0;
+  int orig_w = w;
+  int orig_x = x;
+  while (h > 0) {
+    w = orig_w;
+    x = orig_x;
+    while (w > 0) {
+      if (offset >= bytes) {
+	fprintf(stderr, "not enough bytes for zlre\n");
+	abort();
       }
-    }
-    return data - original_data;
-  }
-  if (sub_encoding == 0) {
-    for (int j = 0; j < h; j++) {
-      for (int i = 0; i < w; i++) {
-	cv::Vec3b farbe = read_cpixel(data);
-	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
-      }
-    }
-    return data - original_data;
-  }
-  if (sub_encoding == 128) {
-    int j = 0, i = 0;
-    while (j < h) {
-      cv::Vec3b farbe = read_cpixel(data);
-      int length = 1;
-      /* run length */
-      while(*data==0xff) {
-	length+=*data;
-	data++;
-      }
-      length+=*data;
-      data++;
-      while (j<h && length>0) {
-	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
-	length--;
-	if (++i>=w) {
-	  i=0;
-	  j++;
+      unsigned char sub_encoding = data[offset++];
+      int tile_width = w > 64 ? 64 : w;
+      int tile_height = h > 64 ? 64 : h;
+
+      if (sub_encoding == 1) {
+	cv::Vec3b farbe = info->read_cpixel(data, offset);
+	for (int j = 0; j < tile_height; j++) {
+	  for (int i = 0; i < tile_width; i++) {
+	    a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+	  }
 	}
       }
+      else if (sub_encoding == 0) {
+	for (int j = 0; j < tile_height; j++) {
+	  for (int i = 0; i < tile_width; i++) {
+	    cv::Vec3b farbe = info->read_cpixel(data, offset);
+	    a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+	  }
+	}
+      }
+      else if (sub_encoding == 128) {
+	int j = 0, i = 0;
+	while (j < tile_height) {
+	  cv::Vec3b farbe = info->read_cpixel(data, offset);
+	  int length = 1;
+	  /* run length */
+	  while(data[offset]==0xff) {
+	    length+=data[offset++];
+	  }
+	  length+=data[offset++];
+	  while (j<tile_height && length>0) {
+	    a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+	    length--;
+	    if (++i>=tile_width) {
+	      i=0;
+	      j++;
+	    }
+	  }
+	}
+      } else {
+	int palette_size = sub_encoding;
+	int palette_bpp = 8;
+	if (sub_encoding >= 130) {
+	  palette_size = sub_encoding - 128;
+	} else {
+	  palette_bpp=(sub_encoding>4?4:(sub_encoding>2?2:1));
+	}
+	
+	cv::Vec3b palette[128]; // max size
+	for (int i = 0; i < palette_size; ++i) {
+	  palette[i] = info->read_cpixel(data, offset);
+	}
+	if (palette_bpp == 8) { // unpacked palette
+	  int j = 0, i = 0;
+	  while (j < tile_height) {
+	    int palette_index = data[offset]&0x7f;
+	    cv::Vec3b farbe = palette[palette_index];
+	    int length = 1;
+	    if (data[offset]&0x80) { // run
+	      offset++;
+	      /* run length */
+	      while(data[offset]==0xff) {
+		length+=data[offset++];
+	      }
+	      length+=data[offset];
+	    }
+	    offset++;
+	    while (j<tile_height && length>0) {
+	      a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+	      length--;
+	      if (++i>=tile_width) {
+		i=0;
+		j++;
+	      }
+	    }
+	  }
+	} else {
+	  int mask = (1<<palette_bpp)-1;
+	  for (int j = 0; j < tile_height; j++) {
+	    int shift=8-palette_bpp;
+	    for (int i = 0; i < tile_width; i++) {
+	      cv::Vec3b farbe = palette[((data[offset])>>shift)&mask];
+	      a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
+	      
+	      shift -= palette_bpp;
+	      if (shift<0) {
+		shift=8-palette_bpp;
+		offset++;
+	      }
+	    }
+	    if (shift<8-palette_bpp)
+	      offset++;
+	  }
+	}
+      }	
+      w -= 64;
+      x += 64;
     }
-    return data - original_data;
-  }
-  int palette_size = sub_encoding;
-  int bpp = 8;
-  if (sub_encoding >= 130) {
-    palette_size = sub_encoding - 128;
-  } else {
-    bpp=(sub_encoding>4?4:(sub_encoding>2?2:1));
+    h -= 64;
+    y += 64;
   }
 
-  cv::Vec3b palette[128]; // max size
-  for (int i = 0; i < palette_size; ++i) {
-    palette[i] = read_cpixel(data);
-  }
-  if (bpp == 8) { // unpacked palette
-    int j = 0, i = 0;
-    while (j < h) {
-      int palette_index = *data&0x7f;
-      cv::Vec3b farbe = palette[palette_index];
-      int length = 1;
-      if (*data&0x80) { // run
-	data++;
-	/* run length */
-	while(*data==0xff) {
-	  length+=*data;
-	  data++;
-	}
-	length+=*data;
-      }
-      data++;
-      while (j<h && length>0) {
-	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
-	length--;
-	if (++i>=w) {
-	  i=0;
-	  j++;
-	}
-      }
-    }
-  } else {
-    int mask = (1<<bpp)-1;
-    for (int j = 0; j < h; j++) {
-      int shift=8-bpp;
-      for (int i = 0; i < w; i++) {
-	cv::Vec3b farbe = palette[((*data)>>shift)&mask];
-	a->img.at<cv::Vec3b>(y+j, x+i) = farbe;
-	
-	shift -= bpp;
-	if (shift<0) {
-	  shift=8-bpp;
-	  data++;
-	}
-      }
-      if (shift<8-bpp)
-	data++;
-    }
-  }
-  return data - original_data;
+  return offset;
 }

@@ -28,6 +28,14 @@ double image_similarity(Image *a, Image *b);
 
 Image *image_absdiff(Image *a, Image*b);
 
+class VNCInfo;
+
+VNCInfo *image_vncinfo(bool do_endian_conversion,
+		       unsigned int bytes_per_pixel,
+		       unsigned int red_mask,   unsigned int red_shift,
+		       unsigned int green_mask, unsigned int green_shift,
+		       unsigned int blue_mask,  unsigned int blue_shift);
+
 // this is for VNC support - get RGB tripels out of 32bit data for already set
 // width and height
 void image_map_raw_data(Image *a, const unsigned char *data);
@@ -55,8 +63,9 @@ void image_map_raw_data_rre(Image* a, long x, long y, long w, long h,
 
 // ZLRE encoding for VNC
 long image_map_raw_data_zlre(Image* a, long x, long y, long w, long h,
+			     VNCInfo *info,
 			     unsigned char *data,
-			     int sub_encoding);
+			     size_t len);
 
 // copy the s image into a at x,y
 void image_blend_image(Image *a, Image *s, long x, long y);
