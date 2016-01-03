@@ -598,17 +598,17 @@ cv::Vec3b VNCInfo::read_cpixel(unsigned char *data, size_t &offset) {
   
   if (bytes_per_pixel == 16) {
     data += offset;
-    long pixel = read_u16(data, this->do_endian_conversion);
+    long pixel = read_u16(data, do_endian_conversion);
     offset += 2;
-    blue = (pixel >> blue_shift  & blue_mask ) * blue_skale;
+    red = (pixel >> red_shift & red_mask  ) * red_skale;
     green = (pixel >> green_shift & green_mask) * green_skale;
-    red = (pixel >> red_shift   & red_mask  ) * red_skale;
+    blue = (pixel >> blue_shift  & blue_mask ) * blue_skale;
   } else {
-    red = data[offset++];
-    green = data[offset++];
     blue = data[offset++];
+    green = data[offset++];
+    red = data[offset++];
   }
-  return cv::Vec3b(red, green, blue);
+  return cv::Vec3b(blue, green, red);
 }
 
 long image_map_raw_data_zlre(Image* a, long x, long y, long w, long h,
@@ -628,6 +628,7 @@ long image_map_raw_data_zlre(Image* a, long x, long y, long w, long h,
 	abort();
       }
       unsigned char sub_encoding = data[offset++];
+      //printf("SE %d\n", sub_encoding);
       int tile_width = w > 64 ? 64 : w;
       int tile_height = h > 64 ? 64 : h;
 

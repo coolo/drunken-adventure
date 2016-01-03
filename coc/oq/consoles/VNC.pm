@@ -921,10 +921,7 @@ sub _receive_zlre_encoding {
 
     my $pi = $self->_pixinfo;
     # TODO: find out how to define static functions in .xs
-    my $info = $image->new_vncinfo($self->_do_endian_conversion, $self->_bpp,
-				   $pi->{red_max}, $pi->{red_shift},
-				   $pi->{green_max}, $pi->{green_shift},
-				   $pi->{blue_max}, $pi->{blue_shift});
+    my $info = $image->new_vncinfo($self->_do_endian_conversion, $self->_bpp, $pi->{red_max}, $pi->{red_shift}, $pi->{green_max}, $pi->{green_shift}, $pi->{blue_max}, $pi->{blue_shift});
 
     my $stime = time;
     $socket->read(my $data, 4)

@@ -23,6 +23,7 @@ close($pf);
 my $vnc = consoles::VNC->new(
     {
         hostname => $ARGV[0],
+        depth    => 16,
         password => $password,
         port     => $ARGV[1] || 5900
     });
@@ -665,7 +666,7 @@ sub worth_it {
     my ($th, $gold, $elex, $de) = @_;
     #return      if ($th < 8);
     if ($th == 8) {
-        return ($gold + $elex + $de * 100 > 520000);
+        return ($gold + $elex + $de * 100 > 420000);
     }
     if ($th == 19) {
         return ($gold + $elex > 600000 && $de > 2000);
@@ -847,7 +848,7 @@ sub attack {
     _sleep(1);
 
     my $barb_wave = 0;
-    my $barbs = 0;
+    my $barbs     = 0;
     if (0) {
         # BARB 1
         $barbs = select_attack_troop($troops, 'barb');
