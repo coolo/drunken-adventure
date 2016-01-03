@@ -52,8 +52,8 @@ sub update_screen {
     my $s = IO::Select->new();
     $s->add($vnc->socket);
 
-    for (my $i = 0; $i < 5; $i++) {
-        if ($s->can_read(1)) {
+    for (my $i = 0; $i < 10; $i++) {
+        if ($s->can_read(.2)) {
             if (!$vnc->update_framebuffer) {
                 $vnc->send_update_request;
                 next;
@@ -619,8 +619,9 @@ sub train_troops {
 sub wait_for_screen {
     my ($fn, $x, $y, $timeout) = @_;
     $timeout ||= 5;
-    my $nn = read_png($fn);
-    for (my $i = 0; $i < $timeout; $i++) {
+    my $endtime = time + $timeout;
+    my $nn      = read_png($fn);
+    while (time < $endtime) {
         my $sim = $vnc->_framebuffer->copyrect($x, $y, $nn->xres, $nn->yres)->similarity($nn);
         diag "Wait for $fn $sim";
         return 1 if ($sim > 30);
@@ -972,6 +973,7 @@ sub find_worthy_base {
         $vnc->mouse_click(220, 590);
     }
     else {
+        find_needle_coords('find-fight.png');
         wait_for_screen('find-fight.png', 207, 521, 5) || die "no find-fight";
         $vnc->mouse_click(220, 540);
     }
