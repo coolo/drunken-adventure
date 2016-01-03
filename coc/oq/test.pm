@@ -58,7 +58,7 @@ sub update_screen {
                 $vnc->send_update_request;
                 next;
             }
-            $vnc->_framebuffer->write("last.png");
+            #$vnc->_framebuffer->write("last.png");
             last;
         }
     }
@@ -316,12 +316,7 @@ sub read_army_state {
     my $img = $vnc->_framebuffer;
 
     $vnc->mouse_click(260, 694);
-    wait_for_screen('armyoverview.png', 541, 21, 5);
-
-    my $fa = read_png('troops-label.png');
-    my $tc = $img->copyrect(245, 84, $fa->xres, $fa->yres)->similarity($fa);
-    diag "TC $tc";
-    return if $tc < 30;
+    wait_for_screen('troops-label.png', 245, 84, 8) || return;
 
     my $hash;
     #$vnc->_framebuffer->write('army-22.png');
@@ -624,9 +619,10 @@ sub wait_for_screen {
     while (time < $endtime) {
         my $sim = $vnc->_framebuffer->copyrect($x, $y, $nn->xres, $nn->yres)->similarity($nn);
         diag "Wait for $fn $sim";
-        return 1 if ($sim > 30);
+        return 1 if ($sim > 22);
         update_screen;
     }
+    $vnc->_framebuffer->write("last.png");
     return;
 }
 
@@ -969,12 +965,12 @@ sub find_worthy_base {
     return if !on_main_screen;
     $vnc->mouse_click(60, 650);
     # there are 2 different places - with or without shield
-    if (wait_for_screen('find-fight.png', 207, 572, 5)) {
+    if (wait_for_screen('find-fight.png', 207, 572, 8)) {
         $vnc->mouse_click(220, 590);
     }
     else {
         find_needle_coords('find-fight.png');
-        wait_for_screen('find-fight.png', 207, 521, 5) || die "no find-fight";
+        wait_for_screen('find-fight.png', 207, 521, 8) || die "no find-fight";
         $vnc->mouse_click(220, 540);
     }
     my $time_to_next = time;
@@ -1055,12 +1051,14 @@ while (time - $stime < 3 && !$vnc->_framebuffer) {
     update_screen;
 }
 die "still no screen" unless $vnc->_framebuffer;
+update_screen;
 
 while (1) {
     fix_main_screen;
     while (on_main_screen) {
         update_screen;
         #next if check_chat;
+        $min_train_time = 1;
         if (train_troops) {
             next unless find_worthy_base;
             attack;
@@ -1071,6 +1069,7 @@ while (1) {
         diag "nothing los - waiting $min_train_time seconds";
         sleep($min_train_time);
         $min_train_time = 0;
+        fix_main_screen;
         collect_resources;
     }
 }
