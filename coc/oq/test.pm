@@ -663,10 +663,10 @@ sub check_base_resources {
 }
 
 sub worth_it {
-    my ($th, $gold, $elex, $de) = @_;
+    my ($th, $gold, $elex, $de, $count) = @_;
     #return      if ($th < 8);
     if ($th == 8) {
-        return ($gold + $elex + $de * 100 > 420000);
+        return ($gold + $elex + $de * 100 > 420000 - $count * 1000);
     }
     if ($th == 19) {
         return ($gold + $elex > 600000 && $de > 2000);
@@ -977,15 +977,17 @@ sub find_worthy_base {
     }
     my $time_to_next = time;
     my $next         = read_png('next.png');
+    my $bases_seen   = 0;
     while (1) {
         update_screen;
         my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
         if ($sim > 30) {
+            $bases_seen++;
             my $bfn = "bases/base-" . time . ".png";
             diag "BASE $bfn\n";
             #$vnc->_framebuffer->write($bfn);
             my ($th, $gold, $elex, $de) = check_base_resources;
-            if ($th && worth_it($th, $gold, $elex, $de)) {
+            if ($th && worth_it($th, $gold, $elex, $de, $bases_seen)) {
                 $botapi->sendMessage(
                     {
                         chat_id => $bot_chatid,
