@@ -76,11 +76,16 @@ sub on_main_screen {
 }
 
 sub find_needle_coords {
-    my ($nf, $silent) = @_;
+    my ($nf, $opts) = @_;
+    my $x = $opts->{x} // 0;
+    my $y = $opts->{y} // 0;
+    my $margin = $opts->{margin} // 1400;
     my $nn = read_png($nf);
-    my ($sim, $xmatch, $ymatch) = $vnc->_framebuffer->search_needle($nn, 0, 0, $nn->xres, $nn->yres, 1400);
+    my $fake_needle = tinycv::new($vnc->_framebuffer->xres, $vnc->_framebuffer->yres);
+    $fake_needle->blend($nn, $x, $y);
+    my ($sim, $xmatch, $ymatch) = $vnc->_framebuffer->search_needle($fake_needle, $x, $y, $nn->xres, $nn->yres, $margin);
     $sim = $vnc->_framebuffer->copyrect($xmatch, $ymatch, $nn->xres, $nn->yres)->similarity($nn);
-    if (!$silent) {
+    if (!$opts->{silent}) {
         diag "FNC $nf - $sim X $xmatch Y $ymatch";
     }
     return ($sim, $xmatch, $ymatch);
@@ -107,7 +112,7 @@ sub zoom_out {
     for (my $counter = 1; $counter < 18; $counter++) {
         my $tsim = $vnc->_framebuffer->copyrect($target_x, $target_y, $nimg->xres, $nimg->yres)->similarity($nimg);
         return if ($tsim >= 30);
-        my ($sim, $xm, $ym) = find_needle_coords('lower-bushes.png');
+        my ($sim, $xm, $ym) = find_needle_coords('lower-bushes.png', { x => 949, y => 447, margin => 30 });
         if ($sim > 25) {    # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
             for (my $i = 0; $i < 100; $i++) {
                 $vnc->send_pointer_event(1, 150, 20 + $i * 4);
@@ -119,31 +124,38 @@ sub zoom_out {
         }
         $vnc->init_x11_keymap;
 
-        ($sim, $xm, $ym) = find_needle_coords('bushes.png');
+        ($sim, $xm, $ym) = find_needle_coords('bushes.png', { x => 899, y => 80, margin => 90 });
         if ($sim > 19) {
-            my $factor = -4;
-            $factor = 4 if ($ym < $target_y);
-            last if (abs($ym - $target_y) < abs($factor) * 2);
-            $vnc->send_pointer_event(0, 150, $ym);
-            update_screen;
-            $vnc->send_pointer_event(1, 150, $ym);
-            update_screen;
-            $vnc->send_pointer_event(1, 150, $target_y);
-            update_screen;
-            $vnc->send_pointer_event(0, 150, $target_y);
-            update_screen;
+            my $factor = -3;
+            $factor = 3 if ($ym < $target_y);
+            return if (abs($ym - $target_y) < abs($factor) * 2);
+            $vnc->send_pointer_event(0, $xm, $ym);
+	    for (my $i = $ym; abs($i - $target_y) > abs($factor); $i += $factor) {
+                $vnc->send_pointer_event(1, $xm, $i);
+                update_screen;
+            }
+	    $vnc->send_pointer_event(1, $xm, $target_y);
+            $vnc->send_pointer_event(0, $xm, $target_y);
+	    my $last_ym = $ym;
+	    my $stime = time;
+	    while (time < $stime + 3) {
+		update_screen;
+		($sim, $xm, $ym) = find_needle_coords('bushes.png', { x => 899, y => 80, margin => 90 });
+		print "LAST $last_ym $ym\n";
+		$last_ym = $ym;
+	    }
         }
         else {
             $vnc->send_key_event_down($vnc->keymap->{ctrl});
-            for (my $i = 0; $i < 10; $i++) {
+            for (my $i = 0; $i < 30; $i++) {
                 $vnc->send_pointer_event(0x10, int($vnc->_framebuffer->xres * 2 / 10), int($vnc->_framebuffer->yres * 5 / 10));
-                $vnc->send_update_request;
-            }
+	    }
             update_screen;
             $vnc->send_key_event_up($vnc->keymap->{ctrl});
             park_cursor(1);
         }
     }
+    die "failed to zoom out";
 }
 
 sub check_chat_close {
@@ -166,6 +178,7 @@ sub check_chat_close {
 }
 
 sub fix_main_screen {
+    park_cursor;
     if (on_main_screen) {
         zoom_out;
     }
@@ -175,7 +188,7 @@ sub fix_main_screen {
         my ($sim, $xmatch, $ymatch) = find_needle_coords('other-device.png');
         if ($sim > 30) {
             diag "waiting for other device";
-            sleep(12);
+            sleep(120);
             ($sim, $xmatch, $ymatch) = find_needle_coords('reload-app.png');
             $vnc->mouse_click($xmatch + 5, $ymatch + 5);
             $vnc->send_update_request;
@@ -185,25 +198,23 @@ sub fix_main_screen {
             zoom_out;
             return;
         }
-        my $nimg = read_png('spiel-neu-laden.png');
-        if ($vnc->_framebuffer->copyrect(556, 486, $nimg->xres, $nimg->yres)->similarity($nimg) > 80) {
-            $vnc->mouse_click(int(556 + $nimg->xres / 2), int(486 + $nimg->yres / 2));
-            $vnc->send_update_request;
-            while (!on_main_screen) {
-                update_screen;
-            }
-            zoom_out;
-            return;
-        }
-        for my $rx (qw/red-X.png red-X2.png end-fight.png home.png okay.png gohome.png/) {
-            ($sim, $xmatch, $ymatch) = find_needle_coords($rx);
+	my $obstacles = {
+			 'red-X.png' => { x => 1116, y => 21, margin => 10 },
+			 #  X1118 Y23, X1293 Y21
+			 'red-X2.png' => { x => 1200, y => 21, margin => 100 },
+			 'reload-game.png' => { x => 561, y => 488, margin => 20 },
+			 'retry.png' => { x => 567, y => 491, margin => 20 },
+			 'coc-icon.png' => { x => 457, y => 259, margin => 80 },
+			};
+
+	for my $o (keys %$obstacles) {
+	    ($sim, $xmatch, $ymatch) = find_needle_coords($o, $obstacles->{$o});
             if ($sim > 15) {
                 $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-                park_cursor;
                 return fix_main_screen();
             }
-        }
-        ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png');
+	}
+        ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png', { x => 300, y => 350, margin => 20 });
         if ($sim > 25) {
             $botapi->sendMessage(
                 {
@@ -211,37 +222,19 @@ sub fix_main_screen {
                     text    => 'Personal Break'
                 });
             diag "Personal Break - waiting a minute";
-            sleep(60);
+            sleep(180);
             ($sim, $xmatch, $ymatch) = find_needle_coords('reload-app.png');
             $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-            park_cursor;
-            return fix_main_screen();
-        }
-        ($sim, $xmatch, $ymatch) = find_needle_coords('retry.png');
-        if ($sim > 25) {
-            sleep(30);
-            $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-            park_cursor;
-            return fix_main_screen();
-        }
-        ($sim, $xmatch, $ymatch) = find_needle_coords('coc-icon.png');
-        if ($sim > 18) {
-            $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-            $vnc->send_update_request;
-            sleep(3);
-            park_cursor;
             return fix_main_screen();
         }
         ($sim, $xmatch, $ymatch) = find_needle_coords('droid-fullscreen.png');
         if ($sim > 21) {
             $vnc->mouse_click($xmatch + 20, $ymatch + 20);
-            park_cursor;
             return fix_main_screen();
         }
         ($sim, $xmatch, $ymatch) = find_needle_coords('droidx.png');
         if ($sim > 25) {
             $vnc->mouse_click($xmatch + 5, $ymatch + 5);
-            park_cursor;
             while (1) {
                 ($sim, $xmatch, $ymatch) = find_needle_coords('droidx-yes.png');
                 if ($sim > 18) {
@@ -650,7 +643,7 @@ sub check_base_resources {
     # not worth the TH check
     return if ($gold + $elex < 50000 || $de < 100);
     for my $th (glob("ths/*-th-*.png")) {
-        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
+        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, { silent => 1 });
         if ($sim > 14) {
             return ($1, $gold, $elex, $de) if $th =~ /.*-th-(\d*).png/;
         }
@@ -942,7 +935,7 @@ sub attack {
 
     for (my $i = 0; $i < 200; $i++) {
         update_screen;
-        my ($sim, $xmatch, $ymatch) = find_needle_coords('home.png', 0);
+        my ($sim, $xmatch, $ymatch) = find_needle_coords('home.png');
         if ($sim > 30) {
             # wait for the resources to show up
             sleep 5;
@@ -1030,7 +1023,7 @@ for my $base (glob("bases/base-*.png")) {
 
     my $found;
     for my $th (glob("ths/*.png")) {
-        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, 1);
+        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, { silent => 1});
         diag "$th $sim\n";
         if ($sim > 14) {
             if ($th =~ /-th-(\d+).png/) {
