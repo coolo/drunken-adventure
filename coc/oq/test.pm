@@ -77,10 +77,10 @@ sub on_main_screen {
 
 sub find_needle_coords {
     my ($nf, $opts) = @_;
-    my $x = $opts->{x} // 0;
-    my $y = $opts->{y} // 0;
+    my $x      = $opts->{x}      // 0;
+    my $y      = $opts->{y}      // 0;
     my $margin = $opts->{margin} // 1400;
-    my $nn = read_png($nf);
+    my $nn     = read_png($nf);
     my $fake_needle = tinycv::new($vnc->_framebuffer->xres, $vnc->_framebuffer->yres);
     $fake_needle->blend($nn, $x, $y);
     my ($sim, $xmatch, $ymatch) = $vnc->_framebuffer->search_needle($fake_needle, $x, $y, $nn->xres, $nn->yres, $margin);
@@ -112,7 +112,7 @@ sub zoom_out {
     for (my $counter = 1; $counter < 18; $counter++) {
         my $tsim = $vnc->_framebuffer->copyrect($target_x, $target_y, $nimg->xres, $nimg->yres)->similarity($nimg);
         return if ($tsim >= 30);
-        my ($sim, $xm, $ym) = find_needle_coords('lower-bushes.png', { x => 949, y => 447, margin => 30 });
+        my ($sim, $xm, $ym) = find_needle_coords('lower-bushes.png', {x => 949, y => 447, margin => 30});
         if ($sim > 25) {    # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
             for (my $i = 0; $i < 100; $i++) {
                 $vnc->send_pointer_event(1, 150, 20 + $i * 4);
@@ -124,32 +124,34 @@ sub zoom_out {
         }
         $vnc->init_x11_keymap;
 
-        ($sim, $xm, $ym) = find_needle_coords('bushes.png', { x => 899, y => 80, margin => 90 });
+        ($sim, $xm, $ym) = find_needle_coords('bushes.png', {x => 899, y => 80, margin => 90});
         if ($sim > 19) {
             my $factor = -3;
             $factor = 3 if ($ym < $target_y);
+            $xm = 930;
             return if (abs($ym - $target_y) < abs($factor) * 2);
             $vnc->send_pointer_event(0, $xm, $ym);
-	    for (my $i = $ym; abs($i - $target_y) > abs($factor); $i += $factor) {
+            for (my $i = $ym; abs($i - $target_y) > abs($factor); $i += $factor) {
                 $vnc->send_pointer_event(1, $xm, $i);
                 update_screen;
             }
-	    $vnc->send_pointer_event(1, $xm, $target_y);
+            $vnc->send_pointer_event(1, $xm, $target_y);
             $vnc->send_pointer_event(0, $xm, $target_y);
-	    my $last_ym = $ym;
-	    my $stime = time;
-	    while (time < $stime + 3) {
-		update_screen;
-		($sim, $xm, $ym) = find_needle_coords('bushes.png', { x => 899, y => 80, margin => 90 });
-		print "LAST $last_ym $ym\n";
-		$last_ym = $ym;
-	    }
+            my $last_ym = $ym;
+            my $stime   = time;
+            while (time < $stime + 3) {
+                update_screen;
+                ($sim, $xm, $ym) = find_needle_coords('bushes.png', {x => 899, y => 80, margin => 90});
+                last if ($last_ym == $ym);
+                $last_ym = $ym;
+            }
         }
         else {
             $vnc->send_key_event_down($vnc->keymap->{ctrl});
             for (my $i = 0; $i < 30; $i++) {
                 $vnc->send_pointer_event(0x10, int($vnc->_framebuffer->xres * 2 / 10), int($vnc->_framebuffer->yres * 5 / 10));
-	    }
+                $vnc->send_pointer_event(0,    int($vnc->_framebuffer->xres * 2 / 10), int($vnc->_framebuffer->yres * 5 / 10));
+            }
             update_screen;
             $vnc->send_key_event_up($vnc->keymap->{ctrl});
             park_cursor(1);
@@ -198,23 +200,23 @@ sub fix_main_screen {
             zoom_out;
             return;
         }
-	my $obstacles = {
-			 'red-X.png' => { x => 1116, y => 21, margin => 10 },
-			 #  X1118 Y23, X1293 Y21
-			 'red-X2.png' => { x => 1200, y => 21, margin => 100 },
-			 'reload-game.png' => { x => 561, y => 488, margin => 20 },
-			 'retry.png' => { x => 567, y => 491, margin => 20 },
-			 'coc-icon.png' => { x => 457, y => 259, margin => 80 },
-			};
+        my $obstacles = {
+            'red-X.png' => {x => 1116, y => 21, margin => 10},
+            #  X1118 Y23, X1293 Y21
+            'red-X2.png'      => {x => 1200, y => 21,  margin => 100},
+            'reload-game.png' => {x => 561,  y => 488, margin => 20},
+            'retry.png'       => {x => 567,  y => 491, margin => 20},
+            'coc-icon.png'    => {x => 457,  y => 259, margin => 80},
+        };
 
-	for my $o (keys %$obstacles) {
-	    ($sim, $xmatch, $ymatch) = find_needle_coords($o, $obstacles->{$o});
+        for my $o (keys %$obstacles) {
+            ($sim, $xmatch, $ymatch) = find_needle_coords($o, $obstacles->{$o});
             if ($sim > 15) {
                 $vnc->mouse_click($xmatch + 5, $ymatch + 5);
                 return fix_main_screen();
             }
-	}
-        ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png', { x => 300, y => 350, margin => 20 });
+        }
+        ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png', {x => 300, y => 350, margin => 20});
         if ($sim > 25) {
             $botapi->sendMessage(
                 {
@@ -643,7 +645,7 @@ sub check_base_resources {
     # not worth the TH check
     return if ($gold + $elex < 50000 || $de < 100);
     for my $th (glob("ths/*-th-*.png")) {
-        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, { silent => 1 });
+        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, {silent => 1});
         if ($sim > 14) {
             return ($1, $gold, $elex, $de) if $th =~ /.*-th-(\d*).png/;
         }
@@ -1023,7 +1025,7 @@ for my $base (glob("bases/base-*.png")) {
 
     my $found;
     for my $th (glob("ths/*.png")) {
-        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, { silent => 1});
+        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, {silent => 1});
         diag "$th $sim\n";
         if ($sim > 14) {
             if ($th =~ /-th-(\d+).png/) {
