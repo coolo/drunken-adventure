@@ -107,12 +107,12 @@ sub park_cursor {
 
 sub zoom_out {
     my $nimg     = read_png('bushes.png');
-    my $target_y = 100;
-    my $target_x = 899;
+    my $target_y = 40;
+    my $target_x = 971;
     for (my $counter = 1; $counter < 18; $counter++) {
         my $tsim = $vnc->_framebuffer->copyrect($target_x, $target_y, $nimg->xres, $nimg->yres)->similarity($nimg);
         return if ($tsim >= 30);
-        my ($sim, $xm, $ym) = find_needle_coords('lower-bushes.png', {x => 949, y => 447, margin => 30});
+        my ($sim, $xm, $ym) = find_needle_coords('lower-bushes.png', {x => 911, y => 650, margin => 180});
         if ($sim > 25) {    # if we can see the lower end, we won't be able to find the bushes without scrolling down heavily
             for (my $i = 0; $i < 100; $i++) {
                 $vnc->send_pointer_event(1, 150, 20 + $i * 4);
@@ -124,25 +124,33 @@ sub zoom_out {
         }
         $vnc->init_x11_keymap;
 
-        ($sim, $xm, $ym) = find_needle_coords('bushes.png', {x => 899, y => 80, margin => 90});
-        if ($sim > 19) {
+
+
+        ($sim, $xm, $ym) = find_needle_coords('bushes.png', {x => 971, y => 80, margin => 80});
+        if ($sim > 21) {
             my $factor = -3;
             $factor = 3 if ($ym < $target_y);
             $xm = 930;
-            return if (abs($ym - $target_y) < abs($factor) * 2);
+            return if (abs($ym - $target_y) < 8);
             $vnc->send_pointer_event(0, $xm, $ym);
-            for (my $i = $ym; abs($i - $target_y) > abs($factor); $i += $factor) {
-                $vnc->send_pointer_event(1, $xm, $i);
-                update_screen;
-            }
-            $vnc->send_pointer_event(1, $xm, $target_y);
-            $vnc->send_pointer_event(0, $xm, $target_y);
+            $vnc->send_pointer_event(1, $xm, $ym);
+            my $delta = ($target_y - $ym) / 3;
+            while (abs($delta) > 8) { $delta /= 2; }
+            sleep 0.1;
+            $vnc->send_pointer_event(1, $xm, int($ym + $delta));
+            update_screen;
+            $vnc->send_pointer_event(1, $xm, int($ym + 2 * $delta));
+            update_screen;
+            $vnc->send_pointer_event(0, $xm, int($ym + 2 * $delta));
+
             my $last_ym = $ym;
             my $stime   = time;
             while (time < $stime + 3) {
                 update_screen;
                 ($sim, $xm, $ym) = find_needle_coords('bushes.png', {x => 899, y => 80, margin => 90});
+                diag "LAST $last_ym N $ym";
                 last if ($last_ym == $ym);
+                sleep .5;
                 $last_ym = $ym;
             }
         }
@@ -986,7 +994,7 @@ sub find_worthy_base {
             $bases_seen++;
             my $bfn = "bases/base-" . time . ".png";
             diag "BASE $bfn\n";
-            $vnc->_framebuffer->write($bfn) if test -d 'bases';
+            $vnc->_framebuffer->write($bfn) if -d 'bases';
             my ($th, $gold, $elex, $de) = check_base_resources;
             if ($th && worth_it($th, $gold, $elex, $de, $bases_seen)) {
                 $botapi->sendMessage(
