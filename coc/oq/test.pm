@@ -311,7 +311,7 @@ sub read_army_state {
     my $img = $vnc->_framebuffer;
 
     $vnc->mouse_click(260, 694);
-    wait_for_screen('troops-label.png', 245, 84, 8) || return;
+    wait_for_screen('troops-label.png', 245, 84, 12) || return;
 
     my $hash;
     #$vnc->_framebuffer->write('army-22.png');
@@ -613,9 +613,14 @@ sub wait_for_screen {
     my $nn      = read_png($fn);
     while (time < $endtime) {
         my $sim = $vnc->_framebuffer->copyrect($x, $y, $nn->xres, $nn->yres)->similarity($nn);
+        my $stime = time;
         diag "Wait for $fn $sim";
         return 1 if ($sim > 22);
         update_screen;
+        my $diff = $stime + 1 - time;
+        if ($diff > 0) {
+            sleep($diff);
+        }
     }
     $vnc->_framebuffer->write("last.png");
     return;
@@ -668,6 +673,7 @@ sub worth_it {
 
 sub find_attack_troops {
     my $res;
+    my $stime  = time;
     my @troops = qw(barb archer cobold giant wallbreaker wizard minion
       hog CB king queen spell-heal spell-poison spell-haste );
     for (my $spot = 7; $spot < 1250; $spot++) {
@@ -702,6 +708,7 @@ sub find_attack_troops {
             }
         }
     }
+    diag sprintf("find_attack_troops %f", time - $stime);
     return $res;
 }
 
@@ -790,6 +797,7 @@ sub attack {
     _sleep(.3);
 
     # WB 1
+    $troops = find_attack_troops;
     my $wbs = select_attack_troop($troops, 'wallbreaker');
     my $wb_wave = int($wbs / 4);
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
@@ -797,6 +805,7 @@ sub attack {
     _sleep(0.3);
 
     # ARCHER 1
+    $troops = find_attack_troops;
     my $archers = select_attack_troop($troops, 'archer');
     my $archer_wave = int($archers / 4);
     spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
@@ -831,8 +840,6 @@ sub attack {
     select_attack_troop($troops, 'wallbreaker');
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
 
-    _sleep(.3);
-
     # ARCHER 2
     select_attack_troop($troops, 'archer');
     spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
@@ -855,10 +862,11 @@ sub attack {
     select_attack_troop($troops, 'wallbreaker');
     spots_on_red_line($x1, $y1, $x2, $y2, $wb_wave);
 
+    # ARCHER 3
+    select_attack_troop($troops, 'archer');
+    spots_on_red_line($x1, $y1, $x2, $y2, $archer_wave);
+
     _sleep(2);
-
-
-    _sleep(1);
 
     # WB 4
     select_attack_troop($troops, 'wallbreaker');
@@ -978,7 +986,7 @@ sub find_worthy_base {
             $bases_seen++;
             my $bfn = "bases/base-" . time . ".png";
             diag "BASE $bfn\n";
-            #$vnc->_framebuffer->write($bfn);
+            $vnc->_framebuffer->write($bfn) if test -d 'bases';
             my ($th, $gold, $elex, $de) = check_base_resources;
             if ($th && worth_it($th, $gold, $elex, $de, $bases_seen)) {
                 $botapi->sendMessage(
