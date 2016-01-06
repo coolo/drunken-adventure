@@ -657,6 +657,7 @@ sub check_base_resources {
     }
     diag "BASE $gold gold $elex elex $de DE";
     # not worth the TH check
+    #print $vnc->_framebuffer->find_townhall;
     return if ($gold + $elex < 50000 || $de < 100);
     for my $th (glob("ths/*-th-*.png")) {
         my ($sim, $xmatch, $ymatch) = find_needle_coords($th, {silent => 1});

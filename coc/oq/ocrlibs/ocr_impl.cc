@@ -716,3 +716,64 @@ std::vector<int> image_find_red_line(Image *s)
   res.push_back(last_green_p2.y);
   return res;
 }
+
+
+int detect_mse(Image *s, const char *filename)
+{
+  Mat m, hsv, chan[3];
+
+  split(s->img, chan);
+  Mat scene, obj;
+  chan[0].convertTo(scene, CV_8UC1);
+  
+  Mat th8 = imread(filename, CV_LOAD_IMAGE_COLOR);
+  split(th8, chan);
+  chan[0].convertTo(obj, CV_8UC1);
+  // imwrite("hsv1.png", obj); // blue channel
+  // imwrite("hsv0.png", scene); // blue channel
+  
+  long min = LONG_MAX;
+  for (int y = 0; y < scene.rows - obj.rows; y++) {
+    for (int x = 0; x < scene.cols - obj.cols; x++) {
+      long delta = 0;
+      for (int y1 = 0; y1 < obj.rows; y1++) {
+	const uchar* I1_data = scene.ptr<const uchar>(y+y1);
+	const uchar* I2_data = obj.ptr<const uchar>(y1);
+	//absdiff(InputArray(I1_data + x, obj.cols), InputArray(I2_data, obj.cols), s1);
+	for (int x1 = 0; x1 < obj.cols; x1++) {
+	  int d = I1_data[x+x1];
+	  delta += (d - I2_data[x1]) * (d - I2_data[x1]);
+	}
+      }
+      if (min > delta) {
+	min = delta;
+	//printf("%03d:%04d %ld(%ld)\n", y, x, delta / ( obj.rows * obj.cols), min / ( obj.rows * obj.cols));
+      }
+    }
+  }
+
+  cout << filename << " " << min / ( obj.rows * obj.cols) << endl;
+  return min;
+}
+
+std::vector<int> image_find_townhall(Image *s)
+{
+  detect_mse(s, "ths/01-th-9.png");
+  detect_mse(s, "ths/02-th-8.png");
+  detect_mse(s, "ths/03-th-10.png");
+  detect_mse(s, "ths/04-th-11.png");
+  detect_mse(s, "ths/05-th-7.png");
+  detect_mse(s, "ths/06-th-9.png");
+  detect_mse(s, "ths/07-th-9.png");
+  detect_mse(s, "ths/08-th-8.png");
+  detect_mse(s, "ths/09-th-10.png");
+  detect_mse(s, "ths/10-th-8.png");
+  detect_mse(s, "ths/11-th-8.png");
+  detect_mse(s, "ths/12-th-11.png");
+ 
+  vector<int> res;
+  res.push_back(0);
+  res.push_back(0);
+  return res;
+
+}

@@ -38,3 +38,10 @@ void find_red_line(tinycv::Image self)
     PUSHs(sv_2mortal(newSViv(res[1])));
     PUSHs(sv_2mortal(newSViv(res[2])));
     PUSHs(sv_2mortal(newSViv(res[3])));
+
+void find_townhall(tinycv::Image self)
+   PPCODE:
+    std::vector<int> res = image_find_townhall(self);
+    EXTEND(SP, 2);
+    PUSHs(sv_2mortal(newSViv(res[0])));
+    PUSHs(sv_2mortal(newSViv(res[1])));
