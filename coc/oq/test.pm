@@ -224,7 +224,8 @@ sub fix_main_screen {
                 return fix_main_screen();
             }
         }
-        ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png', {x => 300, y => 350, margin => 20});
+        # we need a large margin as extended bt is more text
+        ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png', {x => 300, y => 350, margin => 260});
         if ($sim > 25) {
             $botapi->sendMessage(
                 {
@@ -319,9 +320,9 @@ sub read_army_state {
     my $img = $vnc->_framebuffer;
 
     $vnc->mouse_click(260, 694);
-    wait_for_screen('troops-label.png', 245, 84, 12) || return;
+    wait_for_screen('troops-label.png', 245, 84, 12) || return undef;
 
-    my $hash;
+    my $hash = {};
     #$vnc->_framebuffer->write('army-22.png');
     for (my $i = 0; $i < 1300; $i++) {
         my $sim = $img->copyrect($i, 123, $nn->xres, $nn->yres)->similarity($nn);
@@ -524,7 +525,7 @@ sub train_troops {
         }
     }
     my $army = read_army_state;
-    return unless $army;
+    return unless defined $army;
     my $total = 0;
     for my $t (keys %$army) {
         $total += $army->{$t} * room_for_troop($t);
