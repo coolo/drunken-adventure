@@ -732,18 +732,15 @@ int detect_mse(Image *s, const char *filename)
   // imwrite("hsv1.png", obj); // blue channel
   // imwrite("hsv0.png", scene); // blue channel
   
-  long min = LONG_MAX;
+  double min = LONG_MAX;
   for (int y = 0; y < scene.rows - obj.rows; y++) {
     for (int x = 0; x < scene.cols - obj.cols; x++) {
-      long delta = 0;
-      for (int y1 = 0; y1 < obj.rows; y1++) {
-	const uchar* I1_data = scene.ptr<const uchar>(y+y1);
-	const uchar* I2_data = obj.ptr<const uchar>(y1);
-	//absdiff(InputArray(I1_data + x, obj.cols), InputArray(I2_data, obj.cols), s1);
-	for (int x1 = 0; x1 < obj.cols; x1++) {
-	  int d = I1_data[x+x1];
-	  delta += (d - I2_data[x1]) * (d - I2_data[x1]);
-	}
+      Mat m2 = Mat(scene, Range(y, y+obj.rows), Range(x,x+obj.cols));
+      double delta = 0;
+      for (int i = 0; i < obj.rows * obj.cols; i++) {
+	double d = m2.data[i];
+	d -= obj.data[i]; 
+	delta += d * d;
       }
       if (min > delta) {
 	min = delta;
