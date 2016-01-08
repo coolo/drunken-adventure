@@ -724,7 +724,9 @@ float check_area(const Mat &m, const Mat &obj, int x, int y, int times, int &tx,
   int x2 = min(m.cols, (x+times)*4 + 3 + obj.cols);
   int y1 = max(0, (y-1)*4 - 3);
   int y2 = min(m.rows, (y+1)*4 + 3 + obj.rows);
-  //printf("check_area %dx%d - %dx%d\n", y1,x1, y2,x2);
+  if (getenv("DEBUG")) {
+    printf("check_area %dx%d - %dx%d\n", y1,x1, y2,x2);
+  }
   Mat roi = Mat(m, Range(y1, y2), Range(x1, x2));
   matchTemplate(roi, obj, result, CV_TM_SQDIFF_NORMED);
 
@@ -737,23 +739,46 @@ float check_area(const Mat &m, const Mat &obj, int x, int y, int times, int &tx,
   ty = y1 + minLoc.y;
   return minVal;
 }
-		
-float detect_mse(Image *s, const char *filename, float &min)
+
+double getPSNR(const Mat& I1, const Mat& I2)
+{
+  Mat s1;
+  absdiff(I1, I2, s1);       // |I1 - I2|
+  s1.convertTo(s1, CV_32F);  // cannot make a square on 8 bits
+  s1 = s1.mul(s1);           // |I1 - I2|^2
+
+  Scalar s = sum(s1);        // sum elements per channel
+
+  double sse = s.val[0] + s.val[1] + s.val[2]; // sum channels
+
+  double mse = sse / (double)(I1.channels() * I1.total());
+  if (!mse) {
+    return VERY_SIM;
+  }
+  return 10.0 * log10((255 * 255) / mse);
+}
+
+float detect_mse(Image *s, const char *filename)
 {
   Mat scene = s->img, scene_small, obj_small;
   resize(scene, scene_small, Size(scene.cols / 4, scene.rows / 4));
   
   Mat obj = imread(filename, CV_LOAD_IMAGE_COLOR);
-  resize(obj, obj_small, Size(obj.cols / 4, obj.rows / 4));
+  resize(Mat(obj, Range(0, obj.rows / 4 * 4), Range(0, obj.cols / 4 * 4)), obj_small, Size(obj.cols / 4, obj.rows / 4));
   Mat result;
   matchTemplate(scene_small, obj_small, result, CV_TM_SQDIFF_NORMED);
 
-  min = 10;
+  float min = 10;
   int bx = 0, by = 0;
+  float min_result = 10;
   for (int y = 0; y < result.rows; y++) {
     for (int x = 0; x < result.cols; x++) {
-      const float limit = 0.15;
-      if (result.at<float>(y, x) > limit)
+      const float limit = 0.21;
+      float p = result.at<float>(y, x);
+      if (p < min_result) {
+	min_result = p;
+      }
+      if (p > limit)
 	continue;
       int tx, ty;
       int times = 1;
@@ -770,7 +795,11 @@ float detect_mse(Image *s, const char *filename, float &min)
     }
   }
 
-  return min;
+  float psnr = getPSNR(obj, Mat(scene, Range(by, by + obj.rows), Range(bx, bx + obj.cols)));
+  if (getenv("DEBUG")) {
+    cout << "min " << min << " " << bx << " " << by << " " << min_result << " " << psnr << endl;
+  }
+  return psnr;
 }
 
 typedef map<string, int> thmap;
@@ -784,26 +813,25 @@ std::vector<int> image_find_townhall(Image *s)
   ths["ths/04-th-11.png"] = 11;
   ths["ths/05-th-7.png"] = 7;
   ths["ths/06-th-9.png"] = 9;
-  ths["ths/07-th-9.png"] = 9;
-  ths["ths/08-th-8.png"] = 8;
-  ths["ths/09-th-10.png"] = 10;
-  ths["ths/10-th-8.png"] = 8;
-  ths["ths/11-th-8.png"] = 8;
-  ths["ths/12-th-11.png"] = 11;
-  vector<int> res;
 
-  for (thmap::const_iterator it = ths.begin(); it != ths.end(); ++it) {
-    float min;
-    float mse = detect_mse(s, it->first.c_str(), min);
-    //cout << it->first << " " << mse << " " << it->second << endl;
-    if (mse < 0.12) {
-      res.push_back(it->second);
-      res.push_back(min * 100);
-      return res;
-    }
-  }
+  vector<int> res;
+  float best_mse = 0;
   res.push_back(0);
   res.push_back(1000);
-  return res;
 
+  for (thmap::const_iterator it = ths.begin(); it != ths.end(); ++it) {
+    float mse = detect_mse(s, it->first.c_str());
+    if (getenv("DEBUG")) {
+      cout << it->first << " " << mse << " " << it->second << endl;
+    }
+    if (mse > best_mse) {
+      best_mse = mse;
+      res.clear();
+      res.push_back(it->second);
+      res.push_back(mse);
+      /* if (mse > 14)
+	 return res; */
+    }
+  }
+  return res;
 }

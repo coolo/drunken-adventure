@@ -671,9 +671,9 @@ sub check_base_resources {
 
 sub worth_it {
     my ($th, $gold, $elex, $de, $count) = @_;
-    #return      if ($th < 8);
+    return 1 if ($th < 8);
     if ($th == 8) {
-        return ($gold + $elex + $de * 100 > 420000 - $count * 1000);
+        return ($gold + $elex + $de * 100 > 720000 - $count * 1000);
     }
     if ($th == 19) {
         return ($gold + $elex > 600000 && $de > 2000);
