@@ -720,10 +720,10 @@ std::vector<int> image_find_red_line(Image *s)
 float check_area(const Mat &m, const Mat &obj, int x, int y, int times, int &tx, int &ty)
 {
   Mat result;
-  int x1 = max(0, (x-1)*8 - 5);
-  int x2 = min(m.cols, (x+times)*8 + 5 + obj.cols);
-  int y1 = max(0, (y-1)*8 - 5);
-  int y2 = min(m.rows, (y+1)*8 + 5 + obj.rows);
+  int x1 = max(0, (x-1)*4 - 3);
+  int x2 = min(m.cols, (x+times)*4 + 3 + obj.cols);
+  int y1 = max(0, (y-1)*4 - 3);
+  int y2 = min(m.rows, (y+1)*4 + 3 + obj.rows);
   //printf("check_area %dx%d - %dx%d\n", y1,x1, y2,x2);
   Mat roi = Mat(m, Range(y1, y2), Range(x1, x2));
   matchTemplate(roi, obj, result, CV_TM_SQDIFF_NORMED);
@@ -741,10 +741,10 @@ float check_area(const Mat &m, const Mat &obj, int x, int y, int times, int &tx,
 float detect_mse(Image *s, const char *filename, float &min)
 {
   Mat scene = s->img, scene_small, obj_small;
-  resize(scene, scene_small, Size(scene.cols / 8, scene.rows / 8));
+  resize(scene, scene_small, Size(scene.cols / 4, scene.rows / 4));
   
   Mat obj = imread(filename, CV_LOAD_IMAGE_COLOR);
-  resize(obj, obj_small, Size(obj.cols / 8, obj.rows / 8));
+  resize(obj, obj_small, Size(obj.cols / 4, obj.rows / 4));
   Mat result;
   matchTemplate(scene_small, obj_small, result, CV_TM_SQDIFF_NORMED);
 
@@ -752,7 +752,7 @@ float detect_mse(Image *s, const char *filename, float &min)
   int bx = 0, by = 0;
   for (int y = 0; y < result.rows; y++) {
     for (int x = 0; x < result.cols; x++) {
-      const float limit = 0.2;
+      const float limit = 0.15;
       if (result.at<float>(y, x) > limit)
 	continue;
       int tx, ty;
@@ -796,7 +796,7 @@ std::vector<int> image_find_townhall(Image *s)
     float min;
     float mse = detect_mse(s, it->first.c_str(), min);
     //cout << it->first << " " << mse << " " << it->second << endl;
-    if (mse < 0.1) {
+    if (mse < 0.12) {
       res.push_back(it->second);
       res.push_back(min * 100);
       return res;
