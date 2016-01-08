@@ -717,60 +717,93 @@ std::vector<int> image_find_red_line(Image *s)
   return res;
 }
 
-
-int detect_mse(Image *s, const char *filename)
+float check_area(const Mat &m, const Mat &obj, int x, int y, int times, int &tx, int &ty)
 {
-  Mat m, hsv, chan[3];
+  Mat result;
+  int x1 = max(0, (x-1)*8 - 5);
+  int x2 = min(m.cols, (x+times)*8 + 5 + obj.cols);
+  int y1 = max(0, (y-1)*8 - 5);
+  int y2 = min(m.rows, (y+1)*8 + 5 + obj.rows);
+  //printf("check_area %dx%d - %dx%d\n", y1,x1, y2,x2);
+  Mat roi = Mat(m, Range(y1, y2), Range(x1, x2));
+  matchTemplate(roi, obj, result, CV_TM_SQDIFF_NORMED);
 
-  split(s->img, chan);
-  Mat scene, obj;
-  chan[0].convertTo(scene, CV_8UC1);
+  /// Localizing the best match with minMaxLoc
+  double minVal; double maxVal; Point minLoc; Point maxLoc;
+  Point matchLoc;
+
+  minMaxLoc( result, &minVal, &maxVal, &minLoc, &maxLoc, Mat() );
+  tx = x1 + minLoc.x;
+  ty = y1 + minLoc.y;
+  return minVal;
+}
+		
+float detect_mse(Image *s, const char *filename, float &min)
+{
+  Mat scene = s->img, scene_small, obj_small;
+  resize(scene, scene_small, Size(scene.cols / 8, scene.rows / 8));
   
-  Mat th8 = imread(filename, CV_LOAD_IMAGE_COLOR);
-  split(th8, chan);
-  chan[0].convertTo(obj, CV_8UC1);
-  // imwrite("hsv1.png", obj); // blue channel
-  // imwrite("hsv0.png", scene); // blue channel
-  
-  double min = LONG_MAX;
-  for (int y = 0; y < scene.rows - obj.rows; y++) {
-    for (int x = 0; x < scene.cols - obj.cols; x++) {
-      Mat m2 = Mat(scene, Range(y, y+obj.rows), Range(x,x+obj.cols));
-      double delta = 0;
-      for (int i = 0; i < obj.rows * obj.cols; i++) {
-	double d = m2.data[i];
-	d -= obj.data[i]; 
-	delta += d * d;
+  Mat obj = imread(filename, CV_LOAD_IMAGE_COLOR);
+  resize(obj, obj_small, Size(obj.cols / 8, obj.rows / 8));
+  Mat result;
+  matchTemplate(scene_small, obj_small, result, CV_TM_SQDIFF_NORMED);
+
+  min = 10;
+  int bx = 0, by = 0;
+  for (int y = 0; y < result.rows; y++) {
+    for (int x = 0; x < result.cols; x++) {
+      const float limit = 0.2;
+      if (result.at<float>(y, x) > limit)
+	continue;
+      int tx, ty;
+      int times = 1;
+      while (x < result.cols && result.at<float>(y, x) <= limit) {
+	x++;
+	times++;
       }
-      if (min > delta) {
-	min = delta;
-	//printf("%03d:%04d %ld(%ld)\n", y, x, delta / ( obj.rows * obj.cols), min / ( obj.rows * obj.cols));
+      float t = check_area(scene, obj, x, y, times, tx, ty);
+      if (t < min) {
+	min = t;
+	bx = tx;
+	by = ty;
       }
     }
   }
 
-  cout << filename << " " << min / ( obj.rows * obj.cols) << endl;
   return min;
 }
 
+typedef map<string, int> thmap;
 std::vector<int> image_find_townhall(Image *s)
 {
-  detect_mse(s, "ths/01-th-9.png");
-  detect_mse(s, "ths/02-th-8.png");
-  detect_mse(s, "ths/03-th-10.png");
-  detect_mse(s, "ths/04-th-11.png");
-  detect_mse(s, "ths/05-th-7.png");
-  detect_mse(s, "ths/06-th-9.png");
-  detect_mse(s, "ths/07-th-9.png");
-  detect_mse(s, "ths/08-th-8.png");
-  detect_mse(s, "ths/09-th-10.png");
-  detect_mse(s, "ths/10-th-8.png");
-  detect_mse(s, "ths/11-th-8.png");
-  detect_mse(s, "ths/12-th-11.png");
+  thmap ths;
  
+  ths["ths/01-th-9.png"] = 9;
+  ths["ths/02-th-8.png"] = 8;
+  ths["ths/03-th-10.png"] = 10;
+  ths["ths/04-th-11.png"] = 11;
+  ths["ths/05-th-7.png"] = 7;
+  ths["ths/06-th-9.png"] = 9;
+  ths["ths/07-th-9.png"] = 9;
+  ths["ths/08-th-8.png"] = 8;
+  ths["ths/09-th-10.png"] = 10;
+  ths["ths/10-th-8.png"] = 8;
+  ths["ths/11-th-8.png"] = 8;
+  ths["ths/12-th-11.png"] = 11;
   vector<int> res;
+
+  for (thmap::const_iterator it = ths.begin(); it != ths.end(); ++it) {
+    float min;
+    float mse = detect_mse(s, it->first.c_str(), min);
+    //cout << it->first << " " << mse << " " << it->second << endl;
+    if (mse < 0.1) {
+      res.push_back(it->second);
+      res.push_back(min * 100);
+      return res;
+    }
+  }
   res.push_back(0);
-  res.push_back(0);
+  res.push_back(1000);
   return res;
 
 }
