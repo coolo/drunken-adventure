@@ -535,8 +535,8 @@ sub train_troops {
     diag "BUILDING";
     diag Dumper($building);
     my $soll = {
-        giant       => 20,
-        wallbreaker => 8
+        giant       => 16,
+        wallbreaker => 12
     };
     my $rest = 220;
     if ($total > 215) {
@@ -656,27 +656,15 @@ sub check_base_resources {
         $de = $vnc->_framebuffer->copyrect(66, 176, 110, 30)->base_count('chars_base_count');
     }
     diag "BASE $gold gold $elex elex $de DE";
-    # not worth the TH check
-    #print $vnc->_framebuffer->find_townhall;
-    return if ($gold + $elex < 50000 || $de < 100);
-    for my $th (glob("ths/*-th-*.png")) {
-        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, {silent => 1});
-        if ($sim > 14) {
-            return ($1, $gold, $elex, $de) if $th =~ /.*-th-(\d*).png/;
-        }
-    }
-    diag "UNKNOWN TH";
-    return 20;
+    my ($th, $def) = $vnc->_framebuffer->find_townhall;
+    return ($th, $def, $gold, $elex, $de);
 }
 
 sub worth_it {
-    my ($th, $gold, $elex, $de, $count) = @_;
+    my ($th, $def, $gold, $elex, $de, $count) = @_;
     return 1 if ($th < 8);
-    if ($th == 8) {
-        return ($gold + $elex + $de * 100 > 720000 - $count * 1000);
-    }
-    if ($th == 19) {
-        return ($gold + $elex > 600000 && $de > 2000);
+    if ($th == 8 && $def < 10) {
+        return ($gold + $elex + $de * 100 > 320000 - $count * 1000);
     }
     return;
 }
@@ -784,7 +772,7 @@ sub _sleep {
 sub attack {
     my ($x1, $y1, $x2, $y2) = $vnc->_framebuffer->find_red_line;
     diag "RES $x1+$y1 - $x2+$y2";
-    #system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
+    system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
 
     # first we select the last spot, so we have reliable base troops
     my $troops = find_attack_troops;
@@ -953,7 +941,8 @@ sub attack {
     }
     diag "waiting for home";
 
-    for (my $i = 0; $i < 200; $i++) {
+    my $stime = time;
+    while (time < $stime + 300) {
         update_screen;
         my ($sim, $xmatch, $ymatch) = find_needle_coords('home.png');
         if ($sim > 30) {
@@ -965,7 +954,7 @@ sub attack {
                 {
                     chat_id => $bot_chatid,
                     photo   => {file => "telegram.png"},
-                    caption => "took $i seconds"
+                    caption => sprintf("took %d seconds", time - $stime)
                 });
             $vnc->mouse_click($xmatch + 30, $ymatch + 30);
             return;
@@ -997,14 +986,17 @@ sub find_worthy_base {
             my $bfn = "bases/base-" . time . ".png";
             diag "BASE $bfn\n";
             $vnc->_framebuffer->write($bfn) if -d 'bases';
-            my ($th, $gold, $elex, $de) = check_base_resources;
-            if ($th && worth_it($th, $gold, $elex, $de, $bases_seen)) {
+            my ($th, $def, $gold, $elex, $de) = check_base_resources;
+            if ($th && worth_it($th, $def, $gold, $elex, $de, $bases_seen)) {
                 $botapi->sendMessage(
                     {
                         chat_id => $bot_chatid,
                         text    => "Found worthy base $th $gold $elex $de"
                     });
                 return 1;
+            }
+	    if (time < $time_to_next + 4) {
+		    sleep($time_to_next + 5 - time);
             }
             $time_to_next = time;
             $vnc->mouse_click(1250, 550);

@@ -720,10 +720,10 @@ std::vector<int> image_find_red_line(Image *s)
 float check_area(const Mat &m, const Mat &obj, int x, int y, int times, int &tx, int &ty)
 {
   Mat result;
-  int x1 = max(0, (x-1)*4 - 3);
-  int x2 = min(m.cols, (x+times)*4 + 3 + obj.cols);
-  int y1 = max(0, (y-1)*4 - 3);
-  int y2 = min(m.rows, (y+1)*4 + 3 + obj.rows);
+  int x1 = max(0, (x)*4);
+  int x2 = min(m.cols, (x+times)*4 - 2 + obj.cols);
+  int y1 = max(0, (y)*4);
+  int y2 = min(m.rows, (y+1)*4 - 2 + obj.rows);
   if (getenv("DEBUG")) {
     printf("check_area %dx%d - %dx%d\n", y1,x1, y2,x2);
   }
@@ -773,7 +773,7 @@ float detect_mse(Image *s, const char *filename)
   float min_result = 10;
   for (int y = 0; y < result.rows; y++) {
     for (int x = 0; x < result.cols; x++) {
-      const float limit = 0.21;
+      const float limit = 0.111;
       float p = result.at<float>(y, x);
       if (p < min_result) {
 	min_result = p;
@@ -782,11 +782,11 @@ float detect_mse(Image *s, const char *filename)
 	continue;
       int tx, ty;
       int times = 1;
-      while (x < result.cols && result.at<float>(y, x) <= limit) {
-	x++;
+      while (x < result.cols && result.at<float>(y, x + times) <= limit) {
 	times++;
       }
       float t = check_area(scene, obj, x, y, times, tx, ty);
+      x += times - 1;
       if (t < min) {
 	min = t;
 	bx = tx;
@@ -802,22 +802,62 @@ float detect_mse(Image *s, const char *filename)
   return psnr;
 }
 
+int find_places(Mat &img, const Mat &obj)
+{
+  Mat result;
+
+  matchTemplate(img, obj, result, CV_TM_SQDIFF_NORMED);
+  
+  int strong_buildings = 0;
+  while (1) {
+
+    /// Localizing the best match with minMaxLoc
+    double minVal; double maxVal; Point minLoc; Point maxLoc;
+    Point matchLoc;
+    
+    minMaxLoc( result, &minVal, &maxVal, &minLoc, &maxLoc, Mat() );
+    //cout << "weak_base " << minVal <<  " " << minLoc << endl;
+    if (minVal > 0.06)
+      break;
+    for (int y = minLoc.y; y <= minLoc.y + obj.rows; y++)
+      for (int x = minLoc.x; x <= minLoc.x + obj.cols; x++)
+	result.at<float>(y, x) = 1;
+    strong_buildings++;
+  }
+
+  return strong_buildings;
+}
+
+int weak_base(Image *s)
+{
+  Mat img = s->img;
+  //cout << "ws\n";
+  int ws = find_places(img, imread("ths/WS.png"));
+  //cout << "as\n";
+  int as = find_places(img, imread("ths/AS.png"));
+  //cout << "cs\n";
+  int cs = find_places(img, imread("ths/CS.png"));
+
+  int ms = find_places(img, imread("ths/MS.png"));
+  return ws * 4 + as * 3 + cs * 2 + ms;
+}
+
 typedef map<string, int> thmap;
 std::vector<int> image_find_townhall(Image *s)
 {
   thmap ths;
  
-  ths["ths/01-th-9.png"] = 9;
+  //ths["ths/01-th-9.png"] = 9;
   ths["ths/02-th-8.png"] = 8;
-  ths["ths/03-th-10.png"] = 10;
-  ths["ths/04-th-11.png"] = 11;
+  //ths["ths/03-th-10.png"] = 10;
+  //ths["ths/04-th-11.png"] = 11;
   ths["ths/05-th-7.png"] = 7;
-  ths["ths/06-th-9.png"] = 9;
+  //ths["ths/06-th-9.png"] = 9;
 
   vector<int> res;
   float best_mse = 0;
+  res.push_back(15);
   res.push_back(0);
-  res.push_back(1000);
 
   for (thmap::const_iterator it = ths.begin(); it != ths.end(); ++it) {
     float mse = detect_mse(s, it->first.c_str());
@@ -826,11 +866,16 @@ std::vector<int> image_find_townhall(Image *s)
     }
     if (mse > best_mse) {
       best_mse = mse;
-      res.clear();
-      res.push_back(it->second);
-      res.push_back(mse);
-      /* if (mse > 14)
-	 return res; */
+      if (mse > 13.7) {
+	res.clear();
+	res.push_back(it->second);
+	int weak = 0;
+	if (it->second == 8) {
+	  weak = weak_base(s);
+	}
+	res.push_back(weak);
+	return res;
+      }
     }
   }
   return res;
