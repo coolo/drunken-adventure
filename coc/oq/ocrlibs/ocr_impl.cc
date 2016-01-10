@@ -604,8 +604,7 @@ int image_troop_count(Image *s, const char *fn) {
   //display_mat(stdout, m);
   string tl = map_letters(letters, m);
   //cout << "TL " << tl << endl;
-  while (tl.length() && tl[0] == ' ')
-    tl.erase(0, 1);
+  tl.erase(remove(tl.begin(), tl.end(), ' '), tl.end());
   if (tl.length() && tl[0] == 'x')
     tl.erase(0, 1);
   return atoi(tl.c_str());
@@ -628,11 +627,7 @@ int image_base_count(Image *s, const char *fn) {
   }
   //display_mat(stdout, m);
   string tl = map_letters(letters, m);
-  size_t index = tl.find(' ');
-  while (index!=std::string::npos) {
-    tl.erase(index, 1);
-    index = tl.find(' ');
-  }
+  tl.erase(remove(tl.begin(), tl.end(), ' '), tl.end());
   if (tl.length() && tl[0] == 'x')
     tl.erase(0, 1);
   //cout << "TL " << tl << " " << atol(tl.c_str()) << endl;
