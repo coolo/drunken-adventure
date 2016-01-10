@@ -662,9 +662,9 @@ sub check_base_resources {
 
 sub worth_it {
     my ($th, $def, $gold, $elex, $de, $count) = @_;
-    return 1 if ($th < 8);
-    if ($th == 8 && $def < 10) {
-        return ($gold + $elex + $de * 100 > 320000 - $count * 1000);
+    #return 1 if ($th < 8);
+    if ($th == 8) {
+        return ($gold + $elex + $de * 100 > 320000 * $def * 20000 - $count * 1000);
     }
     return;
 }
@@ -1058,10 +1058,17 @@ while (time - $stime < 3 && !$vnc->_framebuffer) {
 die "still no screen" unless $vnc->_framebuffer;
 update_screen;
 
+my $idle = 0;
+
 while (1) {
     fix_main_screen;
     while (on_main_screen) {
         update_screen;
+	if ($idle) {
+		collect_resources;
+		sleep(100);
+		next;
+        }
         #next if check_chat;
         $min_train_time = 1;
         if (train_troops) {
@@ -1075,7 +1082,6 @@ while (1) {
         sleep($min_train_time);
         $min_train_time = 0;
         fix_main_screen;
-        collect_resources;
     }
 }
 
