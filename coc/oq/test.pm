@@ -58,7 +58,7 @@ sub update_screen {
                 $vnc->send_update_request;
                 next;
             }
-            #$vnc->_framebuffer->write("last.png");
+            $vnc->_framebuffer->write("last.png");
             last;
         }
     }
@@ -215,6 +215,7 @@ sub fix_main_screen {
             'reload-game.png' => {x => 561,  y => 488, margin => 20},
             'retry.png'       => {x => 567,  y => 491, margin => 20},
             'coc-icon.png'    => {x => 457,  y => 259, margin => 80},
+            'okay.png'        => {x => 592,  y => 614, margin => 20},
         };
 
         for my $o (keys %$obstacles) {
@@ -224,6 +225,29 @@ sub fix_main_screen {
                 return fix_main_screen();
             }
         }
+        ($sim, $xmatch, $ymatch) = find_needle_coords('offline.png', { x => 630, y => 346, margin => 30 } );
+        if ($sim > 20) {
+             $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres - 1);
+             update_screen; 
+	     $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres); 
+             update_screen;
+             $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres + 1);
+	     sleep(.05);
+	     update_screen;
+	     ($sim, $xmatch, $ymatch) = find_needle_coords('windowlist.png');
+             if ($sim > 30) {
+		$vnc->mouse_click($xmatch + 5, $ymatch + 5);
+		update_screen;
+		while (1) {
+			($sim, $xmatch, $ymatch) = find_needle_coords('cocwindow.png');
+			if ($sim > 30) {	
+				$vnc->mouse_click($xmatch + 5, $ymatch + 5);
+				return fix_main_screen();
+			}
+			sleep 1;
+		}
+	     }
+        } 
         # we need a large margin as extended bt is more text
         ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png', {x => 300, y => 350, margin => 260});
         if ($sim > 25) {
@@ -239,7 +263,7 @@ sub fix_main_screen {
             return fix_main_screen();
         }
         ($sim, $xmatch, $ymatch) = find_needle_coords('droid-fullscreen.png');
-        if ($sim > 21) {
+        if ($sim > 23) {
             $vnc->mouse_click($xmatch + 20, $ymatch + 20);
             return fix_main_screen();
         }
@@ -662,9 +686,13 @@ sub check_base_resources {
 
 sub worth_it {
     my ($th, $def, $gold, $elex, $de, $count) = @_;
-    #return 1 if ($th < 8);
+    return 1 if ($th < 8);
     if ($th == 8) {
-        return ($gold + $elex + $de * 100 > 320000 * $def * 20000 - $count * 1000);
+        my $def_weight = 11500;
+        my $count_weight = 1300;
+        my $base_res = 310000;
+	diag sprintf("RES %d COUNT $count DEF $def -> LIMIT %d\n", ($gold + $elex + $de * 100), ($base_res + $def * $def_weight - $count * $count_weight));
+        return ($gold + $elex + $de * 100 > $base_res + $def * $def_weight - $count * $count_weight);
     }
     return;
 }
@@ -945,7 +973,7 @@ sub attack {
     while (time < $stime + 300) {
         update_screen;
         my ($sim, $xmatch, $ymatch) = find_needle_coords('home.png');
-        if ($sim > 30) {
+        if ($sim > 22) {
             # wait for the resources to show up
             sleep 5;
             update_screen;
@@ -976,12 +1004,14 @@ sub find_worthy_base {
         $vnc->mouse_click(220, 540);
     }
     my $time_to_next = time;
+    my $time_since_next = time;
     my $next         = read_png('next.png');
     my $bases_seen   = 0;
     while (1) {
         update_screen;
         my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
         if ($sim > 30) {
+            $time_to_next ||= time;
             $bases_seen++;
             my $bfn = "bases/base-" . time . ".png";
             diag "BASE $bfn\n";
@@ -998,14 +1028,16 @@ sub find_worthy_base {
 	    if (time < $time_to_next + 4) {
 		    sleep($time_to_next + 5 - time);
             }
-            $time_to_next = time;
+            $time_to_next = undef;
+            $time_since_next = time;
             $vnc->mouse_click(1250, 550);
             sleep .3;
             park_cursor;
             next;
         }
-        if (time - $time_to_next < 8) {
-            diag "TIME " . (time - $time_to_next) . "\n";
+        if (time - $time_since_next < 8) {
+            diag "TIME " . (time - $time_since_next) . "\n";
+            sleep .5;
             next;
         }
         my $nn = read_png('reload-game.png');
@@ -1020,7 +1052,7 @@ sub find_worthy_base {
             $vnc->mouse_click(590, 530);
             return;
         }
-        if (time - $time_to_next < 25) {
+        if (time - $time_since_next < 25) {
             die "failed to find the next base in 25 seconds";
         }
     }
@@ -1063,10 +1095,10 @@ my $idle = 0;
 while (1) {
     fix_main_screen;
     while (on_main_screen) {
-        update_screen;
+	collect_resources;
 	if ($idle) {
-		collect_resources;
 		sleep(100);
+		update_screen;
 		next;
         }
         #next if check_chat;
