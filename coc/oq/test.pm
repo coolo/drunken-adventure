@@ -225,29 +225,29 @@ sub fix_main_screen {
                 return fix_main_screen();
             }
         }
-        ($sim, $xmatch, $ymatch) = find_needle_coords('offline.png', { x => 630, y => 346, margin => 30 } );
+        ($sim, $xmatch, $ymatch) = find_needle_coords('offline.png', {x => 630, y => 346, margin => 30});
         if ($sim > 20) {
-             $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres - 1);
-             update_screen; 
-	     $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres); 
-             update_screen;
-             $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres + 1);
-	     sleep(.05);
-	     update_screen;
-	     ($sim, $xmatch, $ymatch) = find_needle_coords('windowlist.png');
-             if ($sim > 30) {
-		$vnc->mouse_click($xmatch + 5, $ymatch + 5);
-		update_screen;
-		while (1) {
-			($sim, $xmatch, $ymatch) = find_needle_coords('cocwindow.png');
-			if ($sim > 30) {	
-				$vnc->mouse_click($xmatch + 5, $ymatch + 5);
-				return fix_main_screen();
-			}
-			sleep 1;
-		}
-	     }
-        } 
+            $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres - 1);
+            update_screen;
+            $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres);
+            update_screen;
+            $vnc->send_pointer_event(0, 600, $vnc->_framebuffer->yres + 1);
+            sleep(.05);
+            update_screen;
+            ($sim, $xmatch, $ymatch) = find_needle_coords('windowlist.png');
+            if ($sim > 30) {
+                $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+                update_screen;
+                while (1) {
+                    ($sim, $xmatch, $ymatch) = find_needle_coords('cocwindow.png');
+                    if ($sim > 30) {
+                        $vnc->mouse_click($xmatch + 5, $ymatch + 5);
+                        return fix_main_screen();
+                    }
+                    sleep 1;
+                }
+            }
+        }
         # we need a large margin as extended bt is more text
         ($sim, $xmatch, $ymatch) = find_needle_coords('pbt.png', {x => 300, y => 350, margin => 260});
         if ($sim > 25) {
@@ -688,10 +688,10 @@ sub worth_it {
     my ($th, $def, $gold, $elex, $de, $count) = @_;
     return 1 if ($th < 8);
     if ($th == 8) {
-        my $def_weight = 11500;
+        my $def_weight   = 11500;
         my $count_weight = 1300;
-        my $base_res = 310000;
-	diag sprintf("RES %d COUNT $count DEF $def -> LIMIT %d\n", ($gold + $elex + $de * 100), ($base_res + $def * $def_weight - $count * $count_weight));
+        my $base_res     = 310000;
+        diag sprintf("RES %d COUNT $count DEF $def -> LIMIT %d\n", ($gold + $elex + $de * 100), ($base_res + $def * $def_weight - $count * $count_weight));
         return ($gold + $elex + $de * 100 > $base_res + $def * $def_weight - $count * $count_weight);
     }
     return;
@@ -982,8 +982,7 @@ sub attack {
                 {
                     chat_id => $bot_chatid,
                     photo   => {file => "telegram.png"},
-                    caption => sprintf("took %d seconds", time - $stime)
-                });
+                    caption => sprintf("took %d seconds", time - $stime)});
             $vnc->mouse_click($xmatch + 30, $ymatch + 30);
             return;
         }
@@ -1003,10 +1002,10 @@ sub find_worthy_base {
         wait_for_screen('find-fight.png', 207, 521, 8) || die "no find-fight";
         $vnc->mouse_click(220, 540);
     }
-    my $time_to_next = time;
+    my $time_to_next    = time;
     my $time_since_next = time;
-    my $next         = read_png('next.png');
-    my $bases_seen   = 0;
+    my $next            = read_png('next.png');
+    my $bases_seen      = 0;
     while (1) {
         update_screen;
         my $sim = $vnc->_framebuffer->copyrect(1118, 503, $next->xres, $next->yres)->similarity($next);
@@ -1025,10 +1024,10 @@ sub find_worthy_base {
                     });
                 return 1;
             }
-	    if (time < $time_to_next + 4) {
-		    sleep($time_to_next + 5 - time);
+            if (time < $time_to_next + 4) {
+                sleep($time_to_next + 5 - time);
             }
-            $time_to_next = undef;
+            $time_to_next    = undef;
             $time_since_next = time;
             $vnc->mouse_click(1250, 550);
             sleep .3;
@@ -1095,11 +1094,11 @@ my $idle = 0;
 while (1) {
     fix_main_screen;
     while (on_main_screen) {
-	collect_resources;
-	if ($idle) {
-		sleep(100);
-		update_screen;
-		next;
+        collect_resources;
+        if ($idle) {
+            sleep(100);
+            update_screen;
+            next;
         }
         #next if check_chat;
         $min_train_time = 1;
