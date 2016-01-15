@@ -22,6 +22,8 @@ using namespace std;
 
 double dX = .749;
 
+int dist_limit = 14;
+
 int humming_distance(unsigned long hash, unsigned long ref)
 {
   int weight = 0;
@@ -34,17 +36,10 @@ int humming_distance(unsigned long hash, unsigned long ref)
   return weight; 
 }
 
-int main(int argc, char **argv)
+long hashes[44][44];
+
+Mat translate_to_hashes(const Mat &img)
 {
-  Mat m, hsv, chan[3];
-
-  Mat img = imread(argv[1]);
-
-  cvtColor(img, hsv, CV_BGR2HSV);
-  split(img, chan);
-  cvtColor(img, m, CV_BGR2GRAY);
-  m.convertTo(m, CV_8UC1);
-
   Mat cool(8 * 44, 9 * 44, CV_8UC3);
   
   double delta = 19.34;
@@ -68,8 +63,14 @@ int main(int argc, char **argv)
 	    continue;
 	  if (ix2 < 0 || ix2 > img.cols)
 	    continue;
+	  double dx = ix2 - floor(ix2);
+	  double Q0 = (1 - dx) * img.at<Vec3b>(iy2, ix2)[1];
+	  Q0 += dx * img.at<Vec3b>(iy2, ix2 + 1)[1];
+	  double Q1 = (1 - dx) * img.at<Vec3b>(iy2 + 1, ix2)[1];
+	  Q1 += dx * img.at<Vec3b>(iy2 + 1, ix2 + 1)[1];
 	  // possible improvement: interpolation
-	  uchar pixel = img.at<Vec3b>(iy2, ix2)[1];
+	  double dy = iy2 - floor(iy2);
+	  uchar pixel = (1 - dy) * Q0 + dy * Q1 + 0.5;
 	  cool.at<Vec3b>(py * 8 + y, px * 9 + x) = Vec3b(pixel, pixel, pixel);
 	  if (prev != -1) {
 	    bool bit = pixel < prev;
@@ -80,14 +81,69 @@ int main(int argc, char **argv)
 	}
 	c += delta / 8;
       }
-      //printf("%d %016lx %d\n", py, hash, humming_distance(hash, 0xe4c5f1e1c5c0e4e0));
-      int dist = humming_distance(hash, 0xe4c5f1e1c5c0e4e0);
+      hashes[py][px] = hash;
+    }
+  }
+  return cool;
+}
+
+int mark_hash(const Mat &_cool, long argv_hash)
+{
+  Mat cool = _cool.clone();
+  for (int py = 0; py < 44; py++) {
+    for (int px = 0; px < 44; px++) {
+      long hash = hashes[py][px];
+      //printf("%016lx\n", argv_hash);
+      int dist = humming_distance(hash, argv_hash);
       for (int y = 0; y < 8; y++)
 	for (int x = 0; x < 9; x++) {
 	  uchar pixel = cool.at<Vec3b>(py * 8 + y, px * 9 + x)[1];
-	  cool.at<Vec3b>(py * 8 + y, px * 9 + x) = Vec3b(pixel, pixel, 255 - dist * 4);
+          if (dist < dist_limit) {
+            cool.at<Vec3b>(py * 8 + y, px * 9 + x) = Vec3b(pixel, 255 - dist * 4, pixel);
+          }
+	  
 	}
     }
   }
   imwrite("hsv.png", cool);
+  namedWindow("image");
+  imshow("image",cool);
+  return 0;
+}
+
+int main(int argc, char **argv)
+{
+  Mat img = imread(argv[1]);
+
+  Mat cool = translate_to_hashes(img);
+
+  int y = 22;
+  int x = 22;
+
+  while (1) {
+    long argv_hash = hashes[y][x];
+    printf("HASH %lx %d\n", argv_hash, dist_limit);
+    mark_hash(cool, argv_hash);
+    
+    int key = waitKey(0);
+    printf("Key %d\n", key);
+    if (key == 65361) {
+      x--;
+    }
+    if (key == 65362) {
+      y--;
+    }
+    if (key == 65364) {
+      y++;
+    }
+    if (key == 65363) {
+      x++;
+    }
+    if (key == 'a') {
+      dist_limit++;
+    }
+    if (key == 's') {
+      dist_limit--;
+    }
+  }
 }
