@@ -21,6 +21,7 @@ using namespace cv;
 using namespace std;
 
 double dX = .749;
+double delta = 19.34;
 
 int dist_limit = 14;
 
@@ -41,8 +42,6 @@ long hashes[44][44];
 Mat translate_to_hashes(const Mat &img)
 {
   Mat cool(8 * 44, 9 * 44, CV_8UC3);
-  
-  double delta = 19.34;
   
   for (int py = 0; py < 44; py++) {
     for (int px = 0; px < 44; px++) {
@@ -111,6 +110,44 @@ int mark_hash(const Mat &_cool, long argv_hash)
   return 0;
 }
 
+int mark_object(const Mat &_img, long argv_hash)
+{
+  Mat cool = _img.clone();
+  for (int py = 0; py < 44; py++) {
+    for (int px = 0; px < 44; px++) {
+      long hash = hashes[py][px];
+      //printf("%016lx\n", argv_hash);
+      int dist = humming_distance(hash, argv_hash);
+      if (dist > dist_limit) {
+	continue;
+      }
+      for (int y = 0; y < cool.rows; y++)
+	for (int x = 0; x < cool.cols; x++) {
+	  double a = -dX;
+	  double c = 564 * dX + py * delta;
+	  double b = dX;
+	  double d = (44 - px) * delta - 799 * dX;
+	  
+	  if (y < a * x + c || y > a * x + c + delta)
+	    continue;
+
+	  if (y < b * x + d || y > b * x + d + delta)
+	    continue;
+
+	  Vec3b pixel = cool.at<Vec3b>(y, x);
+	  pixel[0] = 256 - pixel[0];
+	  pixel[1] = 256 - pixel[1];
+	  pixel[2] = 256 - pixel[2];
+	  cool.at<Vec3b>(y, x) = pixel;
+	}
+    }
+  }
+  imwrite("hsv.png", cool);
+  namedWindow("image");
+  imshow("image",cool);
+  return 0;
+}
+
 int main(int argc, char **argv)
 {
   Mat img = imread(argv[1]);
@@ -123,7 +160,7 @@ int main(int argc, char **argv)
   while (1) {
     long argv_hash = hashes[y][x];
     printf("HASH %lx %d\n", argv_hash, dist_limit);
-    mark_hash(cool, argv_hash);
+    mark_object(img, argv_hash);
     
     int key = waitKey(0);
     printf("Key %d\n", key);
