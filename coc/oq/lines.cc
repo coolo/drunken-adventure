@@ -110,17 +110,17 @@ int mark_hash(const Mat &_cool, long argv_hash)
   return 0;
 }
 
-int mark_object(const Mat &_img, long argv_hash)
+int mark_object(const Mat &_img, int ty, int tx, int size)
 {
   Mat cool = _img.clone();
-  for (int py = 0; py < 44; py++) {
-    for (int px = 0; px < 44; px++) {
-      long hash = hashes[py][px];
+  for (int py = ty; py < ty + size; py++) {
+    for (int px = tx; px < tx + size; px++) {
+      /*      long hash = hashes[py][px];
       //printf("%016lx\n", argv_hash);
       int dist = humming_distance(hash, argv_hash);
       if (dist > dist_limit) {
 	continue;
-      }
+	} */
       for (int y = 0; y < cool.rows; y++)
 	for (int x = 0; x < cool.cols; x++) {
 	  double a = -dX;
@@ -148,22 +148,76 @@ int mark_object(const Mat &_img, long argv_hash)
   return 0;
 }
 
+struct COCObject {
+  static const int size = 4;
+
+  unsigned long hashes[size*size];
+};
+
+int object_distance(const COCObject &o, int y, int x)
+{
+  int distance = 0;
+  for (int oy = 0; oy < o.size; oy++)
+    for (int ox = 0; ox < o.size; ox++) {
+      distance += humming_distance(o.hashes[oy * o.size + ox], hashes[y + oy][x + ox]);
+    }
+  return distance;
+}
+
+vector<COCObject> objects;
+
+int find_object(int &ty, int &tx)
+{
+  int best_distance = INT_MAX;
+  vector<COCObject>::const_iterator it = objects.begin();
+  for (; it != objects.end(); ++it) {
+    for (int y = 0; y < 45 - COCObject::size; y++)
+      for (int x = 0; x < 45 - COCObject::size; x++) {
+	int distance = object_distance(*it, y, x);
+	if (distance < best_distance) {
+	  best_distance = distance;
+	  ty = y;
+	  tx = x;
+	}
+    }
+  }
+  return best_distance;
+}
+
 int main(int argc, char **argv)
 {
-  Mat img = imread(argv[1]);
+  int argv_index = 2;
+  Mat img = imread(argv[argv_index]);
+  translate_to_hashes(img);
 
-  Mat cool = translate_to_hashes(img);
 
+  FILE *f = fopen(argv[1], "r");
+  char buffer[1000];
+  while (fgets(buffer, sizeof(buffer) - 1, f)) {
+    COCObject o;
+    char *end = strtok(buffer, " \n"); // first token
+    for (int i = 0; i < o.size * o.size; i++) {
+      o.hashes[i] = 0;
+      // parse the line
+      if (end)
+	sscanf(end, "%lx", &o.hashes[i]);
+      end = strtok(NULL, " \n");
+    }
+    objects.push_back(o);
+  }
+  fclose(f);
+  
   int y = 22;
   int x = 22;
-
+  int distance = find_object(y, x);
+  
   while (1) {
-    long argv_hash = hashes[y][x];
-    printf("HASH %lx %d\n", argv_hash, dist_limit);
-    mark_object(img, argv_hash);
+    //long argv_hash = hashes[y][x];
+    //printf("HASH %lx %d\n", argv_hash, dist_limit);
+    mark_object(img, y, x, COCObject::size);
     
     int key = waitKey(0);
-    printf("Key %d\n", key);
+    //printf("Key %d\n", key);
     if (key == 65361) {
       x--;
     }
@@ -181,6 +235,24 @@ int main(int argc, char **argv)
     }
     if (key == 's') {
       dist_limit--;
+    }
+    if (key == ' ') {
+      if (distance > 14 * COCObject::size * COCObject::size) {
+	printf("%d: \n", distance);
+	COCObject o;
+        FILE *f = fopen(argv[1], "a");
+	for (int py = y; py < y + COCObject::size; py++)
+	  for (int px = x; px < x + COCObject::size; px++) {
+	    o.hashes[(py-y)*o.size+(px-x)] = hashes[py][px];
+	    fprintf(f, "0x%016lx ", hashes[py][px]);
+	  }
+	fprintf(f,"\n");
+	fclose(f);
+	objects.push_back(o);
+      }
+      img = imread(argv[++argv_index]);
+      translate_to_hashes(img);
+      distance = find_object(y, x);
     }
   }
 }
