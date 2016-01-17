@@ -529,6 +529,9 @@ cv::Scalar read_pixel(unsigned char* &data, bool do_endian_conversion,
       data += 4;
     }
   }
+  else if (bytes_per_pixel == 1) {
+    pixel = *data++;
+  }
   else {
     // just fail miserably for unsupported bytes per pixel
     abort();

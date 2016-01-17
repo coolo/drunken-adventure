@@ -61,6 +61,16 @@ my %supported_depths = (
         green_shift => 5,
         blue_shift  => 0,
     },
+    8 => {
+       bpp         => 8,
+       true_colour => 1,
+       red_max     => 8,
+       green_max   => 8,
+       blue_max    => 4,
+       red_shift   => 5,
+       green_shift => 2,
+       blue_shift  => 0,
+    },
 );
 
 my @encodings = (
@@ -74,7 +84,7 @@ my @encodings = (
     {
         num       => 2,
         name      => 'RRE',
-        supported => 1,
+        supported => 0,
     },
     {
         num       => 6,
@@ -85,7 +95,7 @@ my @encodings = (
     {
         num       => 16,
         name      => 'ZRLE',
-        supported => 1,
+        supported => 0,
     },
 
     {
@@ -360,9 +370,9 @@ sub _server_initialization {
     ) = unpack 'nnCCCCnnnCCCxxxN', $server_init;
     #>>> tidy on
 
-    # bmwqemu::diag "FW $framebuffer_width x $framebuffer_height";
+    bmwqemu::diag "FW $framebuffer_width x $framebuffer_height";
 
-    # bmwqemu::diag "$bits_per_pixel bpp / depth $depth be / $true_colour_flag tc / $pixinfo{red_max},$pixinfo{green_max},$pixinfo{blue_max} / $pixinfo{red_shift},$pixinfo{green_shift},$pixinfo{blue_shift}";
+    bmwqemu::diag "$bits_per_pixel bpp / depth $depth be / $true_colour_flag tc / $pixinfo{red_max},$pixinfo{green_max},$pixinfo{blue_max} / $pixinfo{red_shift},$pixinfo{green_shift},$pixinfo{blue_shift}";
 
     # bmwqemu::diag $name_length;
 
@@ -815,7 +825,7 @@ sub _receive_update {
     my $hlen                 = $socket->read(my $header, 3) || die 'unexpected end of data';
     my $number_of_rectangles = unpack('xn', $header);
 
-    #bmwqemu::diag "NOR $number_of_rectangles";
+    bmwqemu::diag "NOR $number_of_rectangles";
 
     my $depth = $self->depth;
 
@@ -828,7 +838,7 @@ sub _receive_update {
         # unsigned -> signed conversion
         $encoding_type = unpack 'l', pack 'L', $encoding_type;
 
-        # bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
+        bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
 
         my $bytes_per_pixel = $self->_bpp / 8;
 
@@ -843,7 +853,7 @@ sub _receive_update {
             if ($self->_bpp == 32 && !$do_endian_conversion) {
                 $img->map_raw_data($data);
             }
-            elsif ($self->_bpp == 16 || ($self->_bpp == 32 && $do_endian_conversion)) {
+            elsif ($self->_bpp == 16 || ($self->_bpp == 32 && $do_endian_conversion) || $self->_bpp == 8) {
                 my $pi = $self->_pixinfo;
                 $img->map_raw_data_full($data, $do_endian_conversion, $bytes_per_pixel, $pi->{red_max}, $pi->{red_shift}, $pi->{green_max}, $pi->{green_shift}, $pi->{blue_max}, $pi->{blue_shift});
             }
