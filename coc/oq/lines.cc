@@ -26,9 +26,10 @@ double delta = 19.34;
 int dist_limit = 14;
 
 const int palette_size = 250;
-Vec3f palette[palette_size];
+Vec3f palette[palette_size+1];
 
 void initPalette() {
+
   palette[0] = Vec3f(23, 142, 113);
   palette[1] = Vec3f(27, 150, 103);
   palette[2] = Vec3f(35, 161, 93);
@@ -288,6 +289,7 @@ inline int humming_distance(unsigned long hash, unsigned long ref)
 }
 
 long hashes[44][44];
+Mat matrix;
 
 inline cv::Vec3f getColorSubpix(const cv::Mat& img, double dy, double dx)
 {
@@ -329,17 +331,20 @@ int find_best_match(const Vec3f &f)
   return best_match;
 }
 
+const int x_parts = 8;
+const int y_parts = 8;
+
+Mat split_img;
+
 Mat translate_to_hashes(const Mat &img)
 {
   Mat lab;
   cvtColor(img, lab, CV_BGR2Lab);
   lab.convertTo(lab, CV_32F);
-
-  int x_parts = 10;
-  int y_parts = 10;
-  Mat cool(y_parts * 44, x_parts * 44, CV_32FC3);
+  
+  split_img = Mat((y_parts + 2) * 44, (x_parts + 2) * 44, CV_32FC3);
   Mat matrix(y_parts * 44, x_parts * 44, CV_8UC1);
-  cool = Scalar::all(200);
+  split_img = Scalar::all(0);
   
   for (int py = 0; py < 44; py++) {
     for (int px = 0; px < 44; px++) {
@@ -350,9 +355,7 @@ Mat translate_to_hashes(const Mat &img)
       double b = dX;
       double d = (44 - px) * delta - 799 * dX;
 
-      uint64_t hash = 0;
       for (int y = 0; y < y_parts; y++) {
-	int prev = 0;
 	for (int x = 0; x < x_parts; x++) {
 	  double ix2 = (d - delta * x / double(x_parts) - c) / (a - b);
 	  double iy2 = a * ix2 + c;
@@ -362,66 +365,29 @@ Mat translate_to_hashes(const Mat &img)
 	    continue;
 	  int pixel = find_best_match(getColorSubpix(lab, iy2, ix2));
 	  //cout << pixel[0] << " " << pixel[1] << " " << pixel[2] << endl;
-	  cool.at<Vec3f>(py * y_parts + y, px * x_parts + x) = palette[pixel];
+	  split_img.at<Vec3f>(py * (y_parts + 2) + y, px * (x_parts + 2) + x) = palette[pixel];
 	  matrix.at<uchar>(py * y_parts + y, px * x_parts + x) = pixel;
-	  if (x > 0) {
-	    //cout << "norm " << norm(pixel[1] - prev[1]) << " " << pixel << " " << lab.at<Vec3f>(iy2, ix2) << " " << iy2 << " " << ix2 << endl;
-	    bool bit = pixel < prev;
-	    hash += bit;
-	    hash <<= 1;
-	  }
-	  prev = pixel;
 	}
 	c += delta / y_parts;
       }
-      hashes[py][px] = hash;
     }
   }
   
-  cool.convertTo(cool, CV_8UC3);
-  cvtColor(cool, cool, CV_Lab2BGR);
-  imwrite("hsv.png", cool);
+  split_img.convertTo(split_img, CV_8UC3);
+  cvtColor(split_img, split_img, CV_Lab2BGR);
+  imwrite("hsv.png", split_img);
   imwrite("matrix.png", matrix);
   //imshow("image", cool);
 
-  return cool;
-}
-
-int mark_hash(const Mat &_cool, long argv_hash)
-{
-  Mat cool = _cool.clone();
-  for (int py = 0; py < 44; py++) {
-    for (int px = 0; px < 44; px++) {
-      long hash = hashes[py][px];
-      //printf("%016lx\n", argv_hash);
-      int dist = humming_distance(hash, argv_hash);
-      for (int y = 0; y < 8; y++)
-	for (int x = 0; x < 9; x++) {
-	  uchar pixel = cool.at<Vec3b>(py * 8 + y, px * 9 + x)[1];
-          if (dist < dist_limit) {
-            cool.at<Vec3b>(py * 8 + y, px * 9 + x) = Vec3b(pixel, 255 - dist * 4, pixel);
-          }
-	  
-	}
-    }
-  }
-  //imwrite("hsv.png", cool);
-  namedWindow("image");
-  imshow("image",cool);
-  return 0;
+  return matrix;
 }
 
 Mat mark_object(const Mat &_img, int ty, int tx, int size)
 {
+  cout << "MARK " << ty << " " << tx << endl;
   Mat cool = _img.clone();
   for (int py = ty; py < ty + size; py++) {
     for (int px = tx; px < tx + size; px++) {
-      /*      long hash = hashes[py][px];
-      //printf("%016lx\n", argv_hash);
-      int dist = humming_distance(hash, argv_hash);
-      if (dist > dist_limit) {
-	continue;
-	} */
       for (int y = 0; y < cool.rows; y++)
 	for (int x = 0; x < cool.cols; x++) {
 	  double a = -dX;
@@ -432,7 +398,7 @@ Mat mark_object(const Mat &_img, int ty, int tx, int size)
 	  if (y < a * x + c || y > a * x + c + delta)
 	    continue;
 
-	  if (y < b * x + d || y > b * x + d + delta)
+	  if (y < b * x + d - delta || y > b * x + d)
 	    continue;
 
 	  Vec3b pixel = cool.at<Vec3b>(y, x);
@@ -443,13 +409,28 @@ Mat mark_object(const Mat &_img, int ty, int tx, int size)
 	}
     }
   }
+
+  for (int py = ty; py < ty + size; py++) {
+    for (int px = tx; px < tx + size; px++) {
+      for (int y = 0; y < y_parts; y++) {
+	for (int x = 0; x < x_parts; x++) {
+	  Vec3b pixel = split_img.at<Vec3b>(py * (y_parts + 2) + y, px * (x_parts + 2) + x);
+	  pixel[0] = 255;
+	  pixel[1] = 255;
+	  pixel[2] = 255;
+	  split_img.at<Vec3b>(py * (y_parts + 2) + y, px * (x_parts + 2) + x) = pixel;
+	}
+      }
+    }
+  }
+  imwrite("marked.png", split_img);
   return cool;
 }
 
 struct COCObject {
   string name;
   int size;
-  unsigned long hashes[5*5];
+  uchar hashes[5*5*y_parts*x_parts];
 };
 
 // 1 for right top corner, < 0.3 for the farest away
@@ -462,20 +443,42 @@ double distance_factor(int y, int x, int size)
   return dist;
 }
 
+int verbose = 0;
+
 double object_distance(const COCObject &o, int y, int x)
 {
-  //cout << "object_distance " << y <<  " " << x << endl;
+  //  cout << "object_distance " << y <<  " " << x << endl;
   double distance = 0;
-  for (int oy = 0; oy < o.size; oy++)
+  int pixel_index = 0;
+  for (int oy = 0; oy < o.size; oy++) {
     for (int ox = 0; ox < o.size; ox++) {
-      unsigned long tp = hashes[y + oy][x + ox];
+      int xi = x * x_parts;
+      double pdistance = 0;
       double f = distance_factor(oy, ox, o.size);
-      //cout << oy << " " << ox << " " << f << endl;
-      distance += humming_distance(o.hashes[oy * o.size + ox], tp) * f;
+      for (int ty = 0; ty < y_parts; ty++) {
+	for (int tx = 0; tx < x_parts; tx++) {
+	  
+	  uchar pixel = matrix.at<uchar>((oy + y) * y_parts + ty, xi++);
+	  uchar ref = o.hashes[pixel_index++];
+	  if (verbose)
+	    printf("%d(%d) %d(%d) %d-%d\n", oy, ty, ox, tx, int(pixel), int(ref));
+	  //cout << oy << "(" << << " " << ox << " " << f << " " << int(pixel) << " " << int(ref) << endl;
+	  if (pixel >= palette_size) {
+	    distance += INT_MAX;
+	  } else {
+	    double n = norm(palette[pixel] - palette[ref]);
+	    //cout << "NORM " << n << endl;
+	    distance += n * n;
+	    pdistance += n * n;
+	    //distance +=  * f;
+	  }
+	}
+      }
+      cout << "PART " << oy << " " << ox << " " << long(pdistance) << " " << f << endl;
     }
-
+  }
   //cout << distance << "\n\n";
-  return distance;
+  return sqrt(distance / x_parts / y_parts / o.size / o.size);
 }
 
 vector<COCObject> objects;
@@ -486,10 +489,12 @@ void print_object(const COCObject &to, int ty, int tx)
   double distance = 0;
   for (int oy = 0; oy < to.size; oy++) {
     for (int ox = 0; ox < to.size; ox++) {
+#if 0
       int delta = humming_distance(to.hashes[oy * to.size + ox], hashes[ty + oy][tx + ox]);
       double f = distance_factor(oy, ox, to.size);
       printf("%016lx-%016lx(%d*%f) ", hashes[oy + ty][ox + tx], to.hashes[oy * to.size + ox], delta, f);
       distance += delta * f;
+#endif
     }
     printf("Distance: %f\n", distance);
   }
@@ -501,6 +506,8 @@ double find_object(int &ty, int &tx, COCObject &to)
   vector<COCObject>::const_iterator it = objects.begin();
   for (; it != objects.end(); ++it) {
     double best_obj_dist = INT_MAX;
+    int box = 0;
+    int boy = 0;
     for (int y = 0; y < 45 - it->size; y++)
       for (int x = 0; x < 45 - it->size; x++) {
 	double distance = object_distance(*it, y, x);
@@ -509,17 +516,40 @@ double find_object(int &ty, int &tx, COCObject &to)
 	  ty = y;
 	  tx = x;
 	  to = *it;
-	  if (best_distance < 4)
-	     return best_distance;
 	}
-	if (distance < best_obj_dist)
+	if (distance < best_obj_dist) {
 	  best_obj_dist = distance;
+	  box = x;
+	  boy = y;
+	}
     }
-    //cout << "best obj " << it->name << " " << best_obj_dist << " " << ty << " " << tx << endl;
+    cout << "best obj " << it->name << " " << long(best_obj_dist) << " " << boy << " " << box << endl;
+   
   }
-  cout << "best " << to.name << " " << best_distance << endl;
-  print_object(to, ty, tx);
+  verbose = 1;
+  cout << "best " << to.name << " " << long(best_distance) << endl;
+  object_distance(to, ty, tx);
+  verbose = 0;
+  Mat s(to.size * y_parts, to.size * x_parts, CV_32FC3);
+  for (int py = ty; py < ty + to.size; py++)
+    for (int y1 = 0; y1 < y_parts; y1++)
+      for (int px = tx; px < tx + to.size; px++)
+	for (int x1 = 0; x1 < x_parts; x1++) {
+	  uchar pixel = matrix.at<uchar>(py * y_parts + y1, px * x_parts + x1);
+	  s.at<Vec3f>((py-ty) * y_parts + y1, (px-tx) * x_parts + x1) = palette[pixel];
+	}
+  s.convertTo(s, CV_8UC3);
+  cvtColor(s, s, CV_Lab2BGR);
+  imwrite("best.png", s);
+  
+  //print_object(to, ty, tx);
   return best_distance;
+}
+
+int hex2int(char c) {
+  if (c >= 'a')
+    return c - 'a' + 10;
+  return c - '0';
 }
 
 void read_objects(const char *filename)
@@ -528,17 +558,18 @@ void read_objects(const char *filename)
   if (!f)
     return;
   
-  char buffer[1000];
+  char buffer[10000];
   while (fgets(buffer, sizeof(buffer) - 1, f)) {
     COCObject o;
-    int count = 0; 
-    char *end = strtok(buffer, " \n"); // first token
-    while (end) {
-      o.hashes[count] = 0;
-      sscanf(end, "%lx", &o.hashes[count++]);
-      end = strtok(NULL, " \n");
+    int count = 0;
+    const char *c = buffer;
+    while (*c && *c != '\n') {
+      o.hashes[count++] = (hex2int(c[0]) << 4) + hex2int(c[1]);
+      c += 2;
     }
-    o.size = sqrt(count);
+    o.size = sqrt(count / x_parts / y_parts);
+    if (!o.size)
+      continue;
     o.name = filename;
     objects.push_back(o);
   }
@@ -550,28 +581,27 @@ int mark_all_objects(Mat &img, int &y, int &x, COCObject &o)
   double distance;
   while (1) {
     distance = find_object(y, x, o);
-    if ( distance >= 7 )
+    if ( distance >= 25 )
       return distance;
     img = mark_object(img, y, x, o.size);
-    cout << o.name << " " << y << " " << x << " "  << distance << endl;
+    cout << "MARK " << o.name << " " << y << " " << x << " "  << distance << endl;
     //imshow("image", img);
     //waitKey(0);
     for (int py = 0; py < o.size; py++)
       for (int px = 0; px < o.size; px++)
-	hashes[y+py][x+px] = 0xffffffffffff;
+	matrix.at<uchar>((y+py) * y_parts, (x+px) * x_parts) = palette_size;
   }
 }
 
 int main(int argc, char **argv)
 {
   initPalette();
-  int argv_index = 1;
+  int argv_index = 2;
   Mat img = imread(argv[argv_index]);
-  translate_to_hashes(img);
+  matrix = translate_to_hashes(img);
   
   namedWindow("image");
-  //read_objects(argv[1]);
-
+ 
   DIR *dir = opendir("hashes");
   struct dirent *entry;
   while ((entry = readdir(dir))) {
@@ -584,19 +614,29 @@ int main(int argc, char **argv)
   int y = 22;
   int x = 22;
   COCObject o;
-
+  o.size = 2;
+  o.name = argv[1];
+  objects.push_back(o);
+  
   int distance = mark_all_objects(img, y, x, o);
-  print_object(o, y, x);
+  //print_object(o, y, x);
   
   while (1) {
     //long argv_hash = hashes[y][x];
-    //printf("HASH %lx %d\n", argv_hash, dist_limit);
-    Mat cool = mark_object(img, y, x, 1);
-    print_object(o, y, x);
-    
+    cout << "Y " << y << " X " << x << endl;
+    verbose = 1;
+    object_distance(o, y, x);
+    verbose = 0;
+    Mat cool = mark_object(img, y, x, o.size);
+    vector<COCObject>::const_iterator it = objects.begin();
+    for (; it != objects.end(); ++it) {
+      double distance = object_distance(*it, y, x);
+      cout << it->name << " distance " << long(distance) << endl;
+    }
+      
     int key = 0;
     while (key <= 0) {
-      imshow("image",img);
+      imshow("image",cool);
       key = waitKey(400);
       if (key > 0)
 	break;
@@ -624,22 +664,31 @@ int main(int argc, char **argv)
     }
     if (key == 'n') {
       img = imread(argv[++argv_index]);
-      translate_to_hashes(img);
+      matrix = translate_to_hashes(img);
       distance = mark_all_objects(img, y, x, o);
     }
     if (key == ' ') {
       printf("%d: \n", distance);
-      FILE *f = fopen(o.name.c_str(), "a");
+      Mat s(o.size * y_parts, o.size * x_parts, CV_32FC3);
+      FILE *f = fopen(argv[1], "a");
+      int pixel_index = 0;
       for (int py = y; py < y + o.size; py++)
-	for (int px = x; px < x + o.size; px++) {
-	  o.hashes[(py-y)*o.size+(px-x)] = hashes[py][px];
-	  fprintf(f, "0x%016lx ", hashes[py][px]);
-	}
+	for (int ty = 0; ty < y_parts; ty++)
+	  for (int px = x; px < x + o.size; px++)
+	    for (int tx = 0; tx < x_parts; tx++) {
+	      uchar pixel = matrix.at<uchar>(py * y_parts + ty, px * x_parts + tx);
+	      s.at<Vec3f>((py-y) * y_parts + ty, (px-x) * x_parts + tx) = palette[pixel];
+	      o.hashes[pixel_index++] = pixel;
+	      fprintf(f, "%02x", pixel);
+	    }
+      s.convertTo(s, CV_8UC3);
+      cvtColor(s, s, CV_Lab2BGR);
+      imwrite("s.png", s);
       fprintf(f,"\n");
       fclose(f);
       objects.push_back(o);
       img = imread(argv[++argv_index]);
-      translate_to_hashes(img);
+      matrix = translate_to_hashes(img);
       distance = mark_all_objects(img, y, x, o);
     }
   }
