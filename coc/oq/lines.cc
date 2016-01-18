@@ -450,33 +450,63 @@ double object_distance(const COCObject &o, int y, int x)
   //  cout << "object_distance " << y <<  " " << x << endl;
   double distance = 0;
   int pixel_index = 0;
+#if 0
   for (int oy = 0; oy < o.size; oy++) {
     for (int ox = 0; ox < o.size; ox++) {
-      int xi = x * x_parts;
-      double pdistance = 0;
-      double f = distance_factor(oy, ox, o.size);
+      printf("REF %dx%d: ", oy, ox);
       for (int ty = 0; ty < y_parts; ty++) {
 	for (int tx = 0; tx < x_parts; tx++) {
-	  
-	  uchar pixel = matrix.at<uchar>((oy + y) * y_parts + ty, xi++);
 	  uchar ref = o.hashes[pixel_index++];
-	  if (verbose)
+	  printf("%02x", ref);
+	}
+      }
+      printf("\n");
+    }
+  }
+  printf("\n");
+  pixel_index = 0;
+#endif
+  //Mat s1(o.size * y_parts, o.size * x_parts, CV_32FC3);
+  //Mat s2(o.size * y_parts, o.size * x_parts, CV_32FC3);
+  
+  for (int oy = 0; oy < o.size; oy++) {
+    for (int ox = 0; ox < o.size; ox++) {
+      double pdistance = 0;
+      double f = distance_factor(oy, ox, o.size);
+      for (int ty = 0; ty < y_parts && distance < INT_MAX; ty++) {
+	for (int tx = 0; tx < x_parts; tx++) {
+	  
+	  uchar pixel = matrix.at<uchar>((oy + y) * y_parts + ty, (x + ox) * x_parts + tx);
+	  uchar ref = o.hashes[pixel_index++];
+	  //s1.at<Vec3f>(oy * y_parts + ty, ox * x_parts + tx) = palette[ref];
+	  //s2.at<Vec3f>(oy * y_parts + ty, ox * x_parts + tx) = palette[pixel];
+	  //printf("%02x", pixel);
+	  if (verbose && false)
 	    printf("%d(%d) %d(%d) %d-%d\n", oy, ty, ox, tx, int(pixel), int(ref));
 	  //cout << oy << "(" << << " " << ox << " " << f << " " << int(pixel) << " " << int(ref) << endl;
 	  if (pixel >= palette_size) {
-	    distance += INT_MAX;
+	    distance = INT_MAX;
+	    break;
 	  } else {
 	    double n = norm(palette[pixel] - palette[ref]);
 	    //cout << "NORM " << n << endl;
-	    distance += n * n;
 	    pdistance += n * n;
 	    //distance +=  * f;
 	  }
 	}
       }
-      cout << "PART " << oy << " " << ox << " " << long(pdistance) << " " << f << endl;
+      //cout << "PART " << oy << " " << ox << " " << long(pdistance) << " " << f << endl;
+      distance += pdistance;
     }
   }
+#if 0
+  s1.convertTo(s1, CV_8UC3);
+  cvtColor(s1, s1, CV_Lab2BGR);
+  s2.convertTo(s2, CV_8UC3);
+  cvtColor(s2, s2, CV_Lab2BGR);
+  imwrite("s1.png", s1);
+  imwrite("s2.png", s2);
+#endif
   //cout << distance << "\n\n";
   return sqrt(distance / x_parts / y_parts / o.size / o.size);
 }
@@ -557,7 +587,7 @@ void read_objects(const char *filename)
   FILE *f = fopen(filename, "r");
   if (!f)
     return;
-  
+
   char buffer[10000];
   while (fgets(buffer, sizeof(buffer) - 1, f)) {
     COCObject o;
@@ -581,7 +611,7 @@ int mark_all_objects(Mat &img, int &y, int &x, COCObject &o)
   double distance;
   while (1) {
     distance = find_object(y, x, o);
-    if ( distance >= 25 )
+    if ( distance >= 40 )
       return distance;
     img = mark_object(img, y, x, o.size);
     cout << "MARK " << o.name << " " << y << " " << x << " "  << distance << endl;
@@ -614,7 +644,9 @@ int main(int argc, char **argv)
   int y = 22;
   int x = 22;
   COCObject o;
-  o.size = 2;
+  o.size = 3;
+  for (int i = 0; i < sizeof(o.hashes); i++)
+    o.hashes[i] = 0;
   o.name = argv[1];
   objects.push_back(o);
   
@@ -673,8 +705,8 @@ int main(int argc, char **argv)
       FILE *f = fopen(argv[1], "a");
       int pixel_index = 0;
       for (int py = y; py < y + o.size; py++)
-	for (int ty = 0; ty < y_parts; ty++)
-	  for (int px = x; px < x + o.size; px++)
+	for (int px = x; px < x + o.size; px++)
+	  for (int ty = 0; ty < y_parts; ty++)
 	    for (int tx = 0; tx < x_parts; tx++) {
 	      uchar pixel = matrix.at<uchar>(py * y_parts + ty, px * x_parts + tx);
 	      s.at<Vec3f>((py-y) * y_parts + ty, (px-x) * x_parts + tx) = palette[pixel];
