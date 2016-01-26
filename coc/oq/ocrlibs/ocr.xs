@@ -33,11 +33,9 @@ int base_count(tinycv::Image self, const char *filename)
 void find_red_line(tinycv::Image self)
    PPCODE:
     std::vector<int> res = image_find_red_line(self);
-    EXTEND(SP, 4);
-    PUSHs(sv_2mortal(newSViv(res[0])));
-    PUSHs(sv_2mortal(newSViv(res[1])));
-    PUSHs(sv_2mortal(newSViv(res[2])));
-    PUSHs(sv_2mortal(newSViv(res[3])));
+    EXTEND(SP, 8);
+    for (int i = 0; i < 8; i++)
+      PUSHs(sv_2mortal(newSViv(res[i])));
 
 void find_townhall(tinycv::Image self)
    PPCODE:

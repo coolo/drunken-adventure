@@ -798,7 +798,7 @@ sub _sleep {
 }
 
 sub attack {
-    my ($x1, $y1, $x2, $y2) = $vnc->_framebuffer->find_red_line;
+    my ($x1, $y1, $x2, $y2, $x3, $y3, $x4, $y4) = $vnc->_framebuffer->find_red_line;
     diag "RES $x1+$y1 - $x2+$y2";
     system("aplay /usr/share/xemacs/xemacs-packages/etc/sounds/long-beep.wav");
 

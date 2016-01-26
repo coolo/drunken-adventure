@@ -634,37 +634,49 @@ int image_base_count(Image *s, const char *fn) {
   return atol(tl.c_str());
 }
 
-std::vector<int> image_find_red_line(Image *s)
+static double dX = .749;
+
+double as[4];
+double bs[4];
+double cs[4];
+int ds[4];
+
+bool out_of_box(int y, int x)
 {
-  Mat m, hsv;
-
-  cvtColor(s->img, hsv, CV_BGR2HSV);
-  s->img.convertTo(m, CV_8UC3);
-
-  cv::Mat palette(1, 3, CV_8UC3);
-  Vec3b green = Vec3b(73, 186, 166);
-  palette.at<Vec3b>(0, 0) = green;
-  palette.at<Vec3b>(0, 1) =  Vec3b(59, 152, 179);
-  palette.at<Vec3b>(0, 2) =  Vec3b(72, 180, 185);
+  if (y < 0 || y > 640)
+    return true;
+  if (y < as[0] * x + cs[0] + ds[0] * bs[0])
+    return true;
+  if (y < as[1] * x + cs[1] + ds[1] * bs[1])
+    return true;
+  if (y > as[2] * x + cs[2] + ds[2] * bs[2])
+    return true;
+  if (y > as[3] * x + cs[3] + ds[3] * bs[3])
+    return true;
   
-  Mat reduced = m.clone();
-  processColorsWithPalette(reduced, palette);
+  return false;
+}
 
+int green_distance(Mat &reduced, const Mat &hsv, const Vec3b &green, int index)
+{
+  double a = as[index];
+  double b = bs[index];
+  double c = cs[index];
   bool first_green = true;
   int last_min = 0;
-  Point last_green_p1(207, 282), last_green_p2(524,50);
-  
-  for (int i = 0; i < 200; i++) {
-    int delta = i * (373.-309) / (253.-205);
-    Point ps1(207+delta, 282+i);
-    Point ps2(524+delta, 50+i);
-    float dX = (float(ps2.x) - ps1.x) / (float(ps2.y) - ps1.y);
-    uchar min = 255;
+  int last_green = 0;
+
+  for (int i = 0; i < 500; i++) {
+
+    int min = 555;
     vector<uchar> values;
     int greens = 0;
-    for (int x = ps1.x; x < ps2.x; x++) {
-      int y = (x - ps1.x) / dX + ps1.y;
-      if (y < 0)
+
+    for (int x = 0; x < reduced.cols; x++) {
+
+      int y = a * x + c + i * b;
+
+      if (out_of_box(y, x))
 	continue;
       if (reduced.at<Vec3b>(y, x) == green)
 	greens++;
@@ -681,34 +693,141 @@ std::vector<int> image_find_red_line(Image *s)
 	  min = nv;
       }
     }
+    if (min < 23)
+      return i;
+    //cout << index << " " << i << " " << greens << " " << min << endl;
     const int green_limit = 280;
-    if (greens <= green_limit && !first_green && float(last_min) / min > 1.2)
-      break;
-   
+    if (greens <= green_limit && !first_green && float(last_min) / min > 1.2) 
+      return i;
+    
     if (greens > green_limit) {
       first_green = false;
-      last_green_p1 = ps1;
-      last_green_p2 = ps2;
+      last_green = i;
     }
     last_min = min;
   }
-#if 0
-  float dX = (float(last_green_p2.x) - last_green_p1.x) / (float(last_green_p2.y) - last_green_p1.y);
+  return last_green;
+}
+
+Point cross_between(int index1, int index2)
+{
+  Point t;
+  double x = (cs[index2] + ds[index2] * bs[index2] -
+	      cs[index1] - ds[index1] * bs[index1]) / (as[index1] - as[index2]);
+  t.x = int(x);
+  t.y = int(as[index1] * x + cs[index1] + ds[index1] * bs[index1]);
+  return t;
+}
+
+std::vector<int> image_find_red_line(Image *s)
+{
+  Mat m, hsv;
+
+  cvtColor(s->img, hsv, CV_BGR2HSV);
+  s->img.convertTo(m, CV_8UC3);
+
+  //Mat chan[3];
+  //split(hsv, chan);
+  //imwrite("hsv.png", chan[0]);
+  cv::Mat palette(1, 3, CV_8UC3);
+  Vec3b green = Vec3b(73, 186, 166);
+  palette.at<Vec3b>(0, 0) = green;
+  palette.at<Vec3b>(0, 1) =  Vec3b(59, 152, 179);
+  palette.at<Vec3b>(0, 2) =  Vec3b(72, 180, 185);
+
+  Mat reduced = m.clone();
+  processColorsWithPalette(reduced, palette);
+
+  as[0] = -dX;
+  cs[0] = 564 * dX;
+  bs[0] = 1;
+  ds[0] = 0;
+  
+  as[1] = dX;
+  cs[1] = - 799 * dX;
+  bs[1] = 1;
+  ds[1] = 0;
+    
+  as[2] = -dX;
+  cs[2] = 564 * dX + 851;
+  bs[2] = -1;
+  ds[2] = 0;
+      
+  as[3] = dX;
+  cs[3] = 44 * 19.34 - 799 * dX;
+  bs[3] = -1;
+  ds[3] = 0;
+  
+  ds[0] = green_distance(reduced, hsv, green, 0);
+  ds[1] = green_distance(reduced, hsv, green, 1);
+  ds[2] = green_distance(reduced, hsv, green, 2);
+  ds[3] = green_distance(reduced, hsv, green, 3);
+  
+  //imwrite("reduced.png", reduced);
+
+  Point last_green_p1, last_green_p2;
+#if 1
+  last_green_p1 = cross_between(2, 3);;
+  last_green_p2 = cross_between(2, 1);;
+  
+  float dX1 = (float(last_green_p2.x) - last_green_p1.x) / (float(last_green_p2.y) - last_green_p1.y);
   for (int x = last_green_p1.x; x < last_green_p2.x; x++) {
-    int y = (x - last_green_p1.x) / dX + last_green_p1.y;
+    int y = (x - last_green_p1.x) / dX1 + last_green_p1.y;
     if (y < 0)
       continue;
     m.at<Vec3b>(y, x) = Vec3b(255, 0, 0);
   }
+
+  last_green_p1 = cross_between(3, 0);;
+  last_green_p2 = cross_between(3, 2);;
   
+  float dX2 = (float(last_green_p2.x) - last_green_p1.x) / (float(last_green_p2.y) - last_green_p1.y);
+  for (int x = last_green_p1.x; x < last_green_p2.x; x++) {
+    int y = (x - last_green_p1.x) / dX2 + last_green_p1.y;
+    if (y < 0)
+      continue;
+    m.at<Vec3b>(y, x) = Vec3b(255, 0, 0);
+  }
+
+  last_green_p1 = cross_between(1, 0);;
+  last_green_p2 = cross_between(1, 2);;
+
+  float dX3 = (float(last_green_p2.x) - last_green_p1.x) / (float(last_green_p2.y) - last_green_p1.y);
+  for (int x = last_green_p1.x; x < last_green_p2.x; x++) {
+    int y = (x - last_green_p1.x) / dX3 + last_green_p1.y;
+    if (y < 0)
+      continue;
+    m.at<Vec3b>(y, x) = Vec3b(255, 0, 0);
+  }
+
+  last_green_p1 = cross_between(0, 3);
+  last_green_p2 = cross_between(0, 1);
+  
+  dX3 = (float(last_green_p2.x) - last_green_p1.x) / (float(last_green_p2.y) - last_green_p1.y);
+  for (int x = last_green_p1.x; x < last_green_p2.x; x++) {
+    int y = (x - last_green_p1.x) / dX3 + last_green_p1.y;
+    if (y < 0)
+      continue;
+    m.at<Vec3b>(y, x) = Vec3b(255, 0, 0);
+  }
+
   imwrite("line.png", m);
 #endif
   
   vector<int> res;
+  last_green_p1 = cross_between(0, 3);
+  last_green_p2 = cross_between(0, 1);
   res.push_back(last_green_p1.x);
   res.push_back(last_green_p1.y);
   res.push_back(last_green_p2.x);
   res.push_back(last_green_p2.y);
+  last_green_p1 = cross_between(2, 3);
+  last_green_p2 = cross_between(2, 1);
+  res.push_back(last_green_p1.x);
+  res.push_back(last_green_p1.y);
+  res.push_back(last_green_p2.x);
+  res.push_back(last_green_p2.y);
+
   return res;
 }
 

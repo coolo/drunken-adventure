@@ -637,6 +637,7 @@ int main(int argc, char **argv)
   while ((entry = readdir(dir))) {
     char buffer[PATH_MAX];
     sprintf(buffer, "hashes/%s", entry->d_name);
+    if (!strstr("/xbow", buffer)) continue;
     read_objects(buffer);
   }
   closedir(dir);
