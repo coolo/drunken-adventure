@@ -131,7 +131,7 @@ sub zoom_out {
             my $factor = -3;
             $factor = 3 if ($ym < $target_y);
             $xm = 930;
-            return if (abs($ym - $target_y) < 8);
+            return if (abs($ym - $target_y) < 20);
             $vnc->send_pointer_event(0, $xm, $ym);
             $vnc->send_pointer_event(1, $xm, $ym);
             my $delta = ($target_y - $ym) / 3;
@@ -239,6 +239,7 @@ sub fix_main_screen {
 		$vnc->mouse_click($xmatch + 5, $ymatch + 5);
 		update_screen;
 		while (1) {
+			update_screen;
 			($sim, $xmatch, $ymatch) = find_needle_coords('cocwindow.png');
 			if ($sim > 30) {	
 				$vnc->mouse_click($xmatch + 5, $ymatch + 5);
@@ -686,11 +687,11 @@ sub check_base_resources {
 
 sub worth_it {
     my ($th, $def, $gold, $elex, $de, $count) = @_;
-    return 1 if ($th < 8);
+    #return 1 if ($th < 8);
     if ($th == 8) {
-        my $def_weight = 11500;
+        my $def_weight = 9500;
         my $count_weight = 1300;
-        my $base_res = 310000;
+        my $base_res = 280000;
 	diag sprintf("RES %d COUNT $count DEF $def -> LIMIT %d\n", ($gold + $elex + $de * 100), ($base_res + $def * $def_weight - $count * $count_weight));
         return ($gold + $elex + $de * 100 > $base_res + $def * $def_weight - $count * $count_weight);
     }
@@ -995,7 +996,8 @@ sub find_worthy_base {
     return if !on_main_screen;
     $vnc->mouse_click(60, 650);
     # there are 2 different places - with or without shield
-    if (wait_for_screen('find-fight.png', 207, 572, 8)) {
+
+    if (wait_for_screen('find-fight.png', 207, 523, 8)) {
         $vnc->mouse_click(220, 590);
     }
     else {
@@ -1104,6 +1106,7 @@ while (1) {
         #next if check_chat;
         $min_train_time = 1;
         if (train_troops) {
+            $idle = 1;  next;
             next unless find_worthy_base;
             attack;
             next;
