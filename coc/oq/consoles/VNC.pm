@@ -62,14 +62,14 @@ my %supported_depths = (
         blue_shift  => 0,
     },
     8 => {
-       bpp         => 8,
-       true_colour => 1,
-       red_max     => 8,
-       green_max   => 8,
-       blue_max    => 4,
-       red_shift   => 5,
-       green_shift => 2,
-       blue_shift  => 0,
+        bpp         => 8,
+        true_colour => 1,
+        red_max     => 8,
+        green_max   => 8,
+        blue_max    => 4,
+        red_shift   => 5,
+        green_shift => 2,
+        blue_shift  => 0,
     },
 );
 

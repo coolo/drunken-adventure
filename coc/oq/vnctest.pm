@@ -35,6 +35,6 @@ sub update_screen {
 $vnc->login;
 
 while (1) {
-	 update_screen;
- }
-	
+    update_screen;
+}
+
