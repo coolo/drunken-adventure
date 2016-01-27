@@ -21,6 +21,7 @@ __PACKAGE__->mk_accessors(
     qw(hostname port username password socket name width height depth save_bandwidth
       no_endian_conversion  _pixinfo _colourmap _framebuffer _rfb_version screen_on
       _bpp _true_colour _do_endian_conversion absolute ikvm keymap _last_update_request
+      vncinfo
       ));
 our $VERSION = '0.40';
 
@@ -63,7 +64,7 @@ my %supported_depths = (
     },
     8 => {
         bpp         => 8,
-        true_colour => 1,
+        true_colour => 0,
         red_max     => 8,
         green_max   => 8,
         blue_max    => 4,
@@ -82,22 +83,10 @@ my @encodings = (
         supported => 1,
     },
     {
-        num       => 2,
-        name      => 'RRE',
-        supported => 0,
-    },
-    {
-        num       => 6,
-        name      => 'Zlib',
-        supported => 0,        # would be easy though
-    },
-
-    {
         num       => 16,
         name      => 'ZRLE',
-        supported => 0,
+        supported => 1,
     },
-
     {
         num       => -223,
         name      => 'DesktopSize',
@@ -161,7 +150,7 @@ sub _handshake_protocol_version {
     my $socket = $self->socket;
     $socket->read(my $protocol_version, 12) || die 'unexpected end of data';
 
-    # bmwqemu::diag "prot: $protocol_version";
+    #bmwqemu::diag "prot: $protocol_version";
 
     my $protocol_pattern = qr/\A RFB [ ] (\d{3}\.\d{3}) \s* \z/xms;
     if ($protocol_version !~ m/$protocol_pattern/xms) {
@@ -370,11 +359,11 @@ sub _server_initialization {
     ) = unpack 'nnCCCCnnnCCCxxxN', $server_init;
     #>>> tidy on
 
-    bmwqemu::diag "FW $framebuffer_width x $framebuffer_height";
+    #bmwqemu::diag "FW $framebuffer_width x $framebuffer_height";
 
-    bmwqemu::diag "$bits_per_pixel bpp / depth $depth be / $true_colour_flag tc / $pixinfo{red_max},$pixinfo{green_max},$pixinfo{blue_max} / $pixinfo{red_shift},$pixinfo{green_shift},$pixinfo{blue_shift}";
+    #bmwqemu::diag "$bits_per_pixel bpp / depth $depth / $server_is_big_endian be / $true_colour_flag tc / $pixinfo{red_max},$pixinfo{green_max},$pixinfo{blue_max} / $pixinfo{red_shift},$pixinfo{green_shift},$pixinfo{blue_shift}";
 
-    # bmwqemu::diag $name_length;
+    #bmwqemu::diag $name_length;
 
     if (!$self->depth) {
 
@@ -427,6 +416,9 @@ sub _server_initialization {
         die "Can't use keyboard and mouse.  Is another ipmi vnc viewer logged in?" unless $ikvm_km_enable;
         return;    # the rest is kindly ignored by ikvm anyway
     }
+
+    my $info = tinycv::new_vncinfo($self->_do_endian_conversion, $self->_true_colour, $self->_bpp / 8, $pixinfo{red_max}, $pixinfo{red_shift}, $pixinfo{green_max}, $pixinfo{green_shift}, $pixinfo{blue_max}, $pixinfo{blue_shift});
+    $self->vncinfo($info);
 
     # setpixelformat
     $socket->print(
@@ -775,6 +767,7 @@ sub send_update_request {
 sub _receive_message {
     my $self = shift;
 
+
     my $socket = $self->socket;
 
     $socket->blocking(0);
@@ -825,7 +818,7 @@ sub _receive_update {
     my $hlen                 = $socket->read(my $header, 3) || die 'unexpected end of data';
     my $number_of_rectangles = unpack('xn', $header);
 
-    bmwqemu::diag "NOR $number_of_rectangles";
+    #bmwqemu::diag "NOR $number_of_rectangles";
 
     my $depth = $self->depth;
 
@@ -838,7 +831,7 @@ sub _receive_update {
         # unsigned -> signed conversion
         $encoding_type = unpack 'l', pack 'L', $encoding_type;
 
-        bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
+        #bmwqemu::diag "UP $x,$y $w x $h $encoding_type";
 
         my $bytes_per_pixel = $self->_bpp / 8;
 
@@ -850,25 +843,7 @@ sub _receive_update {
             # splat raw pixels into the image
             my $img = tinycv::new($w, $h);
 
-            if ($self->_bpp == 32 && !$do_endian_conversion) {
-                $img->map_raw_data($data);
-            }
-            elsif ($self->_bpp == 16 || ($self->_bpp == 32 && $do_endian_conversion) || $self->_bpp == 8) {
-                my $pi = $self->_pixinfo;
-                $img->map_raw_data_full($data, $do_endian_conversion, $bytes_per_pixel, $pi->{red_max}, $pi->{red_shift}, $pi->{green_max}, $pi->{green_shift}, $pi->{blue_max}, $pi->{blue_shift});
-            }
-            else {
-                die "unknown bpp" . $self->_bpp;
-            }
-            $image->blend($img, $x, $y);
-        }
-        elsif ($encoding_type == 2) {
-            $socket->read(my $num_sub_rects, 4)
-              || die 'unexpected end of data';
-            $num_sub_rects = unpack 'N', $num_sub_rects;
-            $socket->read(my $data, $bytes_per_pixel + $num_sub_rects * ($bytes_per_pixel + 8));
-            my $pi = $self->_pixinfo;
-            $image->map_raw_data_rre($x, $y, $w, $h, $data, $num_sub_rects, $do_endian_conversion, $bytes_per_pixel, $pi->{red_max}, $pi->{red_shift}, $pi->{green_max}, $pi->{green_shift}, $pi->{blue_max}, $pi->{blue_shift});
+            $image->map_raw_data($data, $x, $y, $w, $h, $self->vncinfo);
         }
         elsif ($encoding_type == 16) {
             $self->_receive_zlre_encoding($x, $y, $w, $h);
@@ -918,11 +893,6 @@ sub _discard_ikvm_message {
     #     bytes "get-viewer-lang", 8
 }
 
-sub _read_color {
-    my ($self) = @_;
-    return 0;
-}
-
 sub _receive_zlre_encoding {
     my ($self, $x, $y, $w, $h) = @_;
 
@@ -930,8 +900,6 @@ sub _receive_zlre_encoding {
     my $image  = $self->_framebuffer;
 
     my $pi = $self->_pixinfo;
-    # TODO: find out how to define static functions in .xs
-    my $info = $image->new_vncinfo($self->_do_endian_conversion, $self->_bpp, $pi->{red_max}, $pi->{red_shift}, $pi->{green_max}, $pi->{green_shift}, $pi->{blue_max}, $pi->{blue_shift});
 
     my $stime = time;
     $socket->read(my $data, 4)
@@ -946,6 +914,7 @@ sub _receive_zlre_encoding {
     if (time - $stime > 0.1) {
         diag sprintf("read $data_len in %fs\n", time - $stime);
     }
+    # the zlib header is only sent once per session
     $self->{_inflater} ||= new Compress::Raw::Zlib::Inflate();
     my $out;
     my $old_total_out = $self->{_inflater}->total_out;
@@ -953,8 +922,9 @@ sub _receive_zlre_encoding {
     if ($status != Z_OK) {
         die "inflation failed $status";
     }
-    my $res = $image->map_raw_data_zrle($x, $y, $w, $h, $info, $out, $self->{_inflater}->total_out - $old_total_out);
+    my $res = $image->map_raw_data_zrle($x, $y, $w, $h, $self->vncinfo, $out, $self->{_inflater}->total_out - $old_total_out);
     die "not read enough data" unless $old_total_out + $res == $self->{_inflater}->total_out;
+    return $res;
 }
 
 sub _receive_ikvm_encoding {
@@ -1038,7 +1008,15 @@ sub _receive_ikvm_encoding {
 sub _receive_colour_map {
     my $self = shift;
 
-    die 'we do not support color maps';
+    $self->socket->read(my $map_infos, 5);
+    my ($padding, $first_colour, $number_of_colours) = unpack('Cnn', $map_infos);
+
+    for (my $i = 0; $i < $number_of_colours; $i++) {
+        $self->socket->read(my $colour, 6);
+        my ($red, $green, $blue) = unpack('nnn', $colour);
+        tinycv::set_colour($self->vncinfo, $first_colour + $i, $red / 256, $green / 256, $blue / 256);
+    }
+    #die "we do not support color maps $first_colour $number_of_colours";
 
     return 1;
 }
@@ -1083,7 +1061,6 @@ sub mouse_move_to {
 sub mouse_click {
     my ($self, $x, $y) = @_;
 
-    bmwqemu::diag "mouse_click $x, $y";
     $self->send_pointer_event(1, $x, $y);
     $self->send_pointer_event(0, $x, $y);
 }

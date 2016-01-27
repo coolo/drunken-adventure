@@ -645,7 +645,7 @@ int main(int argc, char **argv)
   int y = 22;
   int x = 22;
   COCObject o;
-  o.size = 3;
+  o.size = 4;
   for (int i = 0; i < sizeof(o.hashes); i++)
     o.hashes[i] = 0;
   o.name = argv[1];

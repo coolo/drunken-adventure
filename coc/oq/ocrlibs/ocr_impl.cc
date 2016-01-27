@@ -887,7 +887,7 @@ float detect_mse(Image *s, const char *filename)
   float min_result = 10;
   for (int y = 0; y < result.rows; y++) {
     for (int x = 0; x < result.cols; x++) {
-      const float limit = 0.111;
+      const float limit = 0.13;
       float p = result.at<float>(y, x);
       if (p < min_result) {
 	min_result = p;
@@ -975,12 +975,12 @@ std::vector<int> image_find_townhall(Image *s)
 
   for (thmap::const_iterator it = ths.begin(); it != ths.end(); ++it) {
     float mse = detect_mse(s, it->first.c_str());
-    if (getenv("DEBUG")) {
+    if (true || getenv("DEBUG")) {
       cout << it->first << " " << mse << " " << it->second << endl;
     }
     if (mse > best_mse) {
       best_mse = mse;
-      if (mse > 13.7) {
+      if (mse > 17) {
 	res.clear();
 	res.push_back(it->second);
 	int weak = 0;
