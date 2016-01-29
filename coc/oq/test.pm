@@ -1001,8 +1001,8 @@ sub find_worthy_base {
     }
     else {
         find_needle_coords('find-fight.png');
-        wait_for_screen('find-fight.png', 207, 521, 8) || die "no find-fight";
-        $vnc->mouse_click(220, 540);
+        wait_for_screen('find-fight.png', 207, 485, 8) || die "no find-fight";
+        $vnc->mouse_click(220, 500);
     }
     my $time_to_next    = time;
     my $time_since_next = time;
@@ -1062,30 +1062,8 @@ sub find_worthy_base {
 
 for my $base (glob("bases/base-*.png")) {
     diag "BASE $base";
-    $vnc->_framebuffer(tinycv::read($base));
-
-    #print Dumper(find_attack_troops);
-    my ($th, $def) = $vnc->_framebuffer->find_townhall;
-    print "TH $th DEF $def\n";
-    next;
-    my $found;
-    for my $th (glob("ths/*.png")) {
-        my ($sim, $xmatch, $ymatch) = find_needle_coords($th, {silent => 1});
-	my $thn = tinycv::read($th);
-        diag "$th $xmatch $ymatch $sim\n";
-	#$vnc->_framebuffer->copyrect($xmatch, $ymatch, $thn->xres, $thn->yres)->write("$base-$sim-" . basename($th));
-	if ($sim > 17) {
-            if ($th =~ /-th-(\d+).png/) {
-                rename($base, "bases/th$1-" . basename($base));
-                $found = 1;
-                last;
-            }
-        }
-    }
-    if (!$found) {
-        #rename($base, "bases/thX-" . basename($base));
-    }
-    $vnc->_framebuffer(undef);
+    my ($th, $def) = tinycv::read($base)->find_townhall;
+    rename($base, "bases/th$th-" . basename($base));
 }
 
 my $stime = time;
