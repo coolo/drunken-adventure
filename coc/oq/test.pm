@@ -1080,15 +1080,15 @@ while (1) {
     while (on_main_screen) {
         collect_resources;
         if ($idle) {
-            sleep(100);
+            sleep(230);
             update_screen;
             next;
         }
         #next if check_chat;
         $min_train_time = 1;
         if (train_troops) {
-#            $idle = 1;
-#            next;
+            $idle = 1;
+            next;
             next unless find_worthy_base;
             attack;
             next;
