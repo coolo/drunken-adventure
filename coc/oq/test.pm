@@ -560,8 +560,9 @@ sub train_troops {
     diag "BUILDING";
     diag Dumper($building);
     my $soll = {
-        giant       => 16,
-        wallbreaker => 12
+        hog => 12,
+        giant       => 12,
+        wallbreaker => 8 
     };
     my $rest = 220;
     if ($total > 215) {
