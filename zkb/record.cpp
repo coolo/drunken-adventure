@@ -14,6 +14,7 @@
 #include <arpa/inet.h> //inet_addr
 
 #include <iostream>
+#include <list>
 
 using namespace cv;
 using namespace std;
@@ -918,12 +919,13 @@ int main(int argc, char**argv)
 	reexec();
       if (status == 14) {
 	std::vector<Button>::iterator it = extras.begin();
-	for (; it != extras.end(); ++it) 
+	for (; it != extras.end(); ++it) {
 	   if (it->letter == 'e') {
 	      extras.erase(it);
 	      break;
 	   }
-           extras.push_back(Button('v', "data/vs.png"));
+	}
+        extras.push_back(Button('v', "data/vs.png"));
       }
     }
     
