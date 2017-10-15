@@ -43,11 +43,12 @@ module quad() {
   }
 }
 
-scale(1.0813)
+sf=1.2898;
+scale([sf,sf,1])
  rotate([0,0,21.5])
   quad();
 
-translate([0,5,3])
+translate([0,17.65,3])
  scale([1,1,0.5])
   rotate([0,0,21.5])
    quad();
