@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 297 210"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="drawing.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.56123737"
+     inkscape:cx="560.36896"
+     inkscape:cy="317.15636"
+     inkscape:window-width="1920"
+     inkscape:window-height="1007"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.5531px;line-height:1.25;font-family:'Another Danger - Demo';-inkscape-font-specification:'Another Danger - Demo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.463826"
+       x="16.075756"
+       y="108.62083"
+       id="text1089"
+       transform="scale(1.3659636,0.73208393)"
+       inkscape:export-filename="/home/coolo/Downloads/drawing.png"
+       inkscape:export-xdpi="485.11963"
+       inkscape:export-ydpi="485.11963"><tspan
+         sodipodi:role="line"
+         id="tspan1087"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.5531px;font-family:'Another Danger - Demo';-inkscape-font-specification:'Another Danger - Demo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.463826"
+         x="16.075756"
+         y="108.62083">Adaptable Linux Platform</tspan></text>
+    <rect
+       style="mix-blend-mode:multiply;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.283156"
+       id="rect48"
+       width="297.34241"
+       height="52.358215"
+       x="-0.087125979"
+       y="51.529312"
+       inkscape:export-filename="/home/coolo/Downloads/drawing.png"
+       inkscape:export-xdpi="485.11963"
+       inkscape:export-ydpi="485.11963" />
+  </g>
+</svg>
